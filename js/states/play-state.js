@@ -11,8 +11,12 @@ function PlayState () {
 
 		viewport = new jaws.Viewport({
 			width: jaws.width,
-			height: jaws.height
+			height: jaws.height,
+			max_x: map.width,
+			max_y: map.height
 		});
+
+		console.log(map.height);
 
 		player = HackNSlashPlayer({
 			image: "assets/png/entities/player.png",
@@ -63,27 +67,32 @@ function PlayState () {
 
 	this.draw = function () {
 		jaws.clear();
+		
+        viewport.centerAround(player);
 		viewport.drawTileMap(map);
-		player.draw();
+		viewport.draw(player);
 	};
 
 	/*
 	 * Parse map data and output a TileMap.
 	 */
 	function _parseMap (data) {
-		var map, 
+		var tileMap, 
 			xlen = data.tiles[0].length,
 			ylen = data.tiles.length,
 			x, y, tile, tileProps;
 
-		map = new jaws.TileMap({
+		tileMap = new jaws.TileMap({
 			cell_size: data.properties.size,
 			size     : [xlen, ylen],
 			x: 0, y: 0
 		});
 
+		tileMap.width  = xlen * data.properties.size[0];
+		tileMap.height = ylen * data.properties.size[1];
+
 		// Convenience method for checking for collisions.
-		map.collides = function (obj) {
+		tileMap.collides = function (obj) {
 			var tiles = this.atRect(obj.rect());
 
 			for(var i=0, len=tiles.length; i<len; i++) {
@@ -104,10 +113,10 @@ function PlayState () {
 				});
 
 				tile = $.extend(tile, tileProps);
-				map.push(tile);
+				tileMap.push(tile);
 			}
 		}
 
-		return map;
+		return tileMap;
 	}
 }
