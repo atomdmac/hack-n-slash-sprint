@@ -2,6 +2,7 @@ function HackNSlashPlayer (options) {
 	var defaultOptions = {
 		x: 0,
 		y: 0,
+		scale: 2,
 		width: 16,
 		height: 16,
 		maxSpeed: 5,
@@ -18,7 +19,8 @@ function HackNSlashPlayer (options) {
 	var self = new jaws.Sprite({
 		image: options.image,
 		x: options.x,
-		y: options.y
+		y: options.y,
+		scale: options.scale
 	});
 
 	self.speed = {
@@ -26,7 +28,7 @@ function HackNSlashPlayer (options) {
 		y: 5
 	};
 
-	self.walk = function (x, y) {
+	self.move = function (x, y) {
 		x = x * self.speed.x;
 		y = y * self.speed.y;
 

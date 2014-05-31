@@ -18,15 +18,47 @@ function PlayState () {
 			image: "assets/png/entities/player.png",
 			x: 32,
 			y: 32,
+			scale: 2,
 			tileMap: map
 		});
+		
+		var playerAnim = new jaws.Animation({sprite_sheet: "assets/png/entities/player.png", frame_size: [16,16], frame_duration: 100});
+        
+        player.anim_down = playerAnim.slice(0,2);
+        player.anim_up = playerAnim.slice(2,4);
+        player.anim_left = playerAnim.slice(4,6);
+        player.anim_right = playerAnim.slice(6,8);
+		
+        player.setImage( player.anim_down.next() );
+		
+        jaws.preventDefaultKeys(["up", "down", "left", "right", "space"]);
 	};
 
 	this.update = function () {
-		if (jaws.pressed("up"))    player.walk( 0, -1);
-		if (jaws.pressed("down"))  player.walk( 0,  1);
-		if (jaws.pressed("left"))  player.walk(-1,  0);
-		if (jaws.pressed("right")) player.walk( 1,  0);
+		
+		if(jaws.pressed("left"))  {
+            player.move(-1,0);
+            player.setImage(player.anim_left.next());
+            //oink.play();
+        }
+        if(jaws.pressed("right")) {
+            player.move(1,0);
+            player.setImage(player.anim_right.next());
+            //oink.play();
+        }
+        if(jaws.pressed("up"))    {
+            player.move(0, -1);
+            player.setImage(player.anim_up.next());
+            //oink.play();
+        }
+        if(jaws.pressed("down"))  {
+            player.move(0, 1);
+            player.setImage(player.anim_down.next());
+            //oink.play();
+        }
+        if(!jaws.pressed("left right up down"))  {
+            //oink.stop();
+        }
 	};
 
 	this.draw = function () {
