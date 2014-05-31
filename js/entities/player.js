@@ -5,25 +5,37 @@ function HackNSlashPlayer (options) {
 		width: 16,
 		height: 16,
 		maxSpeed: 5,
-		spriteSheet: null
+		spriteSheet: null,
+		tileMap: null
 	};
-
-	var state = {
-		health   : 100,
-		maxHealth: 100,
-
-		speed    : {x: 0, y: 0},
-		velocity : {x: 0, y: 0}
-	};
-
+	
 	// Merge options
-	$.extend({}, options, defaultOptions);
+	options = $.extend({}, defaultOptions, options);
 
-	this.run = function (x, y) {
-		// TODO
+	// Double-check required options.
+	if (!options.tileMap) throw "Player needs a TileMap.";
+
+	var self = new jaws.Sprite({
+		image: options.image,
+		x: options.x,
+		y: options.y
+	});
+
+	self.speed = {
+		x: 5,
+		y: 5
 	};
 
-	this.walk = function (x, y) {
-		// TODO
+	self.walk = function (x, y) {
+		x = x * self.speed.x;
+		y = y * self.speed.y;
+
+		this.x += x;
+		if (options.tileMap.collides(self)) this.x -= x;
+
+		this.y += y;
+		if (options.tileMap.collides(self)) this.y -= y;
 	};
+
+	return self;
 }

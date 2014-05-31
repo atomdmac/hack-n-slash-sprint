@@ -68,6 +68,10 @@ function HackNSlashSetup () {
 
 	// Load game assets.
 	(function () {
+		// Load player/monster entities.
+		jaws.assets.add("assets/png/entities/player.png");
+
+		// Load Map assets.
 		for(var tile in DEBUG_MAP.properties) {
 			tile = DEBUG_MAP.properties[tile];
 
@@ -81,7 +85,7 @@ function HackNSlashSetup () {
 		new PlayState(),
 		// Start-up options.
 		{
-			fps: 10
+			fps: 30
 		},
 		// Game State options.
 		{
