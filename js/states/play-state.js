@@ -52,8 +52,8 @@ function PlayState () {
 
 		// Convenience method for checking for collisions.
 		map.collides = function (obj) {
-			var tiles = this.atRect(obj);
-			
+			var tiles = this.atRect(obj.rect());
+
 			for(var i=0, len=tiles.length; i<len; i++) {
 				if (!tiles[i].passable) {
 					return true;
