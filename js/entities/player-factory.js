@@ -92,7 +92,7 @@ function PlayerFactory (options) {
 			self.viewport.draw(options.players[i].character);
 		}
 		for(i=0, len=options.npcs.length; i<len; i++) {
-			self.viewport.draw(options.npcs[i]);
+			self.viewport.draw(options.npcs[i].character);
 		}
 	};
 

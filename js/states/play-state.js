@@ -52,16 +52,15 @@ function PlayState () {
 		(function () {
 			// Load Map assets.
 			for(var lcv = 0; lcv < options.npcs.length; lcv++ ) {
-				var npc = options.npcs[lcv];
-				var character = CharacterFactory(
-					$.extend({}, npc.character, {
-						spawnX: npc.spawnX,
-						spawnY: npc.spawnY,
+				var npc = NPCFactory({
+					character: $.extend({}, options.npcs[lcv].character, {
+						spawnX: options.npcs[lcv].spawnX,
+						spawnY: options.npcs[lcv].spawnY,
 						tileMap: map
 					})
-				);
+				});
 				
-				npcs.push(character);
+				npcs.push(npc);
 				//map.push(character);
 			}
 		})();
@@ -72,6 +71,9 @@ function PlayState () {
 	this.update = function () {
 		for(var i=0, len=players.length; i<len; i++) {
 			players[i].update();
+		}
+		for(var j=0, len=npcs.length; j<len; j++) {
+			npcs[j].update();
 		}
 	};
 
