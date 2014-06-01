@@ -18,7 +18,7 @@ function PlayState () {
 
 		console.log(map.height);
 
-		player = HackNSlashPlayer({
+		player = HackNSlashCharacter({
 			image: "assets/png/entities/player.png",
 			x: 32,
 			y: 32,

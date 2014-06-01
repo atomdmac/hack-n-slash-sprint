@@ -1,4 +1,4 @@
-function HackNSlashPlayer (options) {
+function HackNSlashCharacter (options) {
 	var defaultOptions = {
 		x: 0,
 		y: 0,
