@@ -16,12 +16,12 @@ function PlayerFactory (options) {
 
 		// tileMaps keyboard/controller input to actions.
 		keyMap: {
-			"up"    : "moveUp",
-			"down"  : "moveDown",
-			"left"  : "moveLeft",
-			"right" : "moveRight",
-			"i"     : "openInventory",
-			"escape": "openMenu"
+			"moveUp"       : "up",
+			"moveDown"     : "down",
+			"moveLeft"     : "left",
+			"moveRight"    : "right",
+			"openInventory": "i",
+			"openMenu"     : "escape"
 		}
 	};
 
@@ -30,8 +30,6 @@ function PlayerFactory (options) {
 	// Double-check required options.
 	if (!options.tileMap) throw "Player needs a tileMap.";
 	if (!options.character) throw "Player needs a character.";
-
-	console.log(options.width);
 
 	var self = {};
 
@@ -77,8 +75,8 @@ function PlayerFactory (options) {
 	// where we listen for input and stuff.
 	self.update = function () {
 		for(var action in self.keyMap) {
-			if (jaws.pressed(action) && self.actions[self.keyMap[action]]) {
-				self.actions[self.keyMap[action]]();
+			if (jaws.pressed(self.keyMap[action]) && self.actions[action]) {
+				self.actions[action]();
 			} 
 		}
 	};
@@ -89,6 +87,10 @@ function PlayerFactory (options) {
 		self.viewport.centerAround(self.character);
 		self.viewport.drawTileMap(options.tileMap);
 		self.viewport.draw(self.character);
+
+		for(var i=0, len=options.players.length; i<len; i++) {
+			self.viewport.draw(options.players[i].character);
+		}
 	};
 
 	return self;

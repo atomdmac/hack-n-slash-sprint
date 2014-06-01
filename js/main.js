@@ -113,7 +113,13 @@ function HackNSlashSetup () {
 				{
 					character: CHARACTER_MAP["Edge"],
 					spawnX: 96,
-					spawnY: 32
+					spawnY: 32,
+					keyMap: {
+						"moveUp"   : "w",
+						"moveDown" : "s",
+						"moveLeft" : "a",
+						"moveRight": "d"
+					}
 				}
 			]
 		}

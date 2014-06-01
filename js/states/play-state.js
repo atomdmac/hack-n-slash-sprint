@@ -30,6 +30,8 @@ function PlayState () {
 						tileMap: map
 					}),
 					tileMap  : map,
+					players: players,
+					keyMap: options.players[lcv].keyMap,
 
 					// Experiments w/ multiple viewports.
 					/*
