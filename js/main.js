@@ -110,7 +110,31 @@ function HackNSlashSetup () {
 			if(tile.imageSrc) jaws.assets.add( tile.imageSrc );
 		}
 	})();
-
+	
+	// Randomly generate some NPC data.
+	var npcs = [];
+	(function () {
+		var npcCount = 20;
+		var characterKeys = Object.keys(CHARACTER_MAP);
+		// Select Character properties.
+		for(var lcv = 0; lcv < npcCount; lcv++) {
+			var randomCharacterIndex = Math.floor(Math.random() * characterKeys.length);
+			var character = CHARACTER_MAP[characterKeys[randomCharacterIndex]];
+			
+			var spawnY = Math.floor(Math.random() * (DEBUG_MAP.tiles.length - 2)) + 1;
+			var spawnX = Math.floor(Math.random() * (DEBUG_MAP.tiles[spawnY].length - 2)) + 1;
+			
+			spawnY = spawnY * DEBUG_MAP.properties.size[1];
+			spawnX = spawnX * DEBUG_MAP.properties.size[0];
+			
+			npcs.push({
+				character: character,
+				spawnX: spawnX,
+				spawnY: spawnY
+			});
+		}
+	})();
+	
 	// Start main Game Loop.
 	jaws.start(
 		// Start with this Game State
@@ -133,7 +157,8 @@ function HackNSlashSetup () {
 					spawnX: 96,
 					spawnY: 32
 				}*/
-			]
+			],
+			npcs: npcs
 		}
 	);
 }

@@ -1,6 +1,6 @@
 function PlayState () {
 	// The current map.
-	var map, players=[], viewport;
+	var map, players=[], npcs=[], viewport;
 
 	this.setup = function (options) {
 		if(!options.map) {
@@ -31,8 +31,26 @@ function PlayState () {
 						tileMap: map
 					})
 				);
-				
 				players.push(character);
+				//map.push(character);
+			}
+		})();
+		
+		// Setup NPCs.
+		(function () {
+			// Load Map assets.
+			for(var lcv = 0; lcv < options.npcs.length; lcv++ ) {
+				var npc = options.npcs[lcv];
+				var character = CharacterFactory(
+					$.extend({}, npc.character, {
+						spawnX: npc.spawnX,
+						spawnY: npc.spawnY,
+						tileMap: map
+					})
+				);
+				
+				console.log(character);
+				npcs.push(character);
 				//map.push(character);
 			}
 		})();
@@ -63,6 +81,9 @@ function PlayState () {
 		for(var lcv = 0; lcv < players.length; lcv++ ) {
 			viewport.centerAround(players[lcv]);
 			viewport.draw(players[lcv]);
+		}
+		for(var lcv = 0; lcv < npcs.length; lcv++ ) {
+			viewport.draw(npcs[lcv]);
 		}
 	};
 
