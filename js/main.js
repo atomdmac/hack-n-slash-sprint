@@ -110,12 +110,12 @@ function HackNSlashSetup () {
 					character: CHARACTER_MAP["Edge"],
 					spawnX: 32,
 					spawnY: 32
-				},
+				}/*,
 				{
 					character: CHARACTER_MAP["Edge"],
 					spawnX: 96,
 					spawnY: 32
-				}
+				}*/
 			]
 		}
 	);
