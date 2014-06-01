@@ -1,6 +1,6 @@
 function PlayState () {
 	// The current map.
-	var map, players=[], viewport;
+	var map, players=[], npcs=[], viewport;
 
 	this.setup = function (options) {
 		if(!options.map) {
@@ -31,6 +31,7 @@ function PlayState () {
 					}),
 					tileMap  : map,
 					players: players,
+					npcs: npcs,
 					keyMap: options.players[lcv].keyMap,
 
 					// Experiments w/ multiple viewports.
@@ -43,6 +44,24 @@ function PlayState () {
 				});
 				
 				players.push(player);
+				//map.push(character);
+			}
+		})();
+		
+		// Setup NPCs.
+		(function () {
+			// Load Map assets.
+			for(var lcv = 0; lcv < options.npcs.length; lcv++ ) {
+				var npc = options.npcs[lcv];
+				var character = CharacterFactory(
+					$.extend({}, npc.character, {
+						spawnX: npc.spawnX,
+						spawnY: npc.spawnY,
+						tileMap: map
+					})
+				);
+				
+				npcs.push(character);
 				//map.push(character);
 			}
 		})();

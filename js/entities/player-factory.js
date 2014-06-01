@@ -85,11 +85,14 @@ function PlayerFactory (options) {
 	// and any applicable effects here.
 	self.draw = function () {
 		self.viewport.centerAround(self.character);
+
 		self.viewport.drawTileMap(options.tileMap);
-		self.viewport.draw(self.character);
 
 		for(var i=0, len=options.players.length; i<len; i++) {
 			self.viewport.draw(options.players[i].character);
+		}
+		for(i=0, len=options.npcs.length; i<len; i++) {
+			self.viewport.draw(options.npcs[i]);
 		}
 	};
 
