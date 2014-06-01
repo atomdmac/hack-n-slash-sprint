@@ -120,8 +120,8 @@ function HackNSlashSetup () {
 			var randomCharacterIndex = Math.floor(Math.random() * characterKeys.length);
 			var character = CHARACTER_MAP[characterKeys[randomCharacterIndex]];
 			
-			var spawnY = Math.floor(Math.random() * (DEBUG_MAP.tiles.length - 2)) + 1;
-			var spawnX = Math.floor(Math.random() * (DEBUG_MAP.tiles[spawnY].length - 2)) + 1;
+			var spawnY = Math.floor(Math.random() * (DEBUG_MAP.tiles.length - 2) + 1);
+			var spawnX = Math.floor(Math.random() * (DEBUG_MAP.tiles[spawnY].length - 2) + 1);
 			
 			spawnY = spawnY * DEBUG_MAP.properties.size[1];
 			spawnX = spawnX * DEBUG_MAP.properties.size[0];
