@@ -50,16 +50,28 @@ function CharacterFactory (options) {
 		return speed < options.maxSpeed ? speed : options.maxSpeed;
 	};
 
+	self.prevPos = {
+		x: self.x,
+		y: self.y
+	};
+
+	self.update = function () {
+		self.prevPos = {
+			x: self.x,
+			y: self.y
+		};
+	};
+
 	self.move = function (x, y) {
 		var speed = self.getSpeed();
 		x = x * speed;
 		y = y * speed;
 
-		this.x += x;
-		if (options.tileMap.collides(self)) this.x -= x;
+		self.x += x;
+		if (options.tileMap.collides(self)) self.x -= x;
 
-		this.y += y;
-		if (options.tileMap.collides(self)) this.y -= y;
+		self.y += y;
+		if (options.tileMap.collides(self)) self.y -= y;
 	};
 	
 	self.moveDown = function() {

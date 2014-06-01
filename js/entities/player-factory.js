@@ -49,6 +49,7 @@ function PlayerFactory (options) {
 	// Create the character that this player controls.
 	self.character = CharacterFactory(options.character);
 
+
 	// These are actions that the player can take.  Many of them will map to
 	// functions on the underlying Character object.
 	self.actions = {};
@@ -74,6 +75,7 @@ function PlayerFactory (options) {
 	// Called from the parent Game State from it's update() method.  This is
 	// where we listen for input and stuff.
 	self.update = function () {
+		self.character.update();
 		for(var action in self.keyMap) {
 			if (jaws.pressed(self.keyMap[action]) && self.actions[action]) {
 				self.actions[action]();

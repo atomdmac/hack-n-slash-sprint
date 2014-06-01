@@ -83,6 +83,7 @@ function NPCFactory (options) {
 	// Called from the parent Game State from it's update() method.  This is
 	// where we listen for input and stuff.
 	self.update = function () {
+		self.character.update();
 		self.decideNextAction();
 	};
 

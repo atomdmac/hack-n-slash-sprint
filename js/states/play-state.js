@@ -1,6 +1,6 @@
 function PlayState () {
 	// The current map.
-	var map, players=[], npcs=[], viewport;
+	var map, players=[], npcs=[], characters=[], viewport;
 
 	this.setup = function (options) {
 		if(!options.map) {
@@ -44,7 +44,7 @@ function PlayState () {
 				});
 				
 				players.push(player);
-				map.push(player.character);
+				characters.push(player.character);
 			}
 		})();
 		
@@ -61,7 +61,7 @@ function PlayState () {
 				});
 				
 				npcs.push(npc);
-				map.push(npc.character);
+				characters.push(npc.character);
 			}
 		})();
 		
@@ -75,6 +75,11 @@ function PlayState () {
 		for(var j=0, len=npcs.length; j<len; j++) {
 			npcs[j].update();
 		}
+
+		jaws.collideManyWithMany(characters, characters, function (obj1, obj2) {
+			obj1.moveTo(obj1.prevPos.x, obj1.prevPos.y);
+			obj2.moveTo(obj2.prevPos.x, obj2.prevPos.y);
+		});
 	};
 
 	this.draw = function () {
