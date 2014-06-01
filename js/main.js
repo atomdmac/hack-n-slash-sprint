@@ -69,7 +69,9 @@ var CHARACTER_MAP = {
 			up:    [2,4],
 			left:  [4,6],
 			right: [6,8]
-		}
+		},
+		baseSpeed: 5,
+		maxSpeed: 10
 	},
 	"Tellah": {
 		sprite_sheet: "assets/png/entities/FF4_TellahSheet.png",
@@ -81,7 +83,9 @@ var CHARACTER_MAP = {
 			up:    [2,4],
 			left:  [4,6],
 			right: [6,8]
-		}
+		},
+		baseSpeed: 3,
+		maxSpeed: 5
 	}
 };
 
@@ -135,6 +139,9 @@ function HackNSlashSetup () {
 		for(var lcv = 0; lcv < npcCount; lcv++) {
 			var randomCharacterIndex = Math.floor(Math.random() * characterKeys.length);
 			var character = CHARACTER_MAP[characterKeys[randomCharacterIndex]];
+			
+			// NPCs feel too fast right now, so let's slow them down.
+			character = $.extend({}, character, {baseSpeed: 3});
 			
 			var spawnY = Math.floor(Math.random() * (DEBUG_MAP.tiles.length - 2) + 1);
 			var spawnX = Math.floor(Math.random() * (DEBUG_MAP.tiles[spawnY].length - 2) + 1);

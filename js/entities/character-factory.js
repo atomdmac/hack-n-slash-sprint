@@ -5,7 +5,9 @@ function CharacterFactory (options) {
 		scale: 1,
 		width: 32,
 		height: 32,
-		maxSpeed: 5,
+		baseSpeed: 5,
+		speedMultiplier: 1,
+		maxSpeed: 10,
 		tileMap: null,
 		sprite_sheet: null,
 		frame_size: [32,32],
@@ -39,14 +41,15 @@ function CharacterFactory (options) {
 	
 	self.setImage(animation.subsets["down"].next());
 	
-	self.speed = {
-		x: 5,
-		y: 5
+	self.getSpeed = function(){
+		var speed = options.baseSpeed * options.speedMultiplier;
+		return speed < options.maxSpeed ? speed : options.maxSpeed;
 	};
 
 	self.move = function (x, y) {
-		x = x * self.speed.x;
-		y = y * self.speed.y;
+		var speed = self.getSpeed();
+		x = x * speed;
+		y = y * speed;
 
 		this.x += x;
 		if (options.tileMap.collides(self)) this.x -= x;
