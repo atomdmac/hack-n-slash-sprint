@@ -59,6 +59,21 @@ properties: {
 }
 };
 
+var CHARACTER_MAP = {
+	"Edge": {
+		sprite_sheet: "assets/png/entities/FF4_EdgeSheet.png",
+		scale: 2,
+		frame_size: [16,16],
+		frame_duration: 100,
+		animationSubsets: {
+			down:  [0,2],
+			up:    [2,4],
+			left:  [4,6],
+			right: [6,8]
+		}
+	}
+};
+
 function HackNSlashSetup () {
 	// Configure JawsJS
 	jaws.init({
@@ -69,7 +84,7 @@ function HackNSlashSetup () {
 	// Load game assets.
 	(function () {
 		// Load player/monster entities.
-		jaws.assets.add("assets/png/entities/player.png");
+		jaws.assets.add("assets/png/entities/FF4_EdgeSheet.png");
 
 		// Load Map assets.
 		for(var tile in DEBUG_MAP.properties) {
@@ -89,7 +104,19 @@ function HackNSlashSetup () {
 		},
 		// Game State options.
 		{
-			map: DEBUG_MAP
+			map: DEBUG_MAP,
+			players: [
+				{
+					character: CHARACTER_MAP["Edge"],
+					spawnX: 32,
+					spawnY: 32
+				},
+				{
+					character: CHARACTER_MAP["Edge"],
+					spawnX: 96,
+					spawnY: 32
+				}
+			]
 		}
 	);
 }

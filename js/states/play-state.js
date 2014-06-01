@@ -1,10 +1,13 @@
 function PlayState () {
 	// The current map.
-	var map, player, viewport;
+	var map, players=[], viewport;
 
 	this.setup = function (options) {
 		if(!options.map) {
 			throw new Error("PlayState needs a map.");
+		}
+		if(!options.players) {
+			throw new Error("PlayState needs at least one player.");
 		}
 
 		map = _parseMap(options.map);
@@ -15,25 +18,24 @@ function PlayState () {
 			max_x: map.width,
 			max_y: map.height
 		});
-
-		console.log(map.height);
-
-		player = HackNSlashCharacter({
-			image: "assets/png/entities/player.png",
-			x: 32,
-			y: 32,
-			scale: 2,
-			tileMap: map
-		});
 		
-		var playerAnim = new jaws.Animation({sprite_sheet: "assets/png/entities/player.png", frame_size: [16,16], frame_duration: 100});
-        
-        player.anim_down = playerAnim.slice(0,2);
-        player.anim_up = playerAnim.slice(2,4);
-        player.anim_left = playerAnim.slice(4,6);
-        player.anim_right = playerAnim.slice(6,8);
-		
-        player.setImage( player.anim_down.next() );
+		// Setup players.
+		(function () {
+			// Load Map assets.
+			for(var lcv = 0; lcv < options.players.length; lcv++ ) {
+				var player = options.players[lcv];
+				var character = CharacterFactory(
+					$.extend({}, player.character, {
+						spawnX: player.spawnX,
+						spawnY: player.spawnY,
+						tileMap: map
+					})
+				);
+				
+				players.push(character);
+				//map.push(character);
+			}
+		})();
 		
         jaws.preventDefaultKeys(["up", "down", "left", "right", "space"]);
 	};
@@ -41,36 +43,27 @@ function PlayState () {
 	this.update = function () {
 		
 		if(jaws.pressed("left"))  {
-            player.move(-1,0);
-            player.setImage(player.anim_left.next());
-            //oink.play();
+			players[0].moveLeft();
         }
         if(jaws.pressed("right")) {
-            player.move(1,0);
-            player.setImage(player.anim_right.next());
-            //oink.play();
+			players[0].moveRight();
         }
         if(jaws.pressed("up"))    {
-            player.move(0, -1);
-            player.setImage(player.anim_up.next());
-            //oink.play();
+			players[0].moveUp();
         }
         if(jaws.pressed("down"))  {
-            player.move(0, 1);
-            player.setImage(player.anim_down.next());
-            //oink.play();
-        }
-        if(!jaws.pressed("left right up down"))  {
-            //oink.stop();
+			players[0].moveDown();
         }
 	};
 
 	this.draw = function () {
 		jaws.clear();
 		
-        viewport.centerAround(player);
 		viewport.drawTileMap(map);
-		viewport.draw(player);
+		for(var lcv = 0; lcv < players.length; lcv++ ) {
+			viewport.centerAround(players[lcv]);
+			viewport.draw(players[lcv]);
+		}
 	};
 
 	/*
