@@ -49,7 +49,9 @@ function CharacterFactory (options) {
 		var speed = options.baseSpeed * options.speedMultiplier;
 		return speed < options.maxSpeed ? speed : options.maxSpeed;
 	};
-
+	
+	self.radius = options.radius;
+	
 	self.prevPos = {
 		x: self.x,
 		y: self.y
