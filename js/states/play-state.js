@@ -30,9 +30,9 @@ function PlayState () {
 						tileMap: map
 					}),
 					tileMap  : map,
-					players: players,
-					npcs: npcs,
-					keyMap: options.players[lcv].keyMap,
+					players  : players,
+					npcs     : npcs,
+					keyMap   : options.players[lcv].keyMap,
 
 					// Experiments w/ multiple viewports.
 					/*
@@ -44,7 +44,7 @@ function PlayState () {
 				});
 				
 				players.push(player);
-				//map.push(character);
+				map.push(player.character);
 			}
 		})();
 		
@@ -62,7 +62,7 @@ function PlayState () {
 				);
 				
 				npcs.push(character);
-				//map.push(character);
+				map.push(character);
 			}
 		})();
 		
@@ -100,18 +100,6 @@ function PlayState () {
 
 		tileMap.width  = xlen * data.properties.size[0];
 		tileMap.height = ylen * data.properties.size[1];
-
-		// Convenience method for checking for collisions.
-		tileMap.collides = function (obj) {
-			var tiles = this.atRect(obj.rect());
-
-			for(var i=0, len=tiles.length; i<len; i++) {
-				if (!tiles[i].passable) {
-					return true;
-				}
-			}
-			return false;
-		};
 
 		for(x=0; x<xlen; x++) {
 			for(y=0; y<ylen; y++) {

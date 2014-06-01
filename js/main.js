@@ -86,6 +86,22 @@ var CHARACTER_MAP = {
 };
 
 function HackNSlashSetup () {
+	/*
+	 * A convenience method for checking to see if the given object collides with
+	 * anything.  Collisions are detected based on each overlapping object's
+	 * "passable" property.
+	 */
+	jaws.TileMap.prototype.collides = function (obj) {
+		var tiles = this.atRect(obj.rect());
+
+		for(var i=0, len=tiles.length; i<len; i++) {
+			if (!tiles[i].passable && tiles[i] !== obj) {
+				return true;
+			}
+		}
+		return false;
+	};
+
 	// Configure JawsJS
 	jaws.init({
 		width: 500,
