@@ -17,7 +17,9 @@ function CharacterFactory (options) {
 			up:    null,
 			left:  null,
 			right: null
-		}
+		},
+		anchor: [0.5, 0.75],
+		radius: 8
 	};
 	
 	// Merge options
@@ -29,7 +31,9 @@ function CharacterFactory (options) {
 	var self = new jaws.Sprite({
 		x: options.spawnX,
 		y: options.spawnY,
-		scale: options.scale
+		scale: options.scale,
+		anchor: options.anchor,
+		radius: options.radius
 	});
 	
 	var animation = new jaws.Animation({
