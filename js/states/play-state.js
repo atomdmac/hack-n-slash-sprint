@@ -23,16 +23,24 @@ function PlayState () {
 		(function () {
 			// Load Map assets.
 			for(var lcv = 0; lcv < options.players.length; lcv++ ) {
-				var player = options.players[lcv];
-				var character = CharacterFactory(
-					$.extend({}, player.character, {
-						spawnX: player.spawnX,
-						spawnY: player.spawnY,
+				var player = PlayerFactory({
+					character: $.extend({}, options.players[lcv].character, {
+						spawnX: options.players[lcv].spawnX,
+						spawnY: options.players[lcv].spawnY,
 						tileMap: map
-					})
-				);
+					}),
+					tileMap  : map,
+
+					// Experiments w/ multiple viewports.
+					/*
+					viewWidth: jaws.width / 2,
+					viewHeight: jaws.height,
+					viewOffsetX: lcv * (jaws.width / 2),
+					viewOffsetY: 0
+					*/
+				});
 				
-				players.push(character);
+				players.push(player);
 				//map.push(character);
 			}
 		})();
@@ -41,28 +49,16 @@ function PlayState () {
 	};
 
 	this.update = function () {
-		
-		if(jaws.pressed("left"))  {
-			players[0].moveLeft();
-        }
-        if(jaws.pressed("right")) {
-			players[0].moveRight();
-        }
-        if(jaws.pressed("up"))    {
-			players[0].moveUp();
-        }
-        if(jaws.pressed("down"))  {
-			players[0].moveDown();
-        }
+		for(var i=0, len=players.length; i<len; i++) {
+			players[i].update();
+		}
 	};
 
 	this.draw = function () {
 		jaws.clear();
-		
-		viewport.drawTileMap(map);
+
 		for(var lcv = 0; lcv < players.length; lcv++ ) {
-			viewport.centerAround(players[lcv]);
-			viewport.draw(players[lcv]);
+			players[lcv].draw();
 		}
 	};
 
