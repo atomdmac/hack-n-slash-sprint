@@ -48,8 +48,7 @@ function PlayerFactory (options) {
 
 	// Create the character that this player controls.
 	self.character = CharacterFactory(options.character);
-
-
+	
 	// These are actions that the player can take.  Many of them will map to
 	// functions on the underlying Character object.
 	self.actions = {};
@@ -72,6 +71,26 @@ function PlayerFactory (options) {
 		console.log("Implement menu, please.");
 	};
 
+	// Setup Gamepad
+	self.gamepad = null;
+	self.setGamepad = function(gamepad) {
+		self.gamepad = gamepad;
+		console.log ("player has set the gamepad!");
+	};
+	
+	self.gamepadButtonPressed = function(b) {
+		if (typeof(b) == "object") {
+			return b.pressed;
+		}
+		return b == 1.0;
+	};
+	self.gamepadAxesPressed = function(b) {
+		if (typeof(b) == "object") {
+			return b.pressed;
+		}
+		return b == 1.0;
+	};
+	
 	// Called from the parent Game State from it's update() method.  This is
 	// where we listen for input and stuff.
 	self.update = function () {
@@ -80,6 +99,33 @@ function PlayerFactory (options) {
 			if (jaws.pressed(self.keyMap[action]) && self.actions[action]) {
 				self.actions[action]();
 			} 
+		}
+		if (self.gamepad != null) {
+			var buttonPressed = self.gamepadButtonPressed;
+			var axesPressed = self.gamepadAxesPressed;
+			var gp = self.gamepad;
+			
+			for (var lcv = 0; lcv < gp.buttons.length; lcv++) {
+				if (buttonPressed(gp.buttons[lcv])) {
+					console.log("gamepade button pressed: " + lcv);
+				}
+			}
+			for (var lcv = 0; lcv < gp.axes.length; lcv++) {
+				if (axesPressed(gp.axes[lcv])) {
+					console.log("gamepade axes pressed: " + lcv);
+				}
+			}
+			
+			if (gp.axes[1] < -0.25) {
+				self.actions.moveUp();
+			} else if (gp.axes[1] > 0.25) {
+				self.actions.moveDown();
+			}
+			if(gp.axes[0] < -0.25) {
+				self.actions.moveLeft();
+			} else if(gp.axes[0] > 0.25) {
+				self.actions.moveRight();
+			}
 		}
 	};
 
