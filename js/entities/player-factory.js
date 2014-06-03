@@ -104,7 +104,7 @@ function PlayerFactory (options) {
 			var buttonPressed = self.gamepadButtonPressed;
 			var axesPressed = self.gamepadAxesPressed;
 			var gp = self.gamepad;
-			
+			/*
 			for (var lcv = 0; lcv < gp.buttons.length; lcv++) {
 				if (buttonPressed(gp.buttons[lcv])) {
 					console.log("gamepade button pressed: " + lcv);
@@ -115,7 +115,7 @@ function PlayerFactory (options) {
 					console.log("gamepade axes pressed: " + lcv);
 				}
 			}
-			
+			*/
 			if (gp.axes[1] < -0.25) {
 				self.actions.moveUp();
 			} else if (gp.axes[1] > 0.25) {
@@ -141,6 +141,37 @@ function PlayerFactory (options) {
 		}
 		for(i=0, len=options.npcs.length; i<len; i++) {
 			self.viewport.draw(options.npcs[i].character);
+		}
+		
+		if (self.gamepad != null) {
+			var gp = self.gamepad;
+			
+			var forceX = gp.axes[3];
+			var forceY = gp.axes[4];
+			
+			if(Math.abs(forceX) > 0.25 || Math.abs(forceY) > 0.25) {
+				
+				var context = jaws.context;
+				(function ()
+				{
+					var startX = self.character.x - self.viewport.x;
+					var startY = self.character.y - self.viewport.y;
+					
+					var angle = Math.atan2(forceX, forceY);
+					var reach = 100;
+					var endX = startX + reach * Math.sin(angle);
+					var endY = startY + reach * Math.cos(angle);
+					
+					context.beginPath();
+					context.moveTo(startX,startY);
+					context.lineTo(endX,endY);
+					context.lineWidth = 5;
+					context.strokeStyle = 'blue';
+					context.stroke();
+					
+					
+				})();
+			}
 		}
 	};
 
