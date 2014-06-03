@@ -101,10 +101,12 @@ function PlayerFactory (options) {
 			} 
 		}
 		if (self.gamepad != null) {
+			var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : []);
+			self.gamepad = gamepads[0];
 			var buttonPressed = self.gamepadButtonPressed;
 			var axesPressed = self.gamepadAxesPressed;
 			var gp = self.gamepad;
-			/*
+			
 			for (var lcv = 0; lcv < gp.buttons.length; lcv++) {
 				if (buttonPressed(gp.buttons[lcv])) {
 					console.log("gamepade button pressed: " + lcv);
@@ -115,7 +117,7 @@ function PlayerFactory (options) {
 					console.log("gamepade axes pressed: " + lcv);
 				}
 			}
-			*/
+			
 			if (gp.axes[1] < -0.25) {
 				self.actions.moveUp();
 			} else if (gp.axes[1] > 0.25) {
@@ -144,10 +146,18 @@ function PlayerFactory (options) {
 		}
 		
 		if (self.gamepad != null) {
+			//Firefox
 			var gp = self.gamepad;
-			
 			var forceX = gp.axes[3];
 			var forceY = gp.axes[4];
+			
+			// Chrome
+			if (window.chrome) {
+				var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : []);
+				gp = self.gamepad = gamepads[0];
+				forceX = gp.axes[2];
+				forceY = gp.axes[3];
+			}
 			
 			if(Math.abs(forceX) > 0.25 || Math.abs(forceY) > 0.25) {
 				
