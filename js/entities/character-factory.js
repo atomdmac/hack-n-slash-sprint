@@ -7,7 +7,7 @@ function CharacterFactory (options) {
 		height: 32,
 		baseSpeed: 5,
 		speedMultiplier: 1,
-		maxSpeed: 10,
+		maxSpeed: 5,
 		tileMap: null,
 		sprite_sheet: null,
 		frame_size: [32,32],
@@ -64,11 +64,13 @@ function CharacterFactory (options) {
 		};
 	};
 
-	self.move = function (x, y) {
-		var speed = self.getSpeed();
-		x = x * speed;
-		y = y * speed;
-
+	self.move = function (forceX, forceY) {
+		var speed = self.getSpeed() * Math.sqrt(forceX*forceX+forceY*forceY);
+		speed = speed > options.maxSpeed ? options.maxSpeed : speed;
+		var angle = Math.atan2(forceX, forceY);
+		var x = Math.sin(angle) * speed;
+		var y = Math.cos(angle) * speed;
+		
 		self.x += x;
 		if (options.tileMap.collides(self)) self.x -= x;
 

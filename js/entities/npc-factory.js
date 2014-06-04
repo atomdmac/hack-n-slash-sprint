@@ -2,7 +2,7 @@ function NPCFactory (options) {
 	var defaultOptions = {
 		// Data that defines the character that this player controls.
 		character: null,
-		distractionRate: 0.15 // Chance NPC will do something different from its last action.
+		distractionRate: 0.05 // Chance NPC will do something different from its last action.
 	};
 
 	options = $.extend({}, defaultOptions, options);

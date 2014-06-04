@@ -71,7 +71,7 @@ var CHARACTER_MAP = {
 			right: [6,8]
 		},
 		baseSpeed: 5,
-		maxSpeed: 10
+		maxSpeed: 5
 	},
 	"Tellah": {
 		sprite_sheet: "assets/png/entities/FF4_TellahSheet.png",
@@ -85,7 +85,7 @@ var CHARACTER_MAP = {
 			right: [6,8]
 		},
 		baseSpeed: 3,
-		maxSpeed: 5
+		maxSpeed: 3
 	}
 };
 

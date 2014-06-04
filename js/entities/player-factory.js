@@ -128,6 +128,7 @@ function PlayerFactory (options) {
 			}
 			
 			// DEBUG
+			/*
 			for (var lcv = 0; lcv < gp.buttons.length; lcv++) {
 				if (self.gamepadButtonPressed(gp.buttons[lcv])) {
 					console.log("gamepad button pressed: " + lcv);
@@ -138,6 +139,7 @@ function PlayerFactory (options) {
 					console.log("gamepad axes pressed: " + lcv);
 				}
 			}
+			*/
 			
 			// Record attack action
 			if(Math.abs(rightAnalogX) > 0.25 || Math.abs(rightAnalogY) > 0.25) {
