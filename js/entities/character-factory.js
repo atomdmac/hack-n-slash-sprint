@@ -74,6 +74,19 @@ function CharacterFactory (options) {
 
 		self.y += y;
 		if (options.tileMap.collides(self)) self.y -= y;
+		
+		if (x < 0) {
+			self.setImage(animation.subsets["left"].next());
+		}
+		else if (x > 0) {
+			self.setImage(animation.subsets["right"].next());
+		}
+		if (y < 0 && y < x) {
+			self.setImage(animation.subsets["up"].next());
+		}
+		else if (y > 0 && y > x) {
+			self.setImage(animation.subsets["down"].next());
+		}
 	};
 	
 	self.moveDown = function() {

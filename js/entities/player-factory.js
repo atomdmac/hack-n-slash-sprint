@@ -52,6 +52,10 @@ function PlayerFactory (options) {
 	// These are actions that the player can take.  Many of them will map to
 	// functions on the underlying Character object.
 	self.actions = {};
+	self.actionsQueued = {};
+	self.actions.move = function (forceX, forceY) {
+		self.character.move(forceX, forceY);
+	};
 	self.actions.moveUp = function () {
 		self.character.moveUp();
 	};
@@ -63,6 +67,9 @@ function PlayerFactory (options) {
 	};
 	self.actions.moveRight = function () {
 		self.character.moveRight();
+	};
+	self.actions.attack = function (props) {
+		
 	};
 	self.actions.openInventory = function () {
 		console.log("Implement inventory, please.");
@@ -94,6 +101,7 @@ function PlayerFactory (options) {
 	// Called from the parent Game State from it's update() method.  This is
 	// where we listen for input and stuff.
 	self.update = function () {
+		self.actionsQueued = {}; // Clear queued actions.
 		self.character.update();
 		for(var action in self.keyMap) {
 			if (jaws.pressed(self.keyMap[action]) && self.actions[action]) {
@@ -101,32 +109,60 @@ function PlayerFactory (options) {
 			} 
 		}
 		if (self.gamepad != null) {
-			var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : []);
-			self.gamepad = gamepads[0];
-			var buttonPressed = self.gamepadButtonPressed;
-			var axesPressed = self.gamepadAxesPressed;
-			var gp = self.gamepad;
 			
+			//Firefox
+			var gp = self.gamepad;
+			var leftAnalogX = gp.axes[0];
+			var leftAnalogY = gp.axes[1];
+			var rightAnalogX = gp.axes[3];
+			var rightAnalogY = gp.axes[4];
+			
+			// Chrome
+			if (window.chrome) {
+				var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : []);
+				gp = self.gamepad = gamepads[0];
+				leftAnalogX = gp.axes[0];
+				leftAnalogY = gp.axes[1];
+				rightAnalogX = gp.axes[2];
+				rightAnalogY = gp.axes[3];
+			}
+			
+			// DEBUG
 			for (var lcv = 0; lcv < gp.buttons.length; lcv++) {
-				if (buttonPressed(gp.buttons[lcv])) {
-					console.log("gamepade button pressed: " + lcv);
+				if (self.gamepadButtonPressed(gp.buttons[lcv])) {
+					console.log("gamepad button pressed: " + lcv);
 				}
 			}
 			for (var lcv = 0; lcv < gp.axes.length; lcv++) {
-				if (axesPressed(gp.axes[lcv])) {
-					console.log("gamepade axes pressed: " + lcv);
+				if (self.gamepadAxesPressed(gp.axes[lcv])) {
+					console.log("gamepad axes pressed: " + lcv);
 				}
 			}
 			
-			if (gp.axes[1] < -0.25) {
-				self.actions.moveUp();
-			} else if (gp.axes[1] > 0.25) {
-				self.actions.moveDown();
+			// Record attack action
+			if(Math.abs(rightAnalogX) > 0.25 || Math.abs(rightAnalogY) > 0.25) {
+				// TODO: Handle more of this in CharacterFactory.
+				var startX = self.character.x - self.viewport.x;
+				var startY = self.character.y - self.viewport.y;
+				
+				var angle = Math.atan2(rightAnalogX, rightAnalogY);
+				var reach = 100;
+				var endX = startX + reach * Math.sin(angle);
+				var endY = startY + reach * Math.cos(angle);
+				
+				self.actionsQueued["attack"] = {
+					startX: startX,
+					startY: startY,
+					angle: angle,
+					reach: reach,
+					endX: endX,
+					endY: endY
+				};
 			}
-			if(gp.axes[0] < -0.25) {
-				self.actions.moveLeft();
-			} else if(gp.axes[0] > 0.25) {
-				self.actions.moveRight();
+			
+			// Record move action
+			if(Math.abs(leftAnalogX) > 0.25 || Math.abs(leftAnalogY) > 0.25) {
+				self.actions.move(leftAnalogX, leftAnalogY);
 			}
 		}
 	};
@@ -145,43 +181,19 @@ function PlayerFactory (options) {
 			self.viewport.draw(options.npcs[i].character);
 		}
 		
-		if (self.gamepad != null) {
-			//Firefox
-			var gp = self.gamepad;
-			var forceX = gp.axes[3];
-			var forceY = gp.axes[4];
-			
-			// Chrome
-			if (window.chrome) {
-				var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : []);
-				gp = self.gamepad = gamepads[0];
-				forceX = gp.axes[2];
-				forceY = gp.axes[3];
-			}
-			
-			if(Math.abs(forceX) > 0.25 || Math.abs(forceY) > 0.25) {
+		if (self.actionsQueued["attack"] != null) {
+			var context = jaws.context;
+			(function ()
+			{
+				var attack = self.actionsQueued["attack"];
 				
-				var context = jaws.context;
-				(function ()
-				{
-					var startX = self.character.x - self.viewport.x;
-					var startY = self.character.y - self.viewport.y;
-					
-					var angle = Math.atan2(forceX, forceY);
-					var reach = 100;
-					var endX = startX + reach * Math.sin(angle);
-					var endY = startY + reach * Math.cos(angle);
-					
-					context.beginPath();
-					context.moveTo(startX,startY);
-					context.lineTo(endX,endY);
-					context.lineWidth = 5;
-					context.strokeStyle = 'blue';
-					context.stroke();
-					
-					
-				})();
-			}
+				context.beginPath();
+				context.moveTo(attack.startX, attack.startY);
+				context.lineTo(attack.endX, attack.endY);
+				context.lineWidth = 5;
+				context.strokeStyle = 'blue';
+				context.stroke();
+			})();
 		}
 	};
 

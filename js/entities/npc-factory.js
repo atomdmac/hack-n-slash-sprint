@@ -19,6 +19,9 @@ function NPCFactory (options) {
 	// These are actions that the player can take.  Many of them will map to
 	// functions on the underlying Character object.
 	self.actions = {};
+	self.actions.move = function (angle, forceX, forceY) {
+		self.character.move(angle, forceX, forceY);
+	};
 	self.actions.moveUp = function () {
 		self.character.moveUp();
 	};
@@ -48,8 +51,11 @@ function NPCFactory (options) {
 	};
 	
 	self.courseOfAction = {
-		xDir: 0,
-		yDir: 0
+		move: {
+			angle: 0,
+			forceX: 0,
+			forceY: 0
+		}
 	};
 	self.decideNextAction = function() {
 		// TODO: Make decisions for actual reasons.
@@ -57,27 +63,12 @@ function NPCFactory (options) {
 		self.rollForDistraction();
 		if (self.isDistracted) {
 			// Decide how to move in the X-axis.
-			self.courseOfAction.xDir = Math.floor(Math.random() * 3 - 1);
+			self.courseOfAction.move.forceX = Math.round(Math.random()) ? Math.random() : Math.random() * -1;
 			// Decide how to move in the Y-axis.
-			self.courseOfAction.yDir = Math.floor(Math.random() * 3 - 1);
+			self.courseOfAction.move.forceY = Math.round(Math.random()) ? Math.random() : Math.random() * -1;
 		}
-		
-		var xDir = self.courseOfAction.xDir;
-		var yDir = self.courseOfAction.yDir;
-		
-		if (xDir === -1) {
-			self.actions.moveLeft();
-		}
-		else if (xDir === 1) {
-			self.actions.moveRight();
-		}
-		
-		if (yDir === -1) {
-			self.actions.moveUp();
-		}
-		else if (yDir === 1) {
-			self.actions.moveDown();
-		}
+		self.actions.move(self.courseOfAction.move.forceX,
+						  self.courseOfAction.move.forceY);
 	};
 	
 	// Called from the parent Game State from it's update() method.  This is
