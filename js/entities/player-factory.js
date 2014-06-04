@@ -143,14 +143,19 @@ function PlayerFactory (options) {
 			
 			// Record attack action
 			if(Math.abs(rightAnalogX) > 0.25 || Math.abs(rightAnalogY) > 0.25) {
+				
+				
+				var reach = 100;
+				var magnitude = reach * Math.sqrt(rightAnalogX*rightAnalogX+rightAnalogY*rightAnalogY);
+				var angle = Math.atan2(rightAnalogX, rightAnalogY);
+				
 				// TODO: Handle more of this in CharacterFactory.
 				var startX = self.character.x - self.viewport.x;
 				var startY = self.character.y - self.viewport.y;
 				
 				var angle = Math.atan2(rightAnalogX, rightAnalogY);
-				var reach = 100;
-				var endX = startX + reach * Math.sin(angle);
-				var endY = startY + reach * Math.cos(angle);
+				var endX = startX + magnitude * Math.sin(angle);
+				var endY = startY + magnitude * Math.cos(angle);
 				
 				self.actionsQueued["attack"] = {
 					startX: startX,
