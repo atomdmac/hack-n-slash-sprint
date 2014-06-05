@@ -64,10 +64,9 @@ function CharacterFactory (options) {
 		};
 	};
 
-	self.move = function (forceX, forceY) {
-		var speed = self.getSpeed() * Math.sqrt(forceX*forceX+forceY*forceY);
+	self.move = function (angle, magnitude) {
+		var speed = self.getSpeed() * magnitude;
 		speed = speed > options.maxSpeed ? options.maxSpeed : speed;
-		var angle = Math.atan2(forceX, forceY);
 		var x = Math.sin(angle) * speed;
 		var y = Math.cos(angle) * speed;
 		

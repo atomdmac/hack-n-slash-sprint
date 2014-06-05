@@ -19,8 +19,8 @@ function NPCFactory (options) {
 	// These are actions that the player can take.  Many of them will map to
 	// functions on the underlying Character object.
 	self.actions = {};
-	self.actions.move = function (angle, forceX, forceY) {
-		self.character.move(angle, forceX, forceY);
+	self.actions.move = function (angle, magnitude) {
+		self.character.move(angle, magnitude);
 	};
 	self.actions.moveUp = function () {
 		self.character.moveUp();
@@ -53,8 +53,7 @@ function NPCFactory (options) {
 	self.courseOfAction = {
 		move: {
 			angle: 0,
-			forceX: 0,
-			forceY: 0
+			magnitude: 0
 		}
 	};
 	self.decideNextAction = function() {
@@ -63,12 +62,14 @@ function NPCFactory (options) {
 		self.rollForDistraction();
 		if (self.isDistracted) {
 			// Decide how to move in the X-axis.
-			self.courseOfAction.move.forceX = Math.round(Math.random()) ? Math.random() : Math.random() * -1;
-			// Decide how to move in the Y-axis.
-			self.courseOfAction.move.forceY = Math.round(Math.random()) ? Math.random() : Math.random() * -1;
+			var analogX = Math.round(Math.random()) ? Math.random() : Math.random() * -1;
+			var analogY = Math.round(Math.random()) ? Math.random() : Math.random() * -1;
+			
+			self.courseOfAction.move.angle = Math.atan2(analogX, analogY);
+			self.courseOfAction.move.magnitude = Math.sqrt(analogX*analogX+analogY*analogY);
 		}
-		self.actions.move(self.courseOfAction.move.forceX,
-						  self.courseOfAction.move.forceY);
+		self.actions.move(self.courseOfAction.move.angle,
+						  self.courseOfAction.move.magnitude);
 	};
 	
 	// Called from the parent Game State from it's update() method.  This is

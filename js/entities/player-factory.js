@@ -80,23 +80,6 @@ function PlayerFactory (options) {
 
 	// Setup Gamepad
 	self.gamepad = null;
-	self.setGamepad = function(gamepad) {
-		self.gamepad = gamepad;
-		console.log ("player has set the gamepad!");
-	};
-	
-	self.gamepadButtonPressed = function(b) {
-		if (typeof(b) == "object") {
-			return b.pressed;
-		}
-		return b == 1.0;
-	};
-	self.gamepadAxesPressed = function(b) {
-		if (typeof(b) == "object") {
-			return b.pressed;
-		}
-		return b == 1.0;
-	};
 	
 	// Called from the parent Game State from it's update() method.  This is
 	// where we listen for input and stuff.
@@ -108,59 +91,24 @@ function PlayerFactory (options) {
 				self.actions[action]();
 			} 
 		}
+		if (!self.gamepad && jaws.gamepads[0]) {
+			self.gamepad = jaws.gamepads[0]; // Only use first gamepad for now...
+		}
 		if (self.gamepad != null) {
-			
-			//Firefox
-			var gp = self.gamepad;
-			var leftAnalogX = gp.axes[0];
-			var leftAnalogY = gp.axes[1];
-			var rightAnalogX = gp.axes[3];
-			var rightAnalogY = gp.axes[4];
-			
-			// Chrome
-			if (window.chrome) {
-				var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : []);
-				gp = self.gamepad = gamepads[0];
-				leftAnalogX = gp.axes[0];
-				leftAnalogY = gp.axes[1];
-				rightAnalogX = gp.axes[2];
-				rightAnalogY = gp.axes[3];
-			}
-			
-			// DEBUG
-			/*
-			for (var lcv = 0; lcv < gp.buttons.length; lcv++) {
-				if (self.gamepadButtonPressed(gp.buttons[lcv])) {
-					console.log("gamepad button pressed: " + lcv);
-				}
-			}
-			for (var lcv = 0; lcv < gp.axes.length; lcv++) {
-				if (self.gamepadAxesPressed(gp.axes[lcv])) {
-					console.log("gamepad axes pressed: " + lcv);
-				}
-			}
-			*/
-			
 			// Record attack action
-			if(Math.abs(rightAnalogX) > 0.25 || Math.abs(rightAnalogY) > 0.25) {
-				
-				
-				var reach = 100;
-				var magnitude = reach * Math.sqrt(rightAnalogX*rightAnalogX+rightAnalogY*rightAnalogY);
-				var angle = Math.atan2(rightAnalogX, rightAnalogY);
-				
+			var rightJoystickData = jaws.gamepadReadJoystick(self.gamepad, "right");
+			if(Math.abs(rightJoystickData.analogX) > 0.25 || Math.abs(rightJoystickData.analogY) > 0.25) {
 				// TODO: Handle more of this in CharacterFactory.
+				var reach = 100;
 				var startX = self.character.x - self.viewport.x;
 				var startY = self.character.y - self.viewport.y;
-				
-				var angle = Math.atan2(rightAnalogX, rightAnalogY);
-				var endX = startX + magnitude * Math.sin(angle);
-				var endY = startY + magnitude * Math.cos(angle);
+				var endX = startX + reach * rightJoystickData.magnitude * Math.sin(rightJoystickData.angle);
+				var endY = startY + reach * rightJoystickData.magnitude * Math.cos(rightJoystickData.angle);
 				
 				self.actionsQueued["attack"] = {
 					startX: startX,
 					startY: startY,
-					angle: angle,
+					angle: rightJoystickData.angle,
 					reach: reach,
 					endX: endX,
 					endY: endY
@@ -168,8 +116,9 @@ function PlayerFactory (options) {
 			}
 			
 			// Record move action
-			if(Math.abs(leftAnalogX) > 0.25 || Math.abs(leftAnalogY) > 0.25) {
-				self.actions.move(leftAnalogX, leftAnalogY);
+			var leftJoystickData = jaws.gamepadReadJoystick(self.gamepad, "left");
+			if(Math.abs(leftJoystickData.analogX) > 0.25 || Math.abs(leftJoystickData.analogY) > 0.25) {
+				self.actions.move(leftJoystickData.angle, leftJoystickData.magnitude);
 			}
 		}
 	};
