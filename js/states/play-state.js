@@ -73,7 +73,7 @@ function PlayState () {
 
 	this.update = function () {
 		// Set up loop variables.
-		var i, ilen, j, jlen;
+		var i, ilen, j, jlen, response = new SAT.Response();
 
 		for(i=0, ilen=players.length; i<ilen; i++) {
 			players[i].update();
@@ -84,9 +84,21 @@ function PlayState () {
 
 		// Detect / respond to character collisions.
 		if (characters.length > 1) {
-				jaws.collideManyWithMany(characters, characters, function (obj1, obj2) {
-				obj1.moveTo(obj1.prevPos.x, obj1.prevPos.y);
-				obj2.moveTo(obj2.prevPos.x, obj2.prevPos.y);
+			jaws.collideManyWithMany(characters, characters, function (obj1, obj2) {
+
+				var circleA = new SAT.Circle(
+					new SAT.Vector(obj1.x, obj1.y),
+					obj1.radius
+				);
+				var circleB = new SAT.Circle(
+					new SAT.Vector(obj2.x, obj2.y),
+					obj2.radius
+				);
+
+				SAT.testCircleCircle(circleA, circleB, response);
+
+				obj1.x -= response.overlapV.x;
+				obj1.y -= response.overlapV.y;
 			});
 		}
 
