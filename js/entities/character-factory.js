@@ -101,12 +101,12 @@ function CharacterFactory (options) {
 	};
 	
 	self.moveLeft = function() {
-		self.move(-1,0);
+		self.move(1.57079633, -1);
 		self.setImage(animation.subsets["left"].next());
 	};
 	
 	self.moveRight = function() {
-		self.move(1,0);
+		self.move(1.57079633, 1);
 		self.setImage(animation.subsets["right"].next());
 	};
 
