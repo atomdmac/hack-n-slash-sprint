@@ -24,9 +24,10 @@ function PlayerFactory (options) {
 			"openMenu"     : "escape"
 		}
 	};
-
+	
 	options = $.extend({}, defaultOptions, options);
-
+	
+	
 	// Double-check required options.
 	if (!options.tileMap) throw "Player needs a tileMap.";
 	if (!options.character) throw "Player needs a character.";
@@ -36,6 +37,17 @@ function PlayerFactory (options) {
 	// Set our keymap.
 	self.keyMap = options.keyMap;
 
+	self.radianMap8D = {
+		"E":  90  * Math.PI / 180,
+		"NE": 135 * Math.PI / 180,
+		"N":  180 * Math.PI / 180,
+		"NW": 225 * Math.PI / 180,
+		"W":  270 * Math.PI / 180,
+		"SW": 315 * Math.PI / 180,
+		"S":  0   * Math.PI / 180,
+		"SE": 45  * Math.PI / 180
+	};
+	
 	// The viewport for this player.  Responsible for displaying the tileMap.
 	self.viewport = new jaws.Viewport({
 		width : options.viewWidth,
@@ -53,8 +65,8 @@ function PlayerFactory (options) {
 	// functions on the underlying Character object.
 	self.actions = {};
 	self.actionsQueued = {};
-	self.actions.move = function (forceX, forceY) {
-		self.character.move(forceX, forceY);
+	self.actions.move = function (angle, magnitude) {
+		self.character.move(angle, magnitude);
 	};
 	self.actions.moveUp = function () {
 		self.character.moveUp();
@@ -86,11 +98,70 @@ function PlayerFactory (options) {
 	self.update = function () {
 		self.actionsQueued = {}; // Clear queued actions.
 		self.character.update();
-		for(var action in self.keyMap) {
-			if (jaws.pressed(self.keyMap[action]) && self.actions[action]) {
-				self.actions[action]();
-			} 
+		
+		/*
+		 * Handle movement input, considering multiple inputs first
+		 */
+		// North East
+		if (jaws.pressed(self.keyMap["moveRight"]) &&
+			jaws.pressed(self.keyMap["moveUp"])) {
+			self.actions.move(self.radianMap8D["NE"], 1);
 		}
+		else
+		// North West
+		if (jaws.pressed(self.keyMap["moveUp"]) &&
+			jaws.pressed(self.keyMap["moveLeft"])) {
+			self.actions.move(self.radianMap8D["NW"], 1);
+		}
+		else
+		// South West
+		if (jaws.pressed(self.keyMap["moveLeft"]) &&
+			jaws.pressed(self.keyMap["moveDown"])) {
+			self.actions.move(self.radianMap8D["SW"], 1);
+		}
+		else
+		// South East
+		if (jaws.pressed(self.keyMap["moveDown"]) &&
+			jaws.pressed(self.keyMap["moveRight"])) {
+			self.actions.move(self.radianMap8D["SE"], 1);
+		}
+		else
+		// East
+		if (jaws.pressed(self.keyMap["moveRight"])) {
+			self.actions.move(self.radianMap8D["E"], 1);
+		}
+		else
+		// North
+		if (jaws.pressed(self.keyMap["moveUp"])) {
+			self.actions.move(self.radianMap8D["N"], 1);
+		}
+		else
+		// West
+		if (jaws.pressed(self.keyMap["moveLeft"])) {
+			self.actions.move(self.radianMap8D["W"], 1);
+		}
+		else
+		// South
+		if (jaws.pressed(self.keyMap["moveDown"])) {
+			self.actions.move(self.radianMap8D["S"], 1);
+		}
+		
+		/*
+		 * Handle UI requests
+		 */
+		/*
+		// Open inventory
+		if (jaws.pressed(self.keyMap["openInventory"]) &&
+			self.actions["openInventory"]) {
+			// TODO
+		}	
+		// Open menu
+		if (jaws.pressed(self.keyMap["openMenu"]) &&
+			self.actions["openMenu"]) {
+			// TODO
+		}
+		*/
+		
 		if (!self.gamepad && jaws.gamepads[0]) {
 			self.gamepad = jaws.gamepads[0]; // Only use first gamepad for now...
 		}
