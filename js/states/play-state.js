@@ -10,6 +10,9 @@ function PlayState () {
 			throw new Error("PlayState needs at least one player.");
 		}
 
+		options.players = options.players || [];
+		options.npcs    = options.npcs    || [];
+
 		map = _parseMap(options.map);
 
 		viewport = new jaws.Viewport({
@@ -76,10 +79,13 @@ function PlayState () {
 			npcs[j].update();
 		}
 
-		jaws.collideManyWithMany(characters, characters, function (obj1, obj2) {
-			obj1.moveTo(obj1.prevPos.x, obj1.prevPos.y);
-			obj2.moveTo(obj2.prevPos.x, obj2.prevPos.y);
-		});
+		// Detect / respond to character collisions.
+		if (characters.length > 1) {
+				jaws.collideManyWithMany(characters, characters, function (obj1, obj2) {
+				obj1.moveTo(obj1.prevPos.x, obj1.prevPos.y);
+				obj2.moveTo(obj2.prevPos.x, obj2.prevPos.y);
+			});
+		}
 	};
 
 	this.draw = function () {
