@@ -10,7 +10,7 @@ function CharacterFactory (options) {
 		maxSpeed: 5,
 		tileMap: null,
 		sprite_sheet: null,
-		frame_size: [32,32],
+		frame_size: [16, 16],
 		frame_duration: 100,
 		animationSubset: {
 			down:  null,
@@ -38,8 +38,8 @@ function CharacterFactory (options) {
 	
 	var animation = new jaws.Animation({
 		sprite_sheet: options.sprite_sheet,
-		frame_size: [16,16],
-		frame_duration: 100,
+		frame_size: options.frame_size,
+		frame_duration: options.frame_duration,
 		subsets: options.animationSubsets
 	});
 	
