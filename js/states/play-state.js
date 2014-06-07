@@ -72,11 +72,14 @@ function PlayState () {
 	};
 
 	this.update = function () {
-		for(var i=0, len=players.length; i<len; i++) {
+		// Set up loop variables.
+		var i, ilen, j, jlen;
+
+		for(i=0, ilen=players.length; i<ilen; i++) {
 			players[i].update();
 		}
-		for(var j=0, len=npcs.length; j<len; j++) {
-			npcs[j].update();
+		for(i=0, ilen=npcs.length; i<ilen; i++) {
+			npcs[i].update();
 		}
 
 		// Detect / respond to character collisions.
@@ -85,6 +88,15 @@ function PlayState () {
 				obj1.moveTo(obj1.prevPos.x, obj1.prevPos.y);
 				obj2.moveTo(obj2.prevPos.x, obj2.prevPos.y);
 			});
+		}
+
+		// Detect / respond to map collisions.
+		for(i=0, ilen=characters.length; i<ilen; i++) {
+			var mapObjs = map.collides( characters[i] );
+			for(j=0, jlen=mapObjs.length; j<jlen; j++) {
+				characters[i].x -= mapObjs[j].overlapX;
+				characters[i].y -= mapObjs[j].overlapY;
+			}
 		}
 	};
 

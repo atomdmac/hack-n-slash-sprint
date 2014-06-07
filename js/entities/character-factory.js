@@ -71,10 +71,7 @@ function CharacterFactory (options) {
 		var y = Math.cos(angle) * speed;
 		
 		self.x += x;
-		if (options.tileMap.collides(self)) self.x -= x;
-
 		self.y += y;
-		if (options.tileMap.collides(self)) self.y -= y;
 		
 		if (x < 0) {
 			self.setImage(animation.subsets["left"].next());

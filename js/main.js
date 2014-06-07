@@ -96,14 +96,53 @@ function HackNSlashSetup () {
 	 * "passable" property.
 	 */
 	jaws.TileMap.prototype.collides = function (obj) {
-		var tiles = this.atRect(obj.rect());
+		function __getResponse (tile, obj) {
+			// NOTE: Requires SAT.js.
+			var polygon = new SAT.Polygon(
+				new SAT.Vector(tile.x, tile.y),
+				[
+					new SAT.Vector(0, 0),
+					new SAT.Vector(tile.width, 0),
+					new SAT.Vector(tile.width, tile.height),
+					new SAT.Vector(0, tile.height)
+				]
+			);
+
+			var circle = new SAT.Circle(
+				new SAT.Vector(
+					obj.x, 
+					obj.y
+				), 
+				obj.radius
+			);
+
+			var response = new SAT.Response();
+
+			var collision = SAT.testCirclePolygon(circle, polygon, response);
+
+			if (collision) {
+				return response;
+			} else {
+				return false;
+			}
+		}
+
+		var tiles = this.atRect(obj.rect()),
+			cols  = [];
 
 		for(var i=0, len=tiles.length; i<len; i++) {
 			if (!tiles[i].passable && tiles[i] !== obj) {
-				return true;
+				var col = __getResponse( tiles[i], obj );
+				if (col) {
+					cols.push({
+						tile: tiles[i],
+						overlapX: col.overlapV.x,
+						overlapY: col.overlapV.y
+					});
+				}
 			}
 		}
-		return false;
+		return cols;
 	};
 
 	// Configure JawsJS
