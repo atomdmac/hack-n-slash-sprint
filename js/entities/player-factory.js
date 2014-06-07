@@ -33,10 +33,10 @@ function PlayerFactory (options) {
 	if (!options.character) throw "Player needs a character.";
 
 	var self = {};
-
+	
 	// Set our keymap.
 	self.keyMap = options.keyMap;
-
+	
 	self.radianMap8D = {
 		"E":  90  * Math.PI / 180,
 		"NE": 135 * Math.PI / 180,
@@ -47,6 +47,31 @@ function PlayerFactory (options) {
 		"S":  0   * Math.PI / 180,
 		"SE": 45  * Math.PI / 180
 	};
+	
+	self.mouse = {x: 0, y: 0};
+	var jawswindow = jaws.canvas || jaws.dom;
+	self.handleMouseMove = function(event) {
+		var x = 0;
+        var y = 0;
+        var canvas = jawswindow;
+
+        if (event.x !== undefined && event.y !== undefined)
+        {
+			x = event.x;
+			y = event.y;
+        }
+        else // Firefox method to get the position
+        {
+			x = event.clientX + document.body.scrollLeft +
+				document.documentElement.scrollLeft;
+			y = event.clientY + document.body.scrollTop +
+				document.documentElement.scrollTop;
+        }
+
+        self.mouse.x = x -= canvas.offsetLeft;
+        self.mouse.y = y -= canvas.offsetTop;
+	};
+	jawswindow.addEventListener("mousemove", self.handleMouseMove, false);
 	
 	// The viewport for this player.  Responsible for displaying the tileMap.
 	self.viewport = new jaws.Viewport({
@@ -144,6 +169,43 @@ function PlayerFactory (options) {
 		// South
 		if (jaws.pressed(self.keyMap["moveDown"])) {
 			self.actions.move(self.radianMap8D["S"], 1);
+		}
+		
+		
+		
+		if (jaws.pressed("left_mouse_button")) {
+			var	analogX = self.mouse.x - (self.character.x - self.viewport.x);
+			var	analogY = self.mouse.y - (self.character.y - self.viewport.y);
+			
+			var angle = Math.atan2(analogX, analogY);
+			var magnitude = Math.sqrt(analogX*analogX+analogY*analogY) / 100;
+			
+			self.actions.move(angle, magnitude);
+		}
+		
+		if (jaws.pressed("right_mouse_button")) {
+			var	analogX = self.mouse.x - (self.character.x - self.viewport.x);
+			var	analogY = self.mouse.y - (self.character.y - self.viewport.y);
+			
+			var angle = Math.atan2(analogX, analogY);
+			var magnitude = Math.sqrt(analogX*analogX+analogY*analogY);
+			
+			var reach = 100;
+			magnitude = magnitude < reach ? magnitude / reach : 1;
+			
+			var startX = self.character.x - self.viewport.x;
+			var startY = self.character.y - self.viewport.y;
+			var endX = startX + reach * magnitude * Math.sin(angle);
+			var endY = startY + reach * magnitude * Math.cos(angle);
+			
+			self.actionsQueued["attack"] = {
+				startX: startX,
+				startY: startY,
+				angle: angle,
+				reach: reach,
+				endX: endX,
+				endY: endY
+			};
 		}
 		
 		/*
