@@ -70,8 +70,8 @@ var CHARACTER_MAP = {
 			left:  [4,6],
 			right: [6,8]
 		},
-		baseSpeed: 5,
-		maxSpeed: 5
+		baseSpeed: 1,
+		maxSpeed: 1.5
 	},
 	"Tellah": {
 		sprite_sheet: "assets/png/entities/FF4_TellahSheet.png",
@@ -84,8 +84,8 @@ var CHARACTER_MAP = {
 			left:  [4,6],
 			right: [6,8]
 		},
-		baseSpeed: 3,
-		maxSpeed: 3
+		baseSpeed: 0.5,
+		maxSpeed: 0.5
 	}
 };
 
@@ -172,7 +172,7 @@ function HackNSlashSetup () {
 	// Randomly generate some NPC data.
 	var npcs = [];
 	(function () {
-		var npcCount = 20;
+		var npcCount = 100;
 		var characterKeys = Object.keys(CHARACTER_MAP);
 		// Select Character properties.
 		for(var lcv = 0; lcv < npcCount; lcv++) {
@@ -202,7 +202,7 @@ function HackNSlashSetup () {
 		new PlayState(),
 		// Start-up options.
 		{
-			fps: 30
+			fps: 60
 		},
 		// Game State options.
 		{
