@@ -260,14 +260,10 @@ function PlayerFactory (options) {
 	// and any applicable effects here.
 	self.draw = function () {
 		self.viewport.centerAround(self.character);
-
 		self.viewport.drawTileMap(options.tileMap);
-
-		for(var i=0, len=options.players.length; i<len; i++) {
-			self.viewport.draw(options.players[i].character);
-		}
-		for(i=0, len=options.npcs.length; i<len; i++) {
-			self.viewport.draw(options.npcs[i].character);
+		var i, ilen;
+		for(i=0, ilen=options.characters.length; i<ilen; i++) {
+			self.viewport.draw(options.characters[i]);
 		}
 		
 		if (self.actionsQueued["attack"] != null) {

@@ -32,10 +32,11 @@ function PlayState () {
 						spawnY: options.players[lcv].spawnY,
 						tileMap: map
 					}),
-					tileMap  : map,
-					players  : players,
-					npcs     : npcs,
-					keyMap   : options.players[lcv].keyMap
+					tileMap   : map,
+					players   : players,
+					npcs      : npcs,
+					keyMap    : options.players[lcv].keyMap,
+					characters: characters
 
 					// Experiments w/ multiple viewports.
 					/*
@@ -75,6 +76,8 @@ function PlayState () {
 		// Set up loop variables.
 		var i, ilen, j, jlen, response = new SAT.Response();
 
+		// Update our players and NPCs.  This includes decision making and 
+		// actions.
 		for(i=0, ilen=players.length; i<ilen; i++) {
 			players[i].update();
 		}
@@ -82,25 +85,13 @@ function PlayState () {
 			npcs[i].update();
 		}
 
-		// Detect / respond to character collisions.
-		if (characters.length > 1) {
-			jaws.collideManyWithMany(characters, characters, function (obj1, obj2) {
-
-				var circleA = new SAT.Circle(
-					new SAT.Vector(obj1.x, obj1.y),
-					obj1.radius
-				);
-				var circleB = new SAT.Circle(
-					new SAT.Vector(obj2.x, obj2.y),
-					obj2.radius
-				);
-
-				SAT.testCircleCircle(circleA, circleB, response);
-
-				obj1.x -= response.overlapV.x;
-				obj1.y -= response.overlapV.y;
-			});
-		}
+		// Sort the list of characters by Y coordinate so they'll be drawn with
+		// the "closest" one in the foreground.
+		characters.sort(function (a, b) {
+			if(a.y > b.y) return  1;
+			if(a.y < b.y) return -1;
+			return 0; 
+		});
 
 		// Detect / respond to map collisions.
 		for(i=0, ilen=characters.length; i<ilen; i++) {
