@@ -58,18 +58,19 @@ function NPCFactory (options) {
 	};
 	self.decideNextAction = function() {
 		// TODO: Make decisions for actual reasons.
-		
-		self.rollForDistraction();
-		if (self.isDistracted) {
-			// Decide how to move in the X-axis.
-			var analogX = Math.round(Math.random()) ? Math.random() : Math.random() * -1;
-			var analogY = Math.round(Math.random()) ? Math.random() : Math.random() * -1;
-			
-			self.courseOfAction.move.angle = Math.atan2(analogX, analogY);
-			self.courseOfAction.move.magnitude = Math.sqrt(analogX*analogX+analogY*analogY);
+		if (self.character.resources.health.points > 0) {
+			self.rollForDistraction();
+			if (self.isDistracted) {
+				// Decide how to move in the X-axis.
+				var analogX = Math.round(Math.random()) ? Math.random() : Math.random() * -1;
+				var analogY = Math.round(Math.random()) ? Math.random() : Math.random() * -1;
+				
+				self.courseOfAction.move.angle = Math.atan2(analogX, analogY);
+				self.courseOfAction.move.magnitude = Math.sqrt(analogX*analogX+analogY*analogY);
+			}
+			self.actions.move(self.courseOfAction.move.angle,
+							  self.courseOfAction.move.magnitude);
 		}
-		self.actions.move(self.courseOfAction.move.angle,
-						  self.courseOfAction.move.magnitude);
 	};
 	
 	// Called from the parent Game State from it's update() method.  This is

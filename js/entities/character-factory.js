@@ -16,7 +16,9 @@ function CharacterFactory (options) {
 			down:  null,
 			up:    null,
 			left:  null,
-			right: null
+			right: null,
+			damage: null,
+			dead: null
 		},
 		anchor: [0.5, 0.75],
 		radius: 8
@@ -106,6 +108,50 @@ function CharacterFactory (options) {
 		self.move(1.57079633, 1);
 		self.setImage(animation.subsets["right"].next());
 	};
-
+	
+	
+	/*
+	 * Resourcing
+	 */
+	self.resources = {
+		health: {
+			min: 0,
+			max: 100,
+			points: 100,
+			regen: 1
+		},
+		mana: {
+			min: 0,
+			max: 100,
+			points: 100,
+			regen: 1
+		},
+		stamina: {
+			min: 0,
+			max: 100,
+			points: 100,
+			regen: 1
+		}
+	};
+	
+	/* Sample damage object passed to self.damage().
+	var damageObj = {
+		value:			10,			// base damage value
+		resource:		"health",	// resource being targeted for damage
+		type:			"slashing",	// type fo damage being dealth
+		penetration:	0.2			// percentage of armor/resist to ignore
+	};
+	*/
+	
+	self.damage = function (damageObj) {
+		self.resources[damageObj.resource].points -= damageObj.value;
+		if (self.resources.health.points <= self.resources.health.min) {
+			self.setImage(animation.subsets["dead"].next());
+		}
+		else {
+			self.setImage(animation.subsets["damage"].next());
+		}
+	};
+	
 	return self;
 }

@@ -202,7 +202,7 @@ function PlayerFactory (options) {
 				startX: startX,
 				startY: startY,
 				angle: angle,
-				reach: reach,
+				reach: reach * magnitude,
 				endX: endX,
 				endY: endY
 			};
@@ -228,6 +228,12 @@ function PlayerFactory (options) {
 			self.gamepad = jaws.gamepads[0]; // Only use first gamepad for now...
 		}
 		if (self.gamepad != null) {
+			// Record move action
+			var leftJoystickData = jaws.gamepadReadJoystick(self.gamepad, "left");
+			if(Math.abs(leftJoystickData.analogX) > 0.25 || Math.abs(leftJoystickData.analogY) > 0.25) {
+				self.actions.move(leftJoystickData.angle, leftJoystickData.magnitude);
+			}
+			
 			// Record attack action
 			var rightJoystickData = jaws.gamepadReadJoystick(self.gamepad, "right");
 			if(Math.abs(rightJoystickData.analogX) > 0.25 || Math.abs(rightJoystickData.analogY) > 0.25) {
@@ -242,16 +248,28 @@ function PlayerFactory (options) {
 					startX: startX,
 					startY: startY,
 					angle: rightJoystickData.angle,
-					reach: reach,
+					reach: reach * rightJoystickData.magnitude,
 					endX: endX,
 					endY: endY
 				};
-			}
-			
-			// Record move action
-			var leftJoystickData = jaws.gamepadReadJoystick(self.gamepad, "left");
-			if(Math.abs(leftJoystickData.analogX) > 0.25 || Math.abs(leftJoystickData.analogY) > 0.25) {
-				self.actions.move(leftJoystickData.angle, leftJoystickData.magnitude);
+				
+				var attackEntity = {
+					x: self.character.x,
+					y: self.character.y,
+					radius: reach * rightJoystickData.magnitude
+				};
+				
+				var charactersHit = jaws.collideOneWithMany(attackEntity, options.characters);
+				//console.log(charactersHit);
+				for (var lcv = 1; lcv < charactersHit.length; lcv++) {
+					charactersHit[lcv].damage({
+						value:			5,			// base damage value
+						resource:		"health",	// resource being targeted for damage
+						type:			"slashing",	// type fo damage being dealth
+						penetration:	0.2			// percentage of armor/resist to ignore
+					});
+				}
+				//self.character.damage();
 			}
 		}
 	};
@@ -273,11 +291,21 @@ function PlayerFactory (options) {
 				var attack = self.actionsQueued["attack"];
 				
 				context.beginPath();
+				context.arc(attack.startX, attack.startY, attack.reach, 0, 2 * Math.PI, false);
+				context.fillStyle = 'green';
+				context.globalAlpha = 0.5;
+				context.fill();
+				context.lineWidth = 5;
+				context.strokeStyle = '#003300';
+				context.stroke();
+				
 				context.moveTo(attack.startX, attack.startY);
 				context.lineTo(attack.endX, attack.endY);
 				context.lineWidth = 5;
+				context.globalAlpha = 1;
 				context.strokeStyle = 'blue';
 				context.stroke();
+				
 			})();
 		}
 	};
