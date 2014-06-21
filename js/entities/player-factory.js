@@ -206,6 +206,22 @@ function PlayerFactory (options) {
 				endX: endX,
 				endY: endY
 			};
+				
+			var attackEntity = {
+				x: self.character.x,
+				y: self.character.y,
+				radius: reach * magnitude
+			};
+			
+			var charactersHit = jaws.collideOneWithMany(attackEntity, options.characters);
+			for (var lcv = 1; lcv < charactersHit.length; lcv++) {
+				charactersHit[lcv].damage({
+					value:			5,			// base damage value
+					resource:		"health",	// resource being targeted for damage
+					type:			"slashing",	// type fo damage being dealth
+					penetration:	0.2			// percentage of armor/resist to ignore
+				});
+			}
 		}
 		
 		/*
@@ -260,7 +276,6 @@ function PlayerFactory (options) {
 				};
 				
 				var charactersHit = jaws.collideOneWithMany(attackEntity, options.characters);
-				//console.log(charactersHit);
 				for (var lcv = 1; lcv < charactersHit.length; lcv++) {
 					charactersHit[lcv].damage({
 						value:			5,			// base damage value
@@ -269,7 +284,6 @@ function PlayerFactory (options) {
 						penetration:	0.2			// percentage of armor/resist to ignore
 					});
 				}
-				//self.character.damage();
 			}
 		}
 	};
