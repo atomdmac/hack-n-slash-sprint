@@ -77,8 +77,8 @@ function PlayerFactory (options) {
 	self.viewport = new jaws.Viewport({
 		width : options.viewWidth,
 		height: options.viewHeight,
-		max_x : options.tileMap.width,
-		max_y : options.tileMap.height,
+		max_x : options.tileMap.cell_size[0] * options.tileMap.size[0],
+		max_y : options.tileMap.cell_size[1] * options.tileMap.size[1],
 		x_offset: options.viewOffsetX,
 		y_offset: options.viewOffsetY
 	});
