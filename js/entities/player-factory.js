@@ -120,6 +120,8 @@ function PlayerFactory (options) {
 	// Called from the parent Game State from it's update() method.  This is
 	// where we listen for input and stuff.
 	self.update = function () {
+		var analogX, analogY, angle, magnitude, reach, startX, startY, endX, endY;
+
 		self.character.update();
 		
 		/*
@@ -178,29 +180,27 @@ function PlayerFactory (options) {
 		 * MOUSE INPUT
 		 **********************************************************************/
 		if (jaws.pressed("left_mouse_button")) {
-			var	analogX = self.mouse.x - (self.character.x - self.viewport.x);
-			var	analogY = self.mouse.y - (self.character.y - self.viewport.y);
-			
-			var angle = Math.atan2(analogX, analogY);
-			var magnitude = Math.sqrt(analogX*analogX+analogY*analogY) / 100;
+			analogX   = self.mouse.x - (self.character.x - self.viewport.x);
+			analogY   = self.mouse.y - (self.character.y - self.viewport.y);
+			angle     = Math.atan2(analogX, analogY);
+			magnitude = Math.sqrt(analogX*analogX+analogY*analogY) / 100;
 			
 			self.actions.move(angle, magnitude);
 		}
 		
 		if (jaws.pressed("right_mouse_button")) {
-			var	analogX = self.mouse.x - (self.character.x - self.viewport.x);
-			var	analogY = self.mouse.y - (self.character.y - self.viewport.y);
-			
-			var angle = Math.atan2(analogX, analogY);
-			var magnitude = Math.sqrt(analogX*analogX+analogY*analogY);
-			
-			var reach = 100;
+			analogX   = self.mouse.x - (self.character.x - self.viewport.x);
+			analogY   = self.mouse.y - (self.character.y - self.viewport.y);
+			angle     = Math.atan2(analogX, analogY);
+			magnitude = Math.sqrt(analogX*analogX+analogY*analogY);
+			reach     = 100;
+
 			magnitude = magnitude < reach ? magnitude / reach : 1;
 			
-			var startX = self.character.x - self.viewport.x;
-			var startY = self.character.y - self.viewport.y;
-			var endX = startX + reach * magnitude * Math.sin(angle);
-			var endY = startY + reach * magnitude * Math.cos(angle);
+			startX = self.character.x - self.viewport.x;
+			startY = self.character.y - self.viewport.y;
+			endX   = startX + reach * magnitude * Math.sin(angle);
+			endY   = startY + reach * magnitude * Math.cos(angle);
 			
 			self.character.attack({
 				reach : reach,
@@ -233,7 +233,7 @@ function PlayerFactory (options) {
 		if (!self.gamepad && jaws.gamepads[0]) {
 			self.gamepad = jaws.gamepads[0]; // Only use first gamepad for now...
 		}
-		if (self.gamepad != null) {
+		if (self.gamepad !== null) {
 			// Record move action
 			var leftJoystickData = jaws.gamepadReadJoystick(self.gamepad, "left");
 			if(Math.abs(leftJoystickData.analogX) > 0.25 || Math.abs(leftJoystickData.analogY) > 0.25) {
@@ -244,11 +244,11 @@ function PlayerFactory (options) {
 			var rightJoystickData = jaws.gamepadReadJoystick(self.gamepad, "right");
 			if(Math.abs(rightJoystickData.analogX) > 0.25 || Math.abs(rightJoystickData.analogY) > 0.25) {
 				// TODO: Handle more of this in CharacterFactory.
-				var reach = 100;
-				var startX = self.character.x;
-				var startY = self.character.y;
-				var endX = startX + reach * rightJoystickData.magnitude * Math.sin(rightJoystickData.angle);
-				var endY = startY + reach * rightJoystickData.magnitude * Math.cos(rightJoystickData.angle);
+				reach = 100;
+				startX = self.character.x;
+				startY = self.character.y;
+				endX = startX + reach * rightJoystickData.magnitude * Math.sin(rightJoystickData.angle);
+				endY = startY + reach * rightJoystickData.magnitude * Math.cos(rightJoystickData.angle);
 				
 				self.character.attack({
 					reach : reach * rightJoystickData.magnitude,
