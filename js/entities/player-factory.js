@@ -89,7 +89,6 @@ function PlayerFactory (options) {
 	// These are actions that the player can take.  Many of them will map to
 	// functions on the underlying Character object.
 	self.actions = {};
-	self.actionsQueued = {};
 	self.actions.move = function (angle, magnitude) {
 		self.character.move(angle, magnitude);
 	};
@@ -121,12 +120,15 @@ function PlayerFactory (options) {
 	// Called from the parent Game State from it's update() method.  This is
 	// where we listen for input and stuff.
 	self.update = function () {
-		self.actionsQueued = {}; // Clear queued actions.
 		self.character.update();
 		
 		/*
 		 * Handle movement input, considering multiple inputs first
 		 */
+		
+		/***********************************************************************
+		 * KEYBOARD INPUT
+		 **********************************************************************/
 		// North East
 		if (jaws.pressed(self.keyMap["moveRight"]) &&
 			jaws.pressed(self.keyMap["moveUp"])) {
@@ -172,7 +174,9 @@ function PlayerFactory (options) {
 		}
 		
 		
-		
+		/***********************************************************************
+		 * MOUSE INPUT
+		 **********************************************************************/
 		if (jaws.pressed("left_mouse_button")) {
 			var	analogX = self.mouse.x - (self.character.x - self.viewport.x);
 			var	analogY = self.mouse.y - (self.character.y - self.viewport.y);
@@ -198,30 +202,13 @@ function PlayerFactory (options) {
 			var endX = startX + reach * magnitude * Math.sin(angle);
 			var endY = startY + reach * magnitude * Math.cos(angle);
 			
-			self.actionsQueued["attack"] = {
+			self.character.attack({
+				reach : reach,
 				startX: startX,
 				startY: startY,
-				angle: angle,
-				reach: reach * magnitude,
-				endX: endX,
-				endY: endY
-			};
-				
-			var attackEntity = {
-				x: self.character.x,
-				y: self.character.y,
-				radius: reach * magnitude
-			};
-			
-			var charactersHit = jaws.collideOneWithMany(attackEntity, options.characters);
-			for (var lcv = 1; lcv < charactersHit.length; lcv++) {
-				charactersHit[lcv].damage({
-					value:			5,			// base damage value
-					resource:		"health",	// resource being targeted for damage
-					type:			"slashing",	// type fo damage being dealth
-					penetration:	0.2			// percentage of armor/resist to ignore
-				});
-			}
+				endX  : endX,
+				endY  : endY
+			});
 		}
 		
 		/*
@@ -240,6 +227,9 @@ function PlayerFactory (options) {
 		}
 		*/
 		
+		/***********************************************************************
+		 * GAMEPAD INPUT
+		 **********************************************************************/ 
 		if (!self.gamepad && jaws.gamepads[0]) {
 			self.gamepad = jaws.gamepads[0]; // Only use first gamepad for now...
 		}
@@ -255,67 +245,19 @@ function PlayerFactory (options) {
 			if(Math.abs(rightJoystickData.analogX) > 0.25 || Math.abs(rightJoystickData.analogY) > 0.25) {
 				// TODO: Handle more of this in CharacterFactory.
 				var reach = 100;
-				var startX = self.character.x - self.viewport.x;
-				var startY = self.character.y - self.viewport.y;
+				var startX = self.character.x;
+				var startY = self.character.y;
 				var endX = startX + reach * rightJoystickData.magnitude * Math.sin(rightJoystickData.angle);
 				var endY = startY + reach * rightJoystickData.magnitude * Math.cos(rightJoystickData.angle);
 				
-				self.actionsQueued["attack"] = {
+				self.character.attack({
+					reach : reach * rightJoystickData.magnitude,
 					startX: startX,
 					startY: startY,
-					angle: rightJoystickData.angle,
-					reach: reach * rightJoystickData.magnitude,
-					endX: endX,
-					endY: endY
-				};
-				
-				var attackEntity = {
-					x: self.character.x,
-					y: self.character.y,
-					radius: reach * rightJoystickData.magnitude
-				};
-				
-				var charactersHit = jaws.collideOneWithMany(attackEntity, options.characters);
-				for (var lcv = 1; lcv < charactersHit.length; lcv++) {
-					charactersHit[lcv].damage({
-						value:			5,			// base damage value
-						resource:		"health",	// resource being targeted for damage
-						type:			"slashing",	// type fo damage being dealth
-						penetration:	0.2			// percentage of armor/resist to ignore
-					});
-				}
+					endX  : endX,
+					endY  : endY
+				});
 			}
-		}
-	};
-
-	// Called from the parent Game State's draw() method.  Draw the character
-	// and any applicable effects here.
-	self.draw = function () {
-		self.character.draw();
-		
-		if (self.actionsQueued["attack"] != null) {
-			var context = jaws.context;
-			(function ()
-			{
-				var attack = self.actionsQueued["attack"];
-				
-				context.beginPath();
-				context.arc(attack.startX, attack.startY, attack.reach, 0, 2 * Math.PI, false);
-				context.fillStyle = 'green';
-				context.globalAlpha = 0.5;
-				context.fill();
-				context.lineWidth = 5;
-				context.strokeStyle = '#003300';
-				context.stroke();
-				
-				context.moveTo(attack.startX, attack.startY);
-				context.lineTo(attack.endX, attack.endY);
-				context.lineWidth = 5;
-				context.globalAlpha = 1;
-				context.strokeStyle = 'blue';
-				context.stroke();
-				
-			})();
 		}
 	};
 

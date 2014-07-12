@@ -32,7 +32,8 @@ function PlayState () {
 					character: $.extend({}, options.players[lcv].character, {
 						spawnX: options.players[lcv].spawnX,
 						spawnY: options.players[lcv].spawnY,
-						tileMap: layers.terrain
+						tileMap: layers.terrain,
+						characters: characters
 					}),
 					tileMap   : layers.terrain,
 					players   : players,

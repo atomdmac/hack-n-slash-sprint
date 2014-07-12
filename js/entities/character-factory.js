@@ -30,6 +30,7 @@ function CharacterFactory (options) {
 	// Double-check required options.
 	if (!options.tileMap) throw "Character needs a TileMap.";
 
+	// Create Character object from jaws.Sprite.
 	var self = new jaws.Sprite({
 		x: options.spawnX,
 		y: options.spawnY,
@@ -37,7 +38,52 @@ function CharacterFactory (options) {
 		anchor: options.anchor,
 		radius: options.radius
 	});
-	
+
+	// A hash of actions currently being performed by the character.
+	self.actionsQueued = {};
+
+	/**
+	 * Draw the Character onto jaws.context.
+	 * @return Void
+	 */
+	self.draw = function () {
+		// Call original jaws.Sprite.draw() function.
+		jaws.Sprite.prototype.draw.call(this);
+
+		// Draw attack animation.
+		if (self.actionsQueued["attack"] != null) {
+			var context = jaws.context;
+			(function ()
+			{
+				var attack = self.actionsQueued["attack"];
+				// var attack = {
+				// 	startX: self.x,
+				// 	startY: self.y,
+				// 	angle: 0,
+				// 	reach: 100,
+				// 	endX: self.x + 100,
+				// 	endY: self.y + 100
+				// };
+				
+				context.beginPath();
+				context.arc(attack.startX, attack.startY, attack.reach, 0, 2 * Math.PI, false);
+				context.fillStyle = 'green';
+				context.globalAlpha = 0.5;
+				context.fill();
+				context.lineWidth = 5;
+				context.strokeStyle = '#003300';
+				context.stroke();
+				
+				context.moveTo(attack.startX, attack.startY);
+				context.lineTo(attack.endX, attack.endY);
+				context.lineWidth = 5;
+				context.globalAlpha = 1;
+				context.strokeStyle = 'blue';
+				context.stroke();
+			})();
+		}
+	};
+
 	var animation = new jaws.Animation({
 		sprite_sheet: options.sprite_sheet,
 		frame_size: options.frame_size,
@@ -60,6 +106,7 @@ function CharacterFactory (options) {
 	};
 
 	self.update = function () {
+		self.actionsQueued = {};
 		self.prevPos = {
 			x: self.x,
 			y: self.y
@@ -143,6 +190,11 @@ function CharacterFactory (options) {
 	};
 	*/
 	
+	/**
+	 * Apply damage to this Character based on attack described by damageObj.
+	 * @param  {Object} damageObj An Object describing the incoming attack.
+	 * @return {Void}
+	 */
 	self.damage = function (damageObj) {
 		self.resources[damageObj.resource].points -= damageObj.value;
 		if (self.resources.health.points <= self.resources.health.min) {
@@ -150,6 +202,33 @@ function CharacterFactory (options) {
 		}
 		else {
 			self.setImage(animation.subsets["damage"].next());
+		}
+	};
+
+	/**
+	 * Perform an attack with the given parameters.
+	 * TODO: Add attack types that aren't AOEs.
+	 * 
+	 * @param  {Object} attackObj An object describing the attack.
+	 * @return {Void}
+	 */
+	self.attack = function (attackObj) {
+		self.actionsQueued["attack"] = attackObj;
+		
+		var attackEntity = {
+			x: self.x,
+			y: self.y,
+			radius: attackObj.reach
+		};
+		
+		var charactersHit = jaws.collideOneWithMany(attackEntity, options.characters);
+		for (var lcv = 1; lcv < charactersHit.length; lcv++) {
+			charactersHit[lcv].damage({
+				value:			5,			// base damage value
+				resource:		"health",	// resource being targeted for damage
+				type:			"slashing",	// type of damage being dealth
+				penetration:	0.2			// percentage of armor/resist to ignore
+			});
 		}
 	};
 	
