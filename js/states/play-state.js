@@ -107,11 +107,8 @@ function PlayState () {
 
 		// Draw characters.
 		var i, ilen;
-		for(i=0, ilen=players.length; i<ilen; i++) {
-			viewport.draw(players[i].character);
-		}
-		for(i=0, ilen=npcs.length; i<ilen; i++) {
-			viewport.draw(npcs[i].character);
+		for(i=0, ilen=characters.length; i<ilen; i++) {
+			viewport.draw(characters[i]);
 		}
 	};
 
