@@ -122,7 +122,7 @@ function HackNSlashSetup () {
 	// Randomly generate some NPC data.
 	var npcs = [];
 	(function () {
-		var npcCount = 100;
+		var npcCount = 10;
 		var characterKeys = Object.keys(CHARACTER_MAP);
 		// Select Character properties.
 		for(var lcv = 0; lcv < npcCount; lcv++) {
@@ -157,11 +157,6 @@ function HackNSlashSetup () {
 		{
 			url: "assets/tmx/import-test.tmx",
 			players: [
-				{
-					character: CHARACTER_MAP["Tellah"],
-					spawnX: 32,
-					spawnY: 32
-				},
 				{
 					character: CHARACTER_MAP["Edge"],
 					spawnX: 96,

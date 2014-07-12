@@ -20,8 +20,8 @@ function PlayState () {
 		viewport = new jaws.Viewport({
 			width: jaws.width,
 			height: jaws.height,
-			max_x: map.width,
-			max_y: map.height
+			max_x: map.width  * map.tilewidth,
+			max_y: map.height * map.tileheight
 		});
 		
 		// Setup players.
@@ -39,14 +39,6 @@ function PlayState () {
 					npcs      : npcs,
 					keyMap    : options.players[lcv].keyMap,
 					characters: characters
-
-					// Experiments w/ multiple viewports.
-					/*
-					viewWidth: jaws.width / 2,
-					viewHeight: jaws.height,
-					viewOffsetX: lcv * (jaws.width / 2),
-					viewOffsetY: 0
-					*/
 				});
 				
 				players.push(player);
@@ -108,8 +100,16 @@ function PlayState () {
 	this.draw = function () {
 		jaws.clear();
 
-		for(var lcv = 0; lcv < players.length; lcv++ ) {
-			players[lcv].draw();
+		viewport.centerAround(players[0].character);
+		viewport.drawTileMap(layers.terrain);
+
+		// Draw characters.
+		var i, ilen;
+		for(i=0, ilen=players.length; i<ilen; i++) {
+			viewport.draw(players[i].character);
+		}
+		for(i=0, ilen=npcs.length; i<ilen; i++) {
+			viewport.draw(npcs[i].character);
 		}
 	};
 

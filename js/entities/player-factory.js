@@ -291,12 +291,7 @@ function PlayerFactory (options) {
 	// Called from the parent Game State's draw() method.  Draw the character
 	// and any applicable effects here.
 	self.draw = function () {
-		self.viewport.centerAround(self.character);
-		self.viewport.drawTileMap(options.tileMap);
-		var i, ilen;
-		for(i=0, ilen=options.characters.length; i<ilen; i++) {
-			self.viewport.draw(options.characters[i]);
-		}
+		self.character.draw();
 		
 		if (self.actionsQueued["attack"] != null) {
 			var context = jaws.context;
