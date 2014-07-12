@@ -144,42 +144,6 @@ function CharacterFactory (options) {
 		}
 	};
 	
-	/**
-	 * Move the Character downward at full speed.
-	 * @return {Void}
-	 */
-	self.moveDown = function() {
-		self.move(0, 1);
-		self.setImage(animation.subsets["down"].next());
-	};
-	
-	/**
-	 * Move the Character upward at full speed.
-	 * @return {Void}
-	 */
-	self.moveUp = function() {
-		self.move(0, -1);
-		self.setImage(animation.subsets["up"].next());
-	};
-	
-	/**
-	 * Move the Character toward the left at full speed.
-	 * @return {Void}
-	 */
-	self.moveLeft = function() {
-		self.move(1.57079633, -1);
-		self.setImage(animation.subsets["left"].next());
-	};
-	
-	/**
-	 * Move the Character toward the right at full speed.
-	 * @return {Void}
-	 */
-	self.moveRight = function() {
-		self.move(1.57079633, 1);
-		self.setImage(animation.subsets["right"].next());
-	};
-	
 	/*
 	 * Resourcing
 	 */

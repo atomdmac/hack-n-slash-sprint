@@ -82,18 +82,6 @@ function PlayerFactory (options) {
 	self.actions.move = function (angle, magnitude) {
 		self.character.move(angle, magnitude);
 	};
-	self.actions.moveUp = function () {
-		self.character.moveUp();
-	};
-	self.actions.moveDown = function () {
-		self.character.moveDown();
-	};
-	self.actions.moveLeft = function () {
-		self.character.moveLeft();
-	};
-	self.actions.moveRight = function () {
-		self.character.moveRight();
-	};
 	self.actions.attack = function (props) {
 		
 	};
