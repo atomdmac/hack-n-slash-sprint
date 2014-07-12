@@ -39,7 +39,8 @@ function PlayState () {
 					players   : players,
 					npcs      : npcs,
 					keyMap    : options.players[lcv].keyMap,
-					characters: characters
+					characters: characters,
+					viewport  : viewport
 				});
 				
 				players.push(player);

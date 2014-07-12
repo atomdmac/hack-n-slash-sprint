@@ -72,16 +72,6 @@ function PlayerFactory (options) {
         self.mouse.y = y -= canvas.offsetTop;
 	};
 	jawswindow.addEventListener("mousemove", self.handleMouseMove, false);
-	
-	// The viewport for this player.  Responsible for displaying the tileMap.
-	self.viewport = new jaws.Viewport({
-		width : options.viewWidth,
-		height: options.viewHeight,
-		max_x : options.tileMap.cell_size[0] * options.tileMap.size[0],
-		max_y : options.tileMap.cell_size[1] * options.tileMap.size[1],
-		x_offset: options.viewOffsetX,
-		y_offset: options.viewOffsetY
-	});
 
 	// Create the character that this player controls.
 	self.character = CharacterFactory(options.character);
@@ -180,8 +170,8 @@ function PlayerFactory (options) {
 		 * MOUSE INPUT
 		 **********************************************************************/
 		if (jaws.pressed("left_mouse_button")) {
-			analogX   = self.mouse.x - (self.character.x - self.viewport.x);
-			analogY   = self.mouse.y - (self.character.y - self.viewport.y);
+			analogX   = self.mouse.x - (self.character.x - options.viewport.x);
+			analogY   = self.mouse.y - (self.character.y - options.viewport.y);
 			angle     = Math.atan2(analogX, analogY);
 			magnitude = Math.sqrt(analogX*analogX+analogY*analogY) / 100;
 			
@@ -189,16 +179,16 @@ function PlayerFactory (options) {
 		}
 		
 		if (jaws.pressed("right_mouse_button")) {
-			analogX   = self.mouse.x - (self.character.x - self.viewport.x);
-			analogY   = self.mouse.y - (self.character.y - self.viewport.y);
+			analogX   = self.mouse.x - (self.character.x - options.viewport.x);
+			analogY   = self.mouse.y - (self.character.y - options.viewport.y);
 			angle     = Math.atan2(analogX, analogY);
 			magnitude = Math.sqrt(analogX*analogX+analogY*analogY);
 			reach     = 100;
 
 			magnitude = magnitude < reach ? magnitude / reach : 1;
 			
-			startX = self.character.x - self.viewport.x;
-			startY = self.character.y - self.viewport.y;
+			startX = self.character.x - options.viewport.x;
+			startY = self.character.y - options.viewport.y;
 			endX   = startX + reach * magnitude * Math.sin(angle);
 			endY   = startY + reach * magnitude * Math.cos(angle);
 			
