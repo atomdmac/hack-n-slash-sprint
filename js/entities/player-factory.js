@@ -187,13 +187,13 @@ function PlayerFactory (options) {
 
 			magnitude = magnitude < reach ? magnitude / reach : 1;
 			
-			startX = self.character.x - options.viewport.x;
-			startY = self.character.y - options.viewport.y;
+			startX = self.character.x;
+			startY = self.character.y;
 			endX   = startX + reach * magnitude * Math.sin(angle);
 			endY   = startY + reach * magnitude * Math.cos(angle);
 			
 			self.character.attack({
-				reach : reach,
+				reach : reach * magnitude,
 				startX: startX,
 				startY: startY,
 				endX  : endX,
