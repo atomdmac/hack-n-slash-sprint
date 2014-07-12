@@ -114,41 +114,6 @@ function PlayState () {
 	};
 
 	/*
-	 * Parse map data and output a TileMap.
-	 */
-	function _parseMap (data) {
-		var tileMap, 
-			xlen = data.tiles[0].length,
-			ylen = data.tiles.length,
-			x, y, tile, tileProps;
-
-		tileMap = new jaws.TileMap({
-			cell_size: data.properties.size,
-			size     : [xlen, ylen],
-			x: 0, y: 0
-		});
-
-		tileMap.width  = xlen * data.properties.size[0];
-		tileMap.height = ylen * data.properties.size[1];
-
-		for(x=0; x<xlen; x++) {
-			for(y=0; y<ylen; y++) {
-				tileProps = data.properties[data.tiles[y][x]];
-				tile = new jaws.Sprite({
-					image: tileProps.imageSrc,
-					x    : x * data.properties.size[0],
-					y    : y * data.properties.size[1]
-				});
-
-				tile = $.extend(tile, tileProps);
-				tileMap.push(tile);
-			}
-		}
-
-		return tileMap;
-	}
-
-	/*
 	 * Check for collisions between the given Object and any objects in the
 	 * given TileMap.
 	 */
