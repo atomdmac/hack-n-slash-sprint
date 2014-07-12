@@ -68,7 +68,9 @@ var CHARACTER_MAP = {
 			down:  [0,2],
 			up:    [2,4],
 			left:  [4,6],
-			right: [6,8]
+			right: [6,8],
+			damage:[10,11],
+			dead:  [11,12]
 		},
 		baseSpeed: 1,
 		maxSpeed: 1.5
@@ -82,7 +84,9 @@ var CHARACTER_MAP = {
 			down:  [0,2],
 			up:    [2,4],
 			left:  [4,6],
-			right: [6,8]
+			right: [6,8],
+			damage:[10,11],
+			dead:  [11,12]
 		},
 		baseSpeed: 0.5,
 		maxSpeed: 0.5
