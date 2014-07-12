@@ -3,14 +3,6 @@ function PlayerFactory (options) {
 		// Data that defines the character that this player controls.
 		character: null,
 
-		// The dimensions of the player's viewport.
-		viewWidth : jaws.width,
-		viewHeight: jaws.height,
-
-		// Where on the main game display the draw the player's viewport.
-		viewOffsetX: 0,
-		viewOffsetY: 0,
-
 		// Reference to the map that the character is in.
 		tileMap: null,
 
@@ -75,22 +67,6 @@ function PlayerFactory (options) {
 
 	// Create the character that this player controls.
 	self.character = CharacterFactory(options.character);
-	
-	// These are actions that the player can take.  Many of them will map to
-	// functions on the underlying Character object.
-	self.actions = {};
-	self.actions.move = function (angle, magnitude) {
-		self.character.move(angle, magnitude);
-	};
-	self.actions.attack = function (props) {
-		
-	};
-	self.actions.openInventory = function () {
-		console.log("Implement inventory, please.");
-	};
-	self.actions.openMenu = function () {
-		console.log("Implement menu, please.");
-	};
 
 	// Setup Gamepad
 	self.gamepad = null;
@@ -112,45 +88,45 @@ function PlayerFactory (options) {
 		// North East
 		if (jaws.pressed(self.keyMap["moveRight"]) &&
 			jaws.pressed(self.keyMap["moveUp"])) {
-			self.actions.move(self.radianMap8D["NE"], 1);
+			self.character.move(self.radianMap8D["NE"], 1);
 		}
 		else
 		// North West
 		if (jaws.pressed(self.keyMap["moveUp"]) &&
 			jaws.pressed(self.keyMap["moveLeft"])) {
-			self.actions.move(self.radianMap8D["NW"], 1);
+			self.character.move(self.radianMap8D["NW"], 1);
 		}
 		else
 		// South West
 		if (jaws.pressed(self.keyMap["moveLeft"]) &&
 			jaws.pressed(self.keyMap["moveDown"])) {
-			self.actions.move(self.radianMap8D["SW"], 1);
+			self.character.move(self.radianMap8D["SW"], 1);
 		}
 		else
 		// South East
 		if (jaws.pressed(self.keyMap["moveDown"]) &&
 			jaws.pressed(self.keyMap["moveRight"])) {
-			self.actions.move(self.radianMap8D["SE"], 1);
+			self.character.move(self.radianMap8D["SE"], 1);
 		}
 		else
 		// East
 		if (jaws.pressed(self.keyMap["moveRight"])) {
-			self.actions.move(self.radianMap8D["E"], 1);
+			self.character.move(self.radianMap8D["E"], 1);
 		}
 		else
 		// North
 		if (jaws.pressed(self.keyMap["moveUp"])) {
-			self.actions.move(self.radianMap8D["N"], 1);
+			self.character.move(self.radianMap8D["N"], 1);
 		}
 		else
 		// West
 		if (jaws.pressed(self.keyMap["moveLeft"])) {
-			self.actions.move(self.radianMap8D["W"], 1);
+			self.character.move(self.radianMap8D["W"], 1);
 		}
 		else
 		// South
 		if (jaws.pressed(self.keyMap["moveDown"])) {
-			self.actions.move(self.radianMap8D["S"], 1);
+			self.character.move(self.radianMap8D["S"], 1);
 		}
 		
 		
@@ -163,7 +139,7 @@ function PlayerFactory (options) {
 			angle     = Math.atan2(analogX, analogY);
 			magnitude = Math.sqrt(analogX*analogX+analogY*analogY) / 100;
 			
-			self.actions.move(angle, magnitude);
+			self.character.move(angle, magnitude);
 		}
 		
 		if (jaws.pressed("right_mouse_button")) {
@@ -215,7 +191,7 @@ function PlayerFactory (options) {
 			// Record move action
 			var leftJoystickData = jaws.gamepadReadJoystick(self.gamepad, "left");
 			if(Math.abs(leftJoystickData.analogX) > 0.25 || Math.abs(leftJoystickData.analogY) > 0.25) {
-				self.actions.move(leftJoystickData.angle, leftJoystickData.magnitude);
+				self.character.move(leftJoystickData.angle, leftJoystickData.magnitude);
 			}
 			
 			// Record attack action
