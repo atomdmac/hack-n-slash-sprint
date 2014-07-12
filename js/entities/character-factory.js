@@ -56,14 +56,6 @@ function CharacterFactory (options) {
 			(function ()
 			{
 				var attack = self.actionsQueued["attack"];
-				// var attack = {
-				// 	startX: self.x,
-				// 	startY: self.y,
-				// 	angle: 0,
-				// 	reach: 100,
-				// 	endX: self.x + 100,
-				// 	endY: self.y + 100
-				// };
 				
 				context.beginPath();
 				context.arc(attack.startX, attack.startY, attack.reach, 0, 2 * Math.PI, false);
@@ -93,13 +85,22 @@ function CharacterFactory (options) {
 	
 	self.setImage(animation.subsets["down"].next());
 	
+	/**
+	 * Return the Character's base speed with any applicable buffs applied.
+	 * @return {Void}
+	 */
 	self.getSpeed = function(){
 		var speed = options.baseSpeed * options.speedMultiplier;
 		return speed < options.maxSpeed ? speed : options.maxSpeed;
 	};
 	
+	/**
+	 * A radius to use for circle-based collisions.
+	 * @type {Number}
+	 */
 	self.radius = options.radius;
 	
+	// TODO: CharacterFactory.prevPos is not currently used.  Can we remove it?
 	self.prevPos = {
 		x: self.x,
 		y: self.y
@@ -113,6 +114,13 @@ function CharacterFactory (options) {
 		};
 	};
 
+	/**
+	 * Move the Character in the given direction (angle) with the given
+	 * magnitude.
+	 * @param  {Number} angle     Given in degrees where 0 is up, 180 is down, etc.
+	 * @param  {Number} magnitude A value between 0 and 1.  If 1, the character will be move at it's max speed.
+	 * @return {Void}
+	 */
 	self.move = function (angle, magnitude) {
 		var speed = self.getSpeed() * magnitude;
 		speed = speed > options.maxSpeed ? options.maxSpeed : speed;
@@ -136,26 +144,41 @@ function CharacterFactory (options) {
 		}
 	};
 	
+	/**
+	 * Move the Character downward at full speed.
+	 * @return {Void}
+	 */
 	self.moveDown = function() {
 		self.move(0, 1);
 		self.setImage(animation.subsets["down"].next());
 	};
 	
+	/**
+	 * Move the Character upward at full speed.
+	 * @return {Void}
+	 */
 	self.moveUp = function() {
 		self.move(0, -1);
 		self.setImage(animation.subsets["up"].next());
 	};
 	
+	/**
+	 * Move the Character toward the left at full speed.
+	 * @return {Void}
+	 */
 	self.moveLeft = function() {
 		self.move(1.57079633, -1);
 		self.setImage(animation.subsets["left"].next());
 	};
 	
+	/**
+	 * Move the Character toward the right at full speed.
+	 * @return {Void}
+	 */
 	self.moveRight = function() {
 		self.move(1.57079633, 1);
 		self.setImage(animation.subsets["right"].next());
 	};
-	
 	
 	/*
 	 * Resourcing
