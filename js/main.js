@@ -93,6 +93,12 @@ var CHARACTER_MAP = {
 	}
 };
 
+var SPELL_MAP = {
+	"ShockNova": {
+		sprite_sheet: "assets/png/entities/spells/shockNova.png"
+	}
+};
+
 function HackNSlashSetup () {
 
 	// Configure JawsJS
@@ -109,6 +115,13 @@ function HackNSlashSetup () {
 			character = CHARACTER_MAP[character];
 
 			if(character.sprite_sheet) jaws.assets.add( character.sprite_sheet );
+		}
+		
+		// Load Spell assets.
+		for(var spell in SPELL_MAP) {
+			spell = SPELL_MAP[spell];
+
+			if(spell.sprite_sheet) jaws.assets.add( spell.sprite_sheet );
 		}
 		
 		// Load Map assets.
@@ -165,7 +178,8 @@ function HackNSlashSetup () {
 						"moveUp"   : "w",
 						"moveDown" : "s",
 						"moveLeft" : "a",
-						"moveRight": "d"
+						"moveRight": "d",
+						"castSpell": "space"
 					}
 				}
 			],

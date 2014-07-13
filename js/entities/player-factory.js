@@ -13,7 +13,8 @@ function PlayerFactory (options) {
 			"moveLeft"     : "left",
 			"moveRight"    : "right",
 			"openInventory": "i",
-			"openMenu"     : "escape"
+			"openMenu"     : "escape",
+			"castSpell"    : "space"
 		}
 	};
 	
@@ -85,6 +86,10 @@ function PlayerFactory (options) {
 		/***********************************************************************
 		 * KEYBOARD INPUT
 		 **********************************************************************/
+		// Cast Spell
+		if (jaws.pressed(self.keyMap["castSpell"])) {
+			self.character.castSpell();
+		}
 		// North East
 		if (jaws.pressed(self.keyMap["moveRight"]) &&
 			jaws.pressed(self.keyMap["moveUp"])) {
@@ -128,7 +133,6 @@ function PlayerFactory (options) {
 		if (jaws.pressed(self.keyMap["moveDown"])) {
 			self.character.move(self.radianMap8D["S"], 1);
 		}
-		
 		
 		/***********************************************************************
 		 * MOUSE INPUT
@@ -188,6 +192,12 @@ function PlayerFactory (options) {
 			self.gamepad = jaws.gamepads[0]; // Only use first gamepad for now...
 		}
 		if (self.gamepad !== null) {
+			// Record cast spell action.
+			var castSpellBtn = self.gamepad.buttons[0];
+			if (jaws.gamepadButtonPressed(castSpellBtn)) {
+				self.character.castSpell();
+			}
+			
 			// Record move action
 			var leftJoystickData = jaws.gamepadReadJoystick(self.gamepad, "left");
 			if(Math.abs(leftJoystickData.analogX) > 0.25 || Math.abs(leftJoystickData.analogY) > 0.25) {

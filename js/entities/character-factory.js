@@ -47,9 +47,14 @@ function CharacterFactory (options) {
 	 * @return Void
 	 */
 	self.draw = function () {
+		// Draw Shock Nova animation.
+		if (self.actionsQueued["castSpell"]) {
+			self.actionsQueued["castSpell"].draw();
+		}
+		
 		// Call original jaws.Sprite.draw() function.
 		jaws.Sprite.prototype.draw.call(this);
-
+		
 		// Draw attack animation.
 		if (self.actionsQueued["attack"] != null) {
 			var context = jaws.context;
@@ -107,7 +112,11 @@ function CharacterFactory (options) {
 	};
 
 	self.update = function () {
-		self.actionsQueued = {};
+		delete self.actionsQueued["attack"];
+		if (self.actionsQueued["castSpell"]) {
+			self.actionsQueued["castSpell"].update();
+		}
+		
 		self.prevPos = {
 			x: self.x,
 			y: self.y
@@ -122,25 +131,27 @@ function CharacterFactory (options) {
 	 * @return {Void}
 	 */
 	self.move = function (angle, magnitude) {
-		var speed = self.getSpeed() * magnitude;
-		speed = speed > options.maxSpeed ? options.maxSpeed : speed;
-		var x = Math.sin(angle) * speed;
-		var y = Math.cos(angle) * speed;
-		
-		self.x += x;
-		self.y += y;
-		
-		if (x < 0) {
-			self.setImage(animation.subsets["left"].next());
-		}
-		else if (x > 0) {
-			self.setImage(animation.subsets["right"].next());
-		}
-		if (y < 0 && y < x) {
-			self.setImage(animation.subsets["up"].next());
-		}
-		else if (y > 0 && y > x) {
-			self.setImage(animation.subsets["down"].next());
+		if (!self.actionsQueued["castSpell"]) {
+			var speed = self.getSpeed() * magnitude;
+			speed = speed > options.maxSpeed ? options.maxSpeed : speed;
+			var x = Math.sin(angle) * speed;
+			var y = Math.cos(angle) * speed;
+			
+			self.x += x;
+			self.y += y;
+			
+			if (x < 0) {
+				self.setImage(animation.subsets["left"].next());
+			}
+			else if (x > 0) {
+				self.setImage(animation.subsets["right"].next());
+			}
+			if (y < 0 && y < x) {
+				self.setImage(animation.subsets["up"].next());
+			}
+			else if (y > 0 && y > x) {
+				self.setImage(animation.subsets["down"].next());
+			}
 		}
 	};
 	
@@ -215,6 +226,31 @@ function CharacterFactory (options) {
 				resource:		"health",	// resource being targeted for damage
 				type:			"slashing",	// type of damage being dealth
 				penetration:	0.2			// percentage of armor/resist to ignore
+			});
+		}
+	};
+
+	/**
+	 * Casts Shock Nova, the only spell currently available.
+	 * TODO: Add more spells.
+	 * 
+	 * @return {Void}
+	 */
+	self.castSpell = function () {
+		if (!self.actionsQueued["castSpell"]) {
+			// Prepare eligible spell targets.
+			var eligibleTargets = [];
+			for (var lcv = 0; lcv < options.characters.length; lcv++) {
+				// Include all Characters who are not the caster.
+				if (self !== options.characters[lcv]) {
+					eligibleTargets.push(options.characters[lcv]);
+				}
+			}
+			self.actionsQueued["castSpell"] = ShockNova({
+				spawnX: self.x,
+				spawnY: self.y,
+				eligibleTargets: eligibleTargets,
+				onFinish: function() { delete self.actionsQueued["castSpell"]; }
 			});
 		}
 	};
