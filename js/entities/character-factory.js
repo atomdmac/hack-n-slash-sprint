@@ -51,27 +51,36 @@ function CharacterFactory (options) {
 		jaws.Sprite.prototype.draw.call(this);
 
 		// Draw attack animation.
-		if (self.actionsQueued["attack"] != null) {
-			var context = jaws.context;
-			(function ()
-			{
-				var attack = self.actionsQueued["attack"];
-				
+		if (self.actionsQueued.attack) {
+			(function () {
+				var context = jaws.context,
+					hitBox  = self.actionsQueued.attack.hitBox,
+					points  = hitBox.calcPoints,
+					i, ilen;
+
+				context.save();
+				context.strokeStyle = "green";
+				context.lineWidth = 3;
+
 				context.beginPath();
-				context.arc(attack.startX, attack.startY, attack.reach, 0, 2 * Math.PI, false);
-				context.fillStyle = 'green';
-				context.globalAlpha = 0.5;
-				context.fill();
-				context.lineWidth = 5;
-				context.strokeStyle = '#003300';
+				context.moveTo(
+					hitBox.pos.x + points[0].x, 
+					hitBox.pos.y + points[0].y
+				);
+				for(i=0, ilen=points.length; i<ilen; i++) {
+					context.lineTo(
+						hitBox.pos.x + points[i].x, 
+						hitBox.pos.y + points[i].y
+					);
+				}
+				context.lineTo(
+					hitBox.pos.x + points[0].x,
+					hitBox.pos.y + points[0].y
+				);
 				context.stroke();
-				
-				context.moveTo(attack.startX, attack.startY);
-				context.lineTo(attack.endX, attack.endY);
-				context.lineWidth = 5;
-				context.globalAlpha = 1;
-				context.strokeStyle = 'blue';
-				context.stroke();
+
+				context.restore();
+
 			})();
 		}
 	};
@@ -107,7 +116,11 @@ function CharacterFactory (options) {
 	};
 
 	self.update = function () {
-		self.actionsQueued = {};
+		if(self.actionsQueued.attack) {
+			var isActive = self.actionsQueued.attack.step();
+			if(!isActive) delete self.actionsQueued.attack;
+		}
+
 		self.prevPos = {
 			x: self.x,
 			y: self.y
@@ -200,24 +213,102 @@ function CharacterFactory (options) {
 	 * @return {Void}
 	 */
 	self.attack = function (attackObj) {
-		self.actionsQueued["attack"] = attackObj;
-		
-		var attackEntity = {
-			x: self.x,
-			y: self.y,
-			radius: attackObj.reach
-		};
-		
-		var charactersHit = jaws.collideOneWithMany(attackEntity, options.characters);
-		for (var lcv = 1; lcv < charactersHit.length; lcv++) {
-			charactersHit[lcv].damage({
-				value:			5,			// base damage value
-				resource:		"health",	// resource being targeted for damage
-				type:			"slashing",	// type of damage being dealth
-				penetration:	0.2			// percentage of armor/resist to ignore
-			});
+		// If no attack is in progress, launch a new one.
+		if(!self.actionsQueued.attack) {
+			self.actionsQueued.attack = new _MeleeAttack(
+				// Attacker
+				self,
+				// Potential targets.
+				options.characters,
+				// Attack angle
+				attackObj.angle,
+				// Attack Data
+				{
+					value: 5,
+					resource: "health",
+					type    : "slashing",
+					penetration: 0.2
+				}
+			);
+			self.actionsQueued.attack.step();
 		}
 	};
+
+	// Represents the MeleeAttack Class.
+	function _MeleeAttack (attacker, targets, angle, attackData) {
+		var attack = this,
+
+			// Settings
+			hitBox = new SAT.Polygon(new SAT.Vector(attacker.x, attacker.y),
+				[
+				new SAT.Vector(0, 0),
+				new SAT.Vector(10, 0),
+				new SAT.Vector(10, 50),
+				new SAT.Vector(0, 50)
+				]),
+			angleRange   = 1.4,
+			duration     = 10,
+
+			// State
+			angleCurrent = -angle - (angleRange / 2),
+			// TODO: Implement counter-clockwise attacks.
+			// TODO: Implement thrust attacks.
+			angleStep    = (angleRange / duration),
+			currentTime  = 0;
+
+		// Apply initial position/angle to hitBox.
+		hitBox.translate(-5, 0);
+		hitBox.setAngle(angleCurrent);
+
+		// Expose the hitBox so we can draw it for debugging purposes.
+		attack.hitBox = hitBox;
+
+		function _getResponse (target) {
+			var c = new SAT.Circle(
+				new SAT.Vector(target.x, target.y),
+				target.radius
+			);
+
+			if(SAT.testCirclePolygon(c, hitBox)) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		/**
+		 * Perform the next iteration of the attack process.
+		 * @return {Boolean} TRUE if the attack is still in progress, FALSE if it has finished.
+		 */
+		attack.step = function () {
+			// Update hitbox angle and position.
+			hitBox.pos.x = attacker.x;
+			hitBox.pos.y = attacker.y;
+			hitBox.setAngle(angleCurrent);
+
+			// Check to see if the weapon hitBox collides with any potential targets.
+			var i, ilen;
+			for(i=0, ilen=targets.length; i<ilen; i++) {
+				if(targets[i] !== attacker) {
+					var col = _getResponse(targets[i]);
+					if(col) {
+						targets[i].damage(attackData);
+					}
+				}
+			}
+			
+			// Step forward in time.
+			angleCurrent += angleStep;
+			currentTime += 1;
+
+			// Check to see if the attack has finished yet or not.
+			if(currentTime < duration) {
+				return true;
+			} else {
+				return false;
+			}
+		};
+	}
 	
 	return self;
 }
