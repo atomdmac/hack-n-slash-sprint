@@ -72,8 +72,8 @@ var CHARACTER_MAP = {
 			damage:[10,11],
 			dead:  [11,12]
 		},
-		baseSpeed: 1,
-		maxSpeed: 1.5
+		baseSpeed: 2,
+		maxSpeed: 2
 	},
 	"Tellah": {
 		sprite_sheet: "assets/png/entities/FF4_TellahSheet.png",
@@ -90,6 +90,12 @@ var CHARACTER_MAP = {
 		},
 		baseSpeed: 0.5,
 		maxSpeed: 0.5
+	}
+};
+
+var SPELL_MAP = {
+	"ShockNova": {
+		sprite_sheet: "assets/png/entities/spells/shockNova.png"
 	}
 };
 
@@ -111,6 +117,13 @@ function HackNSlashSetup () {
 			if(character.sprite_sheet) jaws.assets.add( character.sprite_sheet );
 		}
 		
+		// Load Spell assets.
+		for(var spell in SPELL_MAP) {
+			spell = SPELL_MAP[spell];
+
+			if(spell.sprite_sheet) jaws.assets.add( spell.sprite_sheet );
+		}
+		
 		// Load Map assets.
 		for(var tile in DEBUG_MAP.properties) {
 			tile = DEBUG_MAP.properties[tile];
@@ -122,7 +135,7 @@ function HackNSlashSetup () {
 	// Randomly generate some NPC data.
 	var npcs = [];
 	(function () {
-		var npcCount = 10;
+		var npcCount = 100;
 		var characterKeys = Object.keys(CHARACTER_MAP);
 		// Select Character properties.
 		for(var lcv = 0; lcv < npcCount; lcv++) {
@@ -165,7 +178,8 @@ function HackNSlashSetup () {
 						"moveUp"   : "w",
 						"moveDown" : "s",
 						"moveLeft" : "a",
-						"moveRight": "d"
+						"moveRight": "d",
+						"castSpell": "space"
 					}
 				}
 			],
