@@ -70,7 +70,7 @@ function PlayState () {
 
 	this.update = function () {
 		// Set up loop variables.
-		var i, ilen, j, jlen, response = new SAT.Response();
+		var i, ilen, j, jlen;
 
 		// Update our players and NPCs.  This includes decision making and 
 		// actions.
