@@ -12,7 +12,7 @@ function CharacterFactory (options) {
 		sprite_sheet: null,
 		frame_size: [16, 16],
 		frame_duration: 100,
-		animationSubset: {
+		animationSubsets: {
 			down:  null,
 			up:    null,
 			left:  null,
