@@ -165,7 +165,8 @@ function PlayerFactory (options) {
 				startX: startX,
 				startY: startY,
 				endX  : endX,
-				endY  : endY
+				endY  : endY,
+				angle : angle
 			});
 		}
 		
