@@ -99,6 +99,12 @@ var SPELL_MAP = {
 	}
 };
 
+var EQUIPMENT_MAP = {
+	"Sword": {
+		sprite_sheet: "assets/png/equipment/FF4_Sword.png"
+	}
+};
+
 function HackNSlashSetup () {
 
 	// Configure JawsJS
@@ -122,6 +128,13 @@ function HackNSlashSetup () {
 			spell = SPELL_MAP[spell];
 
 			if(spell.sprite_sheet) jaws.assets.add( spell.sprite_sheet );
+		}
+		
+		// Load Equipment assets.
+		for(var equip in EQUIPMENT_MAP) {
+			equip = EQUIPMENT_MAP[equip];
+
+			if(equip.sprite_sheet) jaws.assets.add( equip.sprite_sheet );
 		}
 		
 		// Load Map assets.

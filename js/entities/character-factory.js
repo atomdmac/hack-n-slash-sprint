@@ -97,6 +97,8 @@ function CharacterFactory (options) {
 		subsets: options.animationSubsets
 	});
 	
+	animation.setLayer("sword", "assets/png/equipment/FF4_Sword.png", options.animationSubsets);
+	
 	self.setImage(animation.subsets["down"].next());
 	
 	/**
