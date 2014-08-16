@@ -113,6 +113,18 @@ function HackNSlashSetup () {
 		height: 600
 	});
 
+	// Configure debug UI.
+	$('#toggle-pause-btn').on('click', function (e) {
+		var isPaused = $(this).data('isPaused') || false;
+		if(isPaused) {
+			jaws.game_loop.unpause();
+			$(this).data('isPaused', false);
+		} else {
+			jaws.game_loop.pause();
+			$(this).data('isPaused', true);
+		}
+	});
+
 	// Load game assets.
 	(function () {
 
