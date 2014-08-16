@@ -9,8 +9,6 @@ function PlayerFactory (options) {
 			"moveDown"     : "down",
 			"moveLeft"     : "left",
 			"moveRight"    : "right",
-			"openInventory": "i",
-			"openMenu"     : "escape",
 			"castSpell"    : "space"
 		}
 	};
@@ -165,22 +163,6 @@ function PlayerFactory (options) {
 				angle : angle
 			});
 		}
-		
-		/*
-		 * Handle UI requests
-		 */
-		/*
-		// Open inventory
-		if (jaws.pressed(self.keyMap["openInventory"]) &&
-			self.actions["openInventory"]) {
-			// TODO
-		}	
-		// Open menu
-		if (jaws.pressed(self.keyMap["openMenu"]) &&
-			self.actions["openMenu"]) {
-			// TODO
-		}
-		*/
 		
 		/***********************************************************************
 		 * GAMEPAD INPUT
