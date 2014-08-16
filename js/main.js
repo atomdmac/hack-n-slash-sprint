@@ -58,59 +58,12 @@ var DEBUG_MAP = {
 	}
 };
 
-var CHARACTER_MAP = {
-	"Edge": {
-		sprite_sheet: "assets/png/entities/FF4_EdgeSheet.png",
-		scale: 2,
-		frame_size: [16,16],
-		frame_duration: 100,
-		animationSubsets: {
-			down:  [0,2],
-			up:    [2,4],
-			left:  [4,6],
-			right: [6,8],
-			damage:[10,11],
-			dead:  [11,12]
-		},
-		baseSpeed: 2,
-		maxSpeed: 2
-	},
-	"Tellah": {
-		sprite_sheet: "assets/png/entities/FF4_TellahSheet.png",
-		scale: 2,
-		frame_size: [16,16],
-		frame_duration: 100,
-		animationSubsets: {
-			down:  [0,2],
-			up:    [2,4],
-			left:  [4,6],
-			right: [6,8],
-			damage:[10,11],
-			dead:  [11,12]
-		},
-		baseSpeed: 0.5,
-		maxSpeed: 0.5
-	}
-};
-
-var SPELL_MAP = {
-	"ShockNova": {
-		sprite_sheet: "assets/png/entities/spells/shockNova.png"
-	}
-};
-
-var EQUIPMENT_MAP = {
-	"Sword": {
-		sprite_sheet: "assets/png/equipment/FF4_Sword.png"
-	}
-};
-
 function HackNSlashSetup () {
 
 	// Configure JawsJS
 	jaws.init({
-		width: 500,
-		height: 600
+		width: DATABASE.settings.graphics.resolution.selected.width,
+		height: DATABASE.settings.graphics.resolution.selected.height
 	});
 
 	// Configure debug UI.
@@ -129,22 +82,22 @@ function HackNSlashSetup () {
 	(function () {
 
 		// Load Character assets.
-		for(var character in CHARACTER_MAP) {
-			character = CHARACTER_MAP[character];
+		for(var character in DATABASE.characters) {
+			character = DATABASE.characters[character];
 
 			if(character.sprite_sheet) jaws.assets.add( character.sprite_sheet );
 		}
 		
 		// Load Spell assets.
-		for(var spell in SPELL_MAP) {
-			spell = SPELL_MAP[spell];
+		for(var spell in DATABASE.spells) {
+			spell = DATABASE.spells[spell];
 
 			if(spell.sprite_sheet) jaws.assets.add( spell.sprite_sheet );
 		}
 		
 		// Load Equipment assets.
-		for(var equip in EQUIPMENT_MAP) {
-			equip = EQUIPMENT_MAP[equip];
+		for(var equip in DATABASE.equipment) {
+			equip = DATABASE.equipment[equip];
 
 			if(equip.sprite_sheet) jaws.assets.add( equip.sprite_sheet );
 		}
@@ -161,11 +114,9 @@ function HackNSlashSetup () {
 	var npcs = [];
 	(function () {
 		var npcCount = 100;
-		var characterKeys = Object.keys(CHARACTER_MAP);
 		// Select Character properties.
 		for(var lcv = 0; lcv < npcCount; lcv++) {
-			var randomCharacterIndex = Math.floor(Math.random() * characterKeys.length);
-			var character = CHARACTER_MAP[characterKeys[randomCharacterIndex]];
+			var character = DATABASE.characters["Tellah"];
 			
 			// NPCs feel too fast right now, so let's slow them down.
 			character = $.extend({}, character, {baseSpeed: 3});
@@ -196,7 +147,7 @@ function HackNSlashSetup () {
 			url: "assets/tmx/import-test.tmx",
 			players: [
 				{
-					character: CHARACTER_MAP["Edge"],
+					character: DATABASE.characters["Edge"],
 					spawnX: 96,
 					spawnY: 96,
 					keyMap: {

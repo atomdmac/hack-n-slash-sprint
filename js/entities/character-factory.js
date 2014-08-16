@@ -1,31 +1,6 @@
 function CharacterFactory (options) {
-	var defaultOptions = {
-		spawnX: 0,
-		spawnY: 0,
-		scale: 1,
-		width: 32,
-		height: 32,
-		baseSpeed: 5,
-		speedMultiplier: 1,
-		maxSpeed: 5,
-		tileMap: null,
-		sprite_sheet: null,
-		frame_size: [16, 16],
-		frame_duration: 100,
-		animationSubsets: {
-			down:  null,
-			up:    null,
-			left:  null,
-			right: null,
-			damage: null,
-			dead: null
-		},
-		anchor: [0.5, 0.75],
-		radius: 8
-	};
-	
 	// Merge options
-	options = $.extend({}, defaultOptions, options);
+	options = $.extend({}, DATABASE.characters["base"], options);
 
 	// Double-check required options.
 	if (!options.tileMap) throw "Character needs a TileMap.";
@@ -97,7 +72,7 @@ function CharacterFactory (options) {
 		subsets: options.animationSubsets
 	});
 	
-	animation.setLayer("sword", "assets/png/equipment/FF4_Sword.png", options.animationSubsets);
+	animation.setLayer("sword", DATABASE.equipment["Sword"].sprite_sheet, options.animationSubsets);
 	
 	self.setImage(animation.subsets["down"].next());
 	
