@@ -3,9 +3,6 @@ function PlayerFactory (options) {
 		// Data that defines the character that this player controls.
 		character: null,
 
-		// Reference to the map that the character is in.
-		tileMap: null,
-
 		// tileMaps keyboard/controller input to actions.
 		keyMap: {
 			"moveUp"       : "up",
@@ -22,7 +19,6 @@ function PlayerFactory (options) {
 	
 	
 	// Double-check required options.
-	if (!options.tileMap) throw "Player needs a tileMap.";
 	if (!options.character) throw "Player needs a character.";
 
 	var self = {};
