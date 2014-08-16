@@ -1,6 +1,6 @@
 function PlayState () {
 	// The current map.
-	var map, players=[], npcs=[], characters=[], layers={}, viewport;
+	var _gameData, map, players=[], npcs=[], characters=[], layers={}, viewport;
 
 	this.setup = function (options) {
 		if(!options.map) {
@@ -10,60 +10,17 @@ function PlayState () {
 			throw new Error("PlayState needs at least one player.");
 		}
 
-		options.players = options.players || [];
-		options.npcs    = options.npcs    || [];
+		_gameData = options;
 
-		map              = options.map;
-		layers.collision = options.map.layerAsTileMap("collision");
-		layers.terrain   = options.map.layerAsTileMap("terrain");
+		players    = _gameData.players;
+		npcs       = _gameData.npcs;
+		characters = _gameData.characters;
 
-		viewport = new jaws.Viewport({
-			width: jaws.width,
-			height: jaws.height,
-			max_x: map.width  * map.tilewidth,
-			max_y: map.height * map.tileheight
-		});
-		
-		// Setup players.
-		(function () {
-			// Load Map assets.
-			for(var lcv = 0; lcv < options.players.length; lcv++ ) {
-				var player = PlayerFactory({
-					character: $.extend({}, options.players[lcv].character, {
-						spawnX: options.players[lcv].spawnX,
-						spawnY: options.players[lcv].spawnY,
-						tileMap: layers.terrain,
-						characters: characters
-					}),
-					tileMap   : layers.terrain,
-					players   : players,
-					npcs      : npcs,
-					keyMap    : options.players[lcv].keyMap,
-					characters: characters,
-					viewport  : viewport
-				});
-				
-				players.push(player);
-				characters.push(player.character);
-			}
-		})();
-		
-		// Setup NPCs.
-		(function () {
-			// Load Map assets.
-			for(var lcv = 0; lcv < options.npcs.length; lcv++ ) {
-				var npc = NPCFactory({
-					character: $.extend({}, options.npcs[lcv].character, {
-						spawnX: options.npcs[lcv].spawnX,
-						spawnY: options.npcs[lcv].spawnY,
-						tileMap: map
-					})
-				});
-				
-				npcs.push(npc);
-				characters.push(npc.character);
-			}
-		})();
+		map              = _gameData.map;
+		layers.collision = _gameData.map.layerAsTileMap("collision");
+		layers.terrain   = _gameData.map.layerAsTileMap("terrain");
+
+		viewport = _gameData.viewport;
 		
         jaws.preventDefaultKeys(["up", "down", "left", "right", "space"]);
 	};
@@ -91,10 +48,10 @@ function PlayState () {
 
 		// Detect / respond to map collisions.
 		for(i=0, ilen=characters.length; i<ilen; i++) {
-			var mapObjs = _collide( characters[i] );
+			var mapObjs = _collide( characters[i].character );
 			for(j=0, jlen=mapObjs.length; j<jlen; j++) {
-				characters[i].x -= mapObjs[j].overlapX;
-				characters[i].y -= mapObjs[j].overlapY;
+				characters[i].character.x -= mapObjs[j].overlapX;
+				characters[i].character.y -= mapObjs[j].overlapY;
 			}
 		}
 	};
@@ -108,7 +65,7 @@ function PlayState () {
 		// Draw characters.
 		var i, ilen;
 		for(i=0, ilen=characters.length; i<ilen; i++) {
-			viewport.draw(characters[i]);
+			viewport.draw(characters[i].character);
 		}
 	};
 

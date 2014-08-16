@@ -1,63 +1,3 @@
-var DEBUG_MAP = {
-	tiles: [
-		[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-		[0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
-		[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-	],
-	properties: {
-		size: [32, 32],
-		"0": {
-			name: "wall",
-			destructable: false,
-			imageSrc: "assets/png/terrain/wall.png",
-			passable: false
-		},
-		"1": {
-			name: "floor",
-			imageSrc: "assets/png/terrain/floor.png",
-			destructable: false,
-			passable: true
-		}
-	}
-};
-
 function HackNSlashSetup () {
 
 	// Configure JawsJS
@@ -102,38 +42,35 @@ function HackNSlashSetup () {
 			if(equip.sprite_sheet) jaws.assets.add( equip.sprite_sheet );
 		}
 		
-		// Load Map assets.
-		for(var tile in DEBUG_MAP.properties) {
-			tile = DEBUG_MAP.properties[tile];
+	})();
 
-			if(tile.imageSrc) jaws.assets.add( tile.imageSrc );
+	// Define game data structure.
+	var gameData = {
+		// Load the map from this path.
+		url: 'assets/tmx/import-test.tmx',
+		// Once loaded, a reference to the map will go here.
+		map: null,
+		// A jaws.Viewport instance for rendering the game world.
+		viewport: null,
+
+		// TODO: Change 'players' to 'player' in game state data.
+		// Reference to the player's character instance.
+		players: null,
+		// Reference to array of NPCs in the current map.
+		npcs: null,
+		// Reference to all characters (player and NPC) in the current map.
+		characters: null,
+
+		// Default input map.  
+		// TODO: Move keyMap out of gameData.
+		keyMap: {
+			"moveUp"   : "w",
+			"moveDown" : "s",
+			"moveLeft" : "a",
+			"moveRight": "d",
+			"castSpell": "space"
 		}
-	})();
-	
-	// Randomly generate some NPC data.
-	var npcs = [];
-	(function () {
-		var npcCount = 100;
-		// Select Character properties.
-		for(var lcv = 0; lcv < npcCount; lcv++) {
-			var character = DATABASE.characters["Tellah"];
-			
-			// NPCs feel too fast right now, so let's slow them down.
-			character = $.extend({}, character, {baseSpeed: 3});
-			
-			var spawnY = Math.floor(Math.random() * (DEBUG_MAP.tiles.length - 2) + 1);
-			var spawnX = Math.floor(Math.random() * (DEBUG_MAP.tiles[spawnY].length - 2) + 1);
-			
-			spawnY = spawnY * DEBUG_MAP.properties.size[1];
-			spawnX = spawnX * DEBUG_MAP.properties.size[0];
-			
-			npcs.push({
-				character: character,
-				spawnX: spawnX,
-				spawnY: spawnY
-			});
-		}
-	})();
+	};
 	
 	// Start main Game Loop.
 	jaws.start(
@@ -142,25 +79,7 @@ function HackNSlashSetup () {
 		{
 			fps: 60
 		},
-		// Game State options.
-		{
-			url: "assets/tmx/import-test.tmx",
-			players: [
-				{
-					character: DATABASE.characters["Edge"],
-					spawnX: 96,
-					spawnY: 96,
-					keyMap: {
-						"moveUp"   : "w",
-						"moveDown" : "s",
-						"moveLeft" : "a",
-						"moveRight": "d",
-						"castSpell": "space"
-					}
-				}
-			],
-			npcs: npcs
-		}
+		gameData
 	);
 
 	jaws.setDimensions = function (w, h) {
