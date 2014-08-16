@@ -1,6 +1,6 @@
 function CharacterFactory (options) {
 	// Merge options
-	options = $.extend({}, DATABASE.characters["base"], options);
+	options = $.extend( {}, DATABASE.characters["base"], options);
 
 	// Double-check required options.
 	if (!options.tileMap) throw "Character needs a TileMap.";
@@ -148,23 +148,7 @@ function CharacterFactory (options) {
 	/*
 	 * Resourcing
 	 */
-	self.resources = {
-		health: {
-			max: 100,
-			points: 100,
-			regen: 1
-		},
-		mana: {
-			max: 100,
-			points: 100,
-			regen: 1
-		},
-		stamina: {
-			max: 100,
-			points: 100,
-			regen: 1
-		}
-	};
+	self.stats = $.extend(true, {}, options.stats);
 	
 	/* Sample damage object passed to self.damage().
 	var damageObj = {
@@ -181,8 +165,8 @@ function CharacterFactory (options) {
 	 * @return {Void}
 	 */
 	self.damage = function (damageObj) {
-		self.resources[damageObj.resource].points -= damageObj.value;
-		if (self.resources.health.points <= 0) {
+		self.stats.resources[damageObj.resource].points -= damageObj.value;
+		if (self.stats.resources.health.points <= 0) {
 			self.setImage(animation.subsets["dead"].next());
 		}
 		else {

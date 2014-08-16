@@ -22,7 +22,34 @@ DATABASE.characters = {
 			dead: null
 		},
 		anchor: [0.5, 0.75],
-		radius: 8
+		radius: 8,
+		stats: {
+			resources: {
+				health: {
+					max: 100,
+					points: 100,
+					regen: 1
+				},
+				mana: {
+					max: 100,
+					points: 100,
+					regen: 1
+				},
+				stamina: {
+					max: 100,
+					points: 100,
+					regen: 1
+				}
+			},
+			damageReduction: {
+				physical: 0,
+				magic: 0
+			},
+			penetration: {
+				physical: 0,
+				magic: 0
+			}
+		}
 	},
 	"Edge": {
 		sprite_sheet: "assets/png/entities/FF4_EdgeSheet.png",
