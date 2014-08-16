@@ -1,29 +1,11 @@
 function PlayerFactory (options) {
-	var defaultOptions = {
-		// Data that defines the character that this player controls.
-		character: null,
-
-		// tileMaps keyboard/controller input to actions.
-		keyMap: {
-			"moveUp"   : "w",
-			"moveDown" : "s",
-			"moveLeft" : "a",
-			"moveRight": "d",
-			"primaryAttack": "left_mouse_button",
-			"secondaryAttack": "right_mouse_button"
-		}
-	};
-	
-	options = $.extend({}, defaultOptions, options);
-	
+	// Merge options
+	options = $.extend({}, DATABASE.playerCharacters["base"], options);
 	
 	// Double-check required options.
 	if (!options.character) throw "Player needs a character.";
 
 	var self = {};
-	
-	// Set our keymap.
-	self.keyMap = options.keyMap;
 	
 	self.radianMap8D = {
 		"E":  90  * Math.PI / 180,
@@ -82,7 +64,7 @@ function PlayerFactory (options) {
 		 * MOUSE & KEYBOARD INPUT
 		 **********************************************************************/
 		// Primary Attack (must be a mouse button)
-		if (jaws.pressed(self.keyMap["primaryAttack"])) {
+		if (jaws.pressed(options.input.mouseAndKeyboard["primaryAttack"])) {
 			analogX   = self.mouse.x - (self.character.x - options.viewport.x);
 			analogY   = self.mouse.y - (self.character.y - options.viewport.y);
 			angle     = Math.atan2(analogX, analogY);
@@ -106,50 +88,50 @@ function PlayerFactory (options) {
 			});
 		}
 		// Secondary Attack
-		if (jaws.pressed(self.keyMap["secondaryAttack"])) {
+		if (jaws.pressed(options.input.mouseAndKeyboard["secondaryAttack"])) {
 			self.character.castSpell();
 		}
 		// North East
-		if (jaws.pressed(self.keyMap["moveRight"]) &&
-			jaws.pressed(self.keyMap["moveUp"])) {
+		if (jaws.pressed(options.input.mouseAndKeyboard["moveRight"]) &&
+			jaws.pressed(options.input.mouseAndKeyboard["moveUp"])) {
 			self.character.move(self.radianMap8D["NE"], 1);
 		}
 		else
 		// North West
-		if (jaws.pressed(self.keyMap["moveUp"]) &&
-			jaws.pressed(self.keyMap["moveLeft"])) {
+		if (jaws.pressed(options.input.mouseAndKeyboard["moveUp"]) &&
+			jaws.pressed(options.input.mouseAndKeyboard["moveLeft"])) {
 			self.character.move(self.radianMap8D["NW"], 1);
 		}
 		else
 		// South West
-		if (jaws.pressed(self.keyMap["moveLeft"]) &&
-			jaws.pressed(self.keyMap["moveDown"])) {
+		if (jaws.pressed(options.input.mouseAndKeyboard["moveLeft"]) &&
+			jaws.pressed(options.input.mouseAndKeyboard["moveDown"])) {
 			self.character.move(self.radianMap8D["SW"], 1);
 		}
 		else
 		// South East
-		if (jaws.pressed(self.keyMap["moveDown"]) &&
-			jaws.pressed(self.keyMap["moveRight"])) {
+		if (jaws.pressed(options.input.mouseAndKeyboard["moveDown"]) &&
+			jaws.pressed(options.input.mouseAndKeyboard["moveRight"])) {
 			self.character.move(self.radianMap8D["SE"], 1);
 		}
 		else
 		// East
-		if (jaws.pressed(self.keyMap["moveRight"])) {
+		if (jaws.pressed(options.input.mouseAndKeyboard["moveRight"])) {
 			self.character.move(self.radianMap8D["E"], 1);
 		}
 		else
 		// North
-		if (jaws.pressed(self.keyMap["moveUp"])) {
+		if (jaws.pressed(options.input.mouseAndKeyboard["moveUp"])) {
 			self.character.move(self.radianMap8D["N"], 1);
 		}
 		else
 		// West
-		if (jaws.pressed(self.keyMap["moveLeft"])) {
+		if (jaws.pressed(options.input.mouseAndKeyboard["moveLeft"])) {
 			self.character.move(self.radianMap8D["W"], 1);
 		}
 		else
 		// South
-		if (jaws.pressed(self.keyMap["moveDown"])) {
+		if (jaws.pressed(options.input.mouseAndKeyboard["moveDown"])) {
 			self.character.move(self.radianMap8D["S"], 1);
 		}
 		
