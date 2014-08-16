@@ -150,19 +150,16 @@ function CharacterFactory (options) {
 	 */
 	self.resources = {
 		health: {
-			min: 0,
 			max: 100,
 			points: 100,
 			regen: 1
 		},
 		mana: {
-			min: 0,
 			max: 100,
 			points: 100,
 			regen: 1
 		},
 		stamina: {
-			min: 0,
 			max: 100,
 			points: 100,
 			regen: 1
@@ -185,7 +182,7 @@ function CharacterFactory (options) {
 	 */
 	self.damage = function (damageObj) {
 		self.resources[damageObj.resource].points -= damageObj.value;
-		if (self.resources.health.points <= self.resources.health.min) {
+		if (self.resources.health.points <= 0) {
 			self.setImage(animation.subsets["dead"].next());
 		}
 		else {
