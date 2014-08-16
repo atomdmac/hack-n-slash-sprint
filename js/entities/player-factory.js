@@ -5,11 +5,12 @@ function PlayerFactory (options) {
 
 		// tileMaps keyboard/controller input to actions.
 		keyMap: {
-			"moveUp"       : "up",
-			"moveDown"     : "down",
-			"moveLeft"     : "left",
-			"moveRight"    : "right",
-			"castSpell"    : "space"
+			"moveUp"   : "w",
+			"moveDown" : "s",
+			"moveLeft" : "a",
+			"moveRight": "d",
+			"primaryAttack": "left_mouse_button",
+			"secondaryAttack": "right_mouse_button"
 		}
 	};
 	
@@ -78,10 +79,34 @@ function PlayerFactory (options) {
 		 */
 		
 		/***********************************************************************
-		 * KEYBOARD INPUT
+		 * MOUSE & KEYBOARD INPUT
 		 **********************************************************************/
-		// Cast Spell
-		if (jaws.pressed(self.keyMap["castSpell"])) {
+		// Primary Attack (must be a mouse button)
+		if (jaws.pressed(self.keyMap["primaryAttack"])) {
+			analogX   = self.mouse.x - (self.character.x - options.viewport.x);
+			analogY   = self.mouse.y - (self.character.y - options.viewport.y);
+			angle     = Math.atan2(analogX, analogY);
+			magnitude = Math.sqrt(analogX*analogX+analogY*analogY);
+			reach     = 100;
+
+			magnitude = magnitude < reach ? magnitude / reach : 1;
+			
+			startX = self.character.x;
+			startY = self.character.y;
+			endX   = startX + reach * magnitude * Math.sin(angle);
+			endY   = startY + reach * magnitude * Math.cos(angle);
+			
+			self.character.attack({
+				reach : reach * magnitude,
+				startX: startX,
+				startY: startY,
+				endX  : endX,
+				endY  : endY,
+				angle : angle
+			});
+		}
+		// Secondary Attack
+		if (jaws.pressed(self.keyMap["secondaryAttack"])) {
 			self.character.castSpell();
 		}
 		// North East
@@ -126,42 +151,6 @@ function PlayerFactory (options) {
 		// South
 		if (jaws.pressed(self.keyMap["moveDown"])) {
 			self.character.move(self.radianMap8D["S"], 1);
-		}
-		
-		/***********************************************************************
-		 * MOUSE INPUT
-		 **********************************************************************/
-		if (jaws.pressed("left_mouse_button")) {
-			analogX   = self.mouse.x - (self.character.x - options.viewport.x);
-			analogY   = self.mouse.y - (self.character.y - options.viewport.y);
-			angle     = Math.atan2(analogX, analogY);
-			magnitude = Math.sqrt(analogX*analogX+analogY*analogY) / 100;
-			
-			self.character.move(angle, magnitude);
-		}
-		
-		if (jaws.pressed("right_mouse_button")) {
-			analogX   = self.mouse.x - (self.character.x - options.viewport.x);
-			analogY   = self.mouse.y - (self.character.y - options.viewport.y);
-			angle     = Math.atan2(analogX, analogY);
-			magnitude = Math.sqrt(analogX*analogX+analogY*analogY);
-			reach     = 100;
-
-			magnitude = magnitude < reach ? magnitude / reach : 1;
-			
-			startX = self.character.x;
-			startY = self.character.y;
-			endX   = startX + reach * magnitude * Math.sin(angle);
-			endY   = startY + reach * magnitude * Math.cos(angle);
-			
-			self.character.attack({
-				reach : reach * magnitude,
-				startX: startX,
-				startY: startY,
-				endX  : endX,
-				endY  : endY,
-				angle : angle
-			});
 		}
 		
 		/***********************************************************************

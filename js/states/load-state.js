@@ -110,7 +110,6 @@ function LoadState () {
 
 			players   : [],
 			npcs      : _gameData.npcs,
-			keyMap    : _gameData.keyMap,
 			characters: _gameData.characters,
 			viewport  : _gameData.viewport
 		});
