@@ -72,7 +72,7 @@ function CharacterFactory (options) {
 		subsets: options.animationSubsets
 	});
 	
-	animation.setLayer("sword", DATABASE.equipment["Sword"].sprite_sheet, options.animationSubsets);
+	//animation.setLayer("sword", DATABASE.equipment["Sword"].sprite_sheet, options.animationSubsets);
 	
 	self.setImage(animation.subsets["down"].next());
 	
