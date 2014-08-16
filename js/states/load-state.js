@@ -15,7 +15,8 @@ function LoadState () {
 	 */
 	function _onMapParsed (map) {
 		_gameData.map = map;
-
+		_gameData.characters = [];
+		
 		// Create viewport.
 		_gameData.viewport = new jaws.Viewport({
 			width : jaws.width,
@@ -31,7 +32,8 @@ function LoadState () {
 		_gameData.players = [_generatePlayer()];
 
 		// Create a list containing player as well as NPCs.
-		_gameData.characters = _gameData.npcs.concat(_gameData.players);
+		_gameData.characters.push.apply(_gameData.characters, _gameData.npcs);
+		_gameData.characters.push.apply(_gameData.characters, _gameData.players);
 
 		// Populate 
 		jaws.switchGameState(PlayState, {}, _gameData);

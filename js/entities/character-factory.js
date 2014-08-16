@@ -277,10 +277,10 @@ function CharacterFactory (options) {
 			// Check to see if the weapon hitBox collides with any potential targets.
 			var i, ilen;
 			for(i=0, ilen=targets.length; i<ilen; i++) {
-				if(targets[i] !== attacker) {
-					var col = _getResponse(targets[i]);
+				if(targets[i].character !== attacker) {
+					var col = _getResponse(targets[i].character);
 					if(col) {
-						targets[i].damage(attackData);
+						targets[i].character.damage(attackData);
 					}
 				}
 			}
@@ -310,8 +310,8 @@ function CharacterFactory (options) {
 			var eligibleTargets = [];
 			for (var lcv = 0; lcv < options.characters.length; lcv++) {
 				// Include all Characters who are not the caster.
-				if (self !== options.characters[lcv]) {
-					eligibleTargets.push(options.characters[lcv]);
+				if (self !== options.characters[lcv].character) {
+					eligibleTargets.push(options.characters[lcv].character);
 				}
 			}
 			self.actionsQueued["castSpell"] = ShockNova({
