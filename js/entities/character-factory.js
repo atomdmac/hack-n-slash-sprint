@@ -1,6 +1,6 @@
 function CharacterFactory (options) {
 	// Merge options
-	options = $.extend({}, DATABASE.characters["base"], options);
+	options = $.extend({}, DATABASE.characters["base"], options.character);
 
 	// Double-check required options.
 	if (!options.tileMap) throw "Character needs a TileMap.";

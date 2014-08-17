@@ -48,10 +48,10 @@ function PlayState () {
 
 		// Detect / respond to map collisions.
 		for(i=0, ilen=characters.length; i<ilen; i++) {
-			var mapObjs = _collide( characters[i].character );
+			var mapObjs = _collide( characters[i] );
 			for(j=0, jlen=mapObjs.length; j<jlen; j++) {
-				characters[i].character.x -= mapObjs[j].overlapX;
-				characters[i].character.y -= mapObjs[j].overlapY;
+				characters[i].x -= mapObjs[j].overlapX;
+				characters[i].y -= mapObjs[j].overlapY;
 			}
 		}
 	};
@@ -59,13 +59,13 @@ function PlayState () {
 	this.draw = function () {
 		jaws.clear();
 
-		viewport.centerAround(players[0].character);
+		viewport.centerAround(players[0]);
 		viewport.drawTileMap(layers.terrain);
 
 		// Draw characters.
 		var i, ilen;
 		for(i=0, ilen=characters.length; i<ilen; i++) {
-			viewport.draw(characters[i].character);
+			viewport.draw(characters[i]);
 		}
 	};
 

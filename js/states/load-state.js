@@ -14,6 +14,8 @@ function LoadState () {
 	 * Callback to be invoked when map is loaded, parsed and ready for use.
 	 */
 	function _onMapParsed (map) {
+		var a = _gameData;
+
 		_gameData.map = map;
 		_gameData.characters = [];
 		
@@ -29,7 +31,7 @@ function LoadState () {
 		_gameData.npcs = _generateNPCs(100);
 
 		// Generate player.
-		_gameData.players = [_generatePlayer()];
+		_gameData.players = [_generatePlayer(_gameData)];
 
 		// Create a list containing player as well as NPCs.
 		_gameData.characters.push.apply(_gameData.characters, _gameData.npcs);
@@ -58,30 +60,36 @@ function LoadState () {
 	 * Create a list of randomly generated and placed NPCs.
 	 */
 	function _generateNPCs(npcCount) {
-		var npcs = [], spawnPoint, character = DATABASE.characters['Tellah'];
+		var npcs = [], spawnPoint, character;
 
 		// Select Character properties.
 		for(var lcv = 0; lcv < npcCount; lcv++) {
-
-			// NPCs feel too fast right now, so let's slow them down.
-			// TODO: Pull character baseSpeed from database.
-			character = $.extend({}, character, {baseSpeed: 3});
 			
 			// Figure out where to drop the new NPC in the game world.
 			spawnPoint = _getRandomSpawnPoint();
+
+			character = $.extend(true, 
+				{},
+				DATABASE.characters["base"],
+				DATABASE.characters['Tellah'],
+				{
+					// NPCs feel too fast right now, so let's slow them down.
+					// TODO: Pull character baseSpeed from database.
+					baseSpeed: 3,
+					
+					// TODO: LoadState needs to give Player Character instance a reference to terrain data.  Hardcoded to TRUE to prevent errors for now.
+					tileMap: true,
+
+					x: spawnPoint.x,
+					y: spawnPoint.y
+				}
+			);
+
+			// Attach game data *after* cloning so it is passed by reference.
+			character.gameData = _gameData;
 			
 			// Instantiate new NPC.
-			npcs.push(
-				NPCFactory({
-					character: $.extend({}, character, {
-						spawnX: spawnPoint.x,
-						spawnY: spawnPoint.y,
-						
-						// TODO: LoadState needs to give Player Character instance a reference to terrain data.  Hardcoded to TRUE to prevent errors for now.
-						tileMap: true
-					})
-				})
-			);
+			npcs.push(new NPC(character));
 		}
 
 		return npcs;
@@ -92,27 +100,36 @@ function LoadState () {
 	 * map.
 	 */
 	function _generatePlayer() {
-		var player, spawnPoint;
+
+		var player, spawnPoint, character;
 
 		spawnPoint = _getRandomSpawnPoint();
-		player = PlayerFactory({
-			character: $.extend({}, DATABASE.characters['Edge'], {
+
+		character = $.extend(true, 
+			{}, 
+			DATABASE.characters["base"], 
+			DATABASE.characters['Edge'],
+			{
+				// TODO: LoadState needs to give Player instance a reference to terrain data.  Hardcoded to TRUE to prevent errors for now.
+				tileMap   : true,
+
+				x         : spawnPoint.x,
+				y         : spawnPoint.y,
+
+				// TODO: Get rid of spawnX/spawnY properties.
 				spawnX: spawnPoint.x,
 				spawnY: spawnPoint.y,
-				
-				// TODO: LoadState needs to give Player Character instance a reference to terrain data.  Hardcoded to TRUE to prevent errors for now.
-				tileMap: true,
 
-				characters: _gameData.characters
-			}),
-			// TODO: LoadState needs to give Player instance a reference to terrain data.  Hardcoded to TRUE to prevent errors for now.
-			tileMap   : true,
+				players   : [],
+				viewport  : _gameData.viewport
 
-			players   : [],
-			npcs      : _gameData.npcs,
-			characters: _gameData.characters,
-			viewport  : _gameData.viewport
-		});
+			}
+		);
+
+		// Attach game data *after* cloning so it is passed by reference.
+		character.gameData = _gameData;
+
+		player = new Player(character);
 
 		return player;
 	}
@@ -123,19 +140,19 @@ function LoadState () {
 	 * @param  {String} config.url A path to the TMX map to load.
 	 * @return {Void} 
 	 */
-	this.setup = function (config) {
-		if(!config || !config.url) throw "LoadState needs a map to load.";
+	this.setup = function (gameData) {
+		if(!gameData || !gameData.url) throw "LoadState needs a map to load.";
 
-		// Store reference to config in closure.
-		_gameData = config;
+		// Store reference to gameData in closure.
+		_gameData = gameData;
 
 		// Instantiate and TMX Map.  Callback will be notified when load and
 		// parse are complete.
-		new jaws.TMXMap(config.url, _onMapParsed);
+		new jaws.TMXMap(_gameData.url, _onMapParsed);
 
 		// Display initial feedback to user.
 		text       = new jaws.Text({
-			text: "Loading the map: " + config.url,
+			text: "Loading the map: " + _gameData.url,
 			x   : jaws.width / 2,
 			y   : jaws.height / 2,
 			textAlign: "center",
