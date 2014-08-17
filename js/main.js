@@ -59,17 +59,7 @@ function HackNSlashSetup () {
 		// Reference to array of NPCs in the current map.
 		npcs: null,
 		// Reference to all characters (player and NPC) in the current map.
-		characters: null,
-
-		// Default input map.  
-		// TODO: Move keyMap out of gameData.
-		keyMap: {
-			"moveUp"   : "w",
-			"moveDown" : "s",
-			"moveLeft" : "a",
-			"moveRight": "d",
-			"castSpell": "space"
-		}
+		characters: null
 	};
 	
 	// Start main Game Loop.
