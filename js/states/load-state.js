@@ -73,13 +73,6 @@ function LoadState () {
 				DATABASE.characters["base"],
 				DATABASE.characters['Tellah'],
 				{
-					// NPCs feel too fast right now, so let's slow them down.
-					// TODO: Pull character baseSpeed from database.
-					baseSpeed: 3,
-					
-					// TODO: LoadState needs to give Player Character instance a reference to terrain data.  Hardcoded to TRUE to prevent errors for now.
-					tileMap: true,
-
 					x: spawnPoint.x,
 					y: spawnPoint.y
 				}
@@ -110,19 +103,9 @@ function LoadState () {
 			DATABASE.characters["base"], 
 			DATABASE.characters['Edge'],
 			{
-				// TODO: LoadState needs to give Player instance a reference to terrain data.  Hardcoded to TRUE to prevent errors for now.
-				tileMap   : true,
-
 				x         : spawnPoint.x,
 				y         : spawnPoint.y,
-
-				// TODO: Get rid of spawnX/spawnY properties.
-				spawnX: spawnPoint.x,
-				spawnY: spawnPoint.y,
-
-				players   : [],
 				viewport  : _gameData.viewport
-
 			}
 		);
 
