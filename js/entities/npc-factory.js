@@ -52,7 +52,7 @@ function NPCFactory (options) {
 	};
 	self.decideNextAction = function() {
 		// TODO: Make decisions for actual reasons.
-		if (self.character.stats.resources.health.points > 0) {
+		if (self.character.resources.health > 0) {
 			self.rollForDistraction();
 			if (self.isDistracted) {
 				// Decide how to move in the X-axis.

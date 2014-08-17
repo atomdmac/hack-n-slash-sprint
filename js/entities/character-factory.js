@@ -1,6 +1,6 @@
 function CharacterFactory (options) {
 	// Merge options
-	options = $.extend( {}, DATABASE.characters["base"], options);
+	options = $.extend({}, DATABASE.characters["base"], options);
 
 	// Double-check required options.
 	if (!options.tileMap) throw "Character needs a TileMap.";
@@ -146,9 +146,21 @@ function CharacterFactory (options) {
 	};
 	
 	/*
-	 * Resourcing
+	 * Equipment, Stats, and Resourcing
 	 */
+	self.equipment = $.extend(true, {}, options.equipment);
 	self.stats = $.extend(true, {}, options.stats);
+	self.resources = $.extend(true, {}, options.resources);
+	
+	for (var equippedItem in self.equipment) {
+		var item = self.equipment[equippedItem];
+		if (item) {
+			for (var stat in item.bonuses) {
+				var statBonus = item.bonuses[stat];
+				self.stats[stat] += statBonus;
+			}
+		}
+	}
 	
 	/* Sample damage object passed to self.damage().
 	var damageObj = {
@@ -165,15 +177,38 @@ function CharacterFactory (options) {
 	 * @return {Void}
 	 */
 	self.damage = function (damageObj) {
-		self.stats.resources[damageObj.resource].points -= damageObj.value;
-		if (self.stats.resources.health.points <= 0) {
+		// Use appropriate damageReduction type.
+		var damageReduction = 0;
+		switch (damageObj.type) {
+			case "physical":
+				damageReduction = self.stats.damageReductionPhysical;
+				break;
+			
+			case "magic":
+				damageReduction = self.stats.damageReductionMagic;
+				break;
+			
+			default:
+				break;
+		}
+		var calculatedDamage = damageObj.value - (damageReduction * (1 - damageObj.penetration));
+		
+		// Don't let damageReduction turn into a healing effect.
+		if (calculatedDamage > 0){
+			self.resources[damageObj.resource] -= calculatedDamage;
+		}
+		
+		// Update sprite's appearance to reflect damage.
+		// TODO: Probably move this to update or draw.
+		// TODO: Make damage appearance overide movement appearance.
+		if (self.resources.health <= 0) {
 			self.setImage(animation.subsets["dead"].next());
 		}
 		else {
 			self.setImage(animation.subsets["damage"].next());
 		}
 	};
-
+	
 	/**
 	 * Perform an attack with the given parameters.
 	 * TODO: Add attack types that aren't AOEs.
@@ -181,25 +216,50 @@ function CharacterFactory (options) {
 	 * @param  {Object} attackObj An object describing the attack.
 	 * @return {Void}
 	 */
-	self.attack = function (attackObj) {
+	self.primaryAttack = function (attackObj) {
 		// If no attack is in progress, launch a new one.
 		if(!self.actionsQueued.attack) {
-			self.actionsQueued.attack = new _MeleeAttack(
-				// Attacker
-				self,
-				// Potential targets.
-				options.characters,
-				// Attack angle
-				attackObj.angle,
-				// Attack Data
-				{
-					value: 5,
-					resource: "health",
-					type    : "slashing",
-					penetration: 0.2
-				}
-			);
-			self.actionsQueued.attack.step();
+			var equipmentData = self.equipment.primaryAttack.primaryAttack;
+			var attackData = {
+				value: self.stats.damage,
+				resource: equipmentData.resource,
+				type    : equipmentData.type
+			};
+			// Add appropriate penetration type to attackData.
+			switch (equipmentData.type) {
+				case "physical":
+					attackData.penetration = self.stats.penetrationPhysical;
+					break;
+				
+				case "magic":
+					attackData.penetration = self.stats.penetrationMagic;
+					break;
+				
+				default:
+					break;
+			}
+			// Don't do more than 100% damage.
+			attackData.penetration = attackData.penetration > 1 ? 1 : attackData.penetration;
+			
+			switch (equipmentData.mode) {
+				case "melee":
+					self.actionsQueued.attack = new _MeleeAttack(
+						// Attacker
+						self,
+						// Potential targets.
+						options.characters,
+						// Attack angle
+						attackObj.angle,
+						// Attack Data
+						attackData
+					);
+					self.actionsQueued.attack.step();
+					break;
+				
+				default:
+					break;
+			}
+			
 		}
 	};
 
