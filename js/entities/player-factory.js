@@ -78,7 +78,7 @@ function PlayerFactory (options) {
 			endX   = startX + reach * magnitude * Math.sin(angle);
 			endY   = startY + reach * magnitude * Math.cos(angle);
 			
-			self.character.attack({
+			self.character.primaryAttack({
 				reach : reach * magnitude,
 				startX: startX,
 				startY: startY,
@@ -164,7 +164,7 @@ function PlayerFactory (options) {
 				endX = startX + reach * rightJoystickData.magnitude * Math.sin(rightJoystickData.angle);
 				endY = startY + reach * rightJoystickData.magnitude * Math.cos(rightJoystickData.angle);
 				
-				self.character.attack({
+				self.character.primaryAttack({
 					reach : reach * rightJoystickData.magnitude,
 					startX: startX,
 					startY: startY,

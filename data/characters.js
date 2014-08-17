@@ -22,7 +22,40 @@ DATABASE.characters = {
 			dead: null
 		},
 		anchor: [0.5, 0.75],
-		radius: 8
+		radius: 8,
+		resources: {
+			health: 100,
+			mana: 100,
+			stamina: 100
+		},
+		// TODO: Implement max regen, damage reduction, and penetration rates.
+		stats: {
+			maxHealth: 100,
+			maxMana: 100,
+			maxStamina: 100,
+			regenRateHealth: 1,
+			regenRateMana: 1,
+			regenRateStamina: 1,
+			damage: 2,
+			damageReductionPhysical: 0,
+			damageReductionMagic: 0,
+			penetrationPhysical: 0,
+			penetrationMagic: 0
+		},
+		equipment: {
+			primaryAttack: DATABASE.equipment["Sword"],
+			secondaryAttack: null,
+			offhand: null,
+			tunic: DATABASE.equipment["Leather Tunic"],
+			sleeves: null,
+			gloves: null,
+			leggings: null,
+			footwear: null,
+			gorget: null,
+			head: null,
+			ring: null,
+			amulet: null
+		}
 	},
 	"Edge": {
 		sprite_sheet: "assets/png/entities/FF4_EdgeSheet.png",
