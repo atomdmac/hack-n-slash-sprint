@@ -1,11 +1,4 @@
 function NPC (options) {
-	var defaultOptions = {
-		// Data that defines the character that this player controls.
-		character: null,
-		distractionRate: 0.05 // Chance NPC will do something different from its last action.
-	};
-
-	options = $.extend({}, defaultOptions, options);
 
 	Character.call(this, options);
 
@@ -41,7 +34,7 @@ NPC.prototype.rollForDistraction = function(distractionRateMultiplier) {
 
 NPC.prototype.decideNextAction = function() {
 	// TODO: Make decisions for actual reasons.
-	if (this.resources.health.points > 0) {
+	if (this.resources.health > 0) {
 		this.rollForDistraction();
 		if (this.isDistracted) {
 			// Decide how to move in the X-axis.

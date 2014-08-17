@@ -45,27 +45,22 @@ function Character(options) {
 		y: this.y
 	};
 
-	// Resources (Hit points, mana points, stamina, etc.)
-	this.resources = {
-		health: {
-			min: 0,
-			max: 100,
-			points: 100,
-			regen: 1
-		},
-		mana: {
-			min: 0,
-			max: 100,
-			points: 100,
-			regen: 1
-		},
-		stamina: {
-			min: 0,
-			max: 100,
-			points: 100,
-			regen: 1
+	/*
+	 * Equipment, Stats, and Resourcing
+	 */
+	this.equipment = $.extend(true, {}, options.equipment);
+	this.stats = $.extend(true, {}, options.stats);
+	this.resources = $.extend(true, {}, options.resources);
+	
+	for (var equippedItem in this.equipment) {
+		var item = this.equipment[equippedItem];
+		if (item) {
+			for (var stat in item.bonuses) {
+				var statBonus = item.bonuses[stat];
+				this.stats[stat] += statBonus;
+			}
 		}
-	};
+	}
 }
 
 Character.prototype = new jaws.Sprite({});
@@ -164,8 +159,31 @@ Character.prototype.move = function (angle, magnitude) {
 };
 
 Character.prototype.damage = function (damageObj) {
-	this.resources[damageObj.resource].points -= damageObj.value;
-	if (this.resources.health.points <= this.resources.health.min) {
+	// Use appropriate damageReduction type.
+	var damageReduction = 0;
+	switch (damageObj.type) {
+		case "physical":
+			damageReduction = this.stats.damageReductionPhysical;
+			break;
+		
+		case "magic":
+			damageReduction = this.stats.damageReductionMagic;
+			break;
+		
+		default:
+			break;
+	}
+	var calculatedDamage = damageObj.value - (damageReduction * (1 - damageObj.penetration));
+	
+	// Don't let damageReduction turn into a healing effect.
+	if (calculatedDamage > 0){
+		this.resources[damageObj.resource] -= calculatedDamage;
+	}
+	
+	// Update sprite's appearance to reflect damage.
+	// TODO: Probably move this to update or draw.
+	// TODO: Make damage appearance overide movement appearance.
+	if (this.resources.health <= 0) {
 		this.setImage(this.characterAnimation.subsets["dead"].next());
 	}
 	else {
@@ -173,25 +191,50 @@ Character.prototype.damage = function (damageObj) {
 	}
 };
 
-Character.prototype.attack = function (attackObj) {
+Character.prototype.primaryAttack = function (attackObj) {
 	// If no attack is in progress, launch a new one.
 	if(!this.actionsQueued.attack) {
-		this.actionsQueued.attack = new _MeleeAttack(
-			// Attacker
-			this,
-			// Potential targets.
-			this._gameData.characters,
-			// Attack angle
-			attackObj.angle,
-			// Attack Data
-			{
-				value: 5,
-				resource: "health",
-				type    : "slashing",
-				penetration: 0.2
-			}
-		);
-		this.actionsQueued.attack.step();
+		var equipmentData = this.equipment.primaryAttack.primaryAttack;
+		var attackData = {
+			value: this.stats.damage,
+			resource: equipmentData.resource,
+			type    : equipmentData.type
+		};
+		// Add appropriate penetration type to attackData.
+		switch (equipmentData.type) {
+			case "physical":
+				attackData.penetration = this.stats.penetrationPhysical;
+				break;
+			
+			case "magic":
+				attackData.penetration = this.stats.penetrationMagic;
+				break;
+			
+			default:
+				break;
+		}
+		// Don't do more than 100% damage.
+		attackData.penetration = attackData.penetration > 1 ? 1 : attackData.penetration;
+		
+		switch (equipmentData.mode) {
+			case "melee":
+				this.actionsQueued.attack = new _MeleeAttack(
+					// Attacker
+					this,
+					// Potential targets.
+					this._gameData.characters,
+					// Attack angle
+					attackObj.angle,
+					// Attack Data
+					attackData
+				);
+				this.actionsQueued.attack.step();
+				break;
+			
+			default:
+				break;
+		}
+		
 	}
 };
 

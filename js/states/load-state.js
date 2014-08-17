@@ -72,6 +72,7 @@ function LoadState () {
 				{},
 				DATABASE.characters["base"],
 				DATABASE.characters['Tellah'],
+				DATABASE.nonPlayerCharacters["base"],
 				{
 					x: spawnPoint.x,
 					y: spawnPoint.y
@@ -102,6 +103,7 @@ function LoadState () {
 			{}, 
 			DATABASE.characters["base"], 
 			DATABASE.characters['Edge'],
+			DATABASE.playerCharacters['base'],
 			{
 				x         : spawnPoint.x,
 				y         : spawnPoint.y,

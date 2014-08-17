@@ -1,25 +1,12 @@
 function Player (options) {
-	// Merge options
-	var defaultOptions = {
-		// tileMaps keyboard/controller input to actions.
-		keyMap: {
-			"moveUp"   : "w",
-			"moveDown" : "s",
-			"moveLeft" : "a",
-			"moveRight": "d",
-			"primaryAttack": "left_mouse_button",
-			"secondaryAttack": "right_mouse_button"
-		}
-	};
-	options = $.extend({}, defaultOptions, options);
 
 	// Extend Character class.
 	Character.call(this, options);
 
 	// Controls
-	this.keyMap = options.keyMap;
 	this.gamepad = null;
 	this.mouse = {x: 0, y: 0};
+	this.input = options.input;
 
 	var jawswindow = jaws.canvas || jaws.dom;
 	jawswindow.addEventListener("mousemove", _handleMouseMove, false);
@@ -64,7 +51,7 @@ Player.prototype.update = function () {
 	 * MOUSE & KEYBOARD INPUT
 	 **********************************************************************/
 	// Primary Attack (must be a mouse button)
-	if (jaws.pressed(this.keyMap["primaryAttack"])) {
+	if (jaws.pressed(this.input.mouseAndKeyboard["primaryAttack"])) {
 		analogX   = this.mouse.x - (this.x - this._gameData.viewport.x);
 		analogY   = this.mouse.y - (this.y - this._gameData.viewport.y);
 		angle     = Math.atan2(analogX, analogY);
@@ -78,7 +65,7 @@ Player.prototype.update = function () {
 		endX   = startX + reach * magnitude * Math.sin(angle);
 		endY   = startY + reach * magnitude * Math.cos(angle);
 		
-		this.attack({
+		this.primaryAttack({
 			reach : reach * magnitude,
 			startX: startX,
 			startY: startY,
@@ -88,50 +75,50 @@ Player.prototype.update = function () {
 		});
 	}
 	// Secondary Attack
-	if (jaws.pressed(this.keyMap["secondaryAttack"])) {
+	if (jaws.pressed(this.input.mouseAndKeyboard["secondaryAttack"])) {
 		this.castSpell();
 	}
 	// North East
-	if (jaws.pressed(this.keyMap["moveRight"]) &&
-		jaws.pressed(this.keyMap["moveUp"])) {
+	if (jaws.pressed(this.input.mouseAndKeyboard["moveRight"]) &&
+		jaws.pressed(this.input.mouseAndKeyboard["moveUp"])) {
 		this.move(this.radianMap8D["NE"], 1);
 	}
 	else
 	// North West
-	if (jaws.pressed(this.keyMap["moveUp"]) &&
-		jaws.pressed(this.keyMap["moveLeft"])) {
+	if (jaws.pressed(this.input.mouseAndKeyboard["moveUp"]) &&
+		jaws.pressed(this.input.mouseAndKeyboard["moveLeft"])) {
 		this.move(this.radianMap8D["NW"], 1);
 	}
 	else
 	// South West
-	if (jaws.pressed(this.keyMap["moveLeft"]) &&
-		jaws.pressed(this.keyMap["moveDown"])) {
+	if (jaws.pressed(this.input.mouseAndKeyboard["moveLeft"]) &&
+		jaws.pressed(this.input.mouseAndKeyboard["moveDown"])) {
 		this.move(this.radianMap8D["SW"], 1);
 	}
 	else
 	// South East
-	if (jaws.pressed(this.keyMap["moveDown"]) &&
-		jaws.pressed(this.keyMap["moveRight"])) {
+	if (jaws.pressed(this.input.mouseAndKeyboard["moveDown"]) &&
+		jaws.pressed(this.input.mouseAndKeyboard["moveRight"])) {
 		this.move(this.radianMap8D["SE"], 1);
 	}
 	else
 	// East
-	if (jaws.pressed(this.keyMap["moveRight"])) {
+	if (jaws.pressed(this.input.mouseAndKeyboard["moveRight"])) {
 		this.move(this.radianMap8D["E"], 1);
 	}
 	else
 	// North
-	if (jaws.pressed(this.keyMap["moveUp"])) {
+	if (jaws.pressed(this.input.mouseAndKeyboard["moveUp"])) {
 		this.move(this.radianMap8D["N"], 1);
 	}
 	else
 	// West
-	if (jaws.pressed(this.keyMap["moveLeft"])) {
+	if (jaws.pressed(this.input.mouseAndKeyboard["moveLeft"])) {
 		this.move(this.radianMap8D["W"], 1);
 	}
 	else
 	// South
-	if (jaws.pressed(this.keyMap["moveDown"])) {
+	if (jaws.pressed(this.input.mouseAndKeyboard["moveDown"])) {
 		this.move(this.radianMap8D["S"], 1);
 	}
 
@@ -154,7 +141,7 @@ Player.prototype.update = function () {
 			this.move(leftJoystickData.angle, leftJoystickData.magnitude);
 		}
 		
-		// Record attack action
+		// Record primaryAttack action
 		var rightJoystickData = jaws.gamepadReadJoystick(this.gamepad, "right");
 		if(Math.abs(rightJoystickData.analogX) > 0.25 || Math.abs(rightJoystickData.analogY) > 0.25) {
 			// TODO: Handle more of this in CharacterFactory.
@@ -164,7 +151,7 @@ Player.prototype.update = function () {
 			endX = startX + reach * rightJoystickData.magnitude * Math.sin(rightJoystickData.angle);
 			endY = startY + reach * rightJoystickData.magnitude * Math.cos(rightJoystickData.angle);
 			
-			this.attack({
+			this.primaryAttack({
 				reach : reach * rightJoystickData.magnitude,
 				startX: startX,
 				startY: startY,
