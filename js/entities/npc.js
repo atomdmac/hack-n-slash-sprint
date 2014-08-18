@@ -1,3 +1,7 @@
+define(
+['jaws', 'DATABASE', 'entities/character'],
+function (jaws, DATABASE, Character) {
+
 function NPC (options) {
 
 	Character.call(this, options);
@@ -48,3 +52,7 @@ NPC.prototype.decideNextAction = function() {
 						  this.courseOfAction.move.magnitude);
 	}
 };
+
+return NPC;
+
+});

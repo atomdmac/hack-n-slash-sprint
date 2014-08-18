@@ -1,4 +1,23 @@
-function HackNSlashSetup () {
+requirejs.config({
+	baseUrl: 'js',
+	paths: {
+		'$': 'lib/jquery',
+		'jaws': 'lib/jawsjs/jaws',
+		'DATABASE': '../data/database'
+	},
+	shim: {
+		'jaws': {
+			exports: 'jaws'
+		},
+		'$': {
+			exports: 'jQuery'
+		}
+	}
+});
+
+require(
+['jaws', '$', 'DATABASE', 'states/load-state'],
+function (jaws, $, DATABASE, LoadState) {
 
 	// Configure JawsJS
 	jaws.init({
@@ -79,4 +98,4 @@ function HackNSlashSetup () {
 		cvs.width = w;
 		cvs.height = h;
 	};
-}
+});

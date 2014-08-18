@@ -1,5 +1,8 @@
-var DATABASE = DATABASE ? DATABASE : {};
-DATABASE.characters = {
+define(
+['../data/equipment'],
+function (equipment) {
+
+return {
     "base": {
 		spawnX: 0,
 		spawnY: 0,
@@ -43,10 +46,10 @@ DATABASE.characters = {
 			penetrationMagic: 0
 		},
 		equipment: {
-			primaryAttack: DATABASE.equipment["Sword"],
+			primaryAttack: equipment["Sword"],
 			secondaryAttack: null,
 			offhand: null,
-			tunic: DATABASE.equipment["Leather Tunic"],
+			tunic: equipment["Leather Tunic"],
 			sleeves: null,
 			gloves: null,
 			leggings: null,
@@ -90,3 +93,5 @@ DATABASE.characters = {
 		maxSpeed: 0.5
 	}
 };
+
+});

@@ -1,3 +1,7 @@
+define(
+['jaws', 'DATABASE'],
+function (jaws, DATABASE) {
+
 function ShockNova (options) {
 	// Merge options
 	options = $.extend({}, DATABASE.spells["ShockNova"], options);
@@ -56,3 +60,7 @@ function ShockNova (options) {
 	
 	return self;
 }
+
+return ShockNova;
+
+});

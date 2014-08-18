@@ -6,6 +6,10 @@
  * layer found in the TMX map as well as a reference to the original map object
  * passed to jaws.TMXMap.
  */
+define(
+['jaws', 'DATABASE', 'states/play-state', 'entities/npc', 'entities/player'],
+function (jaws, DATABASE, PlayState, NPC, Player) {
+
 function LoadState () {
 
 	var _gameData, text;
@@ -156,3 +160,7 @@ function LoadState () {
 		// TODO
 	};
 }
+
+return LoadState;
+
+});

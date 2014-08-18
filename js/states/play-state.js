@@ -1,5 +1,10 @@
+define(
+['jaws', 'DATABASE', 'entities/npc', 'entities/player', 'lib/SAT'],
+function (jaws, DATABASE, NPC, Player, SAT) {
+
 function PlayState () {
 	// The current map.
+	// TODO: Clean up PlayState internal variable assignments.
 	var _gameData, map, players=[], npcs=[], characters=[], layers={}, viewport;
 
 	this.setup = function (options) {
@@ -123,3 +128,7 @@ function PlayState () {
 		return cols;
 	}
 }
+
+return PlayState;
+
+});

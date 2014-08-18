@@ -1,3 +1,7 @@
+define(
+['jaws', 'DATABASE', 'entities/character'],
+function (jaws, DATABASE, Character) {
+
 function Player (options) {
 
 	// Extend Character class.
@@ -173,3 +177,7 @@ Player.prototype.radianMap8D = {
 	"S":  0   * Math.PI / 180,
 	"SE": 45  * Math.PI / 180
 };
+
+return Player;
+
+});

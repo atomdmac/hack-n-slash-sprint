@@ -1,3 +1,7 @@
+define(
+['jaws', 'DATABASE', 'lib/SAT', 'entities/spells/shock-nova'],
+function (jaws, DATABASE, SAT, ShockNova) {
+
 function Character(options) {
 	// TODO: Character extension check is kinda hack-y...
 	var isExtending = false;
@@ -335,3 +339,7 @@ function _MeleeAttack (attacker, targets, angle, attackData) {
 		}
 	};
 }
+
+return Character;
+
+});

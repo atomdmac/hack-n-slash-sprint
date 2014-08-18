@@ -1,5 +1,8 @@
-var DATABASE = DATABASE ? DATABASE : {};
-DATABASE.settings = {
+define(
+[],
+function () {
+
+return {
 	graphics: {
 		resolution: {
 			selected: {
@@ -9,3 +12,5 @@ DATABASE.settings = {
 		}
 	}
 };
+
+});
