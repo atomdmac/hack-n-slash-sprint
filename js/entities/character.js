@@ -159,36 +159,46 @@ Character.prototype.move = function (angle, magnitude) {
 };
 
 Character.prototype.damage = function (damageObj) {
-	// Use appropriate damageReduction type.
-	var damageReduction = 0;
-	switch (damageObj.type) {
-		case "physical":
-			damageReduction = this.stats.damageReductionPhysical;
-			break;
+	if (this.resources[damageObj.resource] > 0) {
+		// Use appropriate damageReduction type.
+		var damageReduction = 0;
+		switch (damageObj.type) {
+			case "physical":
+				damageReduction = this.stats.damageReductionPhysical;
+				break;
+			
+			case "magic":
+				damageReduction = this.stats.damageReductionMagic;
+				break;
+			
+			default:
+				break;
+		}
+		var calculatedDamage = damageObj.value - (damageReduction * (1 - damageObj.penetration));
 		
-		case "magic":
-			damageReduction = this.stats.damageReductionMagic;
-			break;
+		// Don't let damageReduction turn into a healing effect.
+		if (calculatedDamage > 0){
+			this.resources[damageObj.resource] -= calculatedDamage;
+		}
 		
-		default:
-			break;
+		// Update sprite's appearance to reflect damage.
+		// TODO: Probably move this to update or draw.
+		// TODO: Make damage appearance overide movement appearance.
+		if (this.resources.health <= 0) {
+			this.kill();
+		}
+		else {
+			this.setImage(this.characterAnimation.subsets["damage"].next());
+		}
 	}
-	var calculatedDamage = damageObj.value - (damageReduction * (1 - damageObj.penetration));
-	
-	// Don't let damageReduction turn into a healing effect.
-	if (calculatedDamage > 0){
-		this.resources[damageObj.resource] -= calculatedDamage;
-	}
-	
-	// Update sprite's appearance to reflect damage.
-	// TODO: Probably move this to update or draw.
-	// TODO: Make damage appearance overide movement appearance.
-	if (this.resources.health <= 0) {
-		this.setImage(this.characterAnimation.subsets["dead"].next());
-	}
-	else {
-		this.setImage(this.characterAnimation.subsets["damage"].next());
-	}
+};
+
+Character.prototype.kill = function () {
+	this.resources.health = 0;
+	this.setImage(this.characterAnimation.subsets["dead"].next());
+	// Debug B-)
+	console.log("Ahh, you got me!");
+	// TODO: Generate loot!
 };
 
 Character.prototype.primaryAttack = function (attackObj) {
