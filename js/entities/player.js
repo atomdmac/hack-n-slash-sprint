@@ -133,13 +133,25 @@ Player.prototype.update = function () {
 		this.gamepad = jaws.gamepads[0]; // Only use first gamepad for now...
 		
 		this.gamepadButtons = {
-			"secondaryAttack": this.gamepad.buttons[this.input.gamepad["secondaryAttack"]]
+			"secondaryAttack": this.gamepad.buttons[this.input.gamepad["secondaryAttack"]],
+			"debug1": this.gamepad.buttons[this.input.gamepad["debug1"]],
+			"debug2": this.gamepad.buttons[this.input.gamepad["debug2"]],
+			"debug3": this.gamepad.buttons[this.input.gamepad["debug3"]]
 		};
 	}
 	if (this.gamepad !== null) {
 		// Record cast spell action.
 		if (jaws.gamepadButtonPressed(this.gamepadButtons["secondaryAttack"])) {
 			this.secondaryAttack();
+		}
+		if (jaws.gamepadButtonPressed(this.gamepadButtons["debug1"])) {
+			// Placeholder for debugging/testing features
+		}
+		if (jaws.gamepadButtonPressed(this.gamepadButtons["debug2"])) {
+			// Placeholder for debugging/testing features
+		}
+		if (jaws.gamepadButtonPressed(this.gamepadButtons["debug3"])) {
+			// Placeholder for debugging/testing features
 		}
 		
 		// Record move action

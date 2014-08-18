@@ -15,7 +15,10 @@ function () {
 				gamepad: {
 					"move": "left", // Assumes joystick
 					"primaryAttack": "right", // Assumes joystick
-					"secondaryAttack": 0
+					"secondaryAttack": 0,
+					"debug1": 1,
+					"debug2": 2,
+					"debug3": 3
 				}
 			}
 		}
