@@ -80,7 +80,7 @@ Player.prototype.update = function () {
 	}
 	// Secondary Attack
 	if (jaws.pressed(this.input.mouseAndKeyboard["secondaryAttack"])) {
-		this.castSpell();
+		this.secondaryAttack();
 	}
 	// North East
 	if (jaws.pressed(this.input.mouseAndKeyboard["moveRight"]) &&
@@ -131,37 +131,40 @@ Player.prototype.update = function () {
 	 **********************************************************************/ 
 	if (!this.gamepad && jaws.gamepads[0]) {
 		this.gamepad = jaws.gamepads[0]; // Only use first gamepad for now...
+		
+		this.gamepadButtons = {
+			"secondaryAttack": this.gamepad.buttons[this.input.gamepad["secondaryAttack"]]
+		};
 	}
 	if (this.gamepad !== null) {
 		// Record cast spell action.
-		var castSpellBtn = this.gamepad.buttons[0];
-		if (jaws.gamepadButtonPressed(castSpellBtn)) {
-			this.castSpell();
+		if (jaws.gamepadButtonPressed(this.gamepadButtons["secondaryAttack"])) {
+			this.secondaryAttack();
 		}
 		
 		// Record move action
-		var leftJoystickData = jaws.gamepadReadJoystick(this.gamepad, "left");
-		if(Math.abs(leftJoystickData.analogX) > 0.25 || Math.abs(leftJoystickData.analogY) > 0.25) {
-			this.move(leftJoystickData.angle, leftJoystickData.magnitude);
+		var moveJoystickData = jaws.gamepadReadJoystick(this.gamepad, this.input.gamepad["move"]);
+		if(Math.abs(moveJoystickData.analogX) > 0.25 || Math.abs(moveJoystickData.analogY) > 0.25) {
+			this.move(moveJoystickData.angle, moveJoystickData.magnitude);
 		}
 		
 		// Record primaryAttack action
-		var rightJoystickData = jaws.gamepadReadJoystick(this.gamepad, "right");
-		if(Math.abs(rightJoystickData.analogX) > 0.25 || Math.abs(rightJoystickData.analogY) > 0.25) {
+		var primaryAttackJoystickData = jaws.gamepadReadJoystick(this.gamepad, this.input.gamepad["primaryAttack"]);
+		if(Math.abs(primaryAttackJoystickData.analogX) > 0.25 || Math.abs(primaryAttackJoystickData.analogY) > 0.25) {
 			// TODO: Handle more of this in CharacterFactory.
 			reach = 100;
 			startX = this.x;
 			startY = this.y;
-			endX = startX + reach * rightJoystickData.magnitude * Math.sin(rightJoystickData.angle);
-			endY = startY + reach * rightJoystickData.magnitude * Math.cos(rightJoystickData.angle);
+			endX = startX + reach * primaryAttackJoystickData.magnitude * Math.sin(primaryAttackJoystickData.angle);
+			endY = startY + reach * primaryAttackJoystickData.magnitude * Math.cos(primaryAttackJoystickData.angle);
 			
 			this.primaryAttack({
-				reach : reach * rightJoystickData.magnitude,
+				reach : reach * primaryAttackJoystickData.magnitude,
 				startX: startX,
 				startY: startY,
 				endX  : endX,
 				endY  : endY,
-				angle : rightJoystickData.angle
+				angle : primaryAttackJoystickData.angle
 			});
 		}
 	}

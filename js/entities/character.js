@@ -75,8 +75,8 @@ Character.prototype.update = function () {
 		if(!isActive) delete this.actionsQueued.attack;
 	}
 
-	if (this.actionsQueued["castSpell"]) {
-		this.actionsQueued["castSpell"].update();
+	if (this.actionsQueued["secondaryAttack"]) {
+		this.actionsQueued["secondaryAttack"].update();
 	}
 	
 	this.prevPos = {
@@ -90,8 +90,8 @@ Character.prototype.draw = function () {
 	var self = this;
 
 	// Draw Shock Nova animation.
-	if (this.actionsQueued["castSpell"]) {
-		this.actionsQueued["castSpell"].draw();
+	if (this.actionsQueued["secondaryAttack"]) {
+		this.actionsQueued["secondaryAttack"].draw();
 	}
 	
 	// Call original jaws.Sprite.draw() function.
@@ -138,7 +138,7 @@ Character.prototype.getSpeed = function () {
 };
 
 Character.prototype.move = function (angle, magnitude) {
-	if (!this.actionsQueued["castSpell"]) {
+	if (!this.actionsQueued["secondaryAttack"]) {
 		var speed = this.getSpeed() * magnitude;
 		speed = speed > this.maxSpeed ? this.maxSpeed : speed;
 		var x = Math.sin(angle) * speed;
@@ -252,11 +252,11 @@ Character.prototype.primaryAttack = function (attackObj) {
 	}
 };
 
-Character.prototype.castSpell = function () {
+Character.prototype.secondaryAttack = function () {
 	// Used to scope inner functions.
 	var self = this;
 
-	if (!this.actionsQueued["castSpell"]) {
+	if (!this.actionsQueued["secondaryAttack"]) {
 		// Prepare eligible spell targets.
 		var eligibleTargets = [];
 		for (var lcv = 0; lcv < this._gameData.characters.length; lcv++) {
@@ -265,11 +265,11 @@ Character.prototype.castSpell = function () {
 				eligibleTargets.push(this._gameData.characters[lcv]);
 			}
 		}
-		this.actionsQueued["castSpell"] = ShockNova({
+		this.actionsQueued["secondaryAttack"] = ShockNova({
 			spawnX: this.x,
 			spawnY: this.y,
 			eligibleTargets: eligibleTargets,
-			onFinish: function() { delete self.actionsQueued["castSpell"]; }
+			onFinish: function() { delete self.actionsQueued["secondaryAttack"]; }
 		});
 	}
 };

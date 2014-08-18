@@ -11,6 +11,11 @@ function () {
 					"moveRight": "d",
 					"primaryAttack": "left_mouse_button",
 					"secondaryAttack": "right_mouse_button"
+				},
+				gamepad: {
+					"move": "left", // Assumes joystick
+					"primaryAttack": "right", // Assumes joystick
+					"secondaryAttack": 0
 				}
 			}
 		}
