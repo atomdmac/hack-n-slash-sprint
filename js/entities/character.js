@@ -252,28 +252,29 @@ Character.prototype.primaryAttack = function (attackObj) {
 							: {	mode: "melee",
 								resource: "health",
 								type: "physical" };
-		var attackData = {
-			value: this.stats.damage,
-			resource: equipmentData.resource,
-			type    : equipmentData.type
+		var statsData = {
+			value: this.stats.damage
 		};
-		// Add appropriate penetration type to attackData.
+		// Add appropriate penetration type to statsData.
 		switch (equipmentData.type) {
 			case "physical":
-				attackData.penetration = this.stats.penetrationPhysical;
+				statsData.penetration = this.stats.penetrationPhysical;
 				break;
 			
 			case "magic":
-				attackData.penetration = this.stats.penetrationMagic;
+				statsData.penetration = this.stats.penetrationMagic;
 				break;
 			
 			default:
 				break;
 		}
-		// Don't do more than 100% damage.
-		attackData.penetration = attackData.penetration > 1 ? 1 : attackData.penetration;
 		
-		switch (equipmentData.mode) {
+		$.extend(attackObj, equipmentData, statsData);
+		
+		// Don't do more than 100% damage.
+		attackObj.penetration = attackObj.penetration > 1 ? 1 : attackObj.penetration;
+		
+		switch (attackObj.mode) {
 			case "melee":
 				this.actionsQueued.attack = new _MeleeAttack(
 					// Attacker
@@ -283,7 +284,7 @@ Character.prototype.primaryAttack = function (attackObj) {
 					// Attack angle
 					attackObj.angle,
 					// Attack Data
-					attackData
+					attackObj
 				);
 				this.actionsQueued.attack.step();
 				break;
