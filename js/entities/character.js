@@ -250,9 +250,6 @@ Character.prototype.kill = function () {
 Character.prototype.primaryAttack = function (attackObj) {
 	// If no attack is in progress, launch a new one.
 	if(!this.actionsQueued.attack) {
-		if (this.equipment.primaryAttack) {
-			//code	
-		}
 		var equipmentData = this.equipment.primaryAttack
 							? this.equipment.primaryAttack.primaryAttack
 							: {	mode: "melee",
