@@ -162,7 +162,7 @@ Player.prototype.update = function () {
 			// Placeholder for debugging/testing features
 			
 			// Equip a leather tunic!
-			Character.prototype.equip.call(this, "tunic", DATABASE.equipment["Leather Tunic"]);
+			Character.prototype.equip.call(this, "footwear", DATABASE.equipment["Hot Feet"]);
 		}
 		
 		// Record move action

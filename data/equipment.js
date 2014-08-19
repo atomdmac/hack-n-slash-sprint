@@ -23,6 +23,14 @@ function () {
 			bonuses: {
 				damageReductionPhysical: 3
 			}
+		},
+		"Hot Feet": {
+			label: "Hot Feet",
+			sprite_sheet: "assets/png/equipment/FF4_HotFeet.png",
+			equipSlot: "footwear",
+			bonuses: {
+				movementSpeedIncrease: 1.5
+			}
 		}
 	};
 });
