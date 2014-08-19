@@ -43,7 +43,10 @@ return {
 			damageReductionPhysical: 0,
 			damageReductionMagic: 0,
 			penetrationPhysical: 0,
-			penetrationMagic: 0
+			penetrationMagic: 0,
+			movementSpeed: 1,
+			movementSpeedIncrease: 0,
+			maxMovementSpeed: 5
 		},
 		equipment: {
 			primaryAttack: null,

@@ -22,11 +22,6 @@ function Character(options) {
 	// These options will not be able to be set if this constructor is being
 	// called as a means to extend it.
 	if(this.options){
-		// Speed properties.
-		// TODO: Rename Character speed properties to be 'private'.
-		this.baseSpeed       = this.options.baseSpeed;
-		this.speedMultiplier = this.options.speedMultiplier;
-		this.maxSpeed        = this.options.maxSpeed;
 		this.radius          = this.options.radius;
 
 		// Set up Sprite animations.
@@ -174,15 +169,17 @@ Character.prototype.unequip = function (slot) {
 	}
 };
 
-Character.prototype.getSpeed = function () {
-	var speed = this.baseSpeed * this.speedMultiplier;
-	return speed < this.maxSpeed ? speed : this.maxSpeed;
+Character.prototype.getSpeed = function (magnitude) {
+	var speed = this.stats.movementSpeed * (1 + this.stats.movementSpeedIncrease);
+	if (magnitude) {
+		speed = speed * magnitude;
+	}
+	return speed < this.stats.maxMovementSpeed ? speed : this.stats.maxMovementSpeed;
 };
 
 Character.prototype.move = function (angle, magnitude) {
 	if (!this.actionsQueued["secondaryAttack"]) {
-		var speed = this.getSpeed() * magnitude;
-		speed = speed > this.maxSpeed ? this.maxSpeed : speed;
+		var speed = this.getSpeed(magnitude);
 		var x = Math.sin(angle) * speed;
 		var y = Math.cos(angle) * speed;
 		
