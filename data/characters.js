@@ -46,10 +46,10 @@ return {
 			penetrationMagic: 0
 		},
 		equipment: {
-			primaryAttack: equipment["Sword"],
+			primaryAttack: null,
 			secondaryAttack: null,
 			offhand: null,
-			tunic: equipment["Leather Tunic"],
+			tunic: null,
 			sleeves: null,
 			gloves: null,
 			leggings: null,

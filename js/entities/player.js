@@ -146,12 +146,23 @@ Player.prototype.update = function () {
 		}
 		if (jaws.gamepadButtonPressed(this.gamepadButtons["debug1"])) {
 			// Placeholder for debugging/testing features
+			
+			// Unequip everything!
+			for (var slot in this.equipment) {
+				Character.prototype.unequip.call(this, slot);
+			}
 		}
 		if (jaws.gamepadButtonPressed(this.gamepadButtons["debug2"])) {
 			// Placeholder for debugging/testing features
+			
+			// Equip a sword!
+			Character.prototype.equip.call(this, "primaryAttack", DATABASE.equipment["Sword"]);
 		}
 		if (jaws.gamepadButtonPressed(this.gamepadButtons["debug3"])) {
 			// Placeholder for debugging/testing features
+			
+			// Equip a leather tunic!
+			Character.prototype.equip.call(this, "tunic", DATABASE.equipment["Leather Tunic"]);
 		}
 		
 		// Record move action

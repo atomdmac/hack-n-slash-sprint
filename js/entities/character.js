@@ -9,34 +9,33 @@ function Character(options) {
 		isExtending = true;
 	}
 
-	options = $.extend({}, options);
+	this.options = $.extend({}, options);
 
 	// Call super-class.
-	jaws.Sprite.call(this, options);
+	jaws.Sprite.call(this, this.options);
 
 	if(isExtending) return;
 
 	// Reference to game world data.
-	this._gameData = options.gameData;
+	this._gameData = this.options.gameData;
 
 	// These options will not be able to be set if this constructor is being
 	// called as a means to extend it.
-	if(options){
+	if(this.options){
 		// Speed properties.
 		// TODO: Rename Character speed properties to be 'private'.
-		this.baseSpeed       = options.baseSpeed;
-		this.speedMultiplier = options.speedMultiplier;
-		this.maxSpeed        = options.maxSpeed;
-		this.radius          = options.radius;
+		this.baseSpeed       = this.options.baseSpeed;
+		this.speedMultiplier = this.options.speedMultiplier;
+		this.maxSpeed        = this.options.maxSpeed;
+		this.radius          = this.options.radius;
 
 		// Set up Sprite animations.
 		this.characterAnimation = new jaws.Animation({
-			sprite_sheet  : options.sprite_sheet,
-			frame_size    : options.frame_size,
-			frame_duration: options.frame_duration,
-			subsets       : options.animationSubsets
+			sprite_sheet  : this.options.sprite_sheet,
+			frame_size    : this.options.frame_size,
+			frame_duration: this.options.frame_duration,
+			subsets       : this.options.animationSubsets
 		});
-		this.characterAnimation.setLayer("sword", DATABASE.equipment["Sword"].sprite_sheet, options.animationSubsets);
 		this.setImage(this.characterAnimation.subsets["down"].next());
 	}
 	
@@ -52,9 +51,9 @@ function Character(options) {
 	/*
 	 * Equipment, Stats, and Resourcing
 	 */
-	this.equipment = $.extend(true, {}, options.equipment);
-	this.stats = $.extend(true, {}, options.stats);
-	this.resources = $.extend(true, {}, options.resources);
+	this.equipment = $.extend(true, {}, this.options.equipment);
+	this.stats = $.extend(true, {}, this.options.stats);
+	this.resources = $.extend(true, {}, this.options.resources);
 	
 	for (var equippedItem in this.equipment) {
 		var item = this.equipment[equippedItem];
@@ -129,6 +128,49 @@ Character.prototype.draw = function () {
 			context.restore();
 
 		})();
+	}
+};
+
+Character.prototype.applyStatChange = function (targetStat, modification) {
+	this.stats[targetStat] += modification;
+};
+
+Character.prototype.equip = function (slot, item) {
+	if (this.equipment[slot] !== item) {
+		// Unequip item currently in slot.
+		if (this.equipment[slot]) {
+			this.unequip(slot);
+		}
+		
+		// Put item in equipment slot.
+		this.equipment[slot] = item;
+		
+		// Draw item equipped.
+		this.characterAnimation.setLayer(slot, item.sprite_sheet, this.options.animationSubsets);
+		// TODO: Make the Sprite visual update immediately.
+		
+		// Apply item bonuses.
+		for (var stat in item.bonuses) {
+			this.applyStatChange(stat, item.bonuses[stat]);
+		}
+	}
+};
+
+Character.prototype.unequip = function (slot) {
+	var item = this.equipment[slot];
+	if (item) {
+		// Remove item from drawn layers.
+		this.characterAnimation.setLayer(item.equipSlot, null, this.options.animationSubsets);
+		// TODO: Make the Sprite visual update immediately.
+		
+		// Negate item bonuses.
+		for (var stat in item.bonuses) {
+			bonusRemove = -1 * item.bonuses[stat];
+			this.applyStatChange(stat, bonusRemove);
+		}
+		
+		// Clear equipment slot.
+		this.equipment[item.equipSlot] = null;
 	}
 };
 

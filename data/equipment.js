@@ -3,6 +3,7 @@ define(
 function () {
 	return {
 		"Sword": {
+			label: "Sword",
 			sprite_sheet: "assets/png/equipment/FF4_Sword.png",
 			equipSlot: "primaryAttack",
 			primaryAttack: {
@@ -16,6 +17,8 @@ function () {
 			}
 		},
 		"Leather Tunic": {
+			label: "Leather Tunic",
+			sprite_sheet: "assets/png/equipment/FF4_LeatherTunicEdge.png",
 			equipSlot: "tunic",
 			bonuses: {
 				damageReductionPhysical: 3
