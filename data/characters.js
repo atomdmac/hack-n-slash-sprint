@@ -14,7 +14,8 @@ return {
 		maxSpeed: 5,
 		tileMap: null,
 		sprite_sheet: null,
-		frame_size: [16, 16],
+		anchor: [0.5, 0.5625],
+		frame_size: [64, 64],
 		frame_duration: 100,
 		animationSubsets: {
 			down:  null,
@@ -24,7 +25,6 @@ return {
 			damage: null,
 			dead: null
 		},
-		anchor: [0.5, 0.75],
 		radius: 8,
 		resources: {
 			health: 100,
@@ -66,7 +66,8 @@ return {
 	"Edge": {
 		sprite_sheet: "assets/png/entities/FF4_EdgeSheet.png",
 		scale: 2,
-		frame_size: [16,16],
+		anchor: [0.5, 0.5625],
+		frame_size: [64, 64],
 		frame_duration: 100,
 		animationSubsets: {
 			down:  [0,2],
@@ -82,7 +83,8 @@ return {
 	"Tellah": {
 		sprite_sheet: "assets/png/entities/FF4_TellahSheet.png",
 		scale: 2,
-		frame_size: [16,16],
+		anchor: [0.5, 0.5625],
+		frame_size: [64, 64],
 		frame_duration: 100,
 		animationSubsets: {
 			down:  [0,2],
