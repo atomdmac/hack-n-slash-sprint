@@ -76,8 +76,8 @@ return {
 			attack_north: [10,12],
 			attack_west:  [12,14],
 			attack_east:  [14,16],
-			damage:       [20,21],
-			dead:         [21,22]
+			damage:       [18,19],
+			dead:         [19,20]
 		}
 	},
 	"Tellah": {
@@ -95,8 +95,8 @@ return {
 			attack_north: [10,12],
 			attack_west:  [12,14],
 			attack_east:  [14,16],
-			damage:       [20,21],
-			dead:         [21,22]
+			damage:       [18,19],
+			dead:         [19,20]
 		}
 	}
 };
