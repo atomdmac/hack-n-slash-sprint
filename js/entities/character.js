@@ -22,6 +22,7 @@ function Character(options) {
 	// These options will not be able to be set if this constructor is being
 	// called as a means to extend it.
 	if(this.options){
+		this.bearing         = this.options.bearing;
 		this.radius          = this.options.radius;
 
 		// Set up Sprite animations.
@@ -31,7 +32,7 @@ function Character(options) {
 			frame_duration: this.options.frame_duration,
 			subsets       : this.options.animationSubsets
 		});
-		this.setImage(this.characterAnimation.subsets["down"].next());
+		this.setImage(this.characterAnimation.subsets[this.bearing].next());
 	}
 	
 	// Actions queued for this game simulation iteration.
@@ -83,16 +84,18 @@ Character.prototype.draw = function () {
 	// Used for scoping inner functions.
 	var self = this;
 
+	if (this.actionsQueued["move"]) {
+		this.setImage(this.characterAnimation.subsets[this.bearing].next());
+	}
+	
 	// Draw Shock Nova animation.
 	if (this.actionsQueued["secondaryAttack"]) {
 		this.actionsQueued["secondaryAttack"].draw();
 	}
 	
-	// Call original jaws.Sprite.draw() function.
-	jaws.Sprite.prototype.draw.call(this);
-	
 	// Draw attack animation.
 	if (this.actionsQueued.attack) {
+		this.setImage(this.characterAnimation.subsets["attack_" + this.bearing].next());
 		(function () {
 			var context = jaws.context,
 				hitBox  = self.actionsQueued.attack.hitBox,
@@ -124,6 +127,12 @@ Character.prototype.draw = function () {
 
 		})();
 	}
+	
+	// Call original jaws.Sprite.draw() function.
+	jaws.Sprite.prototype.draw.call(this);
+	
+	// Clear move flag after drawing.
+	this.actionsQueued["move"] = false;
 };
 
 Character.prototype.applyStatChange = function (targetStat, modification) {
@@ -179,6 +188,7 @@ Character.prototype.getSpeed = function (magnitude) {
 
 Character.prototype.move = function (angle, magnitude) {
 	if (!this.actionsQueued["secondaryAttack"]) {
+		this.actionsQueued["move"] = true;
 		var speed = this.getSpeed(magnitude);
 		var x = Math.sin(angle) * speed;
 		var y = Math.cos(angle) * speed;
@@ -187,16 +197,16 @@ Character.prototype.move = function (angle, magnitude) {
 		this.y += y;
 		
 		if (x < 0) {
-			this.setImage(this.characterAnimation.subsets["left"].next());
+			this.bearing = "west";
 		}
 		else if (x > 0) {
-			this.setImage(this.characterAnimation.subsets["right"].next());
+			this.bearing = "east";
 		}
 		if (y < 0 && y < x) {
-			this.setImage(this.characterAnimation.subsets["up"].next());
+			this.bearing = "north";
 		}
 		else if (y > 0 && y > x) {
-			this.setImage(this.characterAnimation.subsets["down"].next());
+			this.bearing = "south";
 		}
 	}
 };
@@ -292,7 +302,23 @@ Character.prototype.primaryAttack = function (attackObj) {
 			default:
 				break;
 		}
-		
+	}
+	
+	// Set bearing.
+	var x = Math.sin(attackObj.angle);
+	var y = Math.cos(attackObj.angle);
+	
+	if (x < 0) {
+		this.bearing = "west";
+	}
+	else if (x > 0) {
+		this.bearing = "east";
+	}
+	if (y < 0 && y < x) {
+		this.bearing = "north";
+	}
+	else if (y > 0 && y > x) {
+		this.bearing = "south";
 	}
 };
 
