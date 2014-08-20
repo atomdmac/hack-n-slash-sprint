@@ -88,6 +88,11 @@ Character.prototype.draw = function () {
 		this.setImage(this.characterAnimation.subsets[this.bearing].next());
 	}
 	
+	if (this.actionsQueued["damage"]) {
+		this.setImage(this.characterAnimation.subsets["damage"].next());
+	}
+	
+	
 	// Draw Shock Nova animation.
 	if (this.actionsQueued["secondaryAttack"]) {
 		this.actionsQueued["secondaryAttack"].draw();
@@ -131,8 +136,9 @@ Character.prototype.draw = function () {
 	// Call original jaws.Sprite.draw() function.
 	jaws.Sprite.prototype.draw.call(this);
 	
-	// Clear move flag after drawing.
+	// Clear dumb flags after drawing.
 	this.actionsQueued["move"] = false;
+	this.actionsQueued["damage"] = false;
 };
 
 Character.prototype.applyStatChange = function (targetStat, modification) {
@@ -241,7 +247,7 @@ Character.prototype.damage = function (damageObj) {
 			this.kill();
 		}
 		else {
-			this.setImage(this.characterAnimation.subsets["damage"].next());
+			this.actionsQueued["damage"] = true;
 		}
 	}
 };
