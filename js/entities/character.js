@@ -192,6 +192,38 @@ Character.prototype.getSpeed = function (magnitude) {
 	return speed < this.stats.maxMovementSpeed ? speed : this.stats.maxMovementSpeed;
 };
 
+// Sets the character's bearing.
+// Direction can be a string ("E", "N", etc), or an angle in radians
+// TODO: Implement directions "SE", "NE", "NW", and "SW"
+Character.prototype.setBearing = function (direction) {
+	// Apply direction as string.
+	if (direction === "N" ||
+		direction === "E" ||
+		direction === "S" ||
+		direction === "W") {
+		this.bearing = direction;
+	}
+	// If direction isn't a string, just assume it's a radian.
+	else {
+		// TODO: Implement gamepad "wedges" to better detect bearing
+		var x = Math.sin(direction);
+		var y = Math.cos(direction);
+		
+		if (x < 0) {
+			this.bearing = "W";
+		}
+		else if (x > 0) {
+			this.bearing = "E";
+		}
+		if (y < 0 && y < x) {
+			this.bearing = "N";
+		}
+		else if (y > 0 && y > x) {
+			this.bearing = "S";
+		}
+	}
+};
+
 Character.prototype.move = function (angle, magnitude) {
 	if (!this.actionsQueued["secondaryAttack"]) {
 		this.actionsQueued["move"] = true;
@@ -202,17 +234,18 @@ Character.prototype.move = function (angle, magnitude) {
 		this.x += x;
 		this.y += y;
 		
+		// TODO: Implement gamepad "wedges" to better detect bearing
 		if (x < 0) {
-			this.bearing = "west";
+			this.setBearing("W");
 		}
 		else if (x > 0) {
-			this.bearing = "east";
+			this.setBearing("E");
 		}
 		if (y < 0 && y < x) {
-			this.bearing = "north";
+			this.setBearing("N");
 		}
 		else if (y > 0 && y > x) {
-			this.bearing = "south";
+			this.setBearing("S");
 		}
 	}
 };
@@ -311,21 +344,7 @@ Character.prototype.primaryAttack = function (attackObj) {
 	}
 	
 	// Set bearing.
-	var x = Math.sin(attackObj.angle);
-	var y = Math.cos(attackObj.angle);
-	
-	if (x < 0) {
-		this.bearing = "west";
-	}
-	else if (x > 0) {
-		this.bearing = "east";
-	}
-	if (y < 0 && y < x) {
-		this.bearing = "north";
-	}
-	else if (y > 0 && y > x) {
-		this.bearing = "south";
-	}
+	this.setBearing(attackObj.angle);
 };
 
 Character.prototype.secondaryAttack = function () {
