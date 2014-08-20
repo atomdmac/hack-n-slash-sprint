@@ -101,7 +101,7 @@ Character.prototype.draw = function () {
 	// Draw attack animation.
 	if (this.actionsQueued.attack) {
 		this.setImage(this.characterAnimation.subsets["attack_" + this.bearing].next());
-		(function () {
+		/*(function () {
 			var context = jaws.context,
 				hitBox  = self.actionsQueued.attack.hitBox,
 				points  = hitBox.calcPoints,
@@ -130,7 +130,7 @@ Character.prototype.draw = function () {
 
 			context.restore();
 
-		})();
+		})();*/
 	}
 	
 	// Call original jaws.Sprite.draw() function.
