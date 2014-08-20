@@ -10,7 +10,10 @@ function () {
 					"moveLeft" : "a",
 					"moveRight": "d",
 					"primaryAttack": "left_mouse_button",
-					"secondaryAttack": "right_mouse_button"
+					"secondaryAttack": "right_mouse_button",
+					"debug1": "1",
+					"debug2": "2",
+					"debug3": "3"
 				},
 				gamepad: {
 					"move": "left",				// Assumes joystick
