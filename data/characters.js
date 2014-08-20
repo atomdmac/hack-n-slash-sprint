@@ -62,7 +62,7 @@ return {
 		}
 	},
 	"Edge": {
-		sprite_sheet: "assets/png/entities/FF4_EdgeSheet.png",
+		sprite_sheet: "assets/png/entities/FF4_Edge.png",
 		scale: 2,
 		anchor: [0.5, 0.5625],
 		frame_size: [64, 64],
@@ -72,16 +72,16 @@ return {
 			north:        [2,4],
 			west:         [4,6],
 			east :        [6,8],
-			attack_south: [8,10],
-			attack_north: [10,12],
-			attack_west:  [12,14],
-			attack_east:  [14,16],
-			damage:       [18,19],
-			dead:         [19,20]
+			attack_south: [8,11],
+			attack_north: [11,14],
+			attack_west:  [14,17],
+			attack_east:  [17,20],
+			damage:       [22,23],
+			dead:         [23,24]
 		}
 	},
 	"Tellah": {
-		sprite_sheet: "assets/png/entities/FF4_TellahSheet.png",
+		sprite_sheet: "assets/png/entities/FF4_Tellah.png",
 		scale: 2,
 		anchor: [0.5, 0.5625],
 		frame_size: [64, 64],
@@ -91,12 +91,12 @@ return {
 			north:        [2,4],
 			west:         [4,6],
 			east :        [6,8],
-			attack_south: [8,10],
-			attack_north: [10,12],
-			attack_west:  [12,14],
-			attack_east:  [14,16],
-			damage:       [18,19],
-			dead:         [19,20]
+			attack_south: [8,11],
+			attack_north: [11,14],
+			attack_west:  [14,17],
+			attack_east:  [17,20],
+			damage:       [22,23],
+			dead:         [23,24]
 		}
 	}
 };
