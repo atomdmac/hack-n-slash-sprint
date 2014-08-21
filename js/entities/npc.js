@@ -57,9 +57,10 @@ NPC.prototype.kill = function() {
 	Character.prototype.kill.call(this);
 	
 	// Make some loot.
+	var lootKey = DATABASE.lootTable["Basic Creature"].getRandom();
 	var loot = new Item($.extend(true, {},
 							 DATABASE.equipment["base"],
-							 DATABASE.equipment["Sword"]));
+							 DATABASE.equipment[lootKey]));
 	loot._gameData = this._gameData;
 	// Put the loot in the game world
 	loot.drop(this.x, this.y+20);
