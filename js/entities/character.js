@@ -38,28 +38,12 @@ function Character(options) {
 	// Actions queued for this game simulation iteration.
 	this.actionsQueued = {};
 
-	// TODO: Can prevPos be removed from characters?
-	this.prevPos = {
-		x: this.x,
-		y: this.y
-	};
-
 	/*
 	 * Equipment, Stats, and Resourcing
 	 */
 	this.equipment = $.extend(true, {}, this.options.equipment);
 	this.stats = $.extend(true, {}, this.options.stats);
 	this.resources = $.extend(true, {}, this.options.resources);
-	
-	for (var equippedItem in this.equipment) {
-		var item = this.equipment[equippedItem];
-		if (item) {
-			for (var stat in item.bonuses) {
-				var statBonus = item.bonuses[stat];
-				this.stats[stat] += statBonus;
-			}
-		}
-	}
 }
 
 Character.prototype = new jaws.Sprite({});
@@ -73,11 +57,6 @@ Character.prototype.update = function () {
 	if (this.actionsQueued["secondaryAttack"]) {
 		this.actionsQueued["secondaryAttack"].update();
 	}
-	
-	this.prevPos = {
-		x: this.x,
-		y: this.y
-	};
 };
 
 Character.prototype.draw = function () {
