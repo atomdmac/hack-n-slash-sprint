@@ -26,13 +26,13 @@ function Character(options) {
 		this.radius          = this.options.radius;
 
 		// Set up Sprite animations.
-		this.characterAnimation = new jaws.Animation({
+		this.animation = new jaws.Animation({
 			sprite_sheet  : this.options.sprite_sheet,
 			frame_size    : this.options.frame_size,
 			frame_duration: this.options.frame_duration,
 			subsets       : this.options.animationSubsets
 		});
-		this.setImage(this.characterAnimation.subsets[this.bearing].next());
+		this.setImage(this.animation.subsets[this.bearing].next());
 	}
 	
 	// Actions queued for this game simulation iteration.
@@ -64,11 +64,11 @@ Character.prototype.draw = function () {
 	var self = this;
 
 	if (this.actionsQueued["move"]) {
-		this.setImage(this.characterAnimation.subsets[this.bearing].next());
+		this.setImage(this.animation.subsets[this.bearing].next());
 	}
 	
 	if (this.actionsQueued["damage"]) {
-		this.setImage(this.characterAnimation.subsets["damage"].next());
+		this.setImage(this.animation.subsets["damage"].next());
 	}
 	
 	
@@ -79,7 +79,7 @@ Character.prototype.draw = function () {
 	
 	// Draw attack animation.
 	if (this.actionsQueued.attack) {
-		this.setImage(this.characterAnimation.subsets["attack_" + this.bearing].next());
+		this.setImage(this.animation.subsets["attack_" + this.bearing].next());
 		/*(function () {
 			var context = jaws.context,
 				hitBox  = self.actionsQueued.attack.hitBox,
@@ -135,7 +135,7 @@ Character.prototype.equip = function (slot, item) {
 		this.equipment[slot] = item;
 		
 		// Draw item equipped.
-		this.characterAnimation.setLayer(slot, item.sprite_sheet, this.options.animationSubsets);
+		this.animation.setLayer(slot, item.sprite_sheet, this.options.animationSubsets);
 		// TODO: Make the Sprite visual update immediately.
 		
 		// Apply item bonuses.
@@ -149,7 +149,7 @@ Character.prototype.unequip = function (slot) {
 	var item = this.equipment[slot];
 	if (item) {
 		// Remove item from drawn layers.
-		this.characterAnimation.setLayer(item.equipSlot, null, this.options.animationSubsets);
+		this.animation.setLayer(item.equipSlot, null, this.options.animationSubsets);
 		// TODO: Make the Sprite visual update immediately.
 		
 		// Negate item bonuses.
@@ -266,7 +266,7 @@ Character.prototype.damage = function (damageObj) {
 
 Character.prototype.kill = function () {
 	this.resources.health = 0;
-	this.setImage(this.characterAnimation.subsets["dead"].next());
+	this.setImage(this.animation.subsets["dead"].next());
 	// Debug B-)
 	console.log("Ahh, you got me!");
 };
