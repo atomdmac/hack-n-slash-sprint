@@ -53,6 +53,12 @@ NPC.prototype.decideNextAction = function() {
 	}
 };
 
+NPC.prototype.kill = function() {
+	Character.prototype.kill.call(this);
+	console.log("...and my name was Tellah.");
+	// TODO: Generate loot.
+};
+
 return NPC;
 
 });

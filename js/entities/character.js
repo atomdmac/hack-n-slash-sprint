@@ -269,7 +269,6 @@ Character.prototype.kill = function () {
 	this.setImage(this.characterAnimation.subsets["dead"].next());
 	// Debug B-)
 	console.log("Ahh, you got me!");
-	// TODO: Generate loot!
 };
 
 Character.prototype.primaryAttack = function (attackObj) {
