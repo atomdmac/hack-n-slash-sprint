@@ -2,6 +2,18 @@ define(
 [],
 function () {
 	return {
+		"base": {
+			width: 32,
+			height: 32,
+			scale: 2,
+			anchor: [0.5, 0.5625],
+			frame_size: [64, 64],
+			frame_duration: 100,
+			animationSubsets: {
+				unequipped: [0,1]
+			},
+			radius: 8
+		},
 		"Sword": {
 			label: "Sword",
 			sprite_sheet: "assets/png/equipment/FF4_Sword.png",

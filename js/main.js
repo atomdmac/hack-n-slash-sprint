@@ -78,7 +78,9 @@ function (jaws, $, DATABASE, LoadState) {
 		// Reference to array of NPCs in the current map.
 		npcs: null,
 		// Reference to all characters (player and NPC) in the current map.
-		characters: null
+		characters: null,
+		// Reference to all items in the current map.
+		items: null
 	};
 	
 	// Start main Game Loop.

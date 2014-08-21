@@ -22,6 +22,7 @@ function LoadState () {
 
 		_gameData.map = map;
 		_gameData.characters = [];
+		_gameData.items = [];
 		
 		// Create viewport.
 		_gameData.viewport = new jaws.Viewport({

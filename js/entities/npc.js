@@ -1,6 +1,6 @@
 define(
-['jaws', 'DATABASE', 'entities/character'],
-function (jaws, DATABASE, Character) {
+['jaws', 'DATABASE', 'entities/character', 'entities/item'],
+function (jaws, DATABASE, Character, Item) {
 
 function NPC (options) {
 
@@ -56,7 +56,14 @@ NPC.prototype.decideNextAction = function() {
 NPC.prototype.kill = function() {
 	Character.prototype.kill.call(this);
 	console.log("...and my name was Tellah.");
-	// TODO: Generate loot.
+	
+	// Make some loot.
+	var loot = new Item($.extend(true, {},
+							 DATABASE.equipment["base"],
+							 DATABASE.equipment["Sword"]));
+	loot._gameData = this._gameData;
+	// Put the loot in the game world
+	loot.drop(this.x, this.y+20);
 };
 
 return NPC;

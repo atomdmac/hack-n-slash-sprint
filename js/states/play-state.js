@@ -20,6 +20,7 @@ function PlayState () {
 		players    = _gameData.players;
 		npcs       = _gameData.npcs;
 		characters = _gameData.characters;
+		items      = _gameData.items;
 
 		map              = _gameData.map;
 		layers.collision = _gameData.map.layerAsTileMap("collision");
@@ -67,8 +68,14 @@ function PlayState () {
 		viewport.centerAround(players[0]);
 		viewport.drawTileMap(layers.terrain);
 
-		// Draw characters.
+		// Set up loop variables.
 		var i, ilen;
+		
+		// Draw items.
+		for(i=0, ilen=items.length; i<ilen; i++) {
+			viewport.draw(items[i]);
+		}
+		// Draw characters.
 		for(i=0, ilen=characters.length; i<ilen; i++) {
 			viewport.draw(characters[i]);
 		}
