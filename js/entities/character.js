@@ -267,8 +267,6 @@ Character.prototype.damage = function (damageObj) {
 Character.prototype.kill = function () {
 	this.resources.health = 0;
 	this.setImage(this.animation.subsets["dead"].next());
-	// Debug B-)
-	console.log("Ahh, you got me!");
 };
 
 Character.prototype.primaryAttack = function (attackObj) {

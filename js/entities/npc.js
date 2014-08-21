@@ -55,7 +55,6 @@ NPC.prototype.decideNextAction = function() {
 
 NPC.prototype.kill = function() {
 	Character.prototype.kill.call(this);
-	console.log("...and my name was Tellah.");
 	
 	// Make some loot.
 	var loot = new Item($.extend(true, {},
