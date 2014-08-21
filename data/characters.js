@@ -6,25 +6,25 @@ return {
     "base": {
 		spawnX: 0,
 		spawnY: 0,
-		scale: 1,
 		width: 32,
 		height: 32,
 		tileMap: null,
 		sprite_sheet: null,
+		scale: 2,
 		anchor: [0.5, 0.5625],
 		frame_size: [64, 64],
 		frame_duration: 100,
 		animationSubsets: {
-			S: null,
-			N: null,
-			W: null,
-			E: null,
-			attack_S: null,
-			attack_N: null,
-			attack_W: null,
-			attack_E: null,
-			damage: null,
-			dead: null
+			S:            [0,2],
+			N:            [2,4],
+			W:            [4,6],
+			E:            [6,8],
+			attack_S:     [8,11],
+			attack_N:     [11,14],
+			attack_W:     [14,17],
+			attack_E:     [17,20],
+			damage:       [22,23],
+			dead:         [23,24]
 		},
 		radius: 8,
 		bearing: "S",
@@ -66,42 +66,10 @@ return {
 		}
 	},
 	"Edge": {
-		sprite_sheet: "assets/png/entities/FF4_Edge.png",
-		scale: 2,
-		anchor: [0.5, 0.5625],
-		frame_size: [64, 64],
-		frame_duration: 100,
-		animationSubsets: {
-			S:            [0,2],
-			N:            [2,4],
-			W:            [4,6],
-			E:            [6,8],
-			attack_S:     [8,11],
-			attack_N:     [11,14],
-			attack_W:     [14,17],
-			attack_E:     [17,20],
-			damage:       [22,23],
-			dead:         [23,24]
-		}
+		sprite_sheet: "assets/png/entities/FF4_Edge.png"
 	},
 	"Tellah": {
-		sprite_sheet: "assets/png/entities/FF4_Tellah.png",
-		scale: 2,
-		anchor: [0.5, 0.5625],
-		frame_size: [64, 64],
-		frame_duration: 100,
-		animationSubsets: {
-			S:            [0,2],
-			N:            [2,4],
-			W:            [4,6],
-			E:            [6,8],
-			attack_S:     [8,11],
-			attack_N:     [11,14],
-			attack_W:     [14,17],
-			attack_E:     [17,20],
-			damage:       [22,23],
-			dead:         [23,24]
-		}
+		sprite_sheet: "assets/png/entities/FF4_Tellah.png"
 	}
 };
 
