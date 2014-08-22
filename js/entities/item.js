@@ -35,6 +35,10 @@ function Item(options) {
 		this.drawable = false;
 		this.label = this.options.label;
 		this.radius = this.options.radius;
+		this.sprite_sheet = this.options.sprite_sheet;
+		this.equipSlot = this.options.equipSlot;
+		this.primaryAttack = this.options.primaryAttack;
+		this.bonuses = this.options.bonuses;
 	}
 }
 
@@ -52,14 +56,6 @@ Item.prototype.draw = function () {
 	}
 };
 
-Item.prototype.state = function (state) {
-	// Handle state switching logic here.
-	if (state) {
-		this.state = state;
-	}
-	return this.state;
-};
-
 Item.prototype.put = function () {
 	// TODO: Add a way to put items places, like in a container or tilemap?
 };
@@ -67,11 +63,15 @@ Item.prototype.put = function () {
 Item.prototype.drop = function (x, y) {
 	this.move(x, y);
 	this.drawable = true;
-	this.state("unequipped");
+	this.state = "unequipped";
 	this._gameData.items[this.id] = this;
 };
-Item.prototype.take = function () {
+Item.prototype.take = function (newOwner) {
 	this.drawable = false;
+	this.move(-1000, -1000);
+	if (newOwner) {
+		this.owner = newOwner;
+	}
 };
 
 Item.prototype.move = function (x, y) {

@@ -131,6 +131,9 @@ Character.prototype.equip = function (slot, item) {
 			this.unequip(slot);
 		}
 		
+		// Tell the item you're taking it.
+		item.take(this);
+		
 		// Put item in equipment slot.
 		this.equipment[slot] = item;
 		
@@ -157,6 +160,9 @@ Character.prototype.unequip = function (slot) {
 			bonusRemove = -1 * item.bonuses[stat];
 			this.applyStatChange(stat, bonusRemove);
 		}
+		
+		// Drop item on the ground.
+		item.drop(this.x, this.y);
 		
 		// Clear equipment slot.
 		this.equipment[item.equipSlot] = null;

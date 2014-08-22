@@ -149,6 +149,10 @@ Player.prototype.update = function () {
 		this.move(this.radianMap8D["S"], 1);
 	}
 	
+	if (jaws.pressed(this.input.mouseAndKeyboard["equipInspected"])) {
+		this.equipInspected();
+	}
+	
 	// Placeholders for debugging/testing features
 	if (jaws.pressed(this.input.mouseAndKeyboard["debug1"])) { this.debug1(); }
 	if (jaws.pressed(this.input.mouseAndKeyboard["debug2"])) { this.debug2(); }
@@ -162,6 +166,7 @@ Player.prototype.update = function () {
 		
 		this.gamepadButtons = {
 			"secondaryAttack": this.gamepad.buttons[this.input.gamepad["secondaryAttack"]],
+			"equipInspected": this.gamepad.buttons[this.input.gamepad["equipInspected"]],
 			"debug1": this.gamepad.buttons[this.input.gamepad["debug1"]],
 			"debug2": this.gamepad.buttons[this.input.gamepad["debug2"]],
 			"debug3": this.gamepad.buttons[this.input.gamepad["debug3"]]
@@ -172,6 +177,12 @@ Player.prototype.update = function () {
 		if (jaws.gamepadButtonPressed(this.gamepadButtons["secondaryAttack"])) {
 			this.secondaryAttack();
 		}
+		
+		// Equip inspected item.
+		if (jaws.gamepadButtonPressed(this.gamepadButtons["equipInspected"])) {
+			this.equipInspected();
+		}
+		
 		// Placeholders for debugging/testing features
 		if (jaws.gamepadButtonPressed(this.gamepadButtons["debug1"])) { this.debug1(); }
 		if (jaws.gamepadButtonPressed(this.gamepadButtons["debug2"])) { this.debug2(); }
@@ -236,6 +247,12 @@ Player.prototype.radianMap8D = {
 	"SE": 45  * Math.PI / 180
 };
 
+Player.prototype.equipInspected = function() {
+	if (this.inspecting && this.inspecting.equipSlot) {
+		Character.prototype.equip.call(this, this.inspecting.equipSlot, this.inspecting);
+	}
+};
+
 Player.prototype.debug1 = function() {
 	// Get naked.
 	for (var slot in this.equipment) {
@@ -244,13 +261,11 @@ Player.prototype.debug1 = function() {
 };
 
 Player.prototype.debug2 = function() {
-	// Equip a sword!
-	Character.prototype.equip.call(this, "primaryAttack", DATABASE.equipment["Sword"]);
+	console.log("debug2");
 };
 
 Player.prototype.debug3 = function() {
-	// Get hot! err..fast!
-	Character.prototype.equip.call(this, "footwear", DATABASE.equipment["Hot Feet"]);
+	
 };
 
 return Player;
