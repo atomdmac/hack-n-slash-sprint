@@ -32,6 +32,8 @@ function Item(options) {
 		
 		this.owner = null;
 		this.drawable = false;
+		this.label = this.options.label;
+		this.radius = this.options.radius;
 	}
 }
 

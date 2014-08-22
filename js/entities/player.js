@@ -38,9 +38,31 @@ function Player (options) {
 		self.mouse.x = x -= canvas.offsetLeft;
 		self.mouse.y = y -= canvas.offsetTop;
 	}
+	
+	// HUD
+	this.inspectRadius = 30;
+	this.inspectMessage = new jaws.Text({
+		text: "nothing to see here",
+		anchor: "bottom_left",
+		width: 128,
+		height: 32,
+		textAlign: "center",
+		//wordWrap: true, // Don't set to true - this is broken in JAWS!
+		color: "white",
+		style: "bold",
+		fontFace: "Arial",
+		shadowColor: "black",
+		shadowBlur: 3
+	});
 }
 
 Player.prototype = new Character({});
+
+Player.prototype.draw = function () {
+	Character.prototype.draw.call(this);
+	// Draw inspect message.
+	this.inspectMessage.draw();
+};
 
 Player.prototype.update = function () {
 	var analogX, analogY, angle, magnitude, reach, startX, startY, endX, endY;
@@ -180,6 +202,29 @@ Player.prototype.update = function () {
 			});
 		}
 	}
+	
+	// Update inspect message
+	var inspectableItem;
+	for (var lcv = 0; lcv < this._gameData.items.length; lcv++) {
+		if (jaws.collideCircles({
+									radius: this.inspectRadius,
+									x: this.x,
+									y: this.y
+								}, this._gameData.items[lcv])) {
+			inspectableItem = this._gameData.items[lcv];
+			break;
+		}
+	}
+	
+	if (inspectableItem) {
+		this.inspectMessage.text = inspectableItem.label;
+	}
+	else {
+		this.inspectMessage.text = "nothing to see here";
+	}
+	
+	// Move the inspect message with us.
+	this.inspectMessage.moveTo(this.x, this.y);
 };
 
 Player.prototype.radianMap8D = {
