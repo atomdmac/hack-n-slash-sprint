@@ -39,7 +39,8 @@ function Player (options) {
 		self.mouse.y = y -= canvas.offsetTop;
 	}
 	
-	// HUD
+	// Item inspection
+	this.inspecting = null;
 	this.inspectRadius = 30;
 	this.inspectMessage = new jaws.Text({
 		text: "nothing to see here",
@@ -204,24 +205,21 @@ Player.prototype.update = function () {
 	}
 	
 	// Update inspect message
-	var inspectableItem;
+	this.inspecting = null;
 	for(var id in this._gameData.items) {
 		if (jaws.collideCircles({
 									radius: this.inspectRadius,
 									x: this.x,
 									y: this.y
 								}, this._gameData.items[id])) {
-			inspectableItem = this._gameData.items[id];
+			this.inspecting = this._gameData.items[id];
 			break;
 		}
 	}
 	
-	if (inspectableItem) {
-		this.inspectMessage.text = inspectableItem.label;
-	}
-	else {
-		this.inspectMessage.text = "nothing to see here";
-	}
+	this.inspectMessage.text = this.inspecting
+	                         ? this.inspecting.label
+							 : "nothing to see here";
 	
 	// Move the inspect message with us.
 	this.inspectMessage.moveTo(this.x, this.y);
