@@ -30,6 +30,7 @@ function Item(options) {
 			subsets       : this.options.animationSubsets
 		});
 		
+		this.id = jaws.generateUUID();
 		this.owner = null;
 		this.drawable = false;
 		this.label = this.options.label;
@@ -67,7 +68,7 @@ Item.prototype.drop = function (x, y) {
 	this.move(x, y);
 	this.drawable = true;
 	this.state("unequipped");
-	this._gameData.items.push(this);
+	this._gameData.items[this.id] = this;
 };
 Item.prototype.take = function () {
 	this.drawable = false;

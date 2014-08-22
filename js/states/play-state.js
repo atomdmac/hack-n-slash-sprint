@@ -72,8 +72,8 @@ function PlayState () {
 		var i, ilen;
 		
 		// Draw items.
-		for(i=0, ilen=items.length; i<ilen; i++) {
-			viewport.draw(items[i]);
+		for(var id in items) {
+			viewport.draw(items[id]);
 		}
 		// Draw characters.
 		for(i=0, ilen=characters.length; i<ilen; i++) {

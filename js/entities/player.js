@@ -205,13 +205,13 @@ Player.prototype.update = function () {
 	
 	// Update inspect message
 	var inspectableItem;
-	for (var lcv = 0; lcv < this._gameData.items.length; lcv++) {
+	for(var id in this._gameData.items) {
 		if (jaws.collideCircles({
 									radius: this.inspectRadius,
 									x: this.x,
 									y: this.y
-								}, this._gameData.items[lcv])) {
-			inspectableItem = this._gameData.items[lcv];
+								}, this._gameData.items[id])) {
+			inspectableItem = this._gameData.items[id];
 			break;
 		}
 	}
