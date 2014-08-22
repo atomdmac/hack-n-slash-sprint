@@ -77,34 +77,6 @@ Player.prototype.update = function () {
 	/***********************************************************************
 	 * MOUSE & KEYBOARD INPUT
 	 **********************************************************************/
-	// Primary Attack (must be a mouse button)
-	if (jaws.pressed(this.input.mouseAndKeyboard["primaryAttack"])) {
-		analogX   = this.mouse.x - (this.x - this._gameData.viewport.x);
-		analogY   = this.mouse.y - (this.y - this._gameData.viewport.y);
-		angle     = Math.atan2(analogX, analogY);
-		magnitude = Math.sqrt(analogX*analogX+analogY*analogY);
-		reach     = 100;
-
-		magnitude = magnitude < reach ? magnitude / reach : 1;
-		
-		startX = this.x;
-		startY = this.y;
-		endX   = startX + reach * magnitude * Math.sin(angle);
-		endY   = startY + reach * magnitude * Math.cos(angle);
-		
-		this.primaryAttack({
-			reach : reach * magnitude,
-			startX: startX,
-			startY: startY,
-			endX  : endX,
-			endY  : endY,
-			angle : angle
-		});
-	}
-	// Secondary Attack
-	if (jaws.pressed(this.input.mouseAndKeyboard["secondaryAttack"])) {
-		this.secondaryAttack();
-	}
 	// North East
 	if (jaws.pressed(this.input.mouseAndKeyboard["moveRight"]) &&
 		jaws.pressed(this.input.mouseAndKeyboard["moveUp"])) {
@@ -151,6 +123,35 @@ Player.prototype.update = function () {
 	
 	if (jaws.pressed(this.input.mouseAndKeyboard["equipInspected"])) {
 		this.equipInspected();
+	}
+	
+	// Primary Attack (must be a mouse button)
+	if (jaws.pressed(this.input.mouseAndKeyboard["primaryAttack"])) {
+		analogX   = this.mouse.x - (this.x - this._gameData.viewport.x);
+		analogY   = this.mouse.y - (this.y - this._gameData.viewport.y);
+		angle     = Math.atan2(analogX, analogY);
+		magnitude = Math.sqrt(analogX*analogX+analogY*analogY);
+		reach     = 100;
+
+		magnitude = magnitude < reach ? magnitude / reach : 1;
+		
+		startX = this.x;
+		startY = this.y;
+		endX   = startX + reach * magnitude * Math.sin(angle);
+		endY   = startY + reach * magnitude * Math.cos(angle);
+		
+		this.primaryAttack({
+			reach : reach * magnitude,
+			startX: startX,
+			startY: startY,
+			endX  : endX,
+			endY  : endY,
+			angle : angle
+		});
+	}
+	// Secondary Attack
+	if (jaws.pressed(this.input.mouseAndKeyboard["secondaryAttack"])) {
+		this.secondaryAttack();
 	}
 	
 	// Placeholders for debugging/testing features
