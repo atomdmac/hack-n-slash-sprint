@@ -267,6 +267,7 @@ Player.prototype.debug1 = function() {
 	for (var slot in this.equipment) {
 		Character.prototype.unequip.call(this, slot);
 	}
+	this.hud.update();
 };
 
 Player.prototype.debug2 = function() {
