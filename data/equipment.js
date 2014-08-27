@@ -5,9 +5,9 @@ function () {
 		"base": {
 			width: 32,
 			height: 32,
-			scale: 2,
+			scale: 1,
 			anchor: [0.5, 0.5625],
-			frame_size: [64, 64],
+			frame_size: [128, 128],
 			frame_duration: 100,
 			animationSubsets: {
 				unequipped: [0,1]
@@ -16,7 +16,7 @@ function () {
 		},
 		"Sword": {
 			label: "Sword",
-			sprite_sheet: "assets/png/equipment/FF4_Sword.png",
+			sprite_sheet: "assets/png/equipment/Sword.png",
 			equipSlot: "primaryAttack",
 			primaryAttack: {
 				mode: "melee",
@@ -30,7 +30,7 @@ function () {
 		},
 		"Leather Tunic": {
 			label: "Leather Tunic",
-			sprite_sheet: "assets/png/equipment/FF4_LeatherTunicEdge.png",
+			sprite_sheet: "assets/png/equipment/LeatherTunic.png",
 			equipSlot: "tunic",
 			bonuses: {
 				damageReductionPhysical: 3
@@ -38,7 +38,7 @@ function () {
 		},
 		"Hot Feet": {
 			label: "Hot Feet",
-			sprite_sheet: "assets/png/equipment/FF4_HotFeet.png",
+			sprite_sheet: "assets/png/equipment/HotFeet.png",
 			equipSlot: "footwear",
 			bonuses: {
 				movementSpeedIncrease: 1.5

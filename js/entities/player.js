@@ -1,6 +1,6 @@
 define(
-['jaws', 'DATABASE', 'entities/character'],
-function (jaws, DATABASE, Character) {
+['jaws', 'DATABASE', 'entities/character', 'ui/hud'],
+function (jaws, DATABASE, Character, HUD) {
 
 function Player (options) {
 
@@ -55,6 +55,11 @@ function Player (options) {
 		shadowColor: "black",
 		shadowBlur: 3
 	});
+	
+	// HUD
+	this.hud = new HUD({
+		character: this
+	});
 }
 
 Player.prototype = new Character({});
@@ -63,6 +68,8 @@ Player.prototype.draw = function () {
 	Character.prototype.draw.call(this);
 	// Draw inspect message.
 	this.inspectMessage.draw();
+	// Draw HUD
+	this.hud.draw();
 };
 
 Player.prototype.update = function () {
@@ -251,6 +258,7 @@ Player.prototype.radianMap8D = {
 Player.prototype.equipInspected = function() {
 	if (this.inspecting && this.inspecting.equipSlot) {
 		Character.prototype.equip.call(this, this.inspecting.equipSlot, this.inspecting);
+		this.hud.update();
 	}
 };
 
