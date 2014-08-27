@@ -43,6 +43,13 @@ function () {
 			bonuses: {
 				movementSpeedIncrease: 1.5
 			}
+		},
+		"Gohan's Hat": {
+			label: "Gohan's Hat",
+			sprite_sheet: "assets/png/equipment/GohansHat.png",
+			equipSlot: "head",
+			bonuses: {
+			}
 		}
 	};
 });
