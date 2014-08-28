@@ -19,17 +19,20 @@ Paperdoll.prototype = {};
 Paperdoll.prototype.getUI = function () {
 	var $el = $("<div id='paperdoll'></div>")
 		.css({
-			"width": 256,
-			"height": 256,
+			"width": 128,
+			"height": 196,
 			"margin": 5,
 			"display": "block",
-			"background": "#ffffff"
+			"background": "#ffffff",
+			"overflow": "hidden"
 		});
 	var canvas = jaws.retroScaleImage(this.character.animation.frames[1], 2);
 	
 	var $canvas = $(canvas)
 		.css({
-			"position": "absolute"
+			"position": "relative",
+			"left": -64,
+			"top": -32
 		});
 	$el.append($canvas);
 	

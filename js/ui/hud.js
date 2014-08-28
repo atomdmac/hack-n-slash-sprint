@@ -39,7 +39,7 @@ HUD.prototype.getUI = function () {
 		.css({
 			"height": 600,
 			"display": "inline-block",
-			"position": "relative",
+			"position": "absolute",
 			"background": "#cccccc"
 		});
 	
