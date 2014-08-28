@@ -10,7 +10,6 @@ function Paperdoll(options) {
 	// called as a means to extend it.
 	if(this.options){
 		this.character = this.options.character;
-		console.log(this.character);
 	}
 }
 

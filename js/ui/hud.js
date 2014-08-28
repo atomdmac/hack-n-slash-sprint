@@ -1,6 +1,6 @@
 define(
-['jaws', '$', 'ui/paperdoll'],
-function (jaws, $, Paperdoll) {
+['jaws', '$', 'ui/paperdoll', 'ui/stats-hud', 'ui/resources-hud'],
+function (jaws, $, Paperdoll, StatsHUD, ResourcesHUD) {
 
 function HUD(options) {
 	
@@ -13,24 +13,55 @@ function HUD(options) {
 	}
 	
 	this.paperdoll = new Paperdoll(this.options);
+	this.$paperdoll = this.paperdoll.getUI();
 	
-	this.updated = true;
+	this.stats = new StatsHUD(this.options);
+	this.$stats = this.stats.getUI();
+	
+	this.resources = new ResourcesHUD(this.options);
+	this.$resources = this.resources.getUI();
+	
+	this.updated = {"equipment":  true,
+					"stats":      true,
+					"resources":  true};
 	this.$hud = this.getUI().appendTo("body");
-	
+	this.$hud.append(this.$paperdoll);
+	this.drawPaperdoll();
 }
 
 HUD.prototype = {};
 
-HUD.prototype.update = function () {
-	this.updated = true;
+HUD.prototype.update = function (propertyUpdated) {
+	this.updated[propertyUpdated] = true;
 };
 
 HUD.prototype.draw = function () {
-	if (this.updated) {
-		this.$hud.remove();
-		this.$hud = this.getUI().appendTo("body");
-		
-		this.updated = false;
+	for (var key in this.updated) {
+		if (this.updated[key]) {
+			
+			switch (key) {
+				case "equipment":
+					console.log("redrawing equipment");
+					this.drawPaperdoll();
+					break;
+				
+				case "stats":
+					console.log("redrawing stats");
+					this.drawStats();
+					break;
+				
+				case "resources":
+					console.log("redrawing resources");
+					this.drawResources();
+					break;
+				
+				default:
+					break;
+			}
+			
+			
+			this.updated[key] = false;
+		}
 	}
 };
 
@@ -42,11 +73,29 @@ HUD.prototype.getUI = function () {
 			"position": "absolute",
 			"background": "#cccccc"
 		});
-	
-	$el.append(this.paperdoll.getUI());
-	
 	return $el;
 };
+
+
+// TODO: Make it so the order doesn't change when these update!
+HUD.prototype.drawPaperdoll = function () {
+	this.$paperdoll.remove();
+	this.$paperdoll = this.paperdoll.getUI();
+	this.$hud.append(this.$paperdoll);
+};
+
+HUD.prototype.drawStats = function () {
+	this.$stats.remove();
+	this.$stats = this.stats.getUI();
+	this.$hud.append(this.$stats);
+};
+
+HUD.prototype.drawResources = function () {
+	this.$resources.remove();
+	this.$resources = this.resources.getUI();
+	this.$hud.append(this.$resources);
+};
+
 
 HUD.prototype.set = function (data) {
 	

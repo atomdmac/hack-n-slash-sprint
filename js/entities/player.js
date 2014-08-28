@@ -258,7 +258,7 @@ Player.prototype.radianMap8D = {
 Player.prototype.equipInspected = function() {
 	if (this.inspecting && this.inspecting.equipSlot) {
 		Character.prototype.equip.call(this, this.inspecting.equipSlot, this.inspecting);
-		this.hud.update();
+		this.hud.update("equipment");
 	}
 };
 
@@ -267,7 +267,7 @@ Player.prototype.debug1 = function() {
 	for (var slot in this.equipment) {
 		Character.prototype.unequip.call(this, slot);
 	}
-	this.hud.update();
+	this.hud.update("equipment");
 };
 
 Player.prototype.debug2 = function() {
