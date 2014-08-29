@@ -1,6 +1,6 @@
 define(
-['jaws', '$', 'ui/paperdoll', 'ui/stats-hud', 'ui/resources-hud'],
-function (jaws, $, Paperdoll, StatsHUD, ResourcesHUD) {
+['jaws', '$', 'ui/paperdoll', 'ui/resources-hud', 'ui/stats-hud'],
+function (jaws, $, Paperdoll, ResourcesHUD, StatsHUD) {
 
 function HUD(options) {
 	
@@ -15,15 +15,15 @@ function HUD(options) {
 	this.paperdoll = new Paperdoll(this.options);
 	this.$paperdoll = this.paperdoll.getUI();
 	
-	this.stats = new StatsHUD(this.options);
-	this.$stats = this.stats.getUI();
-	
 	this.resources = new ResourcesHUD(this.options);
 	this.$resources = this.resources.getUI();
 	
+	this.stats = new StatsHUD(this.options);
+	this.$stats = this.stats.getUI();
+	
 	this.updated = {"equipment":  true,
-					"stats":      true,
-					"resources":  true};
+					"resources":  true,
+					"stats":      true};
 	this.$hud = this.getUI().appendTo("body");
 	this.$hud.append(this.$paperdoll);
 	this.drawPaperdoll();
@@ -45,14 +45,14 @@ HUD.prototype.draw = function () {
 					this.drawPaperdoll();
 					break;
 				
-				case "stats":
-					console.log("redrawing stats");
-					this.drawStats();
-					break;
-				
 				case "resources":
 					console.log("redrawing resources");
 					this.drawResources();
+					break;
+				
+				case "stats":
+					console.log("redrawing stats");
+					this.drawStats();
 					break;
 				
 				default:
@@ -81,19 +81,19 @@ HUD.prototype.getUI = function () {
 HUD.prototype.drawPaperdoll = function () {
 	this.$paperdoll.remove();
 	this.$paperdoll = this.paperdoll.getUI();
-	this.$hud.append(this.$paperdoll);
-};
-
-HUD.prototype.drawStats = function () {
-	this.$stats.remove();
-	this.$stats = this.stats.getUI();
-	this.$hud.append(this.$stats);
+	this.$hud.prepend(this.$paperdoll);
 };
 
 HUD.prototype.drawResources = function () {
 	this.$resources.remove();
 	this.$resources = this.resources.getUI();
-	this.$hud.append(this.$resources);
+	this.$resources.insertAfter(this.$paperdoll);
+};
+
+HUD.prototype.drawStats = function () {
+	this.$stats.remove();
+	this.$stats = this.stats.getUI();
+	this.$stats.insertAfter(this.$resources);
 };
 
 

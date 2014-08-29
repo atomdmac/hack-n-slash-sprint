@@ -259,6 +259,7 @@ Player.prototype.equipInspected = function() {
 	if (this.inspecting && this.inspecting.equipSlot) {
 		Character.prototype.equip.call(this, this.inspecting.equipSlot, this.inspecting);
 		this.hud.update("equipment");
+		this.hud.update("stats");
 	}
 };
 
@@ -268,6 +269,7 @@ Player.prototype.debug1 = function() {
 		Character.prototype.unequip.call(this, slot);
 	}
 	this.hud.update("equipment");
+	this.hud.update("stats");
 };
 
 Player.prototype.debug2 = function() {

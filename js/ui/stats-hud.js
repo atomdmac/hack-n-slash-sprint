@@ -18,13 +18,24 @@ StatsHUD.prototype = {};
 StatsHUD.prototype.getUI = function () {
 	var $el = $("<div id='stats-hud'></div>")
 		.css({
-			"width": 128,
+			"width": 256,
 			"margin": 5,
 			"display": "block",
 			"background": "#ffffff",
 			"overflow": "hidden"
 		});
-	$el.html("stats-hud");
+	
+	var $ul = $("<ul></ul>").css({
+			"list-style": "none",
+			"margin": "5px 0 0 0",
+			"padding": 0
+		});
+	
+	for (var key in this.character.stats) {
+		$ul.append($("<li>" + key + ": " + this.character.stats[key] + "</li>"));
+	}
+	
+	$el.append($ul);
 	
 	return $el;
 };
