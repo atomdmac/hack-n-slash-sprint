@@ -8,20 +8,7 @@ function NPC (options) {
 
 	this.isDistracted = false;
 	this.distractionRate = options.distractionRate;
-	this.courseOfAction = {
-		/*move: {
-			angle: 0,
-			magnitude: 0
-		},
-		primaryAttack: {
-			reach : 1,
-			startX: this.x,
-			startY: this.y,
-			endX  : this.x,
-			endY  : this.y,
-			angle : 0
-		}*/
-	};
+	this.courseOfAction = {};
 }
 
 NPC.prototype = new Character({});
@@ -92,28 +79,6 @@ NPC.prototype.decideNextAction = function() {
 		if (this.courseOfAction.primaryAttack) {
 			this.primaryAttack(this.courseOfAction.primaryAttack);
 		}
-		
-		
-		/*
-		// Record primaryAttack action
-		var primaryAttackJoystickData = jaws.gamepadReadJoystick(this.gamepad, this.input.gamepad["primaryAttack"]);
-		if(Math.abs(primaryAttackJoystickData.analogX) > 0.25 || Math.abs(primaryAttackJoystickData.analogY) > 0.25) {
-			// TODO: Handle more of this in CharacterFactory.
-			reach = 100;
-			startX = this.x;
-			startY = this.y;
-			endX = startX + reach * primaryAttackJoystickData.magnitude * Math.sin(primaryAttackJoystickData.angle);
-			endY = startY + reach * primaryAttackJoystickData.magnitude * Math.cos(primaryAttackJoystickData.angle);
-			
-			this.primaryAttack({
-				reach : reach * primaryAttackJoystickData.magnitude,
-				startX: startX,
-				startY: startY,
-				endX  : endX,
-				endY  : endY,
-				angle : primaryAttackJoystickData.angle
-			});
-		}*/
 	}
 	
 };

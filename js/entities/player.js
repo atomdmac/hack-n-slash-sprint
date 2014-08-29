@@ -205,7 +205,6 @@ Player.prototype.update = function () {
 		// Record primaryAttack action
 		var primaryAttackJoystickData = jaws.gamepadReadJoystick(this.gamepad, this.input.gamepad["primaryAttack"]);
 		if(Math.abs(primaryAttackJoystickData.analogX) > 0.25 || Math.abs(primaryAttackJoystickData.analogY) > 0.25) {
-			// TODO: Handle more of this in CharacterFactory.
 			reach = 100;
 			startX = this.x;
 			startY = this.y;
