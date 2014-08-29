@@ -263,6 +263,11 @@ Player.prototype.equipInspected = function() {
 	}
 };
 
+Player.prototype.damage = function(damageObj) {
+	Character.prototype.damage.call(this, damageObj);
+	this.hud.update("resources");
+};
+
 Player.prototype.debug1 = function() {
 	// Get naked.
 	for (var slot in this.equipment) {
