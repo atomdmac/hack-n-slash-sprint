@@ -41,17 +41,14 @@ HUD.prototype.draw = function () {
 			
 			switch (key) {
 				case "equipment":
-					console.log("redrawing equipment");
 					this.drawPaperdoll();
 					break;
 				
 				case "resources":
-					console.log("redrawing resources");
 					this.drawResources();
 					break;
 				
 				case "stats":
-					console.log("redrawing stats");
 					this.drawStats();
 					break;
 				
