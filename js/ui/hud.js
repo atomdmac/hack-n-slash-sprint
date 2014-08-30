@@ -60,6 +60,8 @@ HUD.prototype.draw = function () {
 				
 				case "stats":
 					this.drawStats();
+					// Update Resources w/ Stats to update max Resource values.
+					this.drawResources();
 					break;
 				
 				case "itemInspector":
