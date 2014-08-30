@@ -55,7 +55,8 @@ ItemInspectorHUD.prototype.getUI = function () {
 	
 	// Draw stat bonus deltas.
 	var $statsDelta = $("<div class='stats-delta'></div>")
-		.append("<p>Press X to swap</p>");
+		.append("<p>Press X to equip.</p>")
+		.append("<p>Changes if equipped:</p>");
 	var $deltaBonuses = $("<ul></ul>");
 	var deltaBonuses = {};//$.extend(true, {}, inspectedBonuses);
 	
@@ -85,8 +86,8 @@ ItemInspectorHUD.prototype.getUI = function () {
 	$statsDelta.append($deltaBonuses);
 	
 	$el.append($equipped)
-	   .append($statsDelta)
-	   .append($inspected);
+	   .append($inspected)
+	   .append($statsDelta);
 	
 	return $el;
 };

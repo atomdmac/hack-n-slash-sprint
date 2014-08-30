@@ -64,16 +64,15 @@
     background: #cccccc;
 }
 
-.item-inspector-hud .stats-delta {
-    position: relative;
-    margin: 5px;
-}
-
 .item-inspector-hud .inspected {
-    position: absolute;
-    bottom: 5px;
+    position: relative;
     width: 246px;
     height: 180px;
     margin: 5px;
     background: #cccccc;
+}
+
+.item-inspector-hud .stats-delta {
+    position: relative;
+    margin: 5px;
 }
