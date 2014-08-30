@@ -16,7 +16,7 @@ function StatsHUD(options) {
 StatsHUD.prototype = {};
 
 StatsHUD.prototype.getUI = function () {
-	var $el = $("<div id='stats-hud'></div>")
+	var $el = $("<div class='stats-hud'></div>")
 		.css({
 			"width": 256,
 			"margin": 5,

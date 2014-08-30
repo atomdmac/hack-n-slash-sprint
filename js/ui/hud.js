@@ -1,6 +1,6 @@
 define(
-['jaws', '$', 'ui/paperdoll', 'ui/resources-hud', 'ui/stats-hud'],
-function (jaws, $, Paperdoll, ResourcesHUD, StatsHUD) {
+['jaws', '$', 'ui/paperdoll', 'ui/resources-hud', 'ui/stats-hud', 'ui/item-inspector-hud'],
+function (jaws, $, Paperdoll, ResourcesHUD, StatsHUD, ItemInspectorHUD) {
 
 function HUD(options) {
 	
@@ -21,9 +21,13 @@ function HUD(options) {
 	this.stats = new StatsHUD(this.options);
 	this.$stats = this.stats.getUI();
 	
-	this.updated = {"equipment":  true,
-					"resources":  true,
-					"stats":      true};
+	this.itemInspector = new ItemInspectorHUD(this.options);
+	this.$itemInspector = this.itemInspector.getUI();
+	
+	this.updated = {"equipment"     : true,
+					"resources"     : true,
+					"stats"         : true,
+					"itemInspector" : true};
 	this.$hud = this.getUI().appendTo("body");
 	this.$hud.append(this.$paperdoll);
 	this.drawPaperdoll();
@@ -50,6 +54,10 @@ HUD.prototype.draw = function () {
 				
 				case "stats":
 					this.drawStats();
+					break;
+				
+				case "itemInspector":
+					this.drawItemInspector();
 					break;
 				
 				default:
@@ -93,6 +101,11 @@ HUD.prototype.drawStats = function () {
 	this.$stats.insertAfter(this.$resources);
 };
 
+HUD.prototype.drawItemInspector = function () {
+	this.$itemInspector.remove();
+	this.$itemInspector = this.itemInspector.getUI();
+	this.$itemInspector.insertAfter(this.$stats);
+};
 
 HUD.prototype.set = function (data) {
 	

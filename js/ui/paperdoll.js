@@ -16,7 +16,7 @@ function Paperdoll(options) {
 Paperdoll.prototype = {};
 
 Paperdoll.prototype.getUI = function () {
-	var $el = $("<div id='paperdoll'></div>")
+	var $el = $("<div class='paperdoll'></div>")
 		.css({
 			"width": 128,
 			"height": 196,

@@ -16,7 +16,7 @@ function ResourcesHUD(options) {
 ResourcesHUD.prototype = {};
 
 ResourcesHUD.prototype.getUI = function () {
-	var $el = $("<div id='resources-hud'></div>")
+	var $el = $("<div class='resources-hud'></div>")
 		.css({
 			"width": 256,
 			"margin": 5,
