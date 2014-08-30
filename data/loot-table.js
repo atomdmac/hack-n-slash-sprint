@@ -25,7 +25,8 @@ function () {
 			"Sword": 20,
 			"Hot Feet": 20,
 			"Leather Tunic": 20,
-			"Gohan's Hat": 20
+			"Gohan's Hat": 20,
+			"Gohan's Boots": 20
 		})
 	};
 });

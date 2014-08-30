@@ -241,6 +241,9 @@ Player.prototype.update = function () {
 	
 	// Move the inspect message with us.
 	this.inspectMessage.moveTo(this.x, this.y);
+	
+	// Update inspecting in the HUD.
+	this.hud.update("inspecting");
 };
 
 Player.prototype.radianMap8D = {

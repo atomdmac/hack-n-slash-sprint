@@ -15,7 +15,7 @@ function HUD(options) {
 	this.updated = {"equipment"     : true,
 					"resources"     : true,
 					"stats"         : true,
-					"itemInspector" : true};
+					"inspecting" : true};
 					
 	this.$hud = $("<div id='hud'></div>")
 	.appendTo("body");
@@ -64,7 +64,7 @@ HUD.prototype.draw = function () {
 					this.drawResources();
 					break;
 				
-				case "itemInspector":
+				case "inspecting":
 					this.drawItemInspector();
 					break;
 				
@@ -91,7 +91,12 @@ HUD.prototype.drawStats = function () {
 };
 
 HUD.prototype.drawItemInspector = function () {
-	this.$itemInspector.html(this.itemInspector.getUI());
+	if (this.character.inspecting && this.character.inspecting.id) {
+		this.$itemInspector.html(this.itemInspector.getUI());
+	}
+	else {
+		this.$itemInspector.html("");
+	}
 };
 
 return HUD;

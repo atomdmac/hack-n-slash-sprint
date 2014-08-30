@@ -51,3 +51,29 @@
     width: 256px;
     height: 590px;
 }
+
+.item-inspector-hud p,
+.item-inspector-hud ul {
+    margin: 0;
+}
+.item-inspector-hud .equipped {
+    position: relative;
+    width: 246px;
+    height: 180px;
+    margin: 5px;
+    background: #cccccc;
+}
+
+.item-inspector-hud .stats-delta {
+    position: relative;
+    margin: 5px;
+}
+
+.item-inspector-hud .inspected {
+    position: absolute;
+    bottom: 5px;
+    width: 246px;
+    height: 180px;
+    margin: 5px;
+    background: #cccccc;
+}

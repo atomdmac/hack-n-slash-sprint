@@ -44,6 +44,14 @@ function () {
 				movementSpeedIncrease: 1.5
 			}
 		},
+		"Gohan's Boots": {
+			label: "Gohan's Boots",
+			sprite_sheet: "assets/png/equipment/GohansBoots.png",
+			equipSlot: "footwear",
+			bonuses: {
+				movementSpeedIncrease: 1
+			}
+		},
 		"Gohan's Hat": {
 			label: "Gohan's Hat",
 			sprite_sheet: "assets/png/equipment/GohansHat.png",
