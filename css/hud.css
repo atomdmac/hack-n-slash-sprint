@@ -5,6 +5,11 @@
     background: #cccccc;
 }
 
+.hud-column {
+    float: left;
+    overflow: hidden;
+}
+
 .hud-tile {
     display: block;
     margin: 5px;
@@ -12,10 +17,10 @@
     overflow: hidden;
 }
 
-.paperdoll {
+.paperdoll-tile {
     width: 128px;
     height: 196px;
-    background: #dadfd9;
+    background: #ffffff;
 }
 
 .paperdoll canvas {
@@ -24,7 +29,7 @@
     top: -32px;
 }
 
-.stats-hud {
+.stats-tile {
     width: 256px;
 }
 .stats-hud ul {
@@ -33,7 +38,7 @@
     padding: 0;
 }
 
-.resources-hud {
+.resources-tile {
     width: 256px;
 }
 .resources-hud ul {
@@ -42,7 +47,7 @@
     padding: 0;
 }
 
-.item-inspector-hud {
+.item-inspector-tile {
     width: 256px;
     height: 590px;
 }

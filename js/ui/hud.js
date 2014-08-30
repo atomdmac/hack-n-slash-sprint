@@ -17,23 +17,26 @@ function HUD(options) {
 					"stats"         : true,
 					"itemInspector" : true};
 					
-	this.$hud = $("<div id='hud'></div>").appendTo("body");
+	this.$hud = $("<div id='hud'></div>")
+	.appendTo("body");
+	this.$hudColumn1 = $("<div class='hud-column'></div>").appendTo(this.$hud);
+	this.$hudColumn2 = $("<div class='hud-column'></div>").appendTo(this.$hud);
 	
 	this.paperdoll = new Paperdoll(this.options);
 	this.$paperdoll = $("<div class='hud-tile paperdoll-tile'></div>")
-	.appendTo(this.$hud);
+	.appendTo(this.$hudColumn1);
 	
 	this.resources = new ResourcesHUD(this.options);
 	this.$resources = $("<div class='hud-tile resources-tile'></div>")
-	.appendTo(this.$hud);
+	.appendTo(this.$hudColumn1);
 	
 	this.stats = new StatsHUD(this.options);
 	this.$stats = $("<div class='hud-tile stats-tile'></div>")
-	.appendTo(this.$hud);
+	.appendTo(this.$hudColumn1);
 	
 	this.itemInspector = new ItemInspectorHUD(this.options);
 	this.$itemInspector = $("<div class='hud-tile item-inspector-tile'></div>")
-	.appendTo(this.$hud);
+	.appendTo(this.$hudColumn2);
 }
 
 HUD.prototype = {};
