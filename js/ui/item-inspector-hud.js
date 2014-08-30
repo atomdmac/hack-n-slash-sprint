@@ -23,18 +23,6 @@ ItemInspectorHUD.prototype.getUI = function () {
 	return $el;
 };
 
-ItemInspectorHUD.prototype.draw = function () {
-	
-};
-
-ItemInspectorHUD.prototype.set = function (data) {
-	
-};
-
-ItemInspectorHUD.prototype.destroy = function () {
-	// TODO: Implement ItemInspectorHUD destruction...maybe?
-};
-
 return ItemInspectorHUD;
 
 });

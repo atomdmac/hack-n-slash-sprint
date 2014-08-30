@@ -73,13 +73,6 @@ HUD.prototype.draw = function () {
 	}
 };
 
-HUD.prototype.getUI = function () {
-	var $el = $("<div id='hud'></div>");
-	return $el;
-};
-
-
-// TODO: Make it so the order doesn't change when these update!
 HUD.prototype.drawPaperdoll = function () {
 	this.$paperdoll.html(this.paperdoll.getUI());
 };
@@ -94,14 +87,6 @@ HUD.prototype.drawStats = function () {
 
 HUD.prototype.drawItemInspector = function () {
 	this.$itemInspector.html(this.itemInspector.getUI());
-};
-
-HUD.prototype.set = function (data) {
-	
-};
-
-HUD.prototype.destroy = function () {
-	// TODO: Implement HUD destruction...maybe?
 };
 
 return HUD;

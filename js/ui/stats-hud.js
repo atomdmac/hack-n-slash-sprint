@@ -29,18 +29,6 @@ StatsHUD.prototype.getUI = function () {
 	return $el;
 };
 
-StatsHUD.prototype.draw = function () {
-	
-};
-
-StatsHUD.prototype.set = function (data) {
-	
-};
-
-StatsHUD.prototype.destroy = function () {
-	// TODO: Implement StatsHUD destruction...maybe?
-};
-
 return StatsHUD;
 
 });

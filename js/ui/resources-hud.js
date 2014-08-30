@@ -29,18 +29,6 @@ ResourcesHUD.prototype.getUI = function () {
 	return $el;
 };
 
-ResourcesHUD.prototype.draw = function () {
-	
-};
-
-ResourcesHUD.prototype.set = function (data) {
-	
-};
-
-ResourcesHUD.prototype.destroy = function () {
-	// TODO: Implement ResourcesHUD destruction...maybe?
-};
-
 return ResourcesHUD;
 
 });

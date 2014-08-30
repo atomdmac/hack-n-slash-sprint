@@ -25,18 +25,6 @@ Paperdoll.prototype.getUI = function () {
 	return $el;
 };
 
-Paperdoll.prototype.draw = function () {
-	
-};
-
-Paperdoll.prototype.set = function (data) {
-	
-};
-
-Paperdoll.prototype.destroy = function () {
-	// TODO: Implement Paperdoll destruction...maybe?
-};
-
 return Paperdoll;
 
 });
