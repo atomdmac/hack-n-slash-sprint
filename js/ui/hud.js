@@ -71,13 +71,7 @@ HUD.prototype.draw = function () {
 };
 
 HUD.prototype.getUI = function () {
-	var $el = $("<div id='hud'></div>")
-		.css({
-			"height": 600,
-			"display": "inline-block",
-			"position": "absolute",
-			"background": "#cccccc"
-		});
+	var $el = $("<div id='hud'></div>");
 	return $el;
 };
 

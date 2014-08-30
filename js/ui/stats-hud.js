@@ -16,20 +16,9 @@ function StatsHUD(options) {
 StatsHUD.prototype = {};
 
 StatsHUD.prototype.getUI = function () {
-	var $el = $("<div class='stats-hud'></div>")
-		.css({
-			"width": 256,
-			"margin": 5,
-			"display": "block",
-			"background": "#ffffff",
-			"overflow": "hidden"
-		});
+	var $el = $("<div class='stats-hud'></div>");
 	
-	var $ul = $("<ul></ul>").css({
-			"list-style": "none",
-			"margin": "5px 0 0 0",
-			"padding": 0
-		});
+	var $ul = $("<ul></ul>");
 	
 	for (var key in this.character.stats) {
 		$ul.append($("<li>" + key + ": " + this.character.stats[key] + "</li>"));

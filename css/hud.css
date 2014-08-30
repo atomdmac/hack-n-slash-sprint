@@ -1,0 +1,41 @@
+#hud {
+    display: inline-block;
+    position: absolute;
+    height: 600px;
+    background: #cccccc;
+}
+
+.stats-hud {
+    display: block;
+    width: 256px;
+    margin: 5px;
+    background: #ffffff;
+    overflow: hidden;
+}
+.stats-hud ul {
+    list-style: none;
+    margin: 5px 0 0 0;
+    padding: 0;
+}
+
+.resources-hud {
+    display: block;
+    width: 256px;
+    margin: 5px;
+    background: #ffffff;
+    overflow: hidden;
+}
+.resources-hud ul {
+    list-style: none;
+    margin: 5px 0 0 0;
+    padding: 0;
+}
+
+.item-inspector-hud {
+    display: block;
+    width: 256px;
+    height: 590px;
+    margin: 5px;
+    background: #ffffff;
+    overflow: hidden;
+}

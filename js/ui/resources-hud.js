@@ -16,20 +16,9 @@ function ResourcesHUD(options) {
 ResourcesHUD.prototype = {};
 
 ResourcesHUD.prototype.getUI = function () {
-	var $el = $("<div class='resources-hud'></div>")
-		.css({
-			"width": 256,
-			"margin": 5,
-			"display": "block",
-			"background": "#ffffff",
-			"overflow": "hidden"
-		});
+	var $el = $("<div class='resources-hud'></div>");
 	
-	var $ul = $("<ul></ul>").css({
-			"list-style": "none",
-			"margin": "5px 0 0 0",
-			"padding": 0
-		});
+	var $ul = $("<ul></ul>");
 	
 	for (var key in this.character.resources) {
 		$ul.append($("<li>" + key + ": " + this.character.resources[key] + "</li>"));
