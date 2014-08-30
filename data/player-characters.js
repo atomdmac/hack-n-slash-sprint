@@ -11,7 +11,7 @@ function () {
 					"moveRight": "d",
 					"primaryAttack": "left_mouse_button",
 					"secondaryAttack": "right_mouse_button",
-					"equipInspected": "f",
+					"equipInspected": "x",
 					"debug1": "1",
 					"debug2": "2",
 					"debug3": "3"
