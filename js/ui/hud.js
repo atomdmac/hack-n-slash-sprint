@@ -12,25 +12,28 @@ function HUD(options) {
 		this.character = this.options.character;
 	}
 	
-	this.paperdoll = new Paperdoll(this.options);
-	this.$paperdoll = this.paperdoll.getUI();
-	
-	this.resources = new ResourcesHUD(this.options);
-	this.$resources = this.resources.getUI();
-	
-	this.stats = new StatsHUD(this.options);
-	this.$stats = this.stats.getUI();
-	
-	this.itemInspector = new ItemInspectorHUD(this.options);
-	this.$itemInspector = this.itemInspector.getUI();
-	
 	this.updated = {"equipment"     : true,
 					"resources"     : true,
 					"stats"         : true,
 					"itemInspector" : true};
-	this.$hud = this.getUI().appendTo("body");
-	this.$hud.append(this.$paperdoll);
-	this.drawPaperdoll();
+					
+	this.$hud = $("<div id='hud'></div>").appendTo("body");
+	
+	this.paperdoll = new Paperdoll(this.options);
+	this.$paperdoll = $("<div class='hud-tile paperdoll-tile'></div>")
+	.appendTo(this.$hud);
+	
+	this.resources = new ResourcesHUD(this.options);
+	this.$resources = $("<div class='hud-tile resources-tile'></div>")
+	.appendTo(this.$hud);
+	
+	this.stats = new StatsHUD(this.options);
+	this.$stats = $("<div class='hud-tile stats-tile'></div>")
+	.appendTo(this.$hud);
+	
+	this.itemInspector = new ItemInspectorHUD(this.options);
+	this.$itemInspector = $("<div class='hud-tile item-inspector-tile'></div>")
+	.appendTo(this.$hud);
 }
 
 HUD.prototype = {};
@@ -78,27 +81,19 @@ HUD.prototype.getUI = function () {
 
 // TODO: Make it so the order doesn't change when these update!
 HUD.prototype.drawPaperdoll = function () {
-	this.$paperdoll.remove();
-	this.$paperdoll = this.paperdoll.getUI();
-	this.$hud.prepend(this.$paperdoll);
+	this.$paperdoll.html(this.paperdoll.getUI());
 };
 
 HUD.prototype.drawResources = function () {
-	this.$resources.remove();
-	this.$resources = this.resources.getUI();
-	this.$resources.insertAfter(this.$paperdoll);
+	this.$resources.html(this.resources.getUI());
 };
 
 HUD.prototype.drawStats = function () {
-	this.$stats.remove();
-	this.$stats = this.stats.getUI();
-	this.$stats.insertAfter(this.$resources);
+	this.$stats.html(this.stats.getUI());
 };
 
 HUD.prototype.drawItemInspector = function () {
-	this.$itemInspector.remove();
-	this.$itemInspector = this.itemInspector.getUI();
-	this.$itemInspector.insertAfter(this.$stats);
+	this.$itemInspector.html(this.itemInspector.getUI());
 };
 
 HUD.prototype.set = function (data) {

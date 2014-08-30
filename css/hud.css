@@ -5,12 +5,27 @@
     background: #cccccc;
 }
 
-.stats-hud {
+.hud-tile {
     display: block;
-    width: 256px;
     margin: 5px;
     background: #ffffff;
     overflow: hidden;
+}
+
+.paperdoll {
+    width: 128px;
+    height: 196px;
+    background: #dadfd9;
+}
+
+.paperdoll canvas {
+    position: relative;
+    left: -64px;
+    top: -32px;
+}
+
+.stats-hud {
+    width: 256px;
 }
 .stats-hud ul {
     list-style: none;
@@ -19,11 +34,7 @@
 }
 
 .resources-hud {
-    display: block;
     width: 256px;
-    margin: 5px;
-    background: #ffffff;
-    overflow: hidden;
 }
 .resources-hud ul {
     list-style: none;
@@ -32,10 +43,6 @@
 }
 
 .item-inspector-hud {
-    display: block;
     width: 256px;
     height: 590px;
-    margin: 5px;
-    background: #ffffff;
-    overflow: hidden;
 }
