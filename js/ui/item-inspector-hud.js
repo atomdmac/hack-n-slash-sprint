@@ -76,7 +76,10 @@ ItemInspectorHUD.prototype.getUI = function () {
 	
 	// Draw deltas
 	for (var key in deltaBonuses) {
-		$deltaBonuses.append($("<li>" + key + ": " + deltaBonuses[key] + "</li>"));
+		// Only show stats that will change.
+		if (deltaBonuses[key] !== 0) {
+			$deltaBonuses.append($("<li>" + key + ": " + deltaBonuses[key] + "</li>"));
+		}
 	}
 		
 	$statsDelta.append($deltaBonuses);
