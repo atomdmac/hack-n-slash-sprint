@@ -107,7 +107,7 @@ function LoadState () {
 		character = $.extend(true, 
 			{}, 
 			DATABASE.characters["base"], 
-			DATABASE.characters['Edge'],
+			DATABASE.characters['Chuck'],
 			DATABASE.playerCharacters['base'],
 			{
 				x         : spawnPoint.x,

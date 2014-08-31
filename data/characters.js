@@ -66,6 +66,9 @@ return {
 			amulet: null
 		}
 	},
+	"Chuck": {
+		sprite_sheet: "assets/png/entities/Chuck.png"
+	},
 	"Edge": {
 		sprite_sheet: "assets/png/entities/FF4_Edge.png"
 	},
