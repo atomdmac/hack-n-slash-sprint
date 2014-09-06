@@ -66,7 +66,7 @@ function (jaws, $, DATABASE, LoadState) {
 	// Define game data structure.
 	var gameData = {
 		// Load the map from this path.
-		url: 'assets/tmx/import-test.tmx',
+		url: 'assets/tmx/test-zone-30x30.tmx',
 		// Once loaded, a reference to the map will go here.
 		map: null,
 		// A jaws.Viewport instance for rendering the game world.
