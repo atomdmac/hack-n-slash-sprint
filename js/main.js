@@ -61,6 +61,13 @@ function (jaws, $, DATABASE, LoadState) {
 			if(equip.sprite_sheet) jaws.assets.add( equip.sprite_sheet );
 		}
 		
+		// Load Entities assets.
+		for(var entity in DATABASE.entities) {
+			entity = DATABASE.entities[entity];
+
+			if(entity.sprite_sheet) jaws.assets.add( entity.sprite_sheet );
+		}
+		
 	})();
 
 	// Define game data structure.

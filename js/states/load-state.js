@@ -7,8 +7,8 @@
  * passed to jaws.TMXMap.
  */
 define(
-['jaws', 'DATABASE', 'states/play-state', 'entities/npc', 'entities/player'],
-function (jaws, DATABASE, PlayState, NPC, Player) {
+['jaws', 'DATABASE', 'states/play-state', 'entities/npc', 'entities/player', 'entities/zone-switcher'],
+function (jaws, DATABASE, PlayState, NPC, Player, ZoneSwitcher) {
 
 function LoadState () {
 
@@ -19,7 +19,7 @@ function LoadState () {
 	 */
 	function _onMapParsed (map) {
 		var a = _gameData;
-
+		console.log(map);
 		_gameData.map = map;
 		_gameData.characters = [];
 		_gameData.items = [];
@@ -32,8 +32,12 @@ function LoadState () {
 			max_y: map.height * _gameData.map.tileheight
 		});
 
+		
+		// Populate the map with Entities.
+		_gameData.entities = _generateMapObjects();
+		
 		// Populate the map with NPCs.
-		_gameData.npcs = _generateNPCs(100);
+		_gameData.npcs = _generateNPCs(10);
 
 		// Generate player.
 		_gameData.players = [_generatePlayer(_gameData)];
@@ -44,6 +48,39 @@ function LoadState () {
 
 		// Populate 
 		jaws.switchGameState(PlayState, {}, _gameData);
+	}
+	
+	function _generateMapObjects() {
+		var mapObjects = [], currentObject, objectConfig;
+		
+		for (var lcv = 0; lcv < _gameData.map.objects.length; lcv++) {
+			currentObject = _gameData.map.objects[lcv];
+			switch (currentObject.properties.type) {
+				case "ZoneSwitcher":
+					objectConfig = $.extend(true, 
+						{},
+						DATABASE.entities["base"],
+						DATABASE.entities['ZoneSwitcher'],
+						{
+							x: currentObject.x,
+							y: currentObject.y,
+							width: currentObject.width,
+							height: currentObject.height
+						}
+					);
+					
+					// Attach game data *after* cloning so it is passed by reference.
+					objectConfig.gameData = _gameData;
+					
+					mapObjects.push(new ZoneSwitcher(objectConfig));
+					
+					break;
+				default:
+					break;
+			}
+		}
+		
+		return mapObjects;
 	}
 
 	/*
@@ -102,7 +139,8 @@ function LoadState () {
 
 		var player, spawnPoint, character;
 
-		spawnPoint = _getRandomSpawnPoint();
+		//spawnPoint = _getRandomSpawnPoint();
+		spawnPoint = {x:100,y:100};
 
 		character = $.extend(true, 
 			{}, 

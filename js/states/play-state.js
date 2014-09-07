@@ -5,7 +5,7 @@ function (jaws, DATABASE, NPC, Player, SAT) {
 function PlayState () {
 	// The current map.
 	// TODO: Clean up PlayState internal variable assignments.
-	var _gameData, map, players=[], npcs=[], characters=[], layers={}, viewport;
+	var _gameData, map, players=[], npcs=[], characters=[], entities=[], layers={}, viewport;
 
 	this.setup = function (options) {
 		if(!options.map) {
@@ -20,6 +20,7 @@ function PlayState () {
 		players    = _gameData.players;
 		npcs       = _gameData.npcs;
 		characters = _gameData.characters;
+		entities   = _gameData.entities;
 		items      = _gameData.items;
 
 		map              = _gameData.map;
@@ -37,6 +38,9 @@ function PlayState () {
 
 		// Update our players and NPCs.  This includes decision making and 
 		// actions.
+		for(i=0, ilen=entities.length; i<ilen; i++) {
+			entities[i].update();
+		}
 		for(i=0, ilen=players.length; i<ilen; i++) {
 			players[i].update();
 		}
@@ -71,6 +75,10 @@ function PlayState () {
 		// Set up loop variables.
 		var i, ilen;
 		
+		// Draw entities.
+		for(i=0, ilen=entities.length; i<ilen; i++) {
+			viewport.draw(entities[i]);
+		}
 		// Draw items.
 		for(var id in items) {
 			viewport.draw(items[id]);
