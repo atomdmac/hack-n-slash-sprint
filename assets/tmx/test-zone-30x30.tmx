@@ -25,7 +25,7 @@
   </data>
  </layer>
  <objectgroup name="entities" width="30" height="30">
-  <object name="ZoneSwitcherTest" type="ZoneSwitcher" gid="4" x="400" y="171">
+  <object name="ZoneSwitcherTest" type="ZoneSwitcher" gid="4" x="203" y="160">
    <properties>
     <property name="type" value="ZoneSwitcher"/>
    </properties>

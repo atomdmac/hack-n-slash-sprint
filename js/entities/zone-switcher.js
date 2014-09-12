@@ -1,6 +1,6 @@
 define(
-['jaws', '$', 'DATABASE'],
-function (jaws, $, DATABASE) {
+['jaws', '$', 'DATABASE', 'states/load-state'],
+function (jaws, $, DATABASE, LoadState) {
 
 function ZoneSwitcher(options) {
 	// TODO: Character extension check is kinda hack-y...
@@ -44,6 +44,7 @@ ZoneSwitcher.prototype.update = function () {
 			y: this.y
 		}, this._gameData.players[0])) {
 		console.log("take me away!");
+		this.loadZone();
 	}
 	
 };
@@ -52,6 +53,19 @@ ZoneSwitcher.prototype.draw = function () {
 	this.setImage(this.animation.subsets["loop"].next());
 	// Call original jaws.Sprite.draw() function.
 	jaws.Sprite.prototype.draw.call(this);
+};
+
+ZoneSwitcher.prototype.loadZone = function () {
+	
+	this._gameData.url = "assets/tmx/import-test.tmx";
+	console.log(LoadState);
+	// Populate 
+	jaws.switchGameState(LoadState,
+						// Start-up Options
+						{
+							fps: 60
+						},
+						this._gameData);
 };
 
 ZoneSwitcher.prototype.put = function () {
