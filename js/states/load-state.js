@@ -56,12 +56,12 @@ function LoadState () {
 	function _getRandomSpawnPoint () {
 		// TODO: Check for collisions when generating random spawn point.
 		if(!_gameData.map.width) return;
-		var mapWidth  = _gameData.map.width  * _gameData.map.tilewidth,
-			mapHeight = _gameData.map.height * _gameData.map.tileheight;
+		var mapWidth  = (_gameData.map.width - 2)  * _gameData.map.tilewidth,
+			mapHeight = (_gameData.map.height - 2) * _gameData.map.tileheight;
 
 		return {
-			x: Math.floor(Math.random() * mapWidth  - 2) + 1,
-			y: Math.floor(Math.random() * mapHeight - 2) + 1
+			x: Math.floor(Math.random() * mapWidth  - 2) + _gameData.map.tilewidth,
+			y: Math.floor(Math.random() * mapHeight - 2) + _gameData.map.tileheight
 		};
 	}
 
