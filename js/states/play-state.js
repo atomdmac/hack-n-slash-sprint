@@ -22,9 +22,8 @@ function PlayState () {
 		characters = _gameData.characters;
 		items      = _gameData.items;
 
-		map              = _gameData.map;
-		layers.collision = _gameData.map.layerAsTileMap("collision");
-		layers.terrain   = _gameData.map.layerAsTileMap("terrain");
+		map    = _gameData.map;
+		layers = _gameData.layers;
 
 		viewport = _gameData.viewport;
 		

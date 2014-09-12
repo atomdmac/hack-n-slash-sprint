@@ -21,6 +21,10 @@ function LoadState () {
 		var a = _gameData;
 
 		_gameData.map = map;
+		_gameData.layers = {
+			collision: map.layerAsTileMap('collision'),
+			terrain  : map.layerAsTileMap('terrain')
+		};
 		_gameData.characters = [];
 		_gameData.items = [];
 		
