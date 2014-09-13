@@ -38,7 +38,7 @@ NPC.prototype.decideNextAction = function() {
 	// Do nothing if dead.
 	if (this.resources.health > 0 === false) return;
 
-	var player   = this._gameData.players[0],
+	var player   = this._gameData.player,
 		// Round position values to prevent lineOfSight from breaking.
 		startPos = [Math.round(this.x)  , Math.round(this.y)],
 		endPos   = [Math.round(player.x), Math.round(player.y)],
@@ -68,8 +68,8 @@ NPC.prototype.seek = function () {
 		y: this.y
 	};
 	var p2 = {
-		x: this._gameData.players[0].x,
-		y: this._gameData.players[0].y
+		x: this._gameData.player.x,
+		y: this._gameData.player.y
 	};
 	var analogX = p2.x - p1.x;
 	var analogY = p2.y - p1.y;

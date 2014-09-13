@@ -1,6 +1,6 @@
 define(
-['jaws', '$', 'DATABASE'],
-function (jaws, $, DATABASE) {
+['jaws', '$', 'DATABASE', 'entities/entity'],
+function (jaws, $, DATABASE, Entity) {
 
 function Item(options) {
 	// TODO: Character extension check is kinda hack-y...
@@ -12,7 +12,7 @@ function Item(options) {
 	this.options = $.extend({}, options);
 
 	// Call super-class.
-	jaws.Sprite.call(this, this.options);
+	Entity.call(this, this.options);
 
 	if(isExtending) return;
 
@@ -22,7 +22,7 @@ function Item(options) {
 	// These options will not be able to be set if this constructor is being
 	// called as a means to extend it.
 	if(this.options){
-		// Set up Sprite animations.
+		// Set up Entity animations.
 		this.animation = new jaws.Animation({
 			sprite_sheet  : this.options.sprite_sheet,
 			frame_size    : this.options.frame_size,
@@ -30,30 +30,25 @@ function Item(options) {
 			subsets       : this.options.animationSubsets
 		});
 		
-		this.id = jaws.generateUUID();
 		this.owner = null;
-		this.drawable = false;
-		this.label = this.options.label;
-		this.radius = this.options.radius;
 		this.sprite_sheet = this.options.sprite_sheet;
 		this.equipSlot = this.options.equipSlot;
 		this.primaryAttack = this.options.primaryAttack;
 		this.bonuses = this.options.bonuses;
+		this.state = "unequipped";
 	}
 }
 
-Item.prototype = new jaws.Sprite({});
+Item.prototype = new Entity({});
 
 Item.prototype.update = function () {
 	
 };
 
 Item.prototype.draw = function () {
-	if (this.drawable && this.state) {
-		this.setImage(this.animation.subsets[this.state].next());
-		// Call original jaws.Sprite.draw() function.
-		jaws.Sprite.prototype.draw.call(this);
-	}
+	this.setImage(this.animation.subsets[this.state].next());
+	// Call original Entity.draw() function.
+	Entity.prototype.draw.call(this);
 };
 
 Item.prototype.put = function () {
@@ -62,13 +57,12 @@ Item.prototype.put = function () {
 
 Item.prototype.drop = function (x, y) {
 	this.move(x, y);
-	this.drawable = true;
-	this.state = "unequipped";
-	this._gameData.items[this.id] = this;
+	// TODO: Reimplement as a generic entity and move to constructor.
+	this._gameData.entities.push(this);
 };
 Item.prototype.take = function (newOwner) {
-	this.drawable = false;
-	this.move(-1000, -1000);
+	// TODO: Not this.
+	this._gameData.entities.splice(this._gameData.entities.indexOf(this), 1);
 	if (newOwner) {
 		this.owner = newOwner;
 	}

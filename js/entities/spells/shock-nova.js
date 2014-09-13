@@ -1,12 +1,12 @@
 define(
-['jaws', 'DATABASE'],
-function (jaws, DATABASE) {
+['jaws', 'DATABASE', 'entities/entity'],
+function (jaws, DATABASE, Entity) {
 
 function ShockNova (options) {
 	// Merge options
 	options = $.extend({}, DATABASE.spells["ShockNova"], options);
 
-	var self = new jaws.Sprite({
+	var self = new Entity({
 		x: options.spawnX,
 		y: options.spawnY,
 		scale: options.scale,

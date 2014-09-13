@@ -1,26 +1,24 @@
 define(
-['jaws', 'DATABASE', 'entities/npc', 'entities/player', 'lib/SAT'],
-function (jaws, DATABASE, NPC, Player, SAT) {
+['jaws', 'DATABASE', 'lib/SAT', 'entities/item', 'entities/zone-switcher'],
+function (jaws, DATABASE, SAT, Item, ZoneSwitcher) {
 
 function PlayState () {
 	// The current map.
 	// TODO: Clean up PlayState internal variable assignments.
-	var _gameData, map, players=[], npcs=[], characters=[], layers={}, viewport;
+	var _gameData, map, player, entities=[], collidableEntities=[], layers={}, viewport;
 
 	this.setup = function (options) {
 		if(!options.map) {
 			throw new Error("PlayState needs a map.");
 		}
-		if(!options.players) {
+		if(!options.player) {
 			throw new Error("PlayState needs at least one player.");
 		}
 
 		_gameData = options;
 
-		players    = _gameData.players;
-		npcs       = _gameData.npcs;
-		characters = _gameData.characters;
-		items      = _gameData.items;
+		player     = _gameData.player;
+		entities   = _gameData.entities;
 
 		map    = _gameData.map;
 		layers = _gameData.layers;
@@ -32,51 +30,46 @@ function PlayState () {
 
 	this.update = function () {
 		// Set up loop variables.
-		var i, ilen, j, jlen;
+		var i, ilen;
+		collidableEntities = entities.slice();
 
-		// Update our players and NPCs.  This includes decision making and 
-		// actions.
-		for(i=0, ilen=players.length; i<ilen; i++) {
-			players[i].update();
-		}
-		for(i=0, ilen=npcs.length; i<ilen; i++) {
-			npcs[i].update();
+		// Update entities and detect / respond to collisions.
+		while(collidableEntities.length) {
+			collidableEntities[0].update();
+			var mapObjs = _collide( collidableEntities[0] );
+			for(i=0, ilen=mapObjs.length; i<ilen; i++) {
+				collidableEntities[0].x -= mapObjs[i].overlapX;
+				collidableEntities[0].y -= mapObjs[i].overlapY;
+			}
+			// Remove the entity just considered, so we don't consider collisions twice
+			collidableEntities.shift();
 		}
 
-		// Sort the list of characters by Y coordinate so they'll be drawn with
+		// Sort the list of entities by Y coordinate so they'll be drawn with
 		// the "closest" one in the foreground.
-		characters.sort(function (a, b) {
+		entities.sort(function (a, b) {
+			if(b instanceof ZoneSwitcher) return  1;
+			if(a instanceof ZoneSwitcher) return -1;
+			if(b instanceof Item) return  1;
+			if(a instanceof Item) return -1;
 			if(a.y > b.y) return  1;
 			if(a.y < b.y) return -1;
 			return 0; 
 		});
-
-		// Detect / respond to map collisions.
-		for(i=0, ilen=characters.length; i<ilen; i++) {
-			var mapObjs = _collide( characters[i] );
-			for(j=0, jlen=mapObjs.length; j<jlen; j++) {
-				characters[i].x -= mapObjs[j].overlapX;
-				characters[i].y -= mapObjs[j].overlapY;
-			}
-		}
 	};
 
 	this.draw = function () {
 		jaws.clear();
 
-		viewport.centerAround(players[0]);
+		viewport.centerAround(player);
 		viewport.drawTileMap(layers.terrain);
 
 		// Set up loop variables.
 		var i, ilen;
 		
-		// Draw items.
-		for(var id in items) {
-			viewport.draw(items[id]);
-		}
-		// Draw characters.
-		for(i=0, ilen=characters.length; i<ilen; i++) {
-			viewport.draw(characters[i]);
+		// Draw entities.
+		for(i=0, ilen=entities.length; i<ilen; i++) {
+			viewport.draw(entities[i]);
 		}
 	};
 
