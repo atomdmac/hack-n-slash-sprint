@@ -4,6 +4,7 @@ function (equipment) {
 
 return {
     "base": {
+		label: "no label",
 		spawnX: 0,
 		spawnY: 0,
 		width: 32,
@@ -67,12 +68,15 @@ return {
 		}
 	},
 	"Chuck": {
+		label: "Chuck",
 		sprite_sheet: "assets/png/entities/Chuck.png"
 	},
 	"Edge": {
+		label: "Edge",
 		sprite_sheet: "assets/png/entities/FF4_Edge.png"
 	},
 	"Tellah": {
+		label: "Tellah",
 		sprite_sheet: "assets/png/entities/FF4_Tellah.png"
 	}
 };

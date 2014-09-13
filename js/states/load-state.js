@@ -21,8 +21,7 @@ function LoadState () {
 		var a = _gameData;
 		console.log(map);
 		_gameData.map = map;
-		_gameData.characters = [];
-		_gameData.items = [];
+		_gameData.entities = [];
 		
 		// Create viewport.
 		_gameData.viewport = new jaws.Viewport({
@@ -32,19 +31,13 @@ function LoadState () {
 			max_y: map.height * _gameData.map.tileheight
 		});
 
+		// Generate player.
+		_gameData.player = _generatePlayer(_gameData);
 		
 		// Populate the map with Entities.
-		_gameData.entities = _generateMapObjects();
-		
-		// Populate the map with NPCs.
-		_gameData.npcs = _generateNPCs(10);
-
-		// Generate player.
-		_gameData.players = [_generatePlayer(_gameData)];
-
-		// Create a list containing player as well as NPCs.
-		_gameData.characters.push.apply(_gameData.characters, _gameData.npcs);
-		_gameData.characters.push.apply(_gameData.characters, _gameData.players);
+		_gameData.entities.push.apply(_gameData.entities, [_gameData.player]);
+		_gameData.entities.push.apply(_gameData.entities, _generateNPCs(10));
+		_gameData.entities.push.apply(_gameData.entities, _generateMapObjects());
 
 		// Populate 
 		jaws.switchGameState(PlayState, {}, _gameData);

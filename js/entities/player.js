@@ -1,6 +1,6 @@
 define(
-['jaws', 'DATABASE', 'entities/character', 'ui/hud'],
-function (jaws, DATABASE, Character, HUD) {
+['jaws', 'DATABASE', 'entities/character', 'ui/hud', 'entities/item'],
+function (jaws, DATABASE, Character, HUD, Item) {
 
 function Player (options) {
 
@@ -224,13 +224,13 @@ Player.prototype.update = function () {
 	
 	// Update inspect message
 	this.inspecting = null;
-	for(var id in this._gameData.items) {
-		if (jaws.collideCircles({
+	for(var id in this._gameData.entities) {
+		if (this._gameData.entities[id] instanceof Item && jaws.collideCircles({
 									radius: this.inspectRadius,
 									x: this.x,
 									y: this.y
-								}, this._gameData.items[id])) {
-			this.inspecting = this._gameData.items[id];
+								}, this._gameData.entities[id])) {
+			this.inspecting = this._gameData.entities[id];
 			break;
 		}
 	}

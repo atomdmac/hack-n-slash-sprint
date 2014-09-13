@@ -42,8 +42,8 @@ NPC.prototype.decideNextAction = function() {
 				y: this.y
 			};
 			var p2 = {
-				x: this._gameData.players[0].x,
-				y: this._gameData.players[0].y
+				x: this._gameData.player.x,
+				y: this._gameData.player.y
 			};
 			var analogX = p2.x - p1.x;
 			var analogY = p2.y - p1.y;

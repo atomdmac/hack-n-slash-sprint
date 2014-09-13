@@ -1,6 +1,6 @@
 define(
-['jaws', '$', 'DATABASE', 'lib/SAT', 'entities/spells/shock-nova'],
-function (jaws, $, DATABASE, SAT, ShockNova) {
+['jaws', '$', 'DATABASE', 'entities/entity', 'lib/SAT', 'entities/spells/shock-nova'],
+function (jaws, $, DATABASE, Entity, SAT, ShockNova) {
 
 function Character(options) {
 	// TODO: Character extension check is kinda hack-y...
@@ -12,7 +12,7 @@ function Character(options) {
 	this.options = $.extend({}, options);
 
 	// Call super-class.
-	jaws.Sprite.call(this, this.options);
+	Entity.call(this, this.options);
 
 	if(isExtending) return;
 
@@ -25,7 +25,7 @@ function Character(options) {
 		this.bearing         = this.options.bearing;
 		this.radius          = this.options.radius;
 
-		// Set up Sprite animations.
+		// Set up Entity animations.
 		this.animation = new jaws.Animation({
 			sprite_sheet  : this.options.sprite_sheet,
 			frame_size    : this.options.frame_size,
@@ -46,7 +46,7 @@ function Character(options) {
 	this.resources = $.extend(true, {}, this.options.resources);
 }
 
-Character.prototype = new jaws.Sprite({});
+Character.prototype = new Entity({});
 
 Character.prototype.update = function () {
 	if(this.actionsQueued.attack) {
@@ -112,8 +112,8 @@ Character.prototype.draw = function () {
 		})();*/
 	}
 	
-	// Call original jaws.Sprite.draw() function.
-	jaws.Sprite.prototype.draw.call(this);
+	// Call original Entity.draw() function.
+	Entity.prototype.draw.call(this);
 	
 	// Clear dumb flags after drawing.
 	this.actionsQueued["move"] = false;
@@ -139,7 +139,7 @@ Character.prototype.equip = function (slot, item) {
 		
 		// Draw item equipped.
 		this.animation.setLayer(slot, item.sprite_sheet, this.options.animationSubsets);
-		// TODO: Make the Sprite visual update immediately.
+		// TODO: Make the Entity visual update immediately.
 		
 		// Apply item bonuses.
 		for (var stat in item.bonuses) {
@@ -153,7 +153,7 @@ Character.prototype.unequip = function (slot) {
 	if (item) {
 		// Remove item from drawn layers.
 		this.animation.setLayer(item.equipSlot, null, this.options.animationSubsets);
-		// TODO: Make the Sprite visual update immediately.
+		// TODO: Make the Entity visual update immediately.
 		
 		// Negate item bonuses.
 		for (var stat in item.bonuses) {
@@ -311,7 +311,7 @@ Character.prototype.primaryAttack = function (attackObj) {
 					// Attacker
 					this,
 					// Potential targets.
-					this._gameData.characters,
+					this._gameData.entities,
 					// Attack angle
 					attackObj.angle,
 					// Attack Data
@@ -336,10 +336,10 @@ Character.prototype.secondaryAttack = function () {
 	if (!this.actionsQueued["secondaryAttack"]) {
 		// Prepare eligible spell targets.
 		var eligibleTargets = [];
-		for (var lcv = 0; lcv < this._gameData.characters.length; lcv++) {
+		for (var lcv = 0; lcv < this._gameData.entities.length; lcv++) {
 			// Include all Characters who are not the caster.
-			if (this !== this._gameData.characters[lcv]) {
-				eligibleTargets.push(this._gameData.characters[lcv]);
+			if (this !== this._gameData.entities[lcv]) {
+				eligibleTargets.push(this._gameData.entities[lcv]);
 			}
 		}
 		this.actionsQueued["secondaryAttack"] = ShockNova({
