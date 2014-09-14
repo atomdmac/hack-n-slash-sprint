@@ -71,6 +71,7 @@ function PlayState () {
 		entities.sort(function (a, b) {
 			if(b instanceof ZoneSwitcher) return  1;
 			if(a instanceof ZoneSwitcher) return -1;
+			if(a instanceof Item && b instanceof Item) return 0;
 			if(b instanceof Item) return  1;
 			if(a instanceof Item) return -1;
 			if(a.y > b.y) return  1;
