@@ -128,7 +128,7 @@ NPC.prototype.kill = function() {
 							 DATABASE.equipment[lootKey]));
 	loot._gameData = this._gameData;
 	// Put the loot in the game world
-	this.gave.dispatch(loot);
+	this.signals.gave.dispatch(loot);
 	loot.drop(this.x, this.y+20);
 };
 

@@ -34,8 +34,8 @@ function PlayState () {
 		viewport = _gameData.viewport;
 
 		entities.forEach(function(entity) {
-			entity.gave.add(onEntityGave);
-			entity.took.add(onEntityTook);
+			entity.signals.gave.add(onEntityGave);
+			entity.signals.took.add(onEntityTook);
 		});
 		
         jaws.preventDefaultKeys(["up", "down", "left", "right", "space"]);

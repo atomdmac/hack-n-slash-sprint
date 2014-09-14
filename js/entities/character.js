@@ -135,7 +135,7 @@ Character.prototype.equip = function (slot, item) {
 		item.take(this);
 
 		// Tell the game you're taking the item.
-		this.took.dispatch(item);
+		this.signals.took.dispatch(item);
 		
 		// Put item in equipment slot.
 		this.equipment[slot] = item;
@@ -168,7 +168,7 @@ Character.prototype.unequip = function (slot) {
 		item.drop(this.x, this.y);
 
 		// Tell the game that you dropped the item.
-		this.gave.dispatch(item);
+		this.signals.gave.dispatch(item);
 		
 		// Clear equipment slot.
 		this.equipment[item.equipSlot] = null;

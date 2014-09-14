@@ -12,10 +12,12 @@ function Entity(options) {
 	this._gameData = this.options.gameData;
 
 	// Create Signals.
-	this.collidedWithEntity = new signals.Signal();
-	this.gave = new signals.Signal();
-	this.took = new signals.Signal();
-	
+	this.signals = {
+		collidedWithEntity: new signals.Signal(),
+		gave: new signals.Signal(),
+		took: new signals.Signal()	
+	};
+
 	// These options will not be able to be set if this constructor is being
 	// called as a means to extend it.
 	if(this.options){
