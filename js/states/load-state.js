@@ -36,7 +36,7 @@ function LoadState () {
 		});
 
 		// Generate player.
-		_gameData.player = _generatePlayer(_gameData);
+		_gameData.player = _gameData.player || _generatePlayer(_gameData);
 		
 		// Populate the map with Entities.
 		_gameData.entities.push.apply(_gameData.entities, [_gameData.player]);
@@ -58,11 +58,13 @@ function LoadState () {
 						{},
 						DATABASE.entities["base"],
 						DATABASE.entities['ZoneSwitcher'],
+						currentObject.properties,
 						{
 							x: currentObject.x,
 							y: currentObject.y,
 							width: currentObject.width,
-							height: currentObject.height
+							height: currentObject.height,
+							color: null
 						}
 					);
 					

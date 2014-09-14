@@ -17,6 +17,8 @@ function PlayState () {
 
 	function onEntityActivated (entity) {
 		if(entity instanceof ZoneSwitcher) {
+			_gameData.player.x = entity.targetX || _gameData.player.x;
+			_gameData.player.y = entity.targetY || _gameData.player.y;
 			_gameData.url = entity.url;
 			jaws.switchGameState(jaws.previous_game_state, {}, _gameData);
 		}

@@ -1,6 +1,6 @@
 define(
-['jaws', '$', 'DATABASE', 'entities/entity', 'states/load-state'],
-function (jaws, $, DATABASE, Entity, LoadState) {
+['jaws', '$', 'DATABASE', 'lib/SAT', 'entities/entity', 'states/load-state'],
+function (jaws, $, DATABASE, SAT, Entity, LoadState) {
 
 function ZoneSwitcher(options) {
 	// TODO: Character extension check is kinda hack-y...
@@ -22,40 +22,53 @@ function ZoneSwitcher(options) {
 	// These options will not be able to be set if this constructor is being
 	// called as a means to extend it.
 	if(this.options){
-		// Set up Entity animations.
-		this.animation = new jaws.Animation({
-			sprite_sheet  : this.options.sprite_sheet,
-			frame_size    : this.options.frame_size,
-			frame_duration: this.options.frame_duration,
-			subsets       : this.options.animationSubsets
-		});
-		
-		this.state  = "loop";
-		this.radius = this.options.radius;
-		this.url    = "assets/tmx/import-test.tmx";
+		this.url     = this.options.url || "assets/tmx/import-test.tmx";
+		this.targetX = Number(this.options.targetX);
+		this.targetY = Number(this.options.targetY);
 	}
 }
 
 ZoneSwitcher.prototype = new Entity({});
 
 ZoneSwitcher.prototype.update = function () {
-	// Check for collision with the Player.
-	if (jaws.collideCircles({
-			radius: this.radius,
-			x: this.x,
-			y: this.y
-		}, this._gameData.player)) {
+	// NOTE: Requires SAT.js.
+	var polygon = new SAT.Polygon(
+		new SAT.Vector(this.x, this.y),
+		[
+			new SAT.Vector(0, 0),
+			new SAT.Vector(this.width, 0),
+			new SAT.Vector(this.width, this.height),
+			new SAT.Vector(0, this.height)
+		]
+	);
+
+	var circle = new SAT.Circle(
+		new SAT.Vector(
+			this._gameData.player.x, 
+			this._gameData.player.y
+		), 
+		this._gameData.player.radius
+	);
+
+	var response = new SAT.Response();
+
+	var collision = SAT.testCirclePolygon(circle, polygon, response);
+
+	if (collision) {
 		this.signals.activated.dispatch(this);
+		return response;
+	} else {
+		return false;
 	}
 	
 };
-
+/*
 ZoneSwitcher.prototype.draw = function () {
 	this.setImage(this.animation.subsets["loop"].next());
 	// Call original Entity.draw() function.
 	Entity.prototype.draw.call(this);
 };
-
+*/
 ZoneSwitcher.prototype.put = function () {
 	// TODO: Add a way to put items places, like in a container or tilemap?
 };
