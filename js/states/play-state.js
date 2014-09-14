@@ -7,6 +7,14 @@ function PlayState () {
 	// TODO: Clean up PlayState internal variable assignments.
 	var _gameData, map, player, entities=[], collidableEntities=[], layers={}, viewport;
 
+	function onEntityGave (entity) {
+		entities.push(entity);
+	}
+
+	function onEntityTook (entity) {
+		entities.splice(entities.indexOf(entity), 1);
+	}
+
 	this.setup = function (options) {
 		if(!options.map) {
 			throw new Error("PlayState needs a map.");
@@ -24,6 +32,11 @@ function PlayState () {
 		layers = _gameData.layers;
 
 		viewport = _gameData.viewport;
+
+		entities.forEach(function(entity) {
+			entity.gave.add(onEntityGave);
+			entity.took.add(onEntityTook);
+		});
 		
         jaws.preventDefaultKeys(["up", "down", "left", "right", "space"]);
 	};

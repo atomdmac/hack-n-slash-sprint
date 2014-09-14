@@ -57,12 +57,8 @@ Item.prototype.put = function () {
 
 Item.prototype.drop = function (x, y) {
 	this.move(x, y);
-	// TODO: Reimplement as a generic entity and move to constructor.
-	this._gameData.entities.push(this);
 };
 Item.prototype.take = function (newOwner) {
-	// TODO: Not this.
-	this._gameData.entities.splice(this._gameData.entities.indexOf(this), 1);
 	if (newOwner) {
 		this.owner = newOwner;
 	}
