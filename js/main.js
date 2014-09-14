@@ -78,10 +78,8 @@ function (jaws, $, DATABASE, LoadState) {
 		map: null,
 		// A jaws.Viewport instance for rendering the game world.
 		viewport: null,
-
-		// TODO: Change 'players' to 'player' in game state data.
 		// Reference to the player's character instance.
-		players: null,
+		player: null,
 		// Reference to array of NPCs in the current map.
 		npcs: null,
 		// Reference to all characters (player and NPC) in the current map.
