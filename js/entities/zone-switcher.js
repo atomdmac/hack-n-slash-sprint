@@ -30,8 +30,9 @@ function ZoneSwitcher(options) {
 			subsets       : this.options.animationSubsets
 		});
 		
-		this.state = "loop";
+		this.state  = "loop";
 		this.radius = this.options.radius;
+		this.url    = "assets/tmx/import-test.tmx";
 	}
 }
 
@@ -44,8 +45,7 @@ ZoneSwitcher.prototype.update = function () {
 			x: this.x,
 			y: this.y
 		}, this._gameData.player)) {
-		console.log("take me away!");
-		this.loadZone();
+		this.signals.activated.dispatch(this);
 	}
 	
 };
@@ -54,19 +54,6 @@ ZoneSwitcher.prototype.draw = function () {
 	this.setImage(this.animation.subsets["loop"].next());
 	// Call original Entity.draw() function.
 	Entity.prototype.draw.call(this);
-};
-
-ZoneSwitcher.prototype.loadZone = function () {
-	
-	this._gameData.url = "assets/tmx/import-test.tmx";
-	console.log(LoadState);
-	// Populate 
-	jaws.switchGameState(LoadState,
-						// Start-up Options
-						{
-							fps: 60
-						},
-						this._gameData);
 };
 
 ZoneSwitcher.prototype.put = function () {

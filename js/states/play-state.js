@@ -15,6 +15,13 @@ function PlayState () {
 		entities.splice(entities.indexOf(entity), 1);
 	}
 
+	function onEntityActivated (entity) {
+		if(entity instanceof ZoneSwitcher) {
+			_gameData.url = entity.url;
+			jaws.switchGameState(jaws.previous_game_state, {}, _gameData);
+		}
+	}
+
 	this.setup = function (options) {
 		if(!options.map) {
 			throw new Error("PlayState needs a map.");
@@ -36,6 +43,7 @@ function PlayState () {
 		entities.forEach(function(entity) {
 			entity.signals.gave.add(onEntityGave);
 			entity.signals.took.add(onEntityTook);
+			entity.signals.activated.add(onEntityActivated);
 		});
 		
         jaws.preventDefaultKeys(["up", "down", "left", "right", "space"]);

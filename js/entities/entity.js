@@ -13,9 +13,10 @@ function Entity(options) {
 
 	// Create Signals.
 	this.signals = {
-		collidedWithEntity: new signals.Signal(),
-		gave: new signals.Signal(),
-		took: new signals.Signal()	
+		collided : new signals.Signal(),
+		gave     : new signals.Signal(),
+		took     : new signals.Signal(),
+		activated: new signals.Signal()
 	};
 
 	// These options will not be able to be set if this constructor is being
