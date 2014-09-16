@@ -22,8 +22,10 @@ function LoadState () {
 		console.log(map);
 		_gameData.map = map;
 		_gameData.layers = {
-			collision: map.layerAsTileMap('collision'),
-			terrain  : map.layerAsTileMap('terrain')
+			collision : map.layerAsTileMap('collision'),
+			canopy    : map.layerAsTileMap('canopy'),
+			structures: map.layerAsTileMap('structures'),
+			terrain   : map.layerAsTileMap('terrain')
 		};
 		_gameData.entities = [];
 		

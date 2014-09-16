@@ -59,13 +59,21 @@ function PlayState () {
 		// Update entities and detect / respond to collisions.
 		while(collidableEntities.length) {
 			collidableEntities[0].update();
-			var mapObjs = _collide( collidableEntities[0] );
+			var mapObjs = _collide( layers.collision, collidableEntities[0] );
 			for(i=0, ilen=mapObjs.length; i<ilen; i++) {
 				collidableEntities[0].x -= mapObjs[i].overlapX;
 				collidableEntities[0].y -= mapObjs[i].overlapY;
 			}
 			// Remove the entity just considered, so we don't consider collisions twice
 			collidableEntities.shift();
+		}
+		
+		// See if the Player is under canopy
+		if (_collide( layers.canopy, player ).length) {
+			player.underCanopy = true;
+		}
+		else {
+			player.underCanopy = false;
 		}
 
 		// Sort the list of entities by Y coordinate so they'll be drawn with
@@ -87,6 +95,8 @@ function PlayState () {
 
 		viewport.centerAround(player);
 		viewport.drawTileMap(layers.terrain);
+		viewport.drawTileMap(layers.structures);
+		
 
 		// Set up loop variables.
 		var i, ilen;
@@ -95,13 +105,18 @@ function PlayState () {
 		for(i=0, ilen=entities.length; i<ilen; i++) {
 			viewport.draw(entities[i]);
 		}
+		
+		// Only draw canopy if the player isn't under it.
+		if (!player.underCanopy) {
+			viewport.drawTileMap(layers.canopy);
+		}
 	};
 
 	/*
 	 * Check for collisions between the given Object and any objects in the
 	 * given TileMap.
 	 */
-	function _collide(obj) {
+	function _collide(layer, obj) {
 		function __getResponse (tile, obj) {
 			// NOTE: Requires SAT.js.
 			var polygon = new SAT.Polygon(
@@ -133,7 +148,7 @@ function PlayState () {
 			}
 		}
 
-		var tiles = layers.collision.atRect(obj.rect()),
+		var tiles = layer.atRect(obj.rect()),
 			cols  = [];
 
 		for(var i=0, len=tiles.length; i<len; i++) {
