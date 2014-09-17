@@ -36,14 +36,12 @@ function LoadState () {
 			max_x: map.width  * _gameData.map.tilewidth,
 			max_y: map.height * _gameData.map.tileheight
 		});
-
-		// Generate player.
-		_gameData.player = _gameData.player || _generatePlayer(_gameData);
 		
 		// Populate the map with Entities.
-		_gameData.entities.push.apply(_gameData.entities, [_gameData.player]);
-		_gameData.entities.push.apply(_gameData.entities, _generateNPCs(10));
 		_gameData.entities.push.apply(_gameData.entities, _generateMapObjects());
+		// Add the Player to the map here, rather than in _generateMapObjects(),
+		// because the Player always exists, even if not present in map data.
+		_gameData.entities.push.apply(_gameData.entities, [_gameData.player]);
 
 		// Populate 
 		jaws.switchGameState(PlayState, {}, _gameData);
@@ -54,7 +52,7 @@ function LoadState () {
 		
 		for (var lcv = 0; lcv < _gameData.map.objects.length; lcv++) {
 			currentObject = _gameData.map.objects[lcv];
-			switch (currentObject.properties.type) {
+			switch (currentObject.type) {
 				case "ZoneSwitcher":
 					objectConfig = $.extend(true, 
 						{},
@@ -74,6 +72,49 @@ function LoadState () {
 					objectConfig.gameData = _gameData;
 					
 					mapObjects.push(new ZoneSwitcher(objectConfig));
+					
+					break;
+				case "Player":
+					if (!_gameData.player) {
+						objectConfig = $.extend(true, 
+							{},
+							DATABASE.characters["base"], 
+							DATABASE.characters['Chuck'],
+							DATABASE.playerCharacters['base'],
+							currentObject.properties,
+							{
+								x       : currentObject.x,
+								y       : currentObject.y,
+								viewport: _gameData.viewport
+							}
+						);
+						
+						// Attach game data *after* cloning so it is passed by reference.
+						objectConfig.gameData = _gameData;
+						
+						// Don't push the Player onto mapObjects here. We handle
+						// the Player elsewhere.
+						_gameData.player = new Player(objectConfig);
+					}
+					
+					break;
+				case "Tellah":
+					objectConfig = $.extend(true, 
+						{},
+						DATABASE.characters["base"],
+						DATABASE.characters['Tellah'],
+						DATABASE.nonPlayerCharacters["base"],
+						{
+							x: currentObject.x,
+							y: currentObject.y
+						}
+					);
+		
+					// Attach game data *after* cloning so it is passed by reference.
+					objectConfig.gameData = _gameData;
+					
+					// Instantiate new NPC.
+					mapObjects.push(new NPC(objectConfig));
 					
 					break;
 				default:
