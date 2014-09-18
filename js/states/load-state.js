@@ -83,8 +83,13 @@ function LoadState () {
 							DATABASE.playerCharacters['base'],
 							currentObject.properties,
 							{
-								x       : currentObject.x,
-								y       : currentObject.y,
+								/*
+								 * Funny math for pixel-perfect placement based
+								 * on TMX data, because I haven't taken the time
+								 * to figure out the root issue with placement.
+								 */
+								x       : currentObject.x + 13,
+								y       : currentObject.y - 8,
 								viewport: _gameData.viewport
 							}
 						);
@@ -105,7 +110,12 @@ function LoadState () {
 						DATABASE.characters['Tellah'],
 						DATABASE.nonPlayerCharacters["base"],
 						{
-							x: currentObject.x,
+							/*
+							 * Funny math for pixel-perfect placement based
+							 * on TMX data, because I haven't taken the time
+							 * to figure out the root issue with placement.
+							 */
+							x: currentObject.x + 17,
 							y: currentObject.y
 						}
 					);
