@@ -7,8 +7,8 @@
  * passed to jaws.TMXMap.
  */
 define(
-['jaws', 'DATABASE', 'states/play-state', 'entities/npc', 'entities/player', 'entities/zone-switcher'],
-function (jaws, DATABASE, PlayState, NPC, Player, ZoneSwitcher) {
+['jaws', 'DATABASE', 'states/play-state', 'entities/npc', 'entities/player', 'entities/zone-switcher', 'entities/characters/tellah'],
+function (jaws, DATABASE, PlayState, NPC, Player, ZoneSwitcher, Tellah) {
 
 function LoadState () {
 
@@ -56,8 +56,6 @@ function LoadState () {
 				case "ZoneSwitcher":
 					objectConfig = $.extend(true, 
 						{},
-						DATABASE.entities["base"],
-						DATABASE.entities['ZoneSwitcher'],
 						currentObject.properties,
 						{
 							x: currentObject.x,
@@ -106,9 +104,7 @@ function LoadState () {
 				case "Tellah":
 					objectConfig = $.extend(true, 
 						{},
-						DATABASE.characters["base"],
-						DATABASE.characters['Tellah'],
-						DATABASE.nonPlayerCharacters["base"],
+						currentObject.properties,
 						{
 							/*
 							 * Funny math for pixel-perfect placement based
@@ -124,7 +120,7 @@ function LoadState () {
 					objectConfig.gameData = _gameData;
 					
 					// Instantiate new NPC.
-					mapObjects.push(new NPC(objectConfig));
+					mapObjects.push(new Tellah(objectConfig));
 					
 					break;
 				default:

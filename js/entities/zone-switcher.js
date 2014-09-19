@@ -3,28 +3,26 @@ define(
 function (jaws, $, DATABASE, SAT, Entity, LoadState) {
 
 function ZoneSwitcher(options) {
-	// TODO: Character extension check is kinda hack-y...
-	var isExtending = false;
-	if(!Object.keys(options).length) {
-		isExtending = true;
-	}
 
-	this.options = $.extend({}, options);
+	options = $.extend(true,
+		{}, 
+		DATABASE.entities["base"],
+		DATABASE.entities['ZoneSwitcher'],
+		options
+	);
 
 	// Call super-class.
-	Entity.call(this, this.options);
-
-	if(isExtending) return;
+	Entity.call(this, options);
 
 	// Reference to game world data.
-	this._gameData = this.options.gameData;
+	this._gameData = options.gameData;
 
 	// These options will not be able to be set if this constructor is being
 	// called as a means to extend it.
-	if(this.options){
-		this.url     = this.options.url || "assets/tmx/import-test.tmx";
-		this.targetX = Number(this.options.targetX);
-		this.targetY = Number(this.options.targetY);
+	if(options){
+		this.url     = options.url || "assets/tmx/import-test.tmx";
+		this.targetX = Number(options.targetX);
+		this.targetY = Number(options.targetY);
 	}
 }
 

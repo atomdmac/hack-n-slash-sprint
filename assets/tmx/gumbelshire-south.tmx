@@ -43,16 +43,16 @@
   </data>
  </layer>
  <objectgroup name="entities">
-  <object name="To Gumbelshire Center" type="ZoneSwitcher" x="6" y="33" width="1590" height="12">
+  <object type="Player" gid="259" x="696" y="381"/>
+  <object type="Tellah" gid="260" x="383.5" y="512"/>
+  <object type="Tellah" gid="260" x="581" y="191"/>
+  <object type="Tellah" gid="260" x="972" y="310"/>
+  <object name="To Gumbelshire Center" type="ZoneSwitcher" x="12" y="24" width="1590" height="12">
    <properties>
     <property name="targetY" value="630"/>
     <property name="type" value="ZoneSwitcher"/>
     <property name="url" value="assets/tmx/gumbelshire-center.tmx"/>
    </properties>
   </object>
-  <object type="Tellah" gid="260" x="951" y="311"/>
-  <object type="Player" gid="259" x="696" y="381"/>
-  <object type="Tellah" gid="260" x="383.5" y="512"/>
-  <object type="Tellah" gid="260" x="581" y="191"/>
  </objectgroup>
 </map>
