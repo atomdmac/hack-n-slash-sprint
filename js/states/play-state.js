@@ -95,7 +95,6 @@ function PlayState () {
 
 		viewport.centerAround(player);
 		viewport.drawTileMap(layers.terrain);
-		viewport.drawTileMap(layers.structures);
 		
 
 		// Set up loop variables.
@@ -105,6 +104,8 @@ function PlayState () {
 		for(i=0, ilen=entities.length; i<ilen; i++) {
 			viewport.draw(entities[i]);
 		}
+		
+		viewport.drawTileMap(layers.structures);
 		
 		// Only draw canopy if the player isn't under it.
 		if (!player.underCanopy) {
