@@ -68,14 +68,6 @@ function PlayState () {
 			collidableEntities.shift();
 		}
 		
-		// See if the Player is under canopy
-		if (_collide( layers.canopy, player ).length) {
-			player.underCanopy = true;
-		}
-		else {
-			player.underCanopy = false;
-		}
-
 		// Sort the list of entities by Y coordinate so they'll be drawn with
 		// the "closest" one in the foreground.
 		entities.sort(function (a, b) {
@@ -94,6 +86,7 @@ function PlayState () {
 		jaws.clear();
 
 		viewport.centerAround(player);
+		viewport.drawTileMap(layers.background);
 		viewport.drawTileMap(layers.terrain);
 		
 
@@ -105,12 +98,8 @@ function PlayState () {
 			viewport.draw(entities[i]);
 		}
 		
-		viewport.drawTileMap(layers.structures);
+		viewport.drawTileMap(layers.canopy);
 		
-		// Only draw canopy if the player isn't under it.
-		if (!player.underCanopy) {
-			viewport.drawTileMap(layers.canopy);
-		}
 	};
 
 	/*
