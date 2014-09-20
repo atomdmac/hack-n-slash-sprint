@@ -24,6 +24,10 @@ function PlayState () {
 		}
 	}
 
+	function onEntityDestroyed (entity) {
+		entities.splice(entities.indexOf(entity), 1);
+	}
+
 	this.setup = function (options) {
 		if(!options.map) {
 			throw new Error("PlayState needs a map.");
@@ -46,6 +50,7 @@ function PlayState () {
 			entity.signals.gave.add(onEntityGave);
 			entity.signals.took.add(onEntityTook);
 			entity.signals.activated.add(onEntityActivated);
+			entity.signals.destroyed.add(onEntityDestroyed);
 		});
 		
         jaws.preventDefaultKeys(["up", "down", "left", "right", "space"]);
