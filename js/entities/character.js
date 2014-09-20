@@ -55,7 +55,7 @@ Character.prototype.update = function () {
 	}
 
 	if (this.actionsQueued["secondaryAttack"]) {
-		this.actionsQueued["secondaryAttack"].update();
+		// this.actionsQueued["secondaryAttack"].update();
 	}
 };
 
@@ -74,7 +74,7 @@ Character.prototype.draw = function () {
 	
 	// Draw Shock Nova animation.
 	if (this.actionsQueued["secondaryAttack"]) {
-		this.actionsQueued["secondaryAttack"].draw();
+		// this.actionsQueued["secondaryAttack"].draw();
 	}
 	
 	// Draw attack animation.
@@ -216,7 +216,7 @@ Character.prototype.setBearing = function (direction) {
 };
 
 Character.prototype.move = function (angle, magnitude) {
-	if (!this.actionsQueued["secondaryAttack"]) {
+	// if (!this.actionsQueued["secondaryAttack"]) {
 		this.actionsQueued["move"] = true;
 		var speed = this.getSpeed(magnitude);
 		var x = Math.sin(angle) * speed;
@@ -238,7 +238,7 @@ Character.prototype.move = function (angle, magnitude) {
 		else if (y > 0 && y > x) {
 			this.setBearing("S");
 		}
-	}
+	// }
 };
 
 Character.prototype.damage = function (damageObj) {
@@ -348,12 +348,18 @@ Character.prototype.secondaryAttack = function () {
 				eligibleTargets.push(this._gameData.entities[lcv]);
 			}
 		}
-		this.actionsQueued["secondaryAttack"] = ShockNova({
+		this.actionsQueued["secondaryAttack"] = new ShockNova({
 			spawnX: this.x,
 			spawnY: this.y,
 			eligibleTargets: eligibleTargets,
-			onFinish: function() { delete self.actionsQueued["secondaryAttack"]; }
+			onFinish: function() { 
+				self.signals.destroyed.dispatch(self.actionsQueued["secondaryAttack"]);
+				delete self.actionsQueued["secondaryAttack"]; 
+			}
 		});
+
+		// Let listeners know that we're attacking.
+		this.signals.gave.dispatch(this.actionsQueued["secondaryAttack"]);
 	}
 };
 
