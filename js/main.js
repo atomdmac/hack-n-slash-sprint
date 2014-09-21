@@ -16,8 +16,8 @@ requirejs.config({
 });
 
 require(
-['jaws', '$', 'DATABASE', 'states/load-state'],
-function (jaws, $, DATABASE, LoadState) {
+['jaws', '$', 'DATABASE', 'states/load-state', 'tests/collider-test-state'],
+function (jaws, $, DATABASE, LoadState, ColliderTestState) {
 
 	// Configure JawsJS
 	jaws.init({
@@ -90,7 +90,7 @@ function (jaws, $, DATABASE, LoadState) {
 	
 	// Start main Game Loop.
 	jaws.start(
-		new LoadState(),
+		new ColliderTestState(),
 		// Start-up Options
 		{
 			fps: 60
