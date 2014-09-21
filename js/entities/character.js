@@ -218,6 +218,11 @@ Character.prototype.move = function (angle, magnitude) {
 		this.x += x;
 		this.y += y;
 		
+		// Keep Shock Nova locked to the character.
+		if (this.actionsQueued["secondaryAttack"]) {
+			this.actionsQueued["secondaryAttack"].moveTo(this.x, this.y);
+		}
+		
 		// TODO: Implement gamepad "wedges" to better detect bearing
 		if (x < 0) {
 			this.setBearing("W");
