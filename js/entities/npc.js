@@ -14,7 +14,7 @@ function NPC (options) {
 	};
 }
 
-NPC.prototype = new Character({});
+NPC.prototype = Object.create(Character.prototype);
 
 NPC.prototype.update = function () {
 	Character.prototype.update.call(this);

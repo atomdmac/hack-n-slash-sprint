@@ -7,211 +7,19 @@
  * passed to jaws.TMXMap.
  */
 define(
-['jaws', 'DATABASE', 'states/play-state', 'entities/npc', 'entities/player', 'entities/zone-switcher'],
-function (jaws, DATABASE, PlayState, NPC, Player, ZoneSwitcher) {
+['jaws', 'DATABASE', 'states/play-state', 'game-world'],
+function (jaws, DATABASE, PlayState, GameWorld) {
 
 function LoadState () {
 
 	var _gameData, text;
 
 	/*
-	 * Callback to be invoked when map is loaded, parsed and ready for use.
+	 * Callback to be invoked when GameWorld is ready for use.
 	 */
-	function _onMapParsed (map) {
-		var a = _gameData;
-		console.log(map);
-		_gameData.map = map;
-		_gameData.layers = {
-			collision : map.layerAsTileMap('collision'),
-			canopy    : map.layerAsTileMap('canopy'),
-			structures: map.layerAsTileMap('structures'),
-			terrain   : map.layerAsTileMap('terrain')
-		};
-		_gameData.entities = [];
-		
-		// Create viewport.
-		_gameData.viewport = new jaws.Viewport({
-			width : jaws.width,
-			height: jaws.height,
-			max_x: map.width  * _gameData.map.tilewidth,
-			max_y: map.height * _gameData.map.tileheight
-		});
-		
-		// Populate the map with Entities.
-		_gameData.entities.push.apply(_gameData.entities, _generateMapObjects());
-		// Add the Player to the map here, rather than in _generateMapObjects(),
-		// because the Player always exists, even if not present in map data.
-		_gameData.entities.push.apply(_gameData.entities, [_gameData.player]);
-
-		// Populate 
+	function _onGameWorldReady (map) {
+		// Switch to PlayState 
 		jaws.switchGameState(PlayState, {}, _gameData);
-	}
-	
-	function _generateMapObjects() {
-		var mapObjects = [], currentObject, objectConfig;
-		
-		for (var lcv = 0; lcv < _gameData.map.objects.length; lcv++) {
-			currentObject = _gameData.map.objects[lcv];
-			switch (currentObject.type) {
-				case "ZoneSwitcher":
-					objectConfig = $.extend(true, 
-						{},
-						DATABASE.entities["base"],
-						DATABASE.entities['ZoneSwitcher'],
-						currentObject.properties,
-						{
-							x: currentObject.x,
-							y: currentObject.y,
-							width: currentObject.width,
-							height: currentObject.height,
-							color: null
-						}
-					);
-					
-					// Attach game data *after* cloning so it is passed by reference.
-					objectConfig.gameData = _gameData;
-					
-					mapObjects.push(new ZoneSwitcher(objectConfig));
-					
-					break;
-				case "Player":
-					if (!_gameData.player) {
-						objectConfig = $.extend(true, 
-							{},
-							DATABASE.characters["base"], 
-							DATABASE.characters['Chuck'],
-							DATABASE.playerCharacters['base'],
-							currentObject.properties,
-							{
-								/*
-								 * Funny math for pixel-perfect placement based
-								 * on TMX data, because I haven't taken the time
-								 * to figure out the root issue with placement.
-								 */
-								x       : currentObject.x + 13,
-								y       : currentObject.y - 8,
-								viewport: _gameData.viewport
-							}
-						);
-						
-						// Attach game data *after* cloning so it is passed by reference.
-						objectConfig.gameData = _gameData;
-						
-						// Don't push the Player onto mapObjects here. We handle
-						// the Player elsewhere.
-						_gameData.player = new Player(objectConfig);
-					}
-					
-					break;
-				case "Tellah":
-					objectConfig = $.extend(true, 
-						{},
-						DATABASE.characters["base"],
-						DATABASE.characters['Tellah'],
-						DATABASE.nonPlayerCharacters["base"],
-						{
-							/*
-							 * Funny math for pixel-perfect placement based
-							 * on TMX data, because I haven't taken the time
-							 * to figure out the root issue with placement.
-							 */
-							x: currentObject.x + 17,
-							y: currentObject.y
-						}
-					);
-		
-					// Attach game data *after* cloning so it is passed by reference.
-					objectConfig.gameData = _gameData;
-					
-					// Instantiate new NPC.
-					mapObjects.push(new NPC(objectConfig));
-					
-					break;
-				default:
-					break;
-			}
-		}
-		
-		return mapObjects;
-	}
-
-	/*
-	 * Generate a random point on the map that a character can be spawned on.
-	 */
-	function _getRandomSpawnPoint () {
-		// TODO: Check for collisions when generating random spawn point.
-		if(!_gameData.map.width) return;
-		var mapWidth  = (_gameData.map.width - 2)  * _gameData.map.tilewidth,
-			mapHeight = (_gameData.map.height - 2) * _gameData.map.tileheight;
-
-		return {
-			x: Math.floor(Math.random() * mapWidth  - 2) + _gameData.map.tilewidth,
-			y: Math.floor(Math.random() * mapHeight - 2) + _gameData.map.tileheight
-		};
-	}
-
-	/*
-	 * Create a list of randomly generated and placed NPCs.
-	 */
-	function _generateNPCs(npcCount) {
-		var npcs = [], spawnPoint, character;
-
-		// Select Character properties.
-		for(var lcv = 0; lcv < npcCount; lcv++) {
-			
-			// Figure out where to drop the new NPC in the game world.
-			spawnPoint = _getRandomSpawnPoint();
-
-			character = $.extend(true, 
-				{},
-				DATABASE.characters["base"],
-				DATABASE.characters['Tellah'],
-				DATABASE.nonPlayerCharacters["base"],
-				{
-					x: spawnPoint.x,
-					y: spawnPoint.y
-				}
-			);
-
-			// Attach game data *after* cloning so it is passed by reference.
-			character.gameData = _gameData;
-			
-			// Instantiate new NPC.
-			npcs.push(new NPC(character));
-		}
-
-		return npcs;
-	}
-
-	/*
-	 * Generate a new Player instance and place it at a random position on the
-	 * map.
-	 */
-	function _generatePlayer() {
-
-		var player, spawnPoint, character;
-
-		//spawnPoint = _getRandomSpawnPoint();
-		spawnPoint = {x:100,y:100};
-
-		character = $.extend(true, 
-			{}, 
-			DATABASE.characters["base"], 
-			DATABASE.characters['Chuck'],
-			DATABASE.playerCharacters['base'],
-			{
-				x         : spawnPoint.x,
-				y         : spawnPoint.y,
-				viewport  : _gameData.viewport
-			}
-		);
-
-		// Attach game data *after* cloning so it is passed by reference.
-		character.gameData = _gameData;
-
-		player = new Player(character);
-
-		return player;
 	}
 
 	/**
@@ -228,7 +36,7 @@ function LoadState () {
 
 		// Instantiate and TMX Map.  Callback will be notified when load and
 		// parse are complete.
-		new jaws.TMXMap(_gameData.url, _onMapParsed);
+		_gameData.gameWorld = new GameWorld(_gameData, _onGameWorldReady);
 
 		// Display initial feedback to user.
 		text       = new jaws.Text({
@@ -239,8 +47,6 @@ function LoadState () {
 			fontSize: 24
 		});
 
-		jaws.clear();
-		jaws.draw(text);
 	};
 
 	this.update = function () {
@@ -248,7 +54,9 @@ function LoadState () {
 	};
 
 	this.draw = function () {
-		// TODO
+		console.log("drawing in load state");
+		jaws.clear();
+		jaws.draw(text);
 	};
 }
 

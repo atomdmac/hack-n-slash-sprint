@@ -1,21 +1,23 @@
 define(
-['jaws', '$', 'DATABASE', 'entities/entity', 'lib/SAT', 'entities/spells/shock-nova'],
-function (jaws, $, DATABASE, Entity, SAT, ShockNova) {
+['jaws', '$', 'DATABASE', 'entities/entity', 'lib/SAT', 'entities/spells/shock-nova', 'entities/melee-attack'],
+function (jaws, $, DATABASE, Entity, SAT, ShockNova, MeleeAttack) {
 
 function Character(options) {
-	// TODO: Character extension check is kinda hack-y...
-	var isExtending = false;
-	if(!Object.keys(options).length) {
-		isExtending = true;
-	}
-
+	
 	this.options = $.extend({}, options);
-
+	
 	// Call super-class.
 	Entity.call(this, this.options);
 
-	if(isExtending) return;
-
+	this.interests.push.apply(this.interests, [
+		{name: 'sight', shape: new SAT.Circle(new SAT.Vector(this.x, this.y), 500)},
+		{name: 'terrain', shape: new SAT.Circle(new SAT.Vector(this.x, this.y), this.options.radius)}
+	]);
+	
+	this.presences.push.apply(this.presences, [
+		{name: 'sight', shape: new SAT.Circle(new SAT.Vector(this.x, this.y), this.options.radius)}
+	]);
+	
 	// Reference to game world data.
 	this._gameData = this.options.gameData;
 
@@ -46,16 +48,11 @@ function Character(options) {
 	this.resources = $.extend(true, {}, this.options.resources);
 }
 
-Character.prototype = new Entity({});
+Character.prototype = Object.create(Entity.prototype);
 
 Character.prototype.update = function () {
-	if(this.actionsQueued.attack) {
-		var isActive = this.actionsQueued.attack.step();
-		if(!isActive) delete this.actionsQueued.attack;
-	}
-
 	if (this.actionsQueued["secondaryAttack"]) {
-		this.actionsQueued["secondaryAttack"].update();
+		// this.actionsQueued["secondaryAttack"].update();
 	}
 };
 
@@ -74,42 +71,12 @@ Character.prototype.draw = function () {
 	
 	// Draw Shock Nova animation.
 	if (this.actionsQueued["secondaryAttack"]) {
-		this.actionsQueued["secondaryAttack"].draw();
+		// this.actionsQueued["secondaryAttack"].draw();
 	}
 	
 	// Draw attack animation.
 	if (this.actionsQueued.attack) {
 		this.setImage(this.animation.subsets["attack_" + this.bearing].next());
-		/*(function () {
-			var context = jaws.context,
-				hitBox  = self.actionsQueued.attack.hitBox,
-				points  = hitBox.calcPoints,
-				i, ilen;
-
-			context.save();
-			context.strokeStyle = "green";
-			context.lineWidth = 3;
-
-			context.beginPath();
-			context.moveTo(
-				hitBox.pos.x + points[0].x, 
-				hitBox.pos.y + points[0].y
-			);
-			for(i=0, ilen=points.length; i<ilen; i++) {
-				context.lineTo(
-					hitBox.pos.x + points[i].x, 
-					hitBox.pos.y + points[i].y
-				);
-			}
-			context.lineTo(
-				hitBox.pos.x + points[0].x,
-				hitBox.pos.y + points[0].y
-			);
-			context.stroke();
-
-			context.restore();
-
-		})();*/
 	}
 	
 	// Call original Entity.draw() function.
@@ -216,7 +183,7 @@ Character.prototype.setBearing = function (direction) {
 };
 
 Character.prototype.move = function (angle, magnitude) {
-	if (!this.actionsQueued["secondaryAttack"]) {
+	// if (!this.actionsQueued["secondaryAttack"]) {
 		this.actionsQueued["move"] = true;
 		var speed = this.getSpeed(magnitude);
 		var x = Math.sin(angle) * speed;
@@ -224,6 +191,11 @@ Character.prototype.move = function (angle, magnitude) {
 		
 		this.x += x;
 		this.y += y;
+		
+		// Keep Shock Nova locked to the character.
+		if (this.actionsQueued["secondaryAttack"]) {
+			this.actionsQueued["secondaryAttack"].moveTo(this.x, this.y);
+		}
 		
 		// TODO: Implement gamepad "wedges" to better detect bearing
 		if (x < 0) {
@@ -238,7 +210,7 @@ Character.prototype.move = function (angle, magnitude) {
 		else if (y > 0 && y > x) {
 			this.setBearing("S");
 		}
-	}
+	// }
 };
 
 Character.prototype.damage = function (damageObj) {
@@ -313,17 +285,28 @@ Character.prototype.primaryAttack = function (attackObj) {
 		
 		switch (attackObj.mode) {
 			case "melee":
-				this.actionsQueued.attack = new _MeleeAttack(
+				// Used to scope inner functions.
+				var self = this;
+				
+				this.actionsQueued.attack = new MeleeAttack({
 					// Attacker
-					this,
+					attacker: this,
 					// Potential targets.
-					this._gameData.entities,
+					targets: this._gameData.entities,
 					// Attack angle
-					attackObj.angle,
+					angle: attackObj.angle,
 					// Attack Data
-					attackObj
-				);
-				this.actionsQueued.attack.step();
+					attackData: attackObj,
+					// Callback
+					onFinish: function() { 
+						self.actionsQueued.attack.signals.destroyed.dispatch(self.actionsQueued.attack);
+						delete self.actionsQueued.attack; 
+					}
+				});
+				// Update the attack right away, so it can start doing damage this turn.
+				this.actionsQueued.attack.update();
+				// Let listeners know that we're attacking.
+				this.signals.gave.dispatch(this.actionsQueued.attack);
 				break;
 			
 			default:
@@ -348,90 +331,20 @@ Character.prototype.secondaryAttack = function () {
 				eligibleTargets.push(this._gameData.entities[lcv]);
 			}
 		}
-		this.actionsQueued["secondaryAttack"] = ShockNova({
+		this.actionsQueued["secondaryAttack"] = new ShockNova({
 			spawnX: this.x,
 			spawnY: this.y,
 			eligibleTargets: eligibleTargets,
-			onFinish: function() { delete self.actionsQueued["secondaryAttack"]; }
+			onFinish: function() { 
+				self.signals.destroyed.dispatch(self.actionsQueued["secondaryAttack"]);
+				delete self.actionsQueued["secondaryAttack"]; 
+			}
 		});
+
+		// Let listeners know that we're attacking.
+		this.signals.gave.dispatch(this.actionsQueued["secondaryAttack"]);
 	}
 };
-
-// Represents the MeleeAttack Class.
-function _MeleeAttack (attacker, targets, angle, attackData) {
-	var attack = this,
-
-		// Settings
-		hitBox = new SAT.Polygon(new SAT.Vector(attacker.x, attacker.y),
-			[
-			new SAT.Vector(0, 0),
-			new SAT.Vector(10, 0),
-			new SAT.Vector(10, 50),
-			new SAT.Vector(0, 50)
-			]),
-		angleRange   = 1.4,
-		duration     = 10,
-
-		// State
-		angleCurrent = -angle - (angleRange / 2),
-		// TODO: Implement counter-clockwise attacks.
-		// TODO: Implement thrust attacks.
-		angleStep    = (angleRange / duration),
-		currentTime  = 0;
-
-	// Apply initial position/angle to hitBox.
-	hitBox.translate(-5, 0);
-	hitBox.setAngle(angleCurrent);
-
-	// Expose the hitBox so we can draw it for debugging purposes.
-	attack.hitBox = hitBox;
-
-	function _getResponse (target) {
-		var c = new SAT.Circle(
-			new SAT.Vector(target.x, target.y),
-			target.radius
-		);
-
-		if(SAT.testCirclePolygon(c, hitBox)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * Perform the next iteration of the attack process.
-	 * @return {Boolean} TRUE if the attack is still in progress, FALSE if it has finished.
-	 */
-	attack.step = function () {
-		// Update hitbox angle and position.
-		hitBox.pos.x = attacker.x;
-		hitBox.pos.y = attacker.y;
-		hitBox.setAngle(angleCurrent);
-
-		// Check to see if the weapon hitBox collides with any potential targets.
-		var i, ilen;
-		for(i=0, ilen=targets.length; i<ilen; i++) {
-			if(targets[i] !== attacker) {
-				var col = _getResponse(targets[i]);
-				if(col) {
-					targets[i].damage(attackData);
-				}
-			}
-		}
-		
-		// Step forward in time.
-		angleCurrent += angleStep;
-		currentTime += 1;
-
-		// Check to see if the attack has finished yet or not.
-		if(currentTime < duration) {
-			return true;
-		} else {
-			return false;
-		}
-	};
-}
 
 return Character;
 

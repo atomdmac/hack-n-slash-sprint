@@ -8,10 +8,19 @@ function PlayState () {
 	var _gameData, map, player, entities=[], collidableEntities=[], layers={}, viewport;
 
 	function onEntityGave (entity) {
+		entity.signals.gave.add(onEntityGave);
+		entity.signals.took.add(onEntityTook);
+		entity.signals.activated.add(onEntityActivated);
+		entity.signals.destroyed.add(onEntityDestroyed);
+		_gameData.gameWorld.collider.addEntity(entity);
 		entities.push(entity);
 	}
 
 	function onEntityTook (entity) {
+		entity.signals.gave.remove(onEntityGave);
+		entity.signals.took.remove(onEntityTook);
+		entity.signals.activated.remove(onEntityActivated);
+		entity.signals.destroyed.remove(onEntityDestroyed);
 		entities.splice(entities.indexOf(entity), 1);
 	}
 
@@ -22,6 +31,14 @@ function PlayState () {
 			_gameData.url = entity.url;
 			jaws.switchGameState(jaws.previous_game_state, {}, _gameData);
 		}
+	}
+
+	function onEntityDestroyed (entity) {
+		entity.signals.gave.remove(onEntityGave);
+		entity.signals.took.remove(onEntityTook);
+		entity.signals.activated.remove(onEntityActivated);
+		entity.signals.destroyed.remove(onEntityDestroyed);
+		entities.splice(entities.indexOf(entity), 1);
 	}
 
 	this.setup = function (options) {
@@ -46,6 +63,7 @@ function PlayState () {
 			entity.signals.gave.add(onEntityGave);
 			entity.signals.took.add(onEntityTook);
 			entity.signals.activated.add(onEntityActivated);
+			entity.signals.destroyed.add(onEntityDestroyed);
 		});
 		
         jaws.preventDefaultKeys(["up", "down", "left", "right", "space"]);
@@ -53,29 +71,17 @@ function PlayState () {
 
 	this.update = function () {
 		// Set up loop variables.
-		var i, ilen;
-		collidableEntities = entities.slice();
+		var collidableEntities = entities.slice();
 
 		// Update entities and detect / respond to collisions.
 		while(collidableEntities.length) {
 			collidableEntities[0].update();
-			var mapObjs = _collide( layers.collision, collidableEntities[0] );
-			for(i=0, ilen=mapObjs.length; i<ilen; i++) {
-				collidableEntities[0].x -= mapObjs[i].overlapX;
-				collidableEntities[0].y -= mapObjs[i].overlapY;
-			}
 			// Remove the entity just considered, so we don't consider collisions twice
 			collidableEntities.shift();
 		}
 		
-		// See if the Player is under canopy
-		if (_collide( layers.canopy, player ).length) {
-			player.underCanopy = true;
-		}
-		else {
-			player.underCanopy = false;
-		}
-
+		_gameData.gameWorld.update();
+		
 		// Sort the list of entities by Y coordinate so they'll be drawn with
 		// the "closest" one in the foreground.
 		entities.sort(function (a, b) {
@@ -94,8 +100,8 @@ function PlayState () {
 		jaws.clear();
 
 		viewport.centerAround(player);
+		viewport.drawTileMap(layers.background);
 		viewport.drawTileMap(layers.terrain);
-		viewport.drawTileMap(layers.structures);
 		
 
 		// Set up loop variables.
@@ -106,65 +112,9 @@ function PlayState () {
 			viewport.draw(entities[i]);
 		}
 		
-		// Only draw canopy if the player isn't under it.
-		if (!player.underCanopy) {
-			viewport.drawTileMap(layers.canopy);
-		}
+		viewport.drawTileMap(layers.canopy);
+		
 	};
-
-	/*
-	 * Check for collisions between the given Object and any objects in the
-	 * given TileMap.
-	 */
-	function _collide(layer, obj) {
-		function __getResponse (tile, obj) {
-			// NOTE: Requires SAT.js.
-			var polygon = new SAT.Polygon(
-				new SAT.Vector(tile.x, tile.y),
-				[
-					new SAT.Vector(0, 0),
-					new SAT.Vector(tile.width, 0),
-					new SAT.Vector(tile.width, tile.height),
-					new SAT.Vector(0, tile.height)
-				]
-			);
-
-			var circle = new SAT.Circle(
-				new SAT.Vector(
-					obj.x, 
-					obj.y
-				), 
-				obj.radius
-			);
-
-			var response = new SAT.Response();
-
-			var collision = SAT.testCirclePolygon(circle, polygon, response);
-
-			if (collision) {
-				return response;
-			} else {
-				return false;
-			}
-		}
-
-		var tiles = layer.atRect(obj.rect()),
-			cols  = [];
-
-		for(var i=0, len=tiles.length; i<len; i++) {
-			if (!tiles[i].passable && tiles[i] !== obj) {
-				var col = __getResponse( tiles[i], obj );
-				if (col) {
-					cols.push({
-						tile: tiles[i],
-						overlapX: col.overlapV.x,
-						overlapY: col.overlapV.y
-					});
-				}
-			}
-		}
-		return cols;
-	}
 }
 
 return PlayState;

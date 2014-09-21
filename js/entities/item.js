@@ -3,18 +3,11 @@ define(
 function (jaws, $, DATABASE, Entity) {
 
 function Item(options) {
-	// TODO: Character extension check is kinda hack-y...
-	var isExtending = false;
-	if(!Object.keys(options).length) {
-		isExtending = true;
-	}
-
+	
 	this.options = $.extend({}, options);
 
 	// Call super-class.
 	Entity.call(this, this.options);
-
-	if(isExtending) return;
 
 	// Reference to game world data.
 	this._gameData = this.options.gameData;
@@ -39,7 +32,7 @@ function Item(options) {
 	}
 }
 
-Item.prototype = new Entity({});
+Item.prototype = Object.create(Entity.prototype);
 
 Item.prototype.update = function () {
 	
