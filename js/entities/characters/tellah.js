@@ -16,7 +16,7 @@ function Tellah(options) {
 	NPC.call(this, this.options);
 }
 
-Tellah.prototype = new NPC({});
+Tellah.prototype = Object.create(NPC.prototype);
 
 return Tellah;
 

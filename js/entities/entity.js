@@ -29,7 +29,7 @@ function Entity(options) {
 	}
 }
 
-Entity.prototype = new jaws.Sprite({});
+Entity.prototype = Object.create(jaws.Sprite.prototype);
 
 Entity.prototype.handleCollideWithEntity = function () {
 	

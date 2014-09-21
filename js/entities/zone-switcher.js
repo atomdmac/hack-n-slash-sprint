@@ -26,7 +26,7 @@ function ZoneSwitcher(options) {
 	}
 }
 
-ZoneSwitcher.prototype = new Entity({});
+ZoneSwitcher.prototype = Object.create(Entity.prototype);
 
 ZoneSwitcher.prototype.update = function () {
 	// NOTE: Requires SAT.js.

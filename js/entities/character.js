@@ -3,18 +3,11 @@ define(
 function (jaws, $, DATABASE, Entity, SAT, ShockNova) {
 
 function Character(options) {
-	// TODO: Character extension check is kinda hack-y...
-	var isExtending = false;
-	if(!Object.keys(options).length) {
-		isExtending = true;
-	}
-
+	
 	this.options = $.extend({}, options);
 
 	// Call super-class.
 	Entity.call(this, this.options);
-
-	if(isExtending) return;
 
 	// Reference to game world data.
 	this._gameData = this.options.gameData;
@@ -46,7 +39,7 @@ function Character(options) {
 	this.resources = $.extend(true, {}, this.options.resources);
 }
 
-Character.prototype = new Entity({});
+Character.prototype = Object.create(Entity.prototype);
 
 Character.prototype.update = function () {
 	if(this.actionsQueued.attack) {

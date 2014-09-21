@@ -62,7 +62,7 @@ function Player (options) {
 	});
 }
 
-Player.prototype = new Character({});
+Player.prototype = Object.create(Character.prototype);
 
 Player.prototype.draw = function () {
 	Character.prototype.draw.call(this);
