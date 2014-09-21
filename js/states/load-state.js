@@ -36,7 +36,7 @@ function LoadState () {
 
 		// Instantiate and TMX Map.  Callback will be notified when load and
 		// parse are complete.
-		new GameWorld(_gameData, _onGameWorldReady);
+		_gameData.gameWorld = new GameWorld(_gameData, _onGameWorldReady);
 
 		// Display initial feedback to user.
 		text       = new jaws.Text({

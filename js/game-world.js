@@ -1,18 +1,23 @@
 define(
-['jaws', '$', 'lib/signals', 'DATABASE', 'lib/SAT', 'entities/player', 'entities/npc', 'entities/characters/tellah', 'entities/item', 'entities/zone-switcher'],
-function (jaws, $, signals, DATABASE, SAT, Player, NPC, Tellah, Item, ZoneSwitcher) {
+['jaws', '$', 'lib/signals', 'DATABASE', 'lib/SAT', 'collider', 'entities/player', 'entities/npc', 'entities/characters/tellah', 'entities/item', 'entities/zone-switcher'],
+function (jaws, $, signals, DATABASE, SAT, Collider, Player, NPC, Tellah, Item, ZoneSwitcher) {
 
 function GameWorld(gameData, readyCallback) {
 
 	// Reference to game world data.
 	this._gameData = gameData;
 	this.readyCallback = readyCallback;
+	this.collider = new Collider();
 	
 	// TODO: Find a better way to manage scope of the callback?
 	new jaws.TMXMap(this._gameData.url, $.proxy(this.onMapParsed, this));
 }
 
 GameWorld.prototype = Object.create(Object);
+
+GameWorld.prototype.update = function () {
+	this.collider.update();
+};
 
 /*
  * Setup/Loading Stuffs
@@ -42,6 +47,13 @@ GameWorld.prototype.onMapParsed = function (map) {
 	// because the Player always exists, even if not present in map data.
 	this._gameData.entities.push.apply(this._gameData.entities, [this._gameData.player]);
 
+	// Add entities to Collider
+	this._gameData.entities.forEach(function (entity) {
+		this.collider.addEntity(entity);
+	}, this);
+	
+	this.collider.addTerrainLayer(this._gameData.layers.collision);
+	
 	this.readyCallback();
 };
 

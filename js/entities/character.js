@@ -5,6 +5,15 @@ function (jaws, $, DATABASE, Entity, SAT, ShockNova, MeleeAttack) {
 function Character(options) {
 	
 	this.options = $.extend({}, options);
+	
+	this.options.interests = [
+		{name: 'sight', radius: 500},
+		{name: 'terrain', radius: this.options.radius}
+	];
+	
+	this.options.presences = [
+		{name: 'sight', radius: this.options.radius}
+	];
 
 	// Call super-class.
 	Entity.call(this, this.options);
@@ -290,7 +299,7 @@ Character.prototype.primaryAttack = function (attackObj) {
 					attackData: attackObj,
 					// Callback
 					onFinish: function() { 
-						self.signals.destroyed.dispatch(self.actionsQueued.attack);
+						self.actionsQueued.attack.signals.destroyed.dispatch(self.actionsQueued.attack);
 						delete self.actionsQueued.attack; 
 					}
 				});
