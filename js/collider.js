@@ -20,7 +20,12 @@ Collider.prototype.update = function () {
 				// this interest.
 				if(!this._terrainLayer) return true;
 
-				this._collideWithTerrain(this._terrainLayer, subscriber);
+				var collisions = this._collideWithTerrain(this._terrainLayer, subscriber);
+				collisions.forEach(function (collision) {
+					console.log('overlap: ', collision.overlapX, ', ', collision.overlapY);
+					subscriber.x -= collision.overlapX;
+					subscriber.y -= collision.overlapY;
+				});
 			}
 
 			// For each presence partaining to the subscriber's interest...
@@ -48,9 +53,9 @@ Collider.prototype.update = function () {
 				if(isCollision) {
 					subscriber.onCollision(presence.entity, interest);
 				}
-			});
-		});
-	});
+			}, this);
+		}, this);
+	}, this);
 };
 
 Collider.prototype.addEntity = function (entity) {
