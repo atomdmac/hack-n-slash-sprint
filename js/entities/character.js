@@ -6,18 +6,18 @@ function Character(options) {
 	
 	this.options = $.extend({}, options);
 	
-	this.options.interests = [
-		{name: 'sight', radius: 500},
-		{name: 'terrain', radius: this.options.radius}
-	];
-	
-	this.options.presences = [
-		{name: 'sight', radius: this.options.radius}
-	];
-
 	// Call super-class.
 	Entity.call(this, this.options);
 
+	this.interests.push.apply(this.interests, [
+		{name: 'sight', shape: new SAT.Circle(new SAT.Vector(this.x, this.y), 500)},
+		{name: 'terrain', shape: new SAT.Circle(new SAT.Vector(this.x, this.y), this.options.radius)}
+	]);
+	
+	this.presences.push.apply(this.presences, [
+		{name: 'sight', shape: new SAT.Circle(new SAT.Vector(this.x, this.y), this.options.radius)}
+	]);
+	
 	// Reference to game world data.
 	this._gameData = this.options.gameData;
 

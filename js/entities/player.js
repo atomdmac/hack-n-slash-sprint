@@ -1,12 +1,16 @@
 define(
-['jaws', 'DATABASE', 'entities/character', 'ui/hud', 'entities/item'],
-function (jaws, DATABASE, Character, HUD, Item) {
+['jaws', 'DATABASE', 'lib/SAT', 'entities/character', 'ui/hud', 'entities/item'],
+function (jaws, DATABASE, SAT, Character, HUD, Item) {
 
 function Player (options) {
 
 	// Extend Character class.
 	Character.call(this, options);
-
+	
+	this.presences.push.apply(this.presences, [
+		{name: 'touch', shape: new SAT.Circle(new SAT.Vector(this.x, this.y), this.options.radius)}
+	]);
+	
 	// Controls
 	this.gamepad = null;
 	this.mouse = {x: 0, y: 0};

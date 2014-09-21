@@ -48,6 +48,10 @@ Entity.prototype.onCollision = function (entity, interest) {
 	// console.log(this.name, ' collides with ', entity.name, ' because of ', interest.name);
 };
 
+Entity.prototype.update = function (entity, interest) {
+	
+};
+
 Entity.prototype.destroy = function () {
 	// TODO: Do any clean-up necessary when an entity needs to be completely removed from the game.
 	this.destroyed.dispatch(this);

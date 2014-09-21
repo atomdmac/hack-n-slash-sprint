@@ -22,31 +22,42 @@ Collider.prototype.update = function () {
 
 				var collisions = this._collideWithTerrain(this._terrainLayer, subscriber);
 				collisions.forEach(function (collision) {
-					console.log('overlap: ', collision.overlapX, ', ', collision.overlapY);
 					subscriber.x -= collision.overlapX;
 					subscriber.y -= collision.overlapY;
 				});
+				return true;
 			}
 
 			// For each presence partaining to the subscriber's interest...
 			self.getPresencesLike(interest).forEach( function (presence) {
 				if(subscriber === presence.entity) return true;
-
-				var isCollision = jaws.collideOneWithOne(
-					{
-						x     : subscriber.x, 
-						y     : subscriber.y, 
-						radius: interest.radius,
-						rect  : interest.rect
-					},
-					{
-						x: presence.entity.x, 
-						y: presence.entity.y, 
-						// Yeah, I know.  This is very confusing and should be fixed.
-						radius: presence.presence.radius,
-						rect  : presence.presence.rect
-					}
-				);
+				
+				var isCollision = false,
+				    a = interest.shape,
+					b = presence.presence.shape,
+					response = interest.response;
+				
+				a.pos.x = subscriber.x;
+				a.pos.y = subscriber.y;
+				b.pos.x = presence.entity.x;
+				b.pos.y = presence.entity.y;
+				
+				if (a instanceof SAT.Circle && b instanceof SAT.Circle) {
+					isCollision = SAT.testCircleCircle(a, b, response);
+				}
+				else if (a instanceof SAT.Polygon && b instanceof SAT.Polygon) {
+					a.recalc();
+					b.recalc();
+					isCollision = SAT.testPolygonPolygon(a, b, response);
+				}
+				else if (a instanceof SAT.Polygon && b instanceof SAT.Circle) {
+					a.recalc();
+					isCollision = SAT.testPolygonCircle(a, b, response);
+				}
+				else if (a instanceof SAT.Circle && b instanceof SAT.Polygon) {
+					b.recalc();
+					isCollision = SAT.testCirclePolygon(a, b, response);
+				}
 
 				// If the subscriber's interest collides with an entity's
 				// presence, notify the subscriber.
