@@ -44,6 +44,7 @@
     <property name="url" value="assets/tmx/gumbelshire-center.tmx"/>
    </properties>
   </object>
+  <object type="Tellah" gid="260" x="825" y="329"/>
  </objectgroup>
  <layer name="canopy" width="50" height="22">
   <data encoding="base64">

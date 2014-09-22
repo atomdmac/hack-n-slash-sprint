@@ -54,6 +54,7 @@
   <object type="Tellah" gid="260" x="328" y="281"/>
   <object type="Tellah" gid="260" x="306" y="546"/>
   <object type="Tellah" gid="260" x="998" y="596"/>
+  <object type="Tellah" gid="260" x="501" y="351"/>
  </objectgroup>
  <layer name="canopy" width="50" height="22">
   <data encoding="base64">
