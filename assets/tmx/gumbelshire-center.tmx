@@ -21,6 +21,9 @@
   <tile id="1">
    <image width="32" height="32" source="../png/entities/TiledEntities/Characters/Tellah.png"/>
   </tile>
+  <tile id="2">
+   <image width="32" height="32" source="../png/entities/TiledEntities/Characters/Edge.png"/>
+  </tile>
  </tileset>
  <layer name="background" width="50" height="22">
   <data encoding="base64">
@@ -55,6 +58,10 @@
   <object type="Tellah" gid="260" x="306" y="546"/>
   <object type="Tellah" gid="260" x="998" y="596"/>
   <object type="Tellah" gid="260" x="501" y="351"/>
+  <object type="Edge" gid="261" x="906" y="354"/>
+  <object type="Edge" gid="261" x="423" y="159"/>
+  <object type="Edge" gid="261" x="514" y="535"/>
+  <object type="Edge" gid="261" x="1267" y="320"/>
  </objectgroup>
  <layer name="canopy" width="50" height="22">
   <data encoding="base64">

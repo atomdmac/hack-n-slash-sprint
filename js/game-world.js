@@ -1,6 +1,6 @@
 define(
-['jaws', '$', 'lib/signals', 'DATABASE', 'lib/SAT', 'collider', 'entities/player', 'entities/npc', 'entities/characters/tellah', 'entities/item', 'entities/zone-switcher'],
-function (jaws, $, signals, DATABASE, SAT, Collider, Player, NPC, Tellah, Item, ZoneSwitcher) {
+['jaws', '$', 'lib/signals', 'DATABASE', 'lib/SAT', 'collider', 'entities/player', 'entities/npc', 'entities/characters/tellah', 'entities/characters/edge', 'entities/item', 'entities/zone-switcher'],
+function (jaws, $, signals, DATABASE, SAT, Collider, Player, NPC, Tellah, Edge, Item, ZoneSwitcher) {
 
 function GameWorld(gameData, readyCallback) {
 
@@ -131,6 +131,28 @@ GameWorld.prototype.generateMapObjects = function (map) {
 				
 				// Instantiate new NPC.
 				mapObjects.push(new Tellah(objectConfig));
+				
+				break;
+			case "Edge":
+				objectConfig = $.extend(true, 
+					{},
+					currentObject.properties,
+					{
+						/*
+						 * Funny math for pixel-perfect placement based
+						 * on TMX data, because I haven't taken the time
+						 * to figure out the root issue with placement.
+						 */
+						x: currentObject.x + 17,
+						y: currentObject.y
+					}
+				);
+	
+				// Attach game data *after* cloning so it is passed by reference.
+				objectConfig.gameData = this._gameData;
+				
+				// Instantiate new NPC.
+				mapObjects.push(new Edge(objectConfig));
 				
 				break;
 			default:

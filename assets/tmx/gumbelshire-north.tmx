@@ -21,6 +21,9 @@
   <tile id="1">
    <image width="32" height="32" source="../png/entities/TiledEntities/Characters/Tellah.png"/>
   </tile>
+  <tile id="2">
+   <image width="32" height="32" source="../png/entities/TiledEntities/Characters/Edge.png"/>
+  </tile>
  </tileset>
  <layer name="background" width="50" height="21">
   <data encoding="base64">
@@ -40,12 +43,15 @@
     <property name="url" value="assets/tmx/gumbelshire-center.tmx"/>
    </properties>
   </object>
-  <object type="Tellah" gid="260" x="436" y="443"/>
-  <object type="Tellah" gid="260" x="66" y="407"/>
-  <object type="Tellah" gid="260" x="1255" y="311"/>
-  <object type="Tellah" gid="260" x="1500" y="448"/>
-  <object type="Tellah" gid="260" x="1228" y="94"/>
-  <object type="Tellah" gid="260" x="564" y="162"/>
+  <object type="Edge" gid="261" x="1076" y="539"/>
+  <object type="Tellah" gid="260" x="301" y="104"/>
+  <object type="Edge" gid="261" x="1514" y="431"/>
+  <object type="Edge" gid="261" x="1295" y="465"/>
+  <object type="Edge" gid="261" x="573" y="467"/>
+  <object type="Edge" gid="261" x="67" y="398"/>
+  <object type="Tellah" gid="260" x="958" y="426"/>
+  <object type="Tellah" gid="260" x="387" y="309"/>
+  <object type="Tellah" gid="260" x="1161" y="97"/>
  </objectgroup>
  <layer name="canopy" width="50" height="21">
   <data encoding="base64">
