@@ -161,6 +161,10 @@ Character.prototype.getSpeed = function (magnitude) {
 	return speed < this.stats.maxMovementSpeed ? speed : this.stats.maxMovementSpeed;
 };
 
+Character.prototype.getMaxSpeed = function () {
+	return this.stats.maxMovementSpeed;
+};
+
 // Sets the character's bearing.
 // Direction can be a string ("E", "N", etc), or an angle in radians
 // TODO: Implement directions "SE", "NE", "NW", and "SW"

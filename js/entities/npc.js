@@ -21,6 +21,7 @@ function NPC (options) {
 		move: {angle: 0, magnitude: 0},
 		primaryAttack: {}
 	};
+	this.seekTarget = null;
 }
 
 NPC.prototype = Object.create(Character.prototype);
@@ -43,6 +44,13 @@ NPC.prototype.rollForDistraction = function(distractionRateMultiplier) {
 	}
 };
 
+// TODO: Move getDistance to someplace that makes sense.
+function getDistance (pt1, pt2) {
+	var dx = pt1[0] - pt2[0],
+		dy = pt1[1] - pt2[1];
+	return Math.sqrt((dx * dx) + (dy * dy));
+}
+
 NPC.prototype.decideNextAction = function() {
 	// Do nothing if dead.
 	if (this.resources.health > 0 === false) return;
@@ -63,12 +71,20 @@ NPC.prototype.decideNextAction = function() {
 			startPos = [Math.round(this.x)  , Math.round(this.y)],
 			endPos   = [Math.round(player.x), Math.round(player.y)],
 			collisionLayer = this._gameData.layers.collision;
-	
-		if(collisionLayer.lineOfSight(startPos, endPos) &&
-		   this.consider(player) === "hostile") {
-			this.seek();
+
+		// If we can see player, update our seek target.
+		if(collisionLayer.lineOfSight(startPos, endPos)) {
+			this.seekTarget = endPos;
 		}
-		else {
+
+		if(
+			this.seekTarget !== null &&
+			getDistance(startPos, this.seekTarget) > this.getMaxSpeed() * 2 &&
+			this.consider(player) === 'hostile'
+		) {
+			this.seek({x: this.seekTarget[0], y: this.seekTarget[1]});
+		} else {
+			this.seekTarget = null;
 			this.wander();
 		}
 	}
@@ -83,17 +99,15 @@ NPC.prototype.decideNextAction = function() {
 	
 };
 
-NPC.prototype.seek = function () {
+NPC.prototype.seek = function (destination) {
 	// TODO: Allow NPCs to seek characters/locations besides the player.
 	// Find angle to player.
 	var p1 = {
 		x: this.x,
 		y: this.y
 	};
-	var p2 = {
-		x: this._gameData.player.x,
-		y: this._gameData.player.y
-	};
+	var p2 = destination;
+
 	var analogX = p2.x - p1.x;
 	var analogY = p2.y - p1.y;
 	
@@ -126,7 +140,7 @@ NPC.prototype.seek = function () {
 };
 
 NPC.prototype.wander = function () {
-	this.rollForDistraction();
+	this.rollForDistraction(0.4);
 	if (this.isDistracted) {
 		// Decide how to move in the X-axis.
 		var analogX = Math.round(Math.random()) ? Math.random() : Math.random() * -1;
