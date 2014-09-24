@@ -44,7 +44,8 @@ NPC.prototype.decideNextAction = function() {
 		endPos   = [Math.round(player.x), Math.round(player.y)],
 		collisionLayer = this._gameData.layers.collision;
 
-	if(collisionLayer.lineOfSight(startPos, endPos)) {
+	if(collisionLayer.lineOfSight(startPos, endPos) &&
+	   this.consider(player) === "hostile") {
 		this.seek();
 	} else {
 		this.wander();
