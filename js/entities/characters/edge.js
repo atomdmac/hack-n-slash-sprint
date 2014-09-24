@@ -14,6 +14,9 @@ function Edge(options) {
 	
 	// Extend NPC class.
 	NPC.call(this, this.options);
+	
+	this.race = "human";
+	this.alignment = "good";
 }
 
 Edge.prototype = Object.create(NPC.prototype);

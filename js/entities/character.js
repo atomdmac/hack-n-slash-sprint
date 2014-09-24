@@ -8,7 +8,10 @@ function Character(options) {
 	
 	// Call super-class.
 	Entity.call(this, this.options);
-
+	
+	this.race = null;
+	this.alignment = null;
+	
 	this.interests.push.apply(this.interests, [
 		{name: 'sight', shape: new SAT.Circle(new SAT.Vector(this.x, this.y), 500)},
 		{name: 'terrain', shape: new SAT.Circle(new SAT.Vector(this.x, this.y), this.options.radius)}
@@ -85,6 +88,14 @@ Character.prototype.draw = function () {
 	// Clear dumb flags after drawing.
 	this.actionsQueued["move"] = false;
 	this.actionsQueued["damage"] = false;
+};
+
+// Extremely basic implementation. Assume Characters hate anything different.
+Character.prototype.consider = function(targetEntity) {
+	if (targetEntity.race === this.race && targetEntity.alignment === this.alignment) {
+		return "friendly";
+	}
+	return "hostile";
 };
 
 Character.prototype.applyStatChange = function (targetStat, modification) {
@@ -288,11 +299,20 @@ Character.prototype.primaryAttack = function (attackObj) {
 				// Used to scope inner functions.
 				var self = this;
 				
+				// Prepare eligible spell targets.
+				var eligibleTargets = [];
+				for (var lcv = 0; lcv < this._gameData.entities.length; lcv++) {
+					// Include all Characters who are not the caster.
+					if (this.consider(this._gameData.entities[lcv]) === "hostile") {
+						eligibleTargets.push(this._gameData.entities[lcv]);
+					}
+				}
+				
 				this.actionsQueued.attack = new MeleeAttack({
 					// Attacker
 					attacker: this,
 					// Potential targets.
-					targets: this._gameData.entities,
+					targets: eligibleTargets,
 					// Attack angle
 					angle: attackObj.angle,
 					// Attack Data
@@ -327,7 +347,7 @@ Character.prototype.secondaryAttack = function () {
 		var eligibleTargets = [];
 		for (var lcv = 0; lcv < this._gameData.entities.length; lcv++) {
 			// Include all Characters who are not the caster.
-			if (this !== this._gameData.entities[lcv]) {
+			if (this.consider(this._gameData.entities[lcv]) === "hostile") {
 				eligibleTargets.push(this._gameData.entities[lcv]);
 			}
 		}

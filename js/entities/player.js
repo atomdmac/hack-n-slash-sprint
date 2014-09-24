@@ -7,6 +7,9 @@ function Player (options) {
 	// Extend Character class.
 	Character.call(this, options);
 	
+	this.race = "human";
+	this.alignment = "good";
+	
 	this.presences.push.apply(this.presences, [
 		{name: 'touch', shape: new SAT.Circle(new SAT.Vector(this.x, this.y), this.options.radius)}
 	]);

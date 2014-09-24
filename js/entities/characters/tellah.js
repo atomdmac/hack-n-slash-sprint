@@ -14,6 +14,9 @@ function Tellah(options) {
 	
 	// Extend NPC class.
 	NPC.call(this, this.options);
+	
+	this.race = "human";
+	this.alignment = "evil";
 }
 
 Tellah.prototype = Object.create(NPC.prototype);
