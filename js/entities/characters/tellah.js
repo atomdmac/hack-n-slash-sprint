@@ -9,6 +9,10 @@ function Tellah(options) {
 		DATABASE.characters["base"],
 		DATABASE.characters['Tellah'],
 		DATABASE.nonPlayerCharacters["base"],
+		// Default options, until we come up with a better way to define these.
+		{
+			state:	"seek"
+		},
 		options
 	);
 	

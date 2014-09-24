@@ -37,7 +37,11 @@
  </layer>
  <objectgroup name="entities">
   <object type="Player" gid="259" x="339" y="434"/>
-  <object type="Tellah" gid="260" x="466.5" y="267"/>
+  <object type="Tellah" gid="260" x="466.5" y="267">
+   <properties>
+    <property name="state" value="idle"/>
+   </properties>
+  </object>
   <object type="Tellah" gid="260" x="581" y="191"/>
   <object type="Tellah" gid="260" x="972" y="310"/>
   <object name="To Gumbelshire Center" type="ZoneSwitcher" x="12" y="24" width="1590" height="12">

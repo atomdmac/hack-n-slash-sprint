@@ -9,6 +9,10 @@ function Edge(options) {
 		DATABASE.characters["base"],
 		DATABASE.characters['Edge'],
 		DATABASE.nonPlayerCharacters["base"],
+		// Default options, until we come up with a better way to define these.
+		{
+			state:	"wander"
+		},
 		options
 	);
 	

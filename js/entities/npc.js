@@ -6,6 +6,15 @@ function NPC (options) {
 
 	Character.call(this, options);
 
+	this.options = $.extend(true, 
+		{},
+		// Default options, until we come up with a better way to define these.
+		{
+			state:	"idle"
+		},
+		options
+	);
+	this.state = this.options.state;
 	this.isDistracted = false;
 	this.distractionRate = options.distractionRate;
 	this.courseOfAction = {
@@ -37,18 +46,31 @@ NPC.prototype.rollForDistraction = function(distractionRateMultiplier) {
 NPC.prototype.decideNextAction = function() {
 	// Do nothing if dead.
 	if (this.resources.health > 0 === false) return;
-
-	var player   = this._gameData.player,
-		// Round position values to prevent lineOfSight from breaking.
-		startPos = [Math.round(this.x)  , Math.round(this.y)],
-		endPos   = [Math.round(player.x), Math.round(player.y)],
-		collisionLayer = this._gameData.layers.collision;
-
-	if(collisionLayer.lineOfSight(startPos, endPos) &&
-	   this.consider(player) === "hostile") {
-		this.seek();
-	} else {
+	
+	// Do nothing.
+	if (this.state === "idle") return;
+	
+	// Wander.
+	if (this.state === "wander") {
 		this.wander();
+		return;
+	}
+	
+	// Seek.
+	if (this.state === "seek") {
+		var player   = this._gameData.player,
+			// Round position values to prevent lineOfSight from breaking.
+			startPos = [Math.round(this.x)  , Math.round(this.y)],
+			endPos   = [Math.round(player.x), Math.round(player.y)],
+			collisionLayer = this._gameData.layers.collision;
+	
+		if(collisionLayer.lineOfSight(startPos, endPos) &&
+		   this.consider(player) === "hostile") {
+			this.seek();
+		}
+		else {
+			this.wander();
+		}
 	}
 
 	// This currently causes all character health to drop to 0 as soon as the
