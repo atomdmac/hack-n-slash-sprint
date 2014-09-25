@@ -1,6 +1,6 @@
 define(
-['jaws', '$', 'lib/signals', 'DATABASE', 'lib/SAT', 'collider', 'entities/player', 'entities/npc', 'entities/characters/tellah', 'entities/characters/edge', 'entities/item', 'entities/zone-switcher'],
-function (jaws, $, signals, DATABASE, SAT, Collider, Player, NPC, Tellah, Edge, Item, ZoneSwitcher) {
+['jaws', '$', 'lib/signals', 'DATABASE', 'lib/SAT', 'collider', 'entities/player', 'entities/npc', 'entities/characters/tellah', 'entities/characters/edge', 'entities/item', 'entities/zone-switcher', 'entities/patrol-point'],
+function (jaws, $, signals, DATABASE, SAT, Collider, Player, NPC, Tellah, Edge, Item, ZoneSwitcher, PatrolPoint) {
 
 function GameWorld(gameData, readyCallback) {
 
@@ -32,6 +32,7 @@ GameWorld.prototype.onMapParsed = function (map) {
 		background: map.layerAsTileMap('background')
 	};
 	this._gameData.entities = [];
+	this._gameData.patrols = {};
 	
 	// Create viewport.
 	this._gameData.viewport = new jaws.Viewport({
@@ -80,6 +81,25 @@ GameWorld.prototype.generateMapObjects = function (map) {
 				objectConfig.gameData = this._gameData;
 				
 				mapObjects.push(new ZoneSwitcher(objectConfig));
+				
+				break;
+			case "PatrolPoint":
+				objectConfig = $.extend(true, 
+					{},
+					currentObject.properties,
+					{
+						x: currentObject.x,
+						y: currentObject.y,
+						width: currentObject.width || 1,
+						height: currentObject.height || 1,
+						color: null
+					}
+				);
+				
+				// Attach game data *after* cloning so it is passed by reference.
+				objectConfig.gameData = this._gameData;
+				
+				mapObjects.push(new PatrolPoint(objectConfig));
 				
 				break;
 			case "Player":

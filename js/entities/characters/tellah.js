@@ -4,7 +4,7 @@ function (jaws, $, DATABASE, NPC) {
 
 function Tellah(options) {
 	
-	this.options = $.extend(true, 
+	this.options = $.extend( 
 		{},
 		DATABASE.characters["base"],
 		DATABASE.characters['Tellah'],

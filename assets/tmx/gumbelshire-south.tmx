@@ -42,9 +42,14 @@
     <property name="state" value="idle"/>
    </properties>
   </object>
-  <object type="Tellah" gid="260" x="581" y="191"/>
+  <object type="Tellah" gid="260" x="365" y="106">
+   <properties>
+    <property name="patrol" value="patrol1"/>
+    <property name="state" value="patrol"/>
+   </properties>
+  </object>
   <object type="Tellah" gid="260" x="972" y="310"/>
-  <object name="To Gumbelshire Center" type="ZoneSwitcher" x="12" y="24" width="1590" height="12">
+  <object name="To Gumbelshire Center" type="ZoneSwitcher" x="5" y="24" width="1590" height="12">
    <properties>
     <property name="targetY" value="630"/>
     <property name="type" value="ZoneSwitcher"/>
@@ -53,6 +58,30 @@
   </object>
   <object type="Tellah" gid="260" x="825" y="329"/>
   <object type="Edge" gid="261" x="216" y="270"/>
+  <object type="PatrolPoint" x="579" y="101">
+   <properties>
+    <property name="patrolIndex" value="3"/>
+    <property name="patrolName" value="patrol1"/>
+   </properties>
+  </object>
+  <object type="PatrolPoint" x="341" y="284">
+   <properties>
+    <property name="patrolIndex" value="1"/>
+    <property name="patrolName" value="patrol1"/>
+   </properties>
+  </object>
+  <object type="PatrolPoint" x="343" y="97">
+   <properties>
+    <property name="patrolIndex" value="0"/>
+    <property name="patrolName" value="patrol1"/>
+   </properties>
+  </object>
+  <object type="PatrolPoint" x="584" y="289">
+   <properties>
+    <property name="patrolIndex" value="2"/>
+    <property name="patrolName" value="patrol1"/>
+   </properties>
+  </object>
  </objectgroup>
  <layer name="canopy" width="50" height="22">
   <data encoding="base64">
