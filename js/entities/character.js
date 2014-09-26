@@ -14,11 +14,13 @@ function Character(options) {
 	
 	this.interests.push.apply(this.interests, [
 		{name: 'sight', shape: new SAT.Circle(new SAT.Vector(this.x, this.y), 500)},
-		{name: 'terrain', shape: new SAT.Circle(new SAT.Vector(this.x, this.y), this.options.radius)}
+		{name: 'terrain', shape: new SAT.Circle(new SAT.Vector(this.x, this.y), this.options.radius)},
+		{name: 'touch', shape: new SAT.Circle(new SAT.Vector(this.x, this.y), this.options.radius)}
 	]);
 	
 	this.presences.push.apply(this.presences, [
-		{name: 'sight', shape: new SAT.Circle(new SAT.Vector(this.x, this.y), this.options.radius)}
+		{name: 'sight', shape: new SAT.Circle(new SAT.Vector(this.x, this.y), this.options.radius)},
+		{name: 'touch', shape: new SAT.Circle(new SAT.Vector(this.x, this.y), this.options.radius)}
 	]);
 	
 	// Reference to game world data.
@@ -159,6 +161,10 @@ Character.prototype.getSpeed = function (magnitude) {
 		speed = speed * magnitude;
 	}
 	return speed < this.stats.maxMovementSpeed ? speed : this.stats.maxMovementSpeed;
+};
+
+Character.prototype.getMaxSpeed = function () {
+	return this.stats.maxMovementSpeed;
 };
 
 // Sets the character's bearing.

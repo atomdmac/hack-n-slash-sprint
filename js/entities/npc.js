@@ -25,6 +25,8 @@ function NPC (options) {
 	if (this.options.patrol ) {
 		this.patrol(this.options.patrol);
 	}
+	
+	this.seekTarget = null;
 }
 
 NPC.prototype = Object.create(Character.prototype);
@@ -38,6 +40,38 @@ NPC.prototype.onCollision = function (entity, interest) {
 	//console.log(this.name, ' collides with ', entity.name, ' because of ', interest.name);
 	if (interest.name === this.currentPatrol && entity.patrolIndex === this.currentPatrolPointIndex) {
 		this.incrementPatrolPoint();
+	}
+	
+	if (interest.name === "sight" &&
+		this.state === "patrol" &&
+		this.consider(entity) === "hostile" &&
+		!this.seekTarget) {
+		
+		if (entity.resources && entity.resources.health === 0) {
+			this.seekTarget = null;
+			this.state = "patrol";
+		}
+		else {
+			// Round position values to prevent lineOfSight from breaking.
+			var startPos = [Math.round(this.x)  , Math.round(this.y)],
+				endPos   = [Math.round(entity.x), Math.round(entity.y)],
+				collisionLayer = this._gameData.layers.collision;
+	
+			// If we can see the entity, update our seek target.
+			if(collisionLayer.lineOfSight(startPos, endPos)) {
+				this.state = "seek";
+				this.seekTarget = entity;
+			}
+		}
+	}
+	
+	if (interest.name === "touch" &&
+		entity === this.seekTarget) {
+		
+		entity.kill();
+		this.seekTarget = null;
+		this.state = "patrol";
+		
 	}
 };
 
@@ -54,6 +88,13 @@ NPC.prototype.rollForDistraction = function(distractionRateMultiplier) {
 	}
 };
 
+// TODO: Move getDistance to someplace that makes sense.
+function getDistance (pt1, pt2) {
+	var dx = pt1[0] - pt2[0],
+		dy = pt1[1] - pt2[1];
+	return Math.sqrt((dx * dx) + (dy * dy));
+}
+
 NPC.prototype.decideNextAction = function() {
 	// Do nothing if dead.
 	if (this.resources.health > 0 === false) return;
@@ -69,25 +110,23 @@ NPC.prototype.decideNextAction = function() {
 	
 	// Patrol.
 	if (this.state === "patrol") {
-		this.seek(this.getNextPatrolPoint());
-		return;
-	}
-	
-	// Seek.
-	if (this.state === "seek") {
-		var player   = this._gameData.player,
-			// Round position values to prevent lineOfSight from breaking.
-			startPos = [Math.round(this.x)  , Math.round(this.y)],
-			endPos   = [Math.round(player.x), Math.round(player.y)],
-			collisionLayer = this._gameData.layers.collision;
-	
-		if(collisionLayer.lineOfSight(startPos, endPos) &&
-		   this.consider(player) === "hostile") {
-			this.seek(player);
+		var targetPatrolPoint = this.getNextPatrolPoint();
+		if (targetPatrolPoint) {
+			this.seek(targetPatrolPoint);
 		}
 		else {
 			this.wander();
 		}
+		return;
+	}
+	// Seek.
+	if (this.state === "seek") {
+		if(this.seekTarget !== null) {
+			this.seek(this.seekTarget/*{x: this.seekTarget.x, y: this.seekTarget.y}*/);
+		} else {
+			this.wander();
+		}
+		return;
 	}
 
 	// This currently causes all character health to drop to 0 as soon as the
@@ -100,17 +139,15 @@ NPC.prototype.decideNextAction = function() {
 	
 };
 
-NPC.prototype.seek = function (targetEntity) {
+NPC.prototype.seek = function (destination) {
 	// TODO: Allow NPCs to seek characters/locations besides the player.
 	// Find angle to player.
 	var p1 = {
 		x: this.x,
 		y: this.y
 	};
-	var p2 = {
-		x: targetEntity.x,
-		y: targetEntity.y
-	};
+	var p2 = destination;
+
 	var analogX = p2.x - p1.x;
 	var analogY = p2.y - p1.y;
 	
@@ -143,7 +180,7 @@ NPC.prototype.seek = function (targetEntity) {
 };
 
 NPC.prototype.wander = function () {
-	this.rollForDistraction();
+	this.rollForDistraction(0.4);
 	if (this.isDistracted) {
 		// Decide how to move in the X-axis.
 		var analogX = Math.round(Math.random()) ? Math.random() : Math.random() * -1;
@@ -179,8 +216,8 @@ NPC.prototype.getNextPatrolPoint = function () {
 		this._gameData.patrols[this.currentPatrol][this.currentPatrolPointIndex]) {
 		return this._gameData.patrols[this.currentPatrol][this.currentPatrolPointIndex];
 	}
-	// TODO: Fix this bullshit default!
-	return {x: 100, y: 100};
+	
+	return undefined;
 };
 
 NPC.prototype.incrementPatrolPoint = function () {

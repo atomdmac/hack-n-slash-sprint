@@ -4,7 +4,7 @@ function (jaws, $, DATABASE, SAT, Entity, LoadState) {
 
 function ZoneSwitcher(options) {
 
-	options = $.extend(true,
+	options = $.extend(
 		{}, 
 		DATABASE.entities["base"],
 		DATABASE.entities['ZoneSwitcher'],
@@ -41,7 +41,7 @@ ZoneSwitcher.prototype = Object.create(Entity.prototype);
 
 ZoneSwitcher.prototype.onCollision = function (entity, interest) {
 	// console.log(this.name, ' collides with ', entity.name, ' because of ', interest.name);
-	this.signals.activated.dispatch(this);
+	if (entity === this._gameData.player) this.signals.activated.dispatch(this);
 };
 
 return ZoneSwitcher;
