@@ -2,8 +2,9 @@ define(
 ['jaws', 'DATABASE', 'lib/SAT', 'entities/character', 'ui/hud', 'entities/item'],
 function (jaws, DATABASE, SAT, Character, HUD, Item) {
 
-function Player (options) {
-
+function Player (options) {           
+	var self = this;
+	
 	// Extend Character class.
 	Character.call(this, options);
 	
@@ -14,6 +15,24 @@ function Player (options) {
 		{name: 'touch', shape: new SAT.Circle(new SAT.Vector(this.x, this.y), this.options.radius)}
 	]);
 	
+	
+	// Equipment
+	// TODO: Don't hardcode this here...seriously.
+	var equipmentKeys = ["Sword", "Leather Tunic", "Hot Feet", "Gohan's Hat"];
+	equipmentKeys.forEach(function(equipmentKey) {
+		// Create item to be equipped.
+		var item = new Item($.extend(true, {},
+								 DATABASE.equipment["base"],
+								 DATABASE.equipment[equipmentKey]));
+		item._gameData = this._gameData;
+		
+		// Put the loot in the game world
+		self.signals.gave.dispatch(item);
+		
+		// Equip item.
+		Character.prototype.equip.call(self, item.equipSlot, item);
+	});
+	
 	// Controls
 	this.gamepad = null;
 	this.mouse = {x: 0, y: 0};
@@ -23,7 +42,6 @@ function Player (options) {
 	jawswindow.addEventListener("mousemove", _handleMouseMove, false);
 
 	// TODO: Is there a way to move _handleMouseMove out of the Player constructor so it doesn't get duplicated in memory?
-	var self = this;
 	function _handleMouseMove (event) {
 		var x = 0;
 		var y = 0;
