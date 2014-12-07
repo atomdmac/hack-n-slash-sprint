@@ -11,11 +11,6 @@ function Player (options) {
 	this.race = "human";
 	this.alignment = "good";
 	
-	this.presences.push.apply(this.presences, [
-		{name: 'touch', shape: new SAT.Circle(new SAT.Vector(this.x, this.y), this.options.radius)}
-	]);
-	
-	
 	// Equipment
 	// TODO: Don't hardcode this here...seriously.
 	var equipmentKeys = ["Sword", "Leather Tunic", "Hot Feet", "Gohan's Hat"];
