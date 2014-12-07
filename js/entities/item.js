@@ -24,10 +24,12 @@ function Item(options) {
 		});
 		
 		this.owner = null;
+		this.type = this.options.type;
 		this.sprite_sheet = this.options.sprite_sheet;
 		this.equipSlot = this.options.equipSlot;
 		this.primaryAttack = this.options.primaryAttack;
 		this.bonuses = this.options.bonuses;
+		this.resources = this.options.resources;
 		this.state = "unequipped";
 	}
 }

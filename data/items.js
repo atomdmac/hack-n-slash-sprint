@@ -3,6 +3,7 @@ define(
 function () {
 	return {
 		"base": {
+			type: null,
 			width: 32,
 			height: 32,
 			scale: 1,
@@ -12,7 +13,21 @@ function () {
 			animationSubsets: {
 				unequipped: [0,1]
 			},
-			radius: 8
+			radius: 8,
+			equipSlot: null
+		},
+		"Health Potion": {
+			type: "resource",
+			label: "Health Potion",
+			sprite_sheet: "assets/png/items/HealthPotion.png",
+			resources: {
+				health: 20
+			},
+			width: 12,
+			height: 16,
+			scale: 1,
+			anchor: [0.5, 0.5],
+			frame_size: [12, 16]
 		},
 		"Sword": {
 			label: "Sword",
