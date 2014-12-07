@@ -22,8 +22,8 @@ function Player (options) {
 	equipmentKeys.forEach(function(equipmentKey) {
 		// Create item to be equipped.
 		var item = new Item($.extend(true, {},
-								 DATABASE.equipment["base"],
-								 DATABASE.equipment[equipmentKey]));
+								 DATABASE.items["base"],
+								 DATABASE.items[equipmentKey]));
 		item._gameData = this._gameData;
 		
 		// Put the loot in the game world

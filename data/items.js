@@ -16,7 +16,7 @@ function () {
 		},
 		"Sword": {
 			label: "Sword",
-			sprite_sheet: "assets/png/equipment/Sword.png",
+			sprite_sheet: "assets/png/items/Sword.png",
 			equipSlot: "primaryAttack",
 			primaryAttack: {
 				mode: "melee",
@@ -30,7 +30,7 @@ function () {
 		},
 		"Leather Tunic": {
 			label: "Leather Tunic",
-			sprite_sheet: "assets/png/equipment/LeatherTunic.png",
+			sprite_sheet: "assets/png/items/LeatherTunic.png",
 			equipSlot: "tunic",
 			bonuses: {
 				damageReductionPhysical: 3
@@ -38,7 +38,7 @@ function () {
 		},
 		"Hot Feet": {
 			label: "Hot Feet",
-			sprite_sheet: "assets/png/equipment/HotFeet.png",
+			sprite_sheet: "assets/png/items/HotFeet.png",
 			equipSlot: "footwear",
 			bonuses: {
 				movementSpeedIncrease: 1.5
@@ -46,7 +46,7 @@ function () {
 		},
 		"Gohan's Boots": {
 			label: "Gohan's Boots",
-			sprite_sheet: "assets/png/equipment/GohansBoots.png",
+			sprite_sheet: "assets/png/items/GohansBoots.png",
 			equipSlot: "footwear",
 			bonuses: {
 				movementSpeedIncrease: 1
@@ -54,7 +54,7 @@ function () {
 		},
 		"Gohan's Hat": {
 			label: "Gohan's Hat",
-			sprite_sheet: "assets/png/equipment/GohansHat.png",
+			sprite_sheet: "assets/png/items/GohansHat.png",
 			equipSlot: "head",
 			bonuses: {
 			}
