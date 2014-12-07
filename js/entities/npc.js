@@ -66,11 +66,21 @@ NPC.prototype.onCollision = function (entity, interest) {
 	}
 	
 	if (interest.name === "touch" &&
-		entity === this.seekTarget) {
+		entity === this.seekTarget &&
+		this.resources.health > 0) {
 		
-		entity.kill();
-		this.seekTarget = null;
-		this.state = "patrol";
+		// Debug: damage on contact.
+		entity.damage({
+			resource: "health",
+			type: "physical",
+			value: 1,
+			penetration: 1
+		});
+		
+		if (entity.resources.health <= 0) {
+			this.seekTarget = null;
+			this.state = "patrol";
+		}
 		
 	}
 };
