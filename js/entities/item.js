@@ -53,6 +53,7 @@ Item.prototype.put = function () {
 Item.prototype.drop = function (x, y) {
 	this.move(x, y);
 };
+
 Item.prototype.take = function (newOwner) {
 	if (newOwner) {
 		this.owner = newOwner;
@@ -62,14 +63,6 @@ Item.prototype.take = function (newOwner) {
 Item.prototype.move = function (x, y) {
 	this.x = x;
 	this.y = y;
-};
-
-Item.prototype.damage = function (damageObj) {
-	// TODO: Implement item damage?
-};
-
-Item.prototype.destroy = function () {
-	// TODO: Implement item destruction.
 };
 
 return Item;
