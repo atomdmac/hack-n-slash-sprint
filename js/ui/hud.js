@@ -1,6 +1,6 @@
 define(
-['jaws', '$', 'ui/paperdoll', 'ui/resources-hud', 'ui/stats-hud', 'ui/item-inspector-hud'],
-function (jaws, $, Paperdoll, ResourcesHUD, StatsHUD, ItemInspectorHUD) {
+['jaws', '$', 'ui/paperdoll', 'ui/resources-hud', 'ui/stats-hud'],
+function (jaws, $, Paperdoll, ResourcesHUD, StatsHUD) {
 
 function HUD(options) {
 	
@@ -33,10 +33,6 @@ function HUD(options) {
 	this.stats = new StatsHUD(this.options);
 	this.$stats = $("<div class='hud-tile stats-tile'></div>")
 	.appendTo(this.$hudColumn1);
-	
-	this.itemInspector = new ItemInspectorHUD(this.options);
-	this.$itemInspector = $("<div class='hud-tile item-inspector-tile'></div>")
-	.appendTo(this.$hudColumn2);
 }
 
 HUD.prototype = {};
@@ -64,10 +60,6 @@ HUD.prototype.draw = function () {
 					this.drawResources();
 					break;
 				
-				case "inspecting":
-					this.drawItemInspector();
-					break;
-				
 				default:
 					break;
 			}
@@ -88,15 +80,6 @@ HUD.prototype.drawResources = function () {
 
 HUD.prototype.drawStats = function () {
 	this.$stats.html(this.stats.getUI());
-};
-
-HUD.prototype.drawItemInspector = function () {
-	if (this.character.inspecting && this.character.inspecting.id) {
-		this.$itemInspector.html(this.itemInspector.getUI());
-	}
-	else {
-		this.$itemInspector.html("");
-	}
 };
 
 return HUD;
