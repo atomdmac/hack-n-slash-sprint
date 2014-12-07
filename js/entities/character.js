@@ -104,6 +104,19 @@ Character.prototype.applyStatChange = function (targetStat, modification) {
 	this.stats[targetStat] += modification;
 };
 
+Character.prototype.applyResourceChange = function (targetResource, modification) {
+	this.resources[targetResource] += modification;
+};
+
+Character.prototype.consumeResourceItem = function (item) {
+	for (var resource in item.resources) {
+		this.applyResourceChange(resource, item.resources[resource]);
+	}
+	
+	// Destroy the item.
+	item.destroy();
+};
+
 Character.prototype.equip = function (slot, item) {
 	if (this.equipment[slot] !== item) {
 		// Unequip item currently in slot.

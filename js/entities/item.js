@@ -1,6 +1,6 @@
 define(
-['jaws', '$', 'DATABASE', 'entities/entity'],
-function (jaws, $, DATABASE, Entity) {
+['jaws', '$', 'DATABASE', 'entities/entity', 'lib/SAT'],
+function (jaws, $, DATABASE, Entity, SAT) {
 
 function Item(options) {
 	
@@ -8,7 +8,11 @@ function Item(options) {
 
 	// Call super-class.
 	Entity.call(this, this.options);
-
+	
+	this.presences.push.apply(this.presences, [
+		{name: 'touch', shape: new SAT.Circle(new SAT.Vector(this.x, this.y), this.options.radius)}
+	]);
+	
 	// Reference to game world data.
 	this._gameData = this.options.gameData;
 

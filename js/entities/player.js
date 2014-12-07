@@ -277,6 +277,16 @@ Player.prototype.radianMap8D = {
 	"SE": 45  * Math.PI / 180
 };
 
+Player.prototype.onCollision = function (entity, interest) {
+	// Consume resource items.
+	if (interest.name === "touch" &&
+		entity.type === "resource") {
+		console.log("Consuming item " + entity.label + " (" + entity.id + ")");
+		this.consumeResourceItem(entity);
+		this.hud.update("resources");
+	}
+};
+
 Player.prototype.equipInspected = function() {
 	if (this.inspecting && this.inspecting.equipSlot) {
 		Character.prototype.equip.call(this, this.inspecting.equipSlot, this.inspecting);
