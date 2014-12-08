@@ -1,6 +1,6 @@
 define(
-['../data/equipment'],
-function (equipment) {
+['../data/items'],
+function (items) {
 
 return {
     "base": {

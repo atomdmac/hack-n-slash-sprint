@@ -1,17 +1,17 @@
 define([
 '../data/settings', 
 '../data/entities', 
-'../data/equipment', 
+'../data/items', 
 '../data/spells',
 '../data/characters', 
 '../data/player-characters', 
 '../data/non-player-characters',
 '../data/loot-table'], 
-function (settings, entities, equipment, spells, characters, playerCharacters, nonPlayerCharacters, lootTable) {
+function (settings, entities, items, spells, characters, playerCharacters, nonPlayerCharacters, lootTable) {
 	var db = {
 		settings           : settings,
 		entities           : entities,
-		equipment          : equipment,
+		items              : items,
 		spells             : spells,
 		characters         : characters,
 		playerCharacters   : playerCharacters,

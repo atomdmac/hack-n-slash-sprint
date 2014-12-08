@@ -1,6 +1,6 @@
 define(
-['jaws', '$', 'DATABASE', 'entities/entity'],
-function (jaws, $, DATABASE, Entity) {
+['jaws', '$', 'DATABASE', 'entities/entity', 'lib/SAT'],
+function (jaws, $, DATABASE, Entity, SAT) {
 
 function Item(options) {
 	
@@ -8,7 +8,11 @@ function Item(options) {
 
 	// Call super-class.
 	Entity.call(this, this.options);
-
+	
+	this.presences.push.apply(this.presences, [
+		{name: 'touch', shape: new SAT.Circle(new SAT.Vector(this.x, this.y), this.options.radius)}
+	]);
+	
 	// Reference to game world data.
 	this._gameData = this.options.gameData;
 
@@ -24,10 +28,12 @@ function Item(options) {
 		});
 		
 		this.owner = null;
+		this.type = this.options.type;
 		this.sprite_sheet = this.options.sprite_sheet;
 		this.equipSlot = this.options.equipSlot;
 		this.primaryAttack = this.options.primaryAttack;
 		this.bonuses = this.options.bonuses;
+		this.resources = this.options.resources;
 		this.state = "unequipped";
 	}
 }
@@ -51,6 +57,7 @@ Item.prototype.put = function () {
 Item.prototype.drop = function (x, y) {
 	this.move(x, y);
 };
+
 Item.prototype.take = function (newOwner) {
 	if (newOwner) {
 		this.owner = newOwner;
@@ -60,14 +67,6 @@ Item.prototype.take = function (newOwner) {
 Item.prototype.move = function (x, y) {
 	this.x = x;
 	this.y = y;
-};
-
-Item.prototype.damage = function (damageObj) {
-	// TODO: Implement item damage?
-};
-
-Item.prototype.destroy = function () {
-	// TODO: Implement item destruction.
 };
 
 return Item;

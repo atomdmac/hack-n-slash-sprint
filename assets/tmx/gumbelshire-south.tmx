@@ -36,7 +36,7 @@
   </data>
  </layer>
  <objectgroup name="entities">
-  <object type="Player" gid="259" x="339" y="434"/>
+  <object type="Player" gid="259" x="670" y="283"/>
   <object type="Tellah" gid="260" x="466.5" y="267">
    <properties>
     <property name="state" value="idle"/>
@@ -57,7 +57,7 @@
    </properties>
   </object>
   <object type="Tellah" gid="260" x="825" y="329"/>
-  <object type="Edge" gid="261" x="216" y="270"/>
+  <object type="Edge" gid="261" x="573" y="249"/>
   <object type="PatrolPoint" x="579" y="101">
    <properties>
     <property name="patrolIndex" value="3"/>

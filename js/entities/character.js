@@ -14,11 +14,13 @@ function Character(options) {
 	
 	this.interests.push.apply(this.interests, [
 		{name: 'sight', shape: new SAT.Circle(new SAT.Vector(this.x, this.y), 500)},
-		{name: 'terrain', shape: new SAT.Circle(new SAT.Vector(this.x, this.y), this.options.radius)}
+		{name: 'terrain', shape: new SAT.Circle(new SAT.Vector(this.x, this.y), this.options.radius)},
+		{name: 'touch', shape: new SAT.Circle(new SAT.Vector(this.x, this.y), this.options.radius)}
 	]);
 	
 	this.presences.push.apply(this.presences, [
-		{name: 'sight', shape: new SAT.Circle(new SAT.Vector(this.x, this.y), this.options.radius)}
+		{name: 'sight', shape: new SAT.Circle(new SAT.Vector(this.x, this.y), this.options.radius)},
+		{name: 'touch', shape: new SAT.Circle(new SAT.Vector(this.x, this.y), this.options.radius)}
 	]);
 	
 	// Reference to game world data.
@@ -102,6 +104,19 @@ Character.prototype.applyStatChange = function (targetStat, modification) {
 	this.stats[targetStat] += modification;
 };
 
+Character.prototype.applyResourceChange = function (targetResource, modification) {
+	this.resources[targetResource] += modification;
+};
+
+Character.prototype.consumeResourceItem = function (item) {
+	for (var resource in item.resources) {
+		this.applyResourceChange(resource, item.resources[resource]);
+	}
+	
+	// Destroy the item.
+	item.destroy();
+};
+
 Character.prototype.equip = function (slot, item) {
 	if (this.equipment[slot] !== item) {
 		// Unequip item currently in slot.
@@ -159,6 +174,10 @@ Character.prototype.getSpeed = function (magnitude) {
 		speed = speed * magnitude;
 	}
 	return speed < this.stats.maxMovementSpeed ? speed : this.stats.maxMovementSpeed;
+};
+
+Character.prototype.getMaxSpeed = function () {
+	return this.stats.maxMovementSpeed;
 };
 
 // Sets the character's bearing.

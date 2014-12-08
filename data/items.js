@@ -3,6 +3,7 @@ define(
 function () {
 	return {
 		"base": {
+			type: null,
 			width: 32,
 			height: 32,
 			scale: 1,
@@ -12,11 +13,25 @@ function () {
 			animationSubsets: {
 				unequipped: [0,1]
 			},
-			radius: 8
+			radius: 8,
+			equipSlot: null
+		},
+		"Health Potion": {
+			type: "resource",
+			label: "Health Potion",
+			sprite_sheet: "assets/png/items/HealthPotion.png",
+			resources: {
+				health: 20
+			},
+			width: 12,
+			height: 16,
+			scale: 1,
+			anchor: [0.5, 0.5],
+			frame_size: [12, 16]
 		},
 		"Sword": {
 			label: "Sword",
-			sprite_sheet: "assets/png/equipment/Sword.png",
+			sprite_sheet: "assets/png/items/Sword.png",
 			equipSlot: "primaryAttack",
 			primaryAttack: {
 				mode: "melee",
@@ -30,7 +45,7 @@ function () {
 		},
 		"Leather Tunic": {
 			label: "Leather Tunic",
-			sprite_sheet: "assets/png/equipment/LeatherTunic.png",
+			sprite_sheet: "assets/png/items/LeatherTunic.png",
 			equipSlot: "tunic",
 			bonuses: {
 				damageReductionPhysical: 3
@@ -38,7 +53,7 @@ function () {
 		},
 		"Hot Feet": {
 			label: "Hot Feet",
-			sprite_sheet: "assets/png/equipment/HotFeet.png",
+			sprite_sheet: "assets/png/items/HotFeet.png",
 			equipSlot: "footwear",
 			bonuses: {
 				movementSpeedIncrease: 1.5
@@ -46,7 +61,7 @@ function () {
 		},
 		"Gohan's Boots": {
 			label: "Gohan's Boots",
-			sprite_sheet: "assets/png/equipment/GohansBoots.png",
+			sprite_sheet: "assets/png/items/GohansBoots.png",
 			equipSlot: "footwear",
 			bonuses: {
 				movementSpeedIncrease: 1
@@ -54,7 +69,7 @@ function () {
 		},
 		"Gohan's Hat": {
 			label: "Gohan's Hat",
-			sprite_sheet: "assets/png/equipment/GohansHat.png",
+			sprite_sheet: "assets/png/items/GohansHat.png",
 			equipSlot: "head",
 			bonuses: {
 			}

@@ -54,7 +54,7 @@ Entity.prototype.update = function (entity, interest) {
 
 Entity.prototype.destroy = function () {
 	// TODO: Do any clean-up necessary when an entity needs to be completely removed from the game.
-	this.destroyed.dispatch(this);
+	this.signals.destroyed.dispatch(this);
 };
 
 Entity.prototype.damage = function (damageObj) {
