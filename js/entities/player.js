@@ -106,11 +106,6 @@ Player.prototype.update = function () {
 	if (jaws.pressed(this.input.mouseAndKeyboard["equipInspected"])) {
 		this.equipInspected();
 	}
-	
-	// Placeholders for debugging/testing features
-	if (jaws.pressed(this.input.mouseAndKeyboard["debug1"])) { this.debug1(); }
-	if (jaws.pressed(this.input.mouseAndKeyboard["debug2"])) { this.debug2(); }
-	if (jaws.pressed(this.input.mouseAndKeyboard["debug3"])) { this.debug3(); }
 
 	/***********************************************************************
 	 * GAMEPAD INPUT
@@ -121,10 +116,7 @@ Player.prototype.update = function () {
 		this.gamepadButtons = {
 			"attack": this.gamepad.buttons[this.input.gamepad["attack"]],
 			"useActiveItem": this.gamepad.buttons[this.input.gamepad["useActiveItem"]],
-			"equipInspected": this.gamepad.buttons[this.input.gamepad["equipInspected"]],
-			"debug1": this.gamepad.buttons[this.input.gamepad["debug1"]],
-			"debug2": this.gamepad.buttons[this.input.gamepad["debug2"]],
-			"debug3": this.gamepad.buttons[this.input.gamepad["debug3"]]
+			"equipInspected": this.gamepad.buttons[this.input.gamepad["equipInspected"]]
 		};
 	}
 	if (this.gamepad !== null) {
@@ -132,11 +124,6 @@ Player.prototype.update = function () {
 		if (jaws.gamepadButtonPressed(this.gamepadButtons["equipInspected"])) {
 			this.equipInspected();
 		}
-		
-		// Placeholders for debugging/testing features
-		if (jaws.gamepadButtonPressed(this.gamepadButtons["debug1"])) { this.debug1(); }
-		if (jaws.gamepadButtonPressed(this.gamepadButtons["debug2"])) { this.debug2(); }
-		if (jaws.gamepadButtonPressed(this.gamepadButtons["debug3"])) { this.debug3(); }
 	}
 	
 	// Apply character actions.
@@ -285,23 +272,6 @@ Player.prototype.equipInspected = function() {
 Player.prototype.damage = function(damageObj) {
 	Character.prototype.damage.call(this, damageObj);
 	this.hud.update("resources");
-};
-
-Player.prototype.debug1 = function() {
-	// Get naked.
-	for (var slot in this.equipment) {
-		Character.prototype.unequip.call(this, slot);
-	}
-	this.hud.update("equipment");
-	this.hud.update("stats");
-};
-
-Player.prototype.debug2 = function() {
-	console.log("debug2");
-};
-
-Player.prototype.debug3 = function() {
-	
 };
 
 return Player;
