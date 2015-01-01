@@ -4,7 +4,7 @@ function () {
 	return {
 		"base": {
 			input: {
-				mouseAndKeyboard: {
+				keyboard: {
 					"moveUp"   : "w",
 					"moveDown" : "s",
 					"moveLeft" : "a",

@@ -30,34 +30,7 @@ function Player (options) {
 	
 	// Controls
 	this.gamepad = null;
-	this.mouse = {x: 0, y: 0};
 	this.input = options.input;
-
-	var jawswindow = jaws.canvas || jaws.dom;
-	jawswindow.addEventListener("mousemove", _handleMouseMove, false);
-
-	// TODO: Is there a way to move _handleMouseMove out of the Player constructor so it doesn't get duplicated in memory?
-	function _handleMouseMove (event) {
-		var x = 0;
-		var y = 0;
-		var canvas = jawswindow;
-
-		if (event.x !== undefined && event.y !== undefined)
-		{
-			x = event.x;
-			y = event.y;
-		}
-		else // Firefox method to get the position
-		{
-			x = event.clientX + document.body.scrollLeft +
-				document.documentElement.scrollLeft;
-			y = event.clientY + document.body.scrollTop +
-				document.documentElement.scrollTop;
-		}
-
-		self.mouse.x = x -= canvas.offsetLeft;
-		self.mouse.y = y -= canvas.offsetTop;
-	}
 	
 	// HUD
 	this.hud = new HUD({
@@ -120,10 +93,10 @@ Player.prototype.applyMovement = function() {
 	if (!useGamepadInput) {
 		// Emulate analog values for movement keys.
 		var keys = {};
-		keys[this.input.mouseAndKeyboard["moveUp"]]		= {x: 0,	y: -1};
-		keys[this.input.mouseAndKeyboard["moveDown"]]	= {x: 0,	y: 1};
-		keys[this.input.mouseAndKeyboard["moveLeft"]]	= {x: -1,	y: 0};
-		keys[this.input.mouseAndKeyboard["moveRight"]]	= {x: 1,	y: 0};
+		keys[this.input.keyboard["moveUp"]]		= {x: 0,	y: -1};
+		keys[this.input.keyboard["moveDown"]]	= {x: 0,	y: 1};
+		keys[this.input.keyboard["moveLeft"]]	= {x: -1,	y: 0};
+		keys[this.input.keyboard["moveRight"]]	= {x: 1,	y: 0};
 		
 		// Calculate sum of emulated analog values for pressed keys.
 		for (var key in keys) {
@@ -144,7 +117,7 @@ Player.prototype.applyAction = function() {
 	// Check attack input
 	if ((this.gamepad !== null &&
 		jaws.gamepadButtonPressed(this.gamepadButtons["attack"])) ||
-		jaws.pressed(this.input.mouseAndKeyboard["attack"])) {
+		jaws.pressed(this.input.keyboard["attack"])) {
 		
 		// Prepare attack data.
 		reach = 100;
@@ -166,7 +139,7 @@ Player.prototype.applyAction = function() {
 	
 	if ((this.gamepad !== null &&
 		jaws.gamepadButtonPressed(this.gamepadButtons["useActiveItem"])) ||
-		jaws.pressed(this.input.mouseAndKeyboard["useActiveItem"])) {
+		jaws.pressed(this.input.keyboard["useActiveItem"])) {
 		
 		// Use active item.
 		this.useActiveItem();
