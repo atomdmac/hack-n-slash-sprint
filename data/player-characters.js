@@ -10,7 +10,7 @@ function () {
 					"moveLeft" : "a",
 					"moveRight": "d",
 					"attack": "left_mouse_button",
-					"secondaryAttack": "right_mouse_button",
+					"useActiveItem": "right_mouse_button",
 					"equipInspected": "x",
 					"debug1": "1",
 					"debug2": "2",
@@ -19,7 +19,7 @@ function () {
 				gamepad: {
 					"move": "left",				// Assumes joystick
 					"attack": "right",	// Assumes joystick
-					"secondaryAttack": 0,		// A
+					"useActiveItem": 0,		// A
 					"equipInspected": 2,		// X
 					"debug1": 1,				// B
 					"debug2": 4,				// Left Bumper

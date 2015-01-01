@@ -56,8 +56,8 @@ function Character(options) {
 Character.prototype = Object.create(Entity.prototype);
 
 Character.prototype.update = function () {
-	if (this.actionsQueued["secondaryAttack"]) {
-		// this.actionsQueued["secondaryAttack"].update();
+	if (this.actionsQueued["useActiveItem"]) {
+		// this.actionsQueued["useActiveItem"].update();
 	}
 };
 
@@ -75,8 +75,8 @@ Character.prototype.draw = function () {
 	
 	
 	// Draw Shock Nova animation.
-	if (this.actionsQueued["secondaryAttack"]) {
-		// this.actionsQueued["secondaryAttack"].draw();
+	if (this.actionsQueued["useActiveItem"]) {
+		// this.actionsQueued["useActiveItem"].draw();
 	}
 	
 	// Draw attack animation.
@@ -223,8 +223,8 @@ Character.prototype.move = function (angle, magnitude) {
 		this.y += y;
 		
 		// Keep Shock Nova locked to the character.
-		if (this.actionsQueued["secondaryAttack"]) {
-			this.actionsQueued["secondaryAttack"].moveTo(this.x, this.y);
+		if (this.actionsQueued["useActiveItem"]) {
+			this.actionsQueued["useActiveItem"].moveTo(this.x, this.y);
 		}
 		
 		// TODO: Implement gamepad "wedges" to better detect bearing
@@ -357,11 +357,11 @@ Character.prototype.attack = function (attackObj) {
 	this.setBearing(attackObj.angle);
 };
 
-Character.prototype.secondaryAttack = function () {
+Character.prototype.useActiveItem = function () {
 	// Used to scope inner functions.
 	var self = this;
 
-	if (!this.actionsQueued["secondaryAttack"]) {
+	if (!this.actionsQueued["useActiveItem"]) {
 		// Prepare eligible spell targets.
 		var eligibleTargets = [];
 		for (var lcv = 0; lcv < this._gameData.entities.length; lcv++) {
@@ -370,18 +370,18 @@ Character.prototype.secondaryAttack = function () {
 				eligibleTargets.push(this._gameData.entities[lcv]);
 			}
 		}
-		this.actionsQueued["secondaryAttack"] = new ShockNova({
+		this.actionsQueued["useActiveItem"] = new ShockNova({
 			spawnX: this.x,
 			spawnY: this.y,
 			eligibleTargets: eligibleTargets,
 			onFinish: function() { 
-				self.signals.destroyed.dispatch(self.actionsQueued["secondaryAttack"]);
-				delete self.actionsQueued["secondaryAttack"]; 
+				self.signals.destroyed.dispatch(self.actionsQueued["useActiveItem"]);
+				delete self.actionsQueued["useActiveItem"]; 
 			}
 		});
 
 		// Let listeners know that we're attacking.
-		this.signals.gave.dispatch(this.actionsQueued["secondaryAttack"]);
+		this.signals.gave.dispatch(this.actionsQueued["useActiveItem"]);
 	}
 };
 

@@ -133,8 +133,8 @@ Player.prototype.update = function () {
 		});
 	}
 	// Secondary Attack
-	if (jaws.pressed(this.input.mouseAndKeyboard["secondaryAttack"])) {
-		this.secondaryAttack();
+	if (jaws.pressed(this.input.mouseAndKeyboard["useActiveItem"])) {
+		this.useActiveItem();
 	}
 	
 	// Placeholders for debugging/testing features
@@ -149,7 +149,7 @@ Player.prototype.update = function () {
 		this.gamepad = jaws.gamepads[0]; // Only use first gamepad for now...
 		
 		this.gamepadButtons = {
-			"secondaryAttack": this.gamepad.buttons[this.input.gamepad["secondaryAttack"]],
+			"useActiveItem": this.gamepad.buttons[this.input.gamepad["useActiveItem"]],
 			"equipInspected": this.gamepad.buttons[this.input.gamepad["equipInspected"]],
 			"debug1": this.gamepad.buttons[this.input.gamepad["debug1"]],
 			"debug2": this.gamepad.buttons[this.input.gamepad["debug2"]],
@@ -158,8 +158,8 @@ Player.prototype.update = function () {
 	}
 	if (this.gamepad !== null) {
 		// Record cast spell action.
-		if (jaws.gamepadButtonPressed(this.gamepadButtons["secondaryAttack"])) {
-			this.secondaryAttack();
+		if (jaws.gamepadButtonPressed(this.gamepadButtons["useActiveItem"])) {
+			this.useActiveItem();
 		}
 		
 		// Equip inspected item.

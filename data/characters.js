@@ -54,7 +54,7 @@ return {
 		},
 		equipment: {
 			attack: null,
-			secondaryAttack: null,
+			useActiveItem: null,
 			offhand: null,
 			tunic: null,
 			sleeves: null,
