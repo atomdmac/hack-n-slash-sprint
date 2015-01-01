@@ -14,8 +14,7 @@ function HUD(options) {
 	
 	this.updated = {"equipment"     : true,
 					"resources"     : true,
-					"stats"         : true,
-					"inspecting" : true};
+					"stats"         : true};
 					
 	this.$hud = $("<div id='hud'></div>")
 	.appendTo("body");

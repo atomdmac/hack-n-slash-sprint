@@ -10,14 +10,12 @@ function () {
 					"moveLeft" : "a",
 					"moveRight": "d",
 					"attack": ",",
-					"useActiveItem": ".",
-					"equipInspected": "x"
+					"useActiveItem": "."
 				},
 				gamepad: {
 					"move": "left",			// Assumes joystick
 					"attack": 0,			// A
-					"useActiveItem": 1,		// B
-					"equipInspected": 2		// X
+					"useActiveItem": 1		// B
 				}
 			}
 		}
