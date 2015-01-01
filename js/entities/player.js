@@ -118,7 +118,32 @@ Player.prototype.applyAction = function() {
 	if ((this.gamepad !== null &&
 		jaws.gamepadButtonPressed(this.gamepadButtons["attack"])) ||
 		jaws.pressed(this.input.keyboard["attack"])) {
+		// Hold the current attack.
+		if (this.actionsQueued["attack"] || this.actionsQueued["holdAttack"]) {
+			this.holdAttack();
+		}
+		// Create a new attack if one isn't queued already.
+		else {
+			// Prepare attack data.
+			reach = 100;
+			startX = this.x;
+			startY = this.y;
+			endX = startX + reach * Math.sin(this.radianMap8D[this.bearing]);
+			endY = startY + reach * Math.cos(this.radianMap8D[this.bearing]);
+			
+			// Apply attack.
+			this.attack({
+				reach : reach,
+				startX: startX,
+				startY: startY,
+				endX  : endX,
+				endY  : endY,
+				angle : this.radianMap8D[this.bearing]
+			});
+		}
 		
+	}
+	else if (this.actionsQueued["holdAttack"]) {
 		// Prepare attack data.
 		reach = 100;
 		startX = this.x;
@@ -127,7 +152,7 @@ Player.prototype.applyAction = function() {
 		endY = startY + reach * Math.cos(this.radianMap8D[this.bearing]);
 		
 		// Apply attack.
-		this.attack({
+		this.releaseAttack({
 			reach : reach,
 			startX: startX,
 			startY: startY,

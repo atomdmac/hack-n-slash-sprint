@@ -59,13 +59,31 @@ Character.prototype.update = function () {
 	if (this.actionsQueued["useActiveItem"]) {
 		// this.actionsQueued["useActiveItem"].update();
 	}
+	if (this.actionsQueued.attack) {
+		// Clean up after previous attack
+		if (this.animation.subsets["attack_S"].atLastFrame()) {
+			// Destroy queued attack action and alert listeners.
+			this.actionsQueued.attack.signals.destroyed.dispatch(this.actionsQueued.attack);
+			delete this.actionsQueued.attack;
+		}
+	}
 };
 
 Character.prototype.draw = function () {
 	
 	// Draw next animation frame (preferred order is top first).
 	if (this.actionsQueued.attack) {
-		this.setImage(this.animation.subsets["attack_" + this.bearing].next());
+		// Keep all attack animation frames in sync with each other. This is
+		// important for timing attacks when the Character's bearing changes.
+		this.animation.subsets["attack_S"].update();
+		this.animation.subsets["attack_N"].update();
+		this.animation.subsets["attack_W"].update();
+		this.animation.subsets["attack_E"].update();
+		// Draw current frame for current bearing.
+		this.setImage(this.animation.subsets["attack_" + this.bearing].currentFrame());
+	}
+	else if (this.actionsQueued["holdAttack"]) {
+		this.setImage(this.animation.subsets["attackHold_" + this.bearing].currentFrame());
 	}
 	else if (this.actionsQueued["damage"]) {
 		this.setImage(this.animation.subsets["damage"].next());
@@ -329,11 +347,30 @@ Character.prototype.attack = function (attackObj) {
 					// Attack Data
 					attackData: attackObj,
 					// Callback
-					onFinish: function() { 
-						self.actionsQueued.attack.signals.destroyed.dispatch(self.actionsQueued.attack);
-						delete self.actionsQueued.attack; 
-					}
+					onFinish: function() { }
 				});
+				
+				// Reset animation manually so attack always starts at frame 0.
+				this.animation.subsets["attack_S"].index = -1;
+				this.animation.subsets["attack_S"].current_tick = (new Date()).getTime();
+				this.animation.subsets["attack_S"].last_tick = (new Date()).getTime();
+				this.animation.subsets["attack_S"].sum_tick = 0;
+				
+				this.animation.subsets["attack_N"].index = -1;
+				this.animation.subsets["attack_N"].current_tick = (new Date()).getTime();
+				this.animation.subsets["attack_N"].last_tick = (new Date()).getTime();
+				this.animation.subsets["attack_N"].sum_tick = 0;
+				
+				this.animation.subsets["attack_W"].index = -1;
+				this.animation.subsets["attack_W"].current_tick = (new Date()).getTime();
+				this.animation.subsets["attack_W"].last_tick = (new Date()).getTime();
+				this.animation.subsets["attack_W"].sum_tick = 0;
+				
+				this.animation.subsets["attack_E"].index = -1;
+				this.animation.subsets["attack_E"].current_tick = (new Date()).getTime();
+				this.animation.subsets["attack_E"].last_tick = (new Date()).getTime();
+				this.animation.subsets["attack_E"].sum_tick = 0;
+				
 				// Update the attack right away, so it can start doing damage this turn.
 				this.actionsQueued.attack.update();
 				// Let listeners know that we're attacking.
@@ -344,9 +381,15 @@ Character.prototype.attack = function (attackObj) {
 				break;
 		}
 	}
-	
-	// Set bearing.
-	this.setBearing(attackObj.angle);
+};
+
+Character.prototype.holdAttack = function() {
+	this.actionsQueued["holdAttack"] = true;
+};
+
+Character.prototype.releaseAttack = function(attackObj) {
+	this.attack(attackObj);
+	this.actionsQueued["holdAttack"] = false;
 };
 
 Character.prototype.useActiveItem = function () {

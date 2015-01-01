@@ -32,14 +32,18 @@ return {
 			walk_E:       [8,10],
 			
 			// Attack
-			attack_S:     [10,13],
-			attack_N:     [13,16],
-			attack_W:     [16,19],
-			attack_E:     [19,22],
+			attack_S:     [10,14],
+			attackHold_S: [13,14],
+			attack_N:     [14,18],
+			attackHold_N: [17,18],
+			attack_W:     [18,22],
+			attackHold_W: [21,22],
+			attack_E:     [22,26],
+			attackHold_E: [25,26],
 			
 			// Misc.
-			damage:       [24,25],
-			dead:         [25,26]
+			damage:       [28,29],
+			dead:         [29,30]
 		},
 		radius: 8,
 		bearing: "S",
