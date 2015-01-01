@@ -104,50 +104,6 @@ Player.prototype.update = function () {
 	/***********************************************************************
 	 * MOUSE & KEYBOARD INPUT
 	 **********************************************************************/
-	// North East
-	if (jaws.pressed(this.input.mouseAndKeyboard["moveRight"]) &&
-		jaws.pressed(this.input.mouseAndKeyboard["moveUp"])) {
-		this.move(this.radianMap8D["NE"], 1);
-	}
-	else
-	// North West
-	if (jaws.pressed(this.input.mouseAndKeyboard["moveUp"]) &&
-		jaws.pressed(this.input.mouseAndKeyboard["moveLeft"])) {
-		this.move(this.radianMap8D["NW"], 1);
-	}
-	else
-	// South West
-	if (jaws.pressed(this.input.mouseAndKeyboard["moveLeft"]) &&
-		jaws.pressed(this.input.mouseAndKeyboard["moveDown"])) {
-		this.move(this.radianMap8D["SW"], 1);
-	}
-	else
-	// South East
-	if (jaws.pressed(this.input.mouseAndKeyboard["moveDown"]) &&
-		jaws.pressed(this.input.mouseAndKeyboard["moveRight"])) {
-		this.move(this.radianMap8D["SE"], 1);
-	}
-	else
-	// East
-	if (jaws.pressed(this.input.mouseAndKeyboard["moveRight"])) {
-		this.move(this.radianMap8D["E"], 1);
-	}
-	else
-	// North
-	if (jaws.pressed(this.input.mouseAndKeyboard["moveUp"])) {
-		this.move(this.radianMap8D["N"], 1);
-	}
-	else
-	// West
-	if (jaws.pressed(this.input.mouseAndKeyboard["moveLeft"])) {
-		this.move(this.radianMap8D["W"], 1);
-	}
-	else
-	// South
-	if (jaws.pressed(this.input.mouseAndKeyboard["moveDown"])) {
-		this.move(this.radianMap8D["S"], 1);
-	}
-	
 	if (jaws.pressed(this.input.mouseAndKeyboard["equipInspected"])) {
 		this.equipInspected();
 	}
@@ -216,12 +172,6 @@ Player.prototype.update = function () {
 		if (jaws.gamepadButtonPressed(this.gamepadButtons["debug2"])) { this.debug2(); }
 		if (jaws.gamepadButtonPressed(this.gamepadButtons["debug3"])) { this.debug3(); }
 		
-		// Record move action
-		var moveJoystickData = jaws.gamepadReadJoystick(this.gamepad, this.input.gamepad["move"]);
-		if(Math.abs(moveJoystickData.analogX) > 0.25 || Math.abs(moveJoystickData.analogY) > 0.25) {
-			this.move(moveJoystickData.angle, moveJoystickData.magnitude);
-		}
-		
 		// Record primaryAttack action
 		var primaryAttackJoystickData = jaws.gamepadReadJoystick(this.gamepad, this.input.gamepad["primaryAttack"]);
 		if(Math.abs(primaryAttackJoystickData.analogX) > 0.25 || Math.abs(primaryAttackJoystickData.analogY) > 0.25) {
@@ -241,6 +191,10 @@ Player.prototype.update = function () {
 			});
 		}
 	}
+	
+	// Apply character actions.
+	this.applyMovement();
+	
 	
 	// Update inspect message
 	this.inspecting = null;
@@ -264,6 +218,57 @@ Player.prototype.update = function () {
 	
 	// Update inspecting in the HUD.
 	this.hud.update("inspecting");
+};
+
+Player.prototype.applyMovement = function() {
+	var analog = {x: 0, y: 0},
+		joystickThreshold = 0.25;
+	
+	var useGamepadInput = false; // TODO: Remove need for gamepad flag.
+	
+	// Prefer gamepad right joystick input if threshhold is met.
+	if (this.gamepad !== null) {
+		// Get joystick data.
+		var joystick = jaws.gamepadReadJoystick(this.gamepad, this.input.gamepad["move"]);
+		// Use joystick input if either analog exceeds threshold.
+		if(Math.abs(joystick.analogX) > joystickThreshold ||
+		   Math.abs(joystick.analogY) > joystickThreshold) {
+			// Use gamepad as input source.
+			analog.x = joystick.analogX;
+			analog.y = joystick.analogY;
+			
+			useGamepadInput = true; // TODO: Remove need for gamepad flag.
+		}
+	}
+	
+	// Aggregate any keyboard input if gamepad input not used.
+	if (!useGamepadInput) {
+		// Emulate analog values for movement keys.
+		var keys = {};
+		keys[this.input.mouseAndKeyboard["moveUp"]]		= {x: 0,	y: -1};
+		keys[this.input.mouseAndKeyboard["moveDown"]]	= {x: 0,	y: 1};
+		keys[this.input.mouseAndKeyboard["moveLeft"]]	= {x: -1,	y: 0};
+		keys[this.input.mouseAndKeyboard["moveRight"]]	= {x: 1,	y: 0};
+		
+		// Calculate sum of emulated analog values for pressed keys.
+		for (var key in keys) {
+			if (jaws.pressed(key)) {
+				analog.x += keys[key]["x"];
+				analog.y += keys[key]["y"];
+			}
+		}
+	}
+	
+	this.move(this.getAngleOfAnalogs(analog.x, analog.y),
+			  this.getMagnitudeOfAnalogs(analog.x, analog.y));
+};
+
+Player.prototype.getAngleOfAnalogs = function (analogX, analogY) {
+	return Math.atan2(analogX, analogY);
+};
+
+Player.prototype.getMagnitudeOfAnalogs = function (analogX, analogY) {
+	return Math.sqrt(analogX*analogX+analogY*analogY);
 };
 
 Player.prototype.radianMap8D = {

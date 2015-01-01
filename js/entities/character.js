@@ -170,9 +170,8 @@ Character.prototype.unequip = function (slot) {
 
 Character.prototype.getSpeed = function (magnitude) {
 	var speed = this.stats.movementSpeed * (1 + this.stats.movementSpeedIncrease);
-	if (magnitude) {
-		speed = speed * magnitude;
-	}
+	speed = magnitude ? speed * magnitude : 0;
+	
 	return speed < this.stats.maxMovementSpeed ? speed : this.stats.maxMovementSpeed;
 };
 
@@ -213,11 +212,12 @@ Character.prototype.setBearing = function (direction) {
 };
 
 Character.prototype.move = function (angle, magnitude) {
-	// if (!this.actionsQueued["secondaryAttack"]) {
-		this.actionsQueued["move"] = true;
-		var speed = this.getSpeed(magnitude);
-		var x = Math.sin(angle) * speed;
-		var y = Math.cos(angle) * speed;
+	var speed = this.getSpeed(magnitude);
+	var x = Math.sin(angle) * speed;
+	var y = Math.cos(angle) * speed;
+	
+	if (x !== 0 || y !== 0) {
+		this.actionsQueued["move"] = true;    
 		
 		this.x += x;
 		this.y += y;
@@ -240,7 +240,7 @@ Character.prototype.move = function (angle, magnitude) {
 		else if (y > 0 && y > x) {
 			this.setBearing("S");
 		}
-	// }
+	}
 };
 
 Character.prototype.damage = function (damageObj) {
