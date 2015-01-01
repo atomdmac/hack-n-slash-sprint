@@ -228,16 +228,16 @@ Character.prototype.move = function (angle, magnitude) {
 		}
 		
 		// TODO: Implement gamepad "wedges" to better detect bearing
-		if (x < 0) {
+		if (x < 0 && Math.abs(x) > Math.abs(y)) {
 			this.setBearing("W");
 		}
-		else if (x > 0) {
+		else if (x > 0 && Math.abs(x) > Math.abs(y)) {
 			this.setBearing("E");
 		}
-		if (y < 0 && y < x) {
+		if (y < 0 && Math.abs(x) <= Math.abs(y)) {
 			this.setBearing("N");
 		}
-		else if (y > 0 && y > x) {
+		else if (y > 0 && Math.abs(x) <= Math.abs(y)) {
 			this.setBearing("S");
 		}
 	}
