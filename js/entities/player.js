@@ -93,7 +93,6 @@ Player.prototype.draw = function () {
 };
 
 Player.prototype.update = function () {
-	var analogX, analogY, angle, magnitude, reach, startX, startY, endX, endY;
 
 	Character.prototype.update.call(this);
 
@@ -108,35 +107,6 @@ Player.prototype.update = function () {
 		this.equipInspected();
 	}
 	
-	// Primary Attack (must be a mouse button)
-	if (jaws.pressed(this.input.mouseAndKeyboard["attack"])) {
-		analogX   = this.mouse.x - (this.x - this._gameData.viewport.x);
-		analogY   = this.mouse.y - (this.y - this._gameData.viewport.y);
-		angle     = Math.atan2(analogX, analogY);
-		magnitude = Math.sqrt(analogX*analogX+analogY*analogY);
-		reach     = 100;
-
-		magnitude = magnitude < reach ? magnitude / reach : 1;
-		
-		startX = this.x;
-		startY = this.y;
-		endX   = startX + reach * magnitude * Math.sin(angle);
-		endY   = startY + reach * magnitude * Math.cos(angle);
-		
-		this.attack({
-			reach : reach * magnitude,
-			startX: startX,
-			startY: startY,
-			endX  : endX,
-			endY  : endY,
-			angle : angle
-		});
-	}
-	// Secondary Attack
-	if (jaws.pressed(this.input.mouseAndKeyboard["useActiveItem"])) {
-		this.useActiveItem();
-	}
-	
 	// Placeholders for debugging/testing features
 	if (jaws.pressed(this.input.mouseAndKeyboard["debug1"])) { this.debug1(); }
 	if (jaws.pressed(this.input.mouseAndKeyboard["debug2"])) { this.debug2(); }
@@ -149,6 +119,7 @@ Player.prototype.update = function () {
 		this.gamepad = jaws.gamepads[0]; // Only use first gamepad for now...
 		
 		this.gamepadButtons = {
+			"attack": this.gamepad.buttons[this.input.gamepad["attack"]],
 			"useActiveItem": this.gamepad.buttons[this.input.gamepad["useActiveItem"]],
 			"equipInspected": this.gamepad.buttons[this.input.gamepad["equipInspected"]],
 			"debug1": this.gamepad.buttons[this.input.gamepad["debug1"]],
@@ -157,11 +128,6 @@ Player.prototype.update = function () {
 		};
 	}
 	if (this.gamepad !== null) {
-		// Record cast spell action.
-		if (jaws.gamepadButtonPressed(this.gamepadButtons["useActiveItem"])) {
-			this.useActiveItem();
-		}
-		
 		// Equip inspected item.
 		if (jaws.gamepadButtonPressed(this.gamepadButtons["equipInspected"])) {
 			this.equipInspected();
@@ -171,30 +137,11 @@ Player.prototype.update = function () {
 		if (jaws.gamepadButtonPressed(this.gamepadButtons["debug1"])) { this.debug1(); }
 		if (jaws.gamepadButtonPressed(this.gamepadButtons["debug2"])) { this.debug2(); }
 		if (jaws.gamepadButtonPressed(this.gamepadButtons["debug3"])) { this.debug3(); }
-		
-		// Record attack action
-		var attackJoystickData = jaws.gamepadReadJoystick(this.gamepad, this.input.gamepad["attack"]);
-		if(Math.abs(attackJoystickData.analogX) > 0.25 || Math.abs(attackJoystickData.analogY) > 0.25) {
-			reach = 100;
-			startX = this.x;
-			startY = this.y;
-			endX = startX + reach * attackJoystickData.magnitude * Math.sin(attackJoystickData.angle);
-			endY = startY + reach * attackJoystickData.magnitude * Math.cos(attackJoystickData.angle);
-			
-			this.attack({
-				reach : reach * attackJoystickData.magnitude,
-				startX: startX,
-				startY: startY,
-				endX  : endX,
-				endY  : endY,
-				angle : attackJoystickData.angle
-			});
-		}
 	}
 	
 	// Apply character actions.
 	this.applyMovement();
-	
+	this.applyAction();
 	
 	// Update inspect message
 	this.inspecting = null;
@@ -261,6 +208,41 @@ Player.prototype.applyMovement = function() {
 	
 	this.move(this.getAngleOfAnalogs(analog.x, analog.y),
 			  this.getMagnitudeOfAnalogs(analog.x, analog.y));
+};
+
+Player.prototype.applyAction = function() {
+	// TODO: Don't allow attacking and using items at the same time.
+	
+	// Check attack input
+	if ((this.gamepad !== null &&
+		jaws.gamepadButtonPressed(this.gamepadButtons["attack"])) ||
+		jaws.pressed(this.input.mouseAndKeyboard["attack"])) {
+		
+		// Prepare attack data.
+		reach = 100;
+		startX = this.x;
+		startY = this.y;
+		endX = startX + reach * Math.sin(this.radianMap8D[this.bearing]);
+		endY = startY + reach * Math.cos(this.radianMap8D[this.bearing]);
+		
+		// Apply attack.
+		this.attack({
+			reach : reach,
+			startX: startX,
+			startY: startY,
+			endX  : endX,
+			endY  : endY,
+			angle : this.radianMap8D[this.bearing]
+		});
+	}
+	
+	if ((this.gamepad !== null &&
+		jaws.gamepadButtonPressed(this.gamepadButtons["useActiveItem"])) ||
+		jaws.pressed(this.input.mouseAndKeyboard["useActiveItem"])) {
+		
+		// Use active item.
+		this.useActiveItem();
+	}
 };
 
 Player.prototype.getAngleOfAnalogs = function (analogX, analogY) {
