@@ -39,7 +39,7 @@ function Character(options) {
 			frame_duration: this.options.frame_duration,
 			subsets       : this.options.animationSubsets
 		});
-		this.setImage(this.animation.subsets[this.bearing].next());
+		this.setImage(this.animation.subsets["idle_" + this.bearing].next());
 	}
 	
 	// Actions queued for this game simulation iteration.
@@ -62,26 +62,19 @@ Character.prototype.update = function () {
 };
 
 Character.prototype.draw = function () {
-	// Used for scoping inner functions.
-	var self = this;
-
-	if (this.actionsQueued["move"]) {
-		this.setImage(this.animation.subsets[this.bearing].next());
-	}
 	
-	if (this.actionsQueued["damage"]) {
-		this.setImage(this.animation.subsets["damage"].next());
-	}
-	
-	
-	// Draw Shock Nova animation.
-	if (this.actionsQueued["useActiveItem"]) {
-		// this.actionsQueued["useActiveItem"].draw();
-	}
-	
-	// Draw attack animation.
+	// Draw next animation frame (preferred order is top first).
 	if (this.actionsQueued.attack) {
 		this.setImage(this.animation.subsets["attack_" + this.bearing].next());
+	}
+	else if (this.actionsQueued["damage"]) {
+		this.setImage(this.animation.subsets["damage"].next());
+	}
+	else if (this.actionsQueued["move"]) {
+		this.setImage(this.animation.subsets["walk_" + this.bearing].next());
+	}
+	else {
+		this.setImage(this.animation.subsets["idle_" + this.bearing].next());
 	}
 	
 	// Call original Entity.draw() function.
@@ -268,7 +261,6 @@ Character.prototype.damage = function (damageObj) {
 		
 		// Update sprite's appearance to reflect damage.
 		// TODO: Probably move this to update or draw.
-		// TODO: Make damage appearance overide movement appearance.
 		if (this.resources.health <= 0) {
 			this.kill();
 		}
