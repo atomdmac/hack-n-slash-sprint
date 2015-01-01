@@ -283,11 +283,11 @@ Character.prototype.kill = function () {
 	this.setImage(this.animation.subsets["dead"].next());
 };
 
-Character.prototype.primaryAttack = function (attackObj) {
+Character.prototype.attack = function (attackObj) {
 	// If no attack is in progress, launch a new one.
 	if(!this.actionsQueued.attack) {
-		var equipmentData = this.equipment.primaryAttack
-							? this.equipment.primaryAttack.primaryAttack
+		var equipmentData = this.equipment.attack
+							? this.equipment.attack.attack
 							: {	mode: "melee",
 								resource: "health",
 								type: "physical" };

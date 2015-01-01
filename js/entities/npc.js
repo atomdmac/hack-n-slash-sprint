@@ -19,7 +19,7 @@ function NPC (options) {
 	this.distractionRate = options.distractionRate;
 	this.courseOfAction = {
 		move: {angle: 0, magnitude: 0},
-		primaryAttack: {}
+		attack: {}
 	};
 	
 	if (this.options.patrol ) {
@@ -142,8 +142,8 @@ NPC.prototype.decideNextAction = function() {
 	// This currently causes all character health to drop to 0 as soon as the
 	// game starts.
 	/*
-	if (this.courseOfAction.primaryAttack) {
-		this.primaryAttack(this.courseOfAction.primaryAttack);
+	if (this.courseOfAction.attack) {
+		this.attack(this.courseOfAction.attack);
 	}
 	*/
 	
@@ -176,7 +176,7 @@ NPC.prototype.seek = function (destination) {
 	var endY = startY + reach * Math.cos(angleToTarget);
 	
 	
-	this.courseOfAction.primaryAttack = {
+	this.courseOfAction.attack = {
 		reach : reach,
 		startX: startX,
 		startY: startY,

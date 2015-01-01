@@ -53,7 +53,7 @@ return {
 			maxMovementSpeed: 5
 		},
 		equipment: {
-			primaryAttack: null,
+			attack: null,
 			secondaryAttack: null,
 			offhand: null,
 			tunic: null,

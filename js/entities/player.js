@@ -109,7 +109,7 @@ Player.prototype.update = function () {
 	}
 	
 	// Primary Attack (must be a mouse button)
-	if (jaws.pressed(this.input.mouseAndKeyboard["primaryAttack"])) {
+	if (jaws.pressed(this.input.mouseAndKeyboard["attack"])) {
 		analogX   = this.mouse.x - (this.x - this._gameData.viewport.x);
 		analogY   = this.mouse.y - (this.y - this._gameData.viewport.y);
 		angle     = Math.atan2(analogX, analogY);
@@ -123,7 +123,7 @@ Player.prototype.update = function () {
 		endX   = startX + reach * magnitude * Math.sin(angle);
 		endY   = startY + reach * magnitude * Math.cos(angle);
 		
-		this.primaryAttack({
+		this.attack({
 			reach : reach * magnitude,
 			startX: startX,
 			startY: startY,
@@ -172,22 +172,22 @@ Player.prototype.update = function () {
 		if (jaws.gamepadButtonPressed(this.gamepadButtons["debug2"])) { this.debug2(); }
 		if (jaws.gamepadButtonPressed(this.gamepadButtons["debug3"])) { this.debug3(); }
 		
-		// Record primaryAttack action
-		var primaryAttackJoystickData = jaws.gamepadReadJoystick(this.gamepad, this.input.gamepad["primaryAttack"]);
-		if(Math.abs(primaryAttackJoystickData.analogX) > 0.25 || Math.abs(primaryAttackJoystickData.analogY) > 0.25) {
+		// Record attack action
+		var attackJoystickData = jaws.gamepadReadJoystick(this.gamepad, this.input.gamepad["attack"]);
+		if(Math.abs(attackJoystickData.analogX) > 0.25 || Math.abs(attackJoystickData.analogY) > 0.25) {
 			reach = 100;
 			startX = this.x;
 			startY = this.y;
-			endX = startX + reach * primaryAttackJoystickData.magnitude * Math.sin(primaryAttackJoystickData.angle);
-			endY = startY + reach * primaryAttackJoystickData.magnitude * Math.cos(primaryAttackJoystickData.angle);
+			endX = startX + reach * attackJoystickData.magnitude * Math.sin(attackJoystickData.angle);
+			endY = startY + reach * attackJoystickData.magnitude * Math.cos(attackJoystickData.angle);
 			
-			this.primaryAttack({
-				reach : reach * primaryAttackJoystickData.magnitude,
+			this.attack({
+				reach : reach * attackJoystickData.magnitude,
 				startX: startX,
 				startY: startY,
 				endX  : endX,
 				endY  : endY,
-				angle : primaryAttackJoystickData.angle
+				angle : attackJoystickData.angle
 			});
 		}
 	}

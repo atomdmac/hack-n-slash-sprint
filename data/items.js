@@ -32,8 +32,8 @@ function () {
 		"Sword": {
 			label: "Sword",
 			sprite_sheet: "assets/png/items/Sword.png",
-			equipSlot: "primaryAttack",
-			primaryAttack: {
+			equipSlot: "attack",
+			attack: {
 				mode: "melee",
 				resource: "health",
 				type: "physical"
