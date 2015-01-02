@@ -1,6 +1,6 @@
 define(
-['jaws', 'DATABASE', 'lib/SAT', 'entities/character', 'ui/hud', 'entities/item'],
-function (jaws, DATABASE, SAT, Character, HUD, Item) {
+['jaws', 'DATABASE', 'lib/SAT', 'entities/character', 'ui/hud', 'entities/item', 'entities/lunge-attack'],
+function (jaws, DATABASE, SAT, Character, HUD, Item, LungeAttack) {
 
 function Player (options) {           
 	var self = this;
@@ -144,22 +144,8 @@ Player.prototype.applyAction = function() {
 		
 	}
 	else if (this.actionsQueued["holdAttack"]) {
-		// Prepare attack data.
-		reach = 100;
-		startX = this.x;
-		startY = this.y;
-		endX = startX + reach * Math.sin(this.radianMap8D[this.bearing]);
-		endY = startY + reach * Math.cos(this.radianMap8D[this.bearing]);
-		
-		// Apply attack.
-		this.releaseAttack({
-			reach : reach,
-			startX: startX,
-			startY: startY,
-			endX  : endX,
-			endY  : endY,
-			angle : this.radianMap8D[this.bearing]
-		});
+		this.actionsQueued["holdAttack"] = false;
+		this.lungeAttack();
 	}
 	
 	if ((this.gamepad !== null &&
@@ -177,6 +163,74 @@ Player.prototype.getAngleOfAnalogs = function (analogX, analogY) {
 
 Player.prototype.getMagnitudeOfAnalogs = function (analogX, analogY) {
 	return Math.sqrt(analogX*analogX+analogY*analogY);
+};
+
+Player.prototype.lungeAttack = function () {
+	if(!this.actionsQueued.attack) {
+		var attackObj = {
+			reach : 40,
+			startX: this.x,
+			startY: this.y,
+			endX  : startX + reach * Math.sin(this.radianMap8D[this.bearing]),
+			endY  : startY + reach * Math.cos(this.radianMap8D[this.bearing]),
+			angle : this.radianMap8D[this.bearing],
+			mode: "melee",
+			resource: "health",
+			type: "physical",
+			value: 500,
+			penetration: this.stats.penetrationPhysical
+		};
+		
+		// Don't do more than 100% damage.
+		attackObj.penetration = attackObj.penetration > 1 ? 1 : attackObj.penetration;
+		
+		switch (attackObj.mode) {
+			case "melee":
+				
+				this.actionsQueued.attack = new LungeAttack({
+					// Attacker
+					attacker: this,
+					// Attack radius
+					radius: attackObj.reach,
+					// Attack angle
+					angle: attackObj.angle,
+					// Attack Data
+					attackData: attackObj,
+					// Callback
+					onFinish: function() { }
+				});
+				
+				// Reset animation manually so attack always starts at frame 0.
+				this.animation.subsets["attack_S"].index = -1;
+				this.animation.subsets["attack_S"].current_tick = (new Date()).getTime();
+				this.animation.subsets["attack_S"].last_tick = (new Date()).getTime();
+				this.animation.subsets["attack_S"].sum_tick = 0;
+				
+				this.animation.subsets["attack_N"].index = -1;
+				this.animation.subsets["attack_N"].current_tick = (new Date()).getTime();
+				this.animation.subsets["attack_N"].last_tick = (new Date()).getTime();
+				this.animation.subsets["attack_N"].sum_tick = 0;
+				
+				this.animation.subsets["attack_W"].index = -1;
+				this.animation.subsets["attack_W"].current_tick = (new Date()).getTime();
+				this.animation.subsets["attack_W"].last_tick = (new Date()).getTime();
+				this.animation.subsets["attack_W"].sum_tick = 0;
+				
+				this.animation.subsets["attack_E"].index = -1;
+				this.animation.subsets["attack_E"].current_tick = (new Date()).getTime();
+				this.animation.subsets["attack_E"].last_tick = (new Date()).getTime();
+				this.animation.subsets["attack_E"].sum_tick = 0;
+				
+				// Update the attack right away, so it can start doing damage this turn.
+				this.actionsQueued.attack.update();
+				// Let listeners know that we're attacking.
+				this.signals.gave.dispatch(this.actionsQueued.attack);
+				break;
+			
+			default:
+				break;
+		}
+	}
 };
 
 Player.prototype.radianMap8D = {
