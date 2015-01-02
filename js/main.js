@@ -1,8 +1,9 @@
 requirejs.config({
 	baseUrl: 'js',
 	paths: {
-		'$': 'lib/jquery',
-		'jaws': 'lib/jawsjs/jaws',
+		'$'       : 'lib/jquery',
+		'_'       : 'lib/lodash',
+		'jaws'    : 'lib/jawsjs/jaws',
 		'DATABASE': '../data/database'
 	},
 	shim: {
