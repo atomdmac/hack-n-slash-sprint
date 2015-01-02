@@ -39,7 +39,7 @@ function Character(options) {
 			frame_duration: this.options.frame_duration,
 			subsets       : this.options.animationSubsets
 		});
-		this.setImage(this.animation.subsets[this.bearing].next());
+		this.setImage(this.animation.subsets["idle_" + this.bearing].next());
 	}
 	
 	// Actions queued for this game simulation iteration.
@@ -56,32 +56,43 @@ function Character(options) {
 Character.prototype = Object.create(Entity.prototype);
 
 Character.prototype.update = function () {
-	if (this.actionsQueued["secondaryAttack"]) {
-		// this.actionsQueued["secondaryAttack"].update();
+	if (this.actionsQueued["useActiveItem"]) {
+		// this.actionsQueued["useActiveItem"].update();
+	}
+	if (this.actionsQueued.attack) {
+		// Clean up after previous attack
+		if (this.animation.subsets["attack_S"].atLastFrame()) {
+			// Destroy queued attack action and alert listeners.
+			this.actionsQueued.attack.signals.destroyed.dispatch(this.actionsQueued.attack);
+			delete this.actionsQueued.attack;
+		}
 	}
 };
 
 Character.prototype.draw = function () {
-	// Used for scoping inner functions.
-	var self = this;
-
-	if (this.actionsQueued["move"]) {
-		this.setImage(this.animation.subsets[this.bearing].next());
-	}
 	
-	if (this.actionsQueued["damage"]) {
+	// Draw next animation frame (preferred order is top first).
+	if (this.actionsQueued.attack) {
+		// Keep all attack animation frames in sync with each other. This is
+		// important for timing attacks when the Character's bearing changes.
+		this.animation.subsets["attack_S"].update();
+		this.animation.subsets["attack_N"].update();
+		this.animation.subsets["attack_W"].update();
+		this.animation.subsets["attack_E"].update();
+		// Draw current frame for current bearing.
+		this.setImage(this.animation.subsets["attack_" + this.bearing].currentFrame());
+	}
+	else if (this.actionsQueued["holdAttack"]) {
+		this.setImage(this.animation.subsets["attackHold_" + this.bearing].currentFrame());
+	}
+	else if (this.actionsQueued["damage"]) {
 		this.setImage(this.animation.subsets["damage"].next());
 	}
-	
-	
-	// Draw Shock Nova animation.
-	if (this.actionsQueued["secondaryAttack"]) {
-		// this.actionsQueued["secondaryAttack"].draw();
+	else if (this.actionsQueued["move"]) {
+		this.setImage(this.animation.subsets["walk_" + this.bearing].next());
 	}
-	
-	// Draw attack animation.
-	if (this.actionsQueued.attack) {
-		this.setImage(this.animation.subsets["attack_" + this.bearing].next());
+	else {
+		this.setImage(this.animation.subsets["idle_" + this.bearing].next());
 	}
 	
 	// Call original Entity.draw() function.
@@ -102,6 +113,19 @@ Character.prototype.consider = function(targetEntity) {
 
 Character.prototype.applyStatChange = function (targetStat, modification) {
 	this.stats[targetStat] += modification;
+};
+
+Character.prototype.applyResourceChange = function (targetResource, modification) {
+	this.resources[targetResource] += modification;
+};
+
+Character.prototype.consumeResourceItem = function (item) {
+	for (var resource in item.resources) {
+		this.applyResourceChange(resource, item.resources[resource]);
+	}
+	
+	// Destroy the item.
+	item.destroy();
 };
 
 Character.prototype.equip = function (slot, item) {
@@ -157,9 +181,8 @@ Character.prototype.unequip = function (slot) {
 
 Character.prototype.getSpeed = function (magnitude) {
 	var speed = this.stats.movementSpeed * (1 + this.stats.movementSpeedIncrease);
-	if (magnitude) {
-		speed = speed * magnitude;
-	}
+	speed = magnitude ? speed * magnitude : 0;
+	
 	return speed < this.stats.maxMovementSpeed ? speed : this.stats.maxMovementSpeed;
 };
 
@@ -200,34 +223,35 @@ Character.prototype.setBearing = function (direction) {
 };
 
 Character.prototype.move = function (angle, magnitude) {
-	// if (!this.actionsQueued["secondaryAttack"]) {
-		this.actionsQueued["move"] = true;
-		var speed = this.getSpeed(magnitude);
-		var x = Math.sin(angle) * speed;
-		var y = Math.cos(angle) * speed;
+	var speed = this.getSpeed(magnitude);
+	var x = Math.sin(angle) * speed;
+	var y = Math.cos(angle) * speed;
+	
+	if (x !== 0 || y !== 0) {
+		this.actionsQueued["move"] = true;    
 		
 		this.x += x;
 		this.y += y;
 		
 		// Keep Shock Nova locked to the character.
-		if (this.actionsQueued["secondaryAttack"]) {
-			this.actionsQueued["secondaryAttack"].moveTo(this.x, this.y);
+		if (this.actionsQueued["useActiveItem"]) {
+			this.actionsQueued["useActiveItem"].moveTo(this.x, this.y);
 		}
 		
 		// TODO: Implement gamepad "wedges" to better detect bearing
-		if (x < 0) {
+		if (x < 0 && Math.abs(x) > Math.abs(y)) {
 			this.setBearing("W");
 		}
-		else if (x > 0) {
+		else if (x > 0 && Math.abs(x) > Math.abs(y)) {
 			this.setBearing("E");
 		}
-		if (y < 0 && y < x) {
+		if (y < 0 && Math.abs(x) <= Math.abs(y)) {
 			this.setBearing("N");
 		}
-		else if (y > 0 && y > x) {
+		else if (y > 0 && Math.abs(x) <= Math.abs(y)) {
 			this.setBearing("S");
 		}
-	// }
+	}
 };
 
 Character.prototype.damage = function (damageObj) {
@@ -255,7 +279,6 @@ Character.prototype.damage = function (damageObj) {
 		
 		// Update sprite's appearance to reflect damage.
 		// TODO: Probably move this to update or draw.
-		// TODO: Make damage appearance overide movement appearance.
 		if (this.resources.health <= 0) {
 			this.kill();
 		}
@@ -270,11 +293,11 @@ Character.prototype.kill = function () {
 	this.setImage(this.animation.subsets["dead"].next());
 };
 
-Character.prototype.primaryAttack = function (attackObj) {
+Character.prototype.attack = function (attackObj) {
 	// If no attack is in progress, launch a new one.
 	if(!this.actionsQueued.attack) {
-		var equipmentData = this.equipment.primaryAttack
-							? this.equipment.primaryAttack.primaryAttack
+		var equipmentData = this.equipment.attack
+							? this.equipment.attack.attack
 							: {	mode: "melee",
 								resource: "health",
 								type: "physical" };
@@ -324,11 +347,30 @@ Character.prototype.primaryAttack = function (attackObj) {
 					// Attack Data
 					attackData: attackObj,
 					// Callback
-					onFinish: function() { 
-						self.actionsQueued.attack.signals.destroyed.dispatch(self.actionsQueued.attack);
-						delete self.actionsQueued.attack; 
-					}
+					onFinish: function() { }
 				});
+				
+				// Reset animation manually so attack always starts at frame 0.
+				this.animation.subsets["attack_S"].index = -1;
+				this.animation.subsets["attack_S"].current_tick = (new Date()).getTime();
+				this.animation.subsets["attack_S"].last_tick = (new Date()).getTime();
+				this.animation.subsets["attack_S"].sum_tick = 0;
+				
+				this.animation.subsets["attack_N"].index = -1;
+				this.animation.subsets["attack_N"].current_tick = (new Date()).getTime();
+				this.animation.subsets["attack_N"].last_tick = (new Date()).getTime();
+				this.animation.subsets["attack_N"].sum_tick = 0;
+				
+				this.animation.subsets["attack_W"].index = -1;
+				this.animation.subsets["attack_W"].current_tick = (new Date()).getTime();
+				this.animation.subsets["attack_W"].last_tick = (new Date()).getTime();
+				this.animation.subsets["attack_W"].sum_tick = 0;
+				
+				this.animation.subsets["attack_E"].index = -1;
+				this.animation.subsets["attack_E"].current_tick = (new Date()).getTime();
+				this.animation.subsets["attack_E"].last_tick = (new Date()).getTime();
+				this.animation.subsets["attack_E"].sum_tick = 0;
+				
 				// Update the attack right away, so it can start doing damage this turn.
 				this.actionsQueued.attack.update();
 				// Let listeners know that we're attacking.
@@ -339,16 +381,22 @@ Character.prototype.primaryAttack = function (attackObj) {
 				break;
 		}
 	}
-	
-	// Set bearing.
-	this.setBearing(attackObj.angle);
 };
 
-Character.prototype.secondaryAttack = function () {
+Character.prototype.holdAttack = function() {
+	this.actionsQueued["holdAttack"] = true;
+};
+
+Character.prototype.releaseAttack = function(attackObj) {
+	this.attack(attackObj);
+	this.actionsQueued["holdAttack"] = false;
+};
+
+Character.prototype.useActiveItem = function () {
 	// Used to scope inner functions.
 	var self = this;
 
-	if (!this.actionsQueued["secondaryAttack"]) {
+	if (!this.actionsQueued["useActiveItem"]) {
 		// Prepare eligible spell targets.
 		var eligibleTargets = [];
 		for (var lcv = 0; lcv < this._gameData.entities.length; lcv++) {
@@ -357,18 +405,18 @@ Character.prototype.secondaryAttack = function () {
 				eligibleTargets.push(this._gameData.entities[lcv]);
 			}
 		}
-		this.actionsQueued["secondaryAttack"] = new ShockNova({
+		this.actionsQueued["useActiveItem"] = new ShockNova({
 			spawnX: this.x,
 			spawnY: this.y,
 			eligibleTargets: eligibleTargets,
 			onFinish: function() { 
-				self.signals.destroyed.dispatch(self.actionsQueued["secondaryAttack"]);
-				delete self.actionsQueued["secondaryAttack"]; 
+				self.signals.destroyed.dispatch(self.actionsQueued["useActiveItem"]);
+				delete self.actionsQueued["useActiveItem"]; 
 			}
 		});
 
 		// Let listeners know that we're attacking.
-		this.signals.gave.dispatch(this.actionsQueued["secondaryAttack"]);
+		this.signals.gave.dispatch(this.actionsQueued["useActiveItem"]);
 	}
 };
 

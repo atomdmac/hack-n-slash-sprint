@@ -55,9 +55,9 @@ function (jaws, $, DATABASE, LoadState) {
 			if(spell.sprite_sheet) jaws.assets.add( spell.sprite_sheet );
 		}
 		
-		// Load Equipment assets.
-		for(var equip in DATABASE.equipment) {
-			equip = DATABASE.equipment[equip];
+		// Load Item assets.
+		for(var equip in DATABASE.items) {
+			equip = DATABASE.items[equip];
 
 			if(equip.sprite_sheet) jaws.assets.add( equip.sprite_sheet );
 		}

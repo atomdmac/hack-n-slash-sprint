@@ -14,7 +14,6 @@ function PlayState () {
 		entity.signals.took.add(onEntityTook);
 		entity.signals.activated.add(onEntityActivated);
 		entity.signals.destroyed.add(onEntityDestroyed);
-		_gameData.gameWorld.collider.addEntity(entity);
 		entities.push(entity);
 	}
 

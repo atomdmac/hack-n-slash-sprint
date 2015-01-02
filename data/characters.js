@@ -1,6 +1,6 @@
 define(
-['../data/equipment'],
-function (equipment) {
+['../data/items'],
+function (items) {
 
 return {
     "base": {
@@ -16,17 +16,34 @@ return {
 		frame_size: [128, 128],
 		frame_duration: 100,
 		animationSubsets: {
+			// Paperdoll
 			paperdoll:    [1,2],
-			S:            [2,4],
-			N:            [4,6],
-			W:            [6,8],
-			E:            [8,10],
-			attack_S:     [10,13],
-			attack_N:     [13,16],
-			attack_W:     [16,19],
-			attack_E:     [19,22],
-			damage:       [24,25],
-			dead:         [25,26]
+			
+			// Idle
+			idle_S:       [2,3], // Reuses first frame of walk for now.
+			idle_N:       [4,5], // Reuses first frame of walk for now.
+			idle_W:       [6,7], // Reuses first frame of walk for now.
+			idle_E:       [8,9], // Reuses first frame of walk for now.
+			
+			// Walk
+			walk_S:       [2,4],
+			walk_N:       [4,6],
+			walk_W:       [6,8],
+			walk_E:       [8,10],
+			
+			// Attack
+			attack_S:     [10,14],
+			attackHold_S: [13,14],
+			attack_N:     [14,18],
+			attackHold_N: [17,18],
+			attack_W:     [18,22],
+			attackHold_W: [21,22],
+			attack_E:     [22,26],
+			attackHold_E: [25,26],
+			
+			// Misc.
+			damage:       [28,29],
+			dead:         [29,30]
 		},
 		radius: 8,
 		bearing: "S",
@@ -53,8 +70,8 @@ return {
 			maxMovementSpeed: 5
 		},
 		equipment: {
-			primaryAttack: null,
-			secondaryAttack: null,
+			attack: null,
+			useActiveItem: null,
 			offhand: null,
 			tunic: null,
 			sleeves: null,

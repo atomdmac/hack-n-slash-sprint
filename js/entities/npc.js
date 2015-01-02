@@ -19,7 +19,7 @@ function NPC (options) {
 	this.distractionRate = options.distractionRate;
 	this.courseOfAction = {
 		move: {angle: 0, magnitude: 0},
-		primaryAttack: {}
+		attack: {}
 	};
 	
 	if (this.options.patrol ) {
@@ -66,11 +66,21 @@ NPC.prototype.onCollision = function (entity, interest) {
 	}
 	
 	if (interest.name === "touch" &&
-		entity === this.seekTarget) {
+		entity === this.seekTarget &&
+		this.resources.health > 0) {
 		
-		entity.kill();
-		this.seekTarget = null;
-		this.state = "patrol";
+		// Debug: damage on contact.
+		entity.damage({
+			resource: "health",
+			type: "physical",
+			value: 1,
+			penetration: 1
+		});
+		
+		if (entity.resources.health <= 0) {
+			this.seekTarget = null;
+			this.state = "patrol";
+		}
 		
 	}
 };
@@ -132,8 +142,8 @@ NPC.prototype.decideNextAction = function() {
 	// This currently causes all character health to drop to 0 as soon as the
 	// game starts.
 	/*
-	if (this.courseOfAction.primaryAttack) {
-		this.primaryAttack(this.courseOfAction.primaryAttack);
+	if (this.courseOfAction.attack) {
+		this.attack(this.courseOfAction.attack);
 	}
 	*/
 	
@@ -166,7 +176,7 @@ NPC.prototype.seek = function (destination) {
 	var endY = startY + reach * Math.cos(angleToTarget);
 	
 	
-	this.courseOfAction.primaryAttack = {
+	this.courseOfAction.attack = {
 		reach : reach,
 		startX: startX,
 		startY: startY,
@@ -237,8 +247,8 @@ NPC.prototype.kill = function() {
 	// Make some loot.
 	var lootKey = DATABASE.lootTable["Basic Creature"].getRandom();
 	var loot = new Item($.extend(true, {},
-							 DATABASE.equipment["base"],
-							 DATABASE.equipment[lootKey]));
+							 DATABASE.items["base"],
+							 DATABASE.items[lootKey]));
 	loot._gameData = this._gameData;
 	// Put the loot in the game world
 	this.signals.gave.dispatch(loot);
