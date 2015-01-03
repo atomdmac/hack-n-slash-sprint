@@ -1,11 +1,13 @@
 define(
-['jaws', 'DATABASE', 'lib/SAT', 'entities/item', 'entities/zone-switcher'],
-function (jaws, DATABASE, SAT, Item, ZoneSwitcher) {
+['jaws', 'DATABASE', 'lib/SAT', 'entities/item', 'entities/zone-switcher',
+ 'states/play-menu-state'],
+function (jaws, DATABASE, SAT, Item, ZoneSwitcher, PlayMenuState) {
 
 function PlayState () {
 	// The current map.
 	// TODO: Clean up PlayState internal variable assignments.
-	var _gameData, map, player, entities=[], collidableEntities=[], layers={}, viewport;
+	var _gameData, map, player, viewport, gamepad, menu,
+		entities=[], collidableEntities=[], layers={};
 
 	function onEntityGave (entity) {
 		entity.signals.gave.add(onEntityGave);
@@ -28,7 +30,7 @@ function PlayState () {
 			_gameData.player.x = entity.targetX || _gameData.player.x;
 			_gameData.player.y = entity.targetY || _gameData.player.y;
 			_gameData.url = entity.url;
-			jaws.switchGameState(jaws.previous_game_state, {}, _gameData);
+			jaws.switchGameState(_gameData.states.load , {}, _gameData);
 		}
 	}
 
@@ -58,6 +60,9 @@ function PlayState () {
 
 		viewport = _gameData.viewport;
 
+		// Create menu.
+		menu = new PlayMenuState({gameData:_gameData});
+
 		entities.forEach(function(entity) {
 			entity.signals.gave.add(onEntityGave);
 			entity.signals.took.add(onEntityTook);
@@ -65,10 +70,14 @@ function PlayState () {
 			entity.signals.destroyed.add(onEntityDestroyed);
 		});
 		
-        jaws.preventDefaultKeys(["up", "down", "left", "right", "space"]);
+        jaws.preventDefaultKeys(["up", "down", "left", "right", "space", "esc"]);
 	};
 
 	this.update = function () {
+
+		this.checkKeyboardInput();
+		this.checkGamepadInput();
+		
 		// Set up loop variables.
 		var collidableEntities = entities.slice();
 
@@ -93,6 +102,25 @@ function PlayState () {
 			if(a.y < b.y) return -1;
 			return 0; 
 		});
+	};
+
+	this.checkKeyboardInput = function () {
+		if(jaws.pressed('esc')) {
+			jaws.switchGameState(menu, {}, _gameData);
+			return true;
+		}
+	};
+
+	this.checkGamepadInput = function () {
+		// Setup gamepad if not already done.
+		if (!gamepad && jaws.gamepads[0]) {
+			gamepad = jaws.gamepads[0]; // Only use first gamepad for now...
+		}
+		if(!gamepad) return false;
+		
+		if(gamepad.buttons[9].pressed) {
+			jaws.switchGameState(menu, {}, _gameData);
+		}
 	};
 
 	this.draw = function () {

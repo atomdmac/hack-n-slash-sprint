@@ -1,8 +1,9 @@
 requirejs.config({
 	baseUrl: 'js',
 	paths: {
-		'$': 'lib/jquery',
-		'jaws': 'lib/jawsjs/jaws',
+		'$'       : 'lib/jquery',
+		'_'       : 'lib/lodash',
+		'jaws'    : 'lib/jawsjs/jaws',
 		'DATABASE': '../data/database'
 	},
 	shim: {
@@ -85,12 +86,16 @@ function (jaws, $, DATABASE, LoadState) {
 		// Reference to all characters (player and NPC) in the current map.
 		characters: null,
 		// Reference to all items in the current map.
-		items: null
+		items: null,
+		// Reusable state instances.
+		states: {
+			load: new LoadState()
+		}
 	};
 	
 	// Start main Game Loop.
 	jaws.start(
-		new LoadState(),
+		gameData.states.load,
 		// Start-up Options
 		{
 			fps: 60
