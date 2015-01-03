@@ -32,6 +32,10 @@ function Player (options) {
 	this.gamepad = null;
 	this.input = options.input;
 	
+	// Charge attack counter/limiter.
+	this.chargeAttackCounter = 0;
+	this.chargeAttackLimit = 30;
+	
 	// HUD
 	this.hud = new HUD({
 		character: this
@@ -80,16 +84,13 @@ Player.prototype.applyMovement = function() {
 Player.prototype.applyAction = function() {
 	// TODO: Don't allow attacking and using items at the same time.
 	
-	// Check attack input
+	// Attack input is pressed
 	if ((this.gamepad !== null &&
 		jaws.gamepadButtonPressed(this.gamepadButtons["attack"])) ||
 		jaws.pressed(this.input.keyboard["attack"])) {
-		// Hold the current attack.
-		if (this.actionsQueued["attack"] || this.actionsQueued["holdAttack"]) {
-			this.holdAttack();
-		}
-		// Create a new attack if one isn't queued already.
-		else {
+		
+		// Charge count is 0.
+		if (this.chargeAttackCounter === 0) {
 			// Prepare attack data.
 			reach = 100;
 			startX = this.x;
@@ -106,14 +107,37 @@ Player.prototype.applyAction = function() {
 				endY  : endY,
 				angle : this.radianMap8D[this.bearing]
 			});
+			
+			// Increment charge counter.
+			this.chargeAttackCounter++;
+		}
+		else {
+			// Increment charge counter.
+			this.chargeAttackCounter++;
+			
+			// Show visual for holding the attack.
+			this.holdAttack();
+			
+			// Attack is finished charging and ready to release on next update.
+			if (this.chargeAttackCounter >= this.chargeAttackLimit) {
+				// TODO: Implement visual effect to show the attack is charged.
+			}
+		}
+	}
+	else {
+		// We aren't holding the attack anymore.
+		this.releaseAttack();
+		
+		// Execute attack if charged.
+		if (this.chargeAttackCounter >= this.chargeAttackLimit) {
+			this.lungeAttack();
 		}
 		
-	}
-	else if (this.actionsQueued["holdAttack"]) {
-		this.actionsQueued["holdAttack"] = false;
-		this.lungeAttack();
+		// Reset charge count.
+		this.chargeAttackCounter = 0;
 	}
 	
+	// Use Active Item input is pressed.
 	if ((this.gamepad !== null &&
 		jaws.gamepadButtonPressed(this.gamepadButtons["useActiveItem"])) ||
 		jaws.pressed(this.input.keyboard["useActiveItem"])) {

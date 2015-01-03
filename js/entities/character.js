@@ -387,8 +387,7 @@ Character.prototype.holdAttack = function() {
 	this.actionsQueued["holdAttack"] = true;
 };
 
-Character.prototype.releaseAttack = function(attackObj) {
-	this.attack(attackObj);
+Character.prototype.releaseAttack = function() {
 	this.actionsQueued["holdAttack"] = false;
 };
 
