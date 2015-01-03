@@ -168,12 +168,6 @@ Player.prototype.getMagnitudeOfAnalogs = function (analogX, analogY) {
 Player.prototype.lungeAttack = function () {
 	if(!this.actionsQueued.attack) {
 		var attackObj = {
-			reach : 40,
-			startX: this.x,
-			startY: this.y,
-			endX  : startX + reach * Math.sin(this.radianMap8D[this.bearing]),
-			endY  : startY + reach * Math.cos(this.radianMap8D[this.bearing]),
-			angle : this.radianMap8D[this.bearing],
 			mode: "melee",
 			resource: "health",
 			type: "physical",
@@ -191,13 +185,13 @@ Player.prototype.lungeAttack = function () {
 					// Attacker
 					attacker: this,
 					// Attack radius
-					radius: attackObj.reach,
+					radius: 40,
 					// Attack angle
-					angle: attackObj.angle,
+					angle: this.radianMap8D[this.bearing],
+					// Magnitude of lunge movement
+					magnitude: 2,
 					// Attack Data
-					attackData: attackObj,
-					// Callback
-					onFinish: function() { }
+					attackData: attackObj
 				});
 				
 				// Reset animation manually so attack always starts at frame 0.

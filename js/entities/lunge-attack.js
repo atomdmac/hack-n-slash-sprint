@@ -18,13 +18,6 @@ function LungeAttack (options) {
 	Entity.call(this, this.options);
 	
 	this.hitBox = new SAT.Circle(new SAT.Vector(this.x, this.y), this.options.radius);
-	/*this.hitBox = new SAT.Polygon(new SAT.Vector(this.x, this.y),
-		[
-			new SAT.Vector(-this.width / 2, -this.height / 2),
-			new SAT.Vector(this.width / 2, -this.height / 2),
-			new SAT.Vector(this.width / 2, this.height / 2),
-			new SAT.Vector(-this.width / 2, this.height / 2)
-		]);*/
 	
 	this.interests.push.apply(this.interests, [
 		{name: 'touch', shape: this.hitBox}
@@ -39,7 +32,7 @@ function LungeAttack (options) {
 		this.attacker = this.options.attacker;
 		this.attackData = this.options.attackData;
 		this.angle = this.options.angle;
-		this.onFinish = this.options.onFinish;
+		this.magnitude = this.options.magnitude;
 	}
 }
 
@@ -53,7 +46,7 @@ LungeAttack.prototype.onCollision = function (entity, interest) {
 };
 
 LungeAttack.prototype.update = function () {
-	this.attacker.move(this.angle, 2);
+	this.attacker.move(this.angle, this.magnitude);
 	this.x = this.attacker.x;
 	this.y = this.attacker.y;
 };
@@ -68,29 +61,8 @@ LungeAttack.prototype.draw = function () {
 
 	context.beginPath();
 	
-	/* Rectangle Debug
-	var points  = this.hitBox.calcPoints,
-		i, ilen
-	context.moveTo(
-		this.hitBox.pos.x + points[0].x, 
-		this.hitBox.pos.y + points[0].y
-	);
-	for(i=0, ilen=points.length; i<ilen; i++) {
-		context.lineTo(
-			this.hitBox.pos.x + points[i].x, 
-			this.hitBox.pos.y + points[i].y
-		);
-	}
-	context.lineTo(
-		this.hitBox.pos.x + points[0].x,
-		this.hitBox.pos.y + points[0].y
-	);
-	*/
-	
-	/* Circle Debug */
 	context.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false);
 
-	
 	context.stroke();
 
 	context.restore();
