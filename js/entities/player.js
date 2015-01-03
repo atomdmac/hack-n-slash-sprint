@@ -69,46 +69,12 @@ Player.prototype.update = function () {
 };
 
 Player.prototype.applyMovement = function() {
-	var analog = {x: 0, y: 0},
-		joystickThreshold = 0.25;
-	
-	var useGamepadInput = false; // TODO: Remove need for gamepad flag.
-	
-	// Prefer gamepad right joystick input if threshhold is met.
-	if (this.gamepad !== null) {
-		// Get joystick data.
-		var joystick = jaws.gamepadReadJoystick(this.gamepad, this.input.gamepad["move"]);
-		// Use joystick input if either analog exceeds threshold.
-		if(Math.abs(joystick.analogX) > joystickThreshold ||
-		   Math.abs(joystick.analogY) > joystickThreshold) {
-			// Use gamepad as input source.
-			analog.x = joystick.analogX;
-			analog.y = joystick.analogY;
-			
-			useGamepadInput = true; // TODO: Remove need for gamepad flag.
-		}
-	}
-	
-	// Aggregate any keyboard input if gamepad input not used.
-	if (!useGamepadInput) {
-		// Emulate analog values for movement keys.
-		var keys = {};
-		keys[this.input.keyboard["moveUp"]]		= {x: 0,	y: -1};
-		keys[this.input.keyboard["moveDown"]]	= {x: 0,	y: 1};
-		keys[this.input.keyboard["moveLeft"]]	= {x: -1,	y: 0};
-		keys[this.input.keyboard["moveRight"]]	= {x: 1,	y: 0};
+	if (!this.actionsQueued["attack"]) {
+		var analog = this.readMovementInput();
 		
-		// Calculate sum of emulated analog values for pressed keys.
-		for (var key in keys) {
-			if (jaws.pressed(key)) {
-				analog.x += keys[key]["x"];
-				analog.y += keys[key]["y"];
-			}
-		}
+		this.move(this.getAngleOfAnalogs(analog),
+				  this.getMagnitudeOfAnalogs(analog));
 	}
-	
-	this.move(this.getAngleOfAnalogs(analog.x, analog.y),
-			  this.getMagnitudeOfAnalogs(analog.x, analog.y));
 };
 
 Player.prototype.applyAction = function() {
@@ -157,12 +123,54 @@ Player.prototype.applyAction = function() {
 	}
 };
 
-Player.prototype.getAngleOfAnalogs = function (analogX, analogY) {
-	return Math.atan2(analogX, analogY);
+Player.prototype.readMovementInput = function() {
+	var analog = {x: 0, y: 0},
+		joystickThreshold = 0.25;
+	
+	var useGamepadInput = false; // TODO: Remove need for gamepad flag.
+	
+	// Prefer gamepad right joystick input if threshhold is met.
+	if (this.gamepad !== null) {
+		// Get joystick data.
+		var joystick = jaws.gamepadReadJoystick(this.gamepad, this.input.gamepad["move"]);
+		// Use joystick input if either analog exceeds threshold.
+		if(Math.abs(joystick.analogX) > joystickThreshold ||
+		   Math.abs(joystick.analogY) > joystickThreshold) {
+			// Use gamepad as input source.
+			analog.x = joystick.analogX;
+			analog.y = joystick.analogY;
+			
+			useGamepadInput = true; // TODO: Remove need for gamepad flag.
+		}
+	}
+	
+	// Aggregate any keyboard input if gamepad input not used.
+	if (!useGamepadInput) {
+		// Emulate analog values for movement keys.
+		var keys = {};
+		keys[this.input.keyboard["moveUp"]]		= {x: 0,	y: -1};
+		keys[this.input.keyboard["moveDown"]]	= {x: 0,	y: 1};
+		keys[this.input.keyboard["moveLeft"]]	= {x: -1,	y: 0};
+		keys[this.input.keyboard["moveRight"]]	= {x: 1,	y: 0};
+		
+		// Calculate sum of emulated analog values for pressed keys.
+		for (var key in keys) {
+			if (jaws.pressed(key)) {
+				analog.x += keys[key]["x"];
+				analog.y += keys[key]["y"];
+			}
+		}
+	}
+	
+	return analog;
 };
 
-Player.prototype.getMagnitudeOfAnalogs = function (analogX, analogY) {
-	return Math.sqrt(analogX*analogX+analogY*analogY);
+Player.prototype.getAngleOfAnalogs = function (analog) {
+	return Math.atan2(analog.x, analog.y);
+};
+
+Player.prototype.getMagnitudeOfAnalogs = function (analog) {
+	return Math.sqrt(analog.x*analog.x+analog.y*analog.y);
 };
 
 Player.prototype.lungeAttack = function () {
@@ -178,52 +186,50 @@ Player.prototype.lungeAttack = function () {
 		// Don't do more than 100% damage.
 		attackObj.penetration = attackObj.penetration > 1 ? 1 : attackObj.penetration;
 		
-		switch (attackObj.mode) {
-			case "melee":
-				
-				this.actionsQueued.attack = new LungeAttack({
-					// Attacker
-					attacker: this,
-					// Attack radius
-					radius: 40,
-					// Attack angle
-					angle: this.radianMap8D[this.bearing],
-					// Magnitude of lunge movement
-					magnitude: 2,
-					// Attack Data
-					attackData: attackObj
-				});
-				
-				// Reset animation manually so attack always starts at frame 0.
-				this.animation.subsets["attack_S"].index = -1;
-				this.animation.subsets["attack_S"].current_tick = (new Date()).getTime();
-				this.animation.subsets["attack_S"].last_tick = (new Date()).getTime();
-				this.animation.subsets["attack_S"].sum_tick = 0;
-				
-				this.animation.subsets["attack_N"].index = -1;
-				this.animation.subsets["attack_N"].current_tick = (new Date()).getTime();
-				this.animation.subsets["attack_N"].last_tick = (new Date()).getTime();
-				this.animation.subsets["attack_N"].sum_tick = 0;
-				
-				this.animation.subsets["attack_W"].index = -1;
-				this.animation.subsets["attack_W"].current_tick = (new Date()).getTime();
-				this.animation.subsets["attack_W"].last_tick = (new Date()).getTime();
-				this.animation.subsets["attack_W"].sum_tick = 0;
-				
-				this.animation.subsets["attack_E"].index = -1;
-				this.animation.subsets["attack_E"].current_tick = (new Date()).getTime();
-				this.animation.subsets["attack_E"].last_tick = (new Date()).getTime();
-				this.animation.subsets["attack_E"].sum_tick = 0;
-				
-				// Update the attack right away, so it can start doing damage this turn.
-				this.actionsQueued.attack.update();
-				// Let listeners know that we're attacking.
-				this.signals.gave.dispatch(this.actionsQueued.attack);
-				break;
-			
-			default:
-				break;
-		}
+		var analog = this.readMovementInput();
+		var angle = (analog.x === 0 && analog.y === 0)
+					? this.radianMap8D[this.bearing]
+					: this.getAngleOfAnalogs(analog);
+		
+		this.actionsQueued.attack = new LungeAttack({
+			// Attacker
+			attacker: this,
+			// Attack radius
+			radius: 40,
+			// Attack angle
+			angle: angle,
+			// Magnitude of lunge movement
+			magnitude: 2,
+			// Attack Data
+			attackData: attackObj
+		});
+		
+		// Reset animation manually so attack always starts at frame 0.
+		this.animation.subsets["attack_S"].index = -1;
+		this.animation.subsets["attack_S"].current_tick = (new Date()).getTime();
+		this.animation.subsets["attack_S"].last_tick = (new Date()).getTime();
+		this.animation.subsets["attack_S"].sum_tick = 0;
+		
+		this.animation.subsets["attack_N"].index = -1;
+		this.animation.subsets["attack_N"].current_tick = (new Date()).getTime();
+		this.animation.subsets["attack_N"].last_tick = (new Date()).getTime();
+		this.animation.subsets["attack_N"].sum_tick = 0;
+		
+		this.animation.subsets["attack_W"].index = -1;
+		this.animation.subsets["attack_W"].current_tick = (new Date()).getTime();
+		this.animation.subsets["attack_W"].last_tick = (new Date()).getTime();
+		this.animation.subsets["attack_W"].sum_tick = 0;
+		
+		this.animation.subsets["attack_E"].index = -1;
+		this.animation.subsets["attack_E"].current_tick = (new Date()).getTime();
+		this.animation.subsets["attack_E"].last_tick = (new Date()).getTime();
+		this.animation.subsets["attack_E"].sum_tick = 0;
+		
+		// Update the attack right away, so it can start doing damage this turn.
+		this.actionsQueued.attack.update();
+		// Let listeners know that we're attacking.
+		this.signals.gave.dispatch(this.actionsQueued.attack);
+		
 	}
 };
 
