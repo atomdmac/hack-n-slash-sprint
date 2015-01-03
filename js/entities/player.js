@@ -67,12 +67,13 @@ Player.prototype.update = function () {
 	}
 	
 	// Apply character actions.
-	this.applyMovement();
-	this.applyAction();
+	this.applyMovementInput();
+	this.applyAttackInput();
+	this.applyUseActiveItemInput();
 	
 };
 
-Player.prototype.applyMovement = function() {
+Player.prototype.applyMovementInput = function() {
 	if (!this.actionsQueued["attack"]) {
 		var analog = this.readMovementInput();
 		
@@ -81,9 +82,7 @@ Player.prototype.applyMovement = function() {
 	}
 };
 
-Player.prototype.applyAction = function() {
-	// TODO: Don't allow attacking and using items at the same time.
-	
+Player.prototype.applyAttackInput = function() {
 	// Attack input is pressed
 	if ((this.gamepad !== null &&
 		jaws.gamepadButtonPressed(this.gamepadButtons["attack"])) ||
@@ -136,14 +135,19 @@ Player.prototype.applyAction = function() {
 		// Reset charge count.
 		this.chargeAttackCounter = 0;
 	}
-	
+};
+
+Player.prototype.applyUseActiveItemInput = function() {
 	// Use Active Item input is pressed.
 	if ((this.gamepad !== null &&
 		jaws.gamepadButtonPressed(this.gamepadButtons["useActiveItem"])) ||
 		jaws.pressed(this.input.keyboard["useActiveItem"])) {
 		
-		// Use active item.
-		this.useActiveItem();
+		// Only use item if we're not attacking nor holding an attack.
+		if (!this.actionsQueued["holdAttack"] && !this.actionsQueued["attack"]) {
+			// Use active item.
+			this.useActiveItem();
+		}
 	}
 };
 
