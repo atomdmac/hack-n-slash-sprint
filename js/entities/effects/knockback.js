@@ -35,7 +35,13 @@ function Knockback (options) {
 Knockback.prototype = Object.create(Entity.prototype);
 
 Knockback.prototype.update = function () {
-	this.target.move(this.angle, this.force);
+	var x = Math.sin(this.angle) * this.force;
+	var y = Math.cos(this.angle) * this.force;
+	
+	if (x !== 0 || y !== 0) {
+		this.target.x += x;
+		this.target.y += y;
+	}
 	
 	// Step forward in time.
 	this.currentTime += 1;
