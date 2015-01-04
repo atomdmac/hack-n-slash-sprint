@@ -4,22 +4,22 @@ function (jaws, DATABASE, Entity, SAT) {
 
 function MeleeAttack (options) {
 	// Merge options
-	options = $.extend({}, options);
+	this.options = $.extend({
+					x: options.attacker.x,
+					y: options.attacker.y,
+					scale: 1,
+					anchor: [0, 0],
+					radius: 1
+				}, options);
 
-	this.attacker = options.attacker;
+	this.attacker = this.options.attacker;
 	
-	Entity.call(this, {
-		x: this.attacker.x,
-		y: this.attacker.y,
-		scale: 1,
-		anchor: [0, 0],
-		radius: 1
-	});
+	Entity.call(this, this.options);
 	
-	this.targets    = options.targets;
-	this.angle      = options.angle;
-	this.attackData = options.attackData;
-	this.onFinish   = options.onFinish;
+	this.targets    = this.options.targets;
+	this.angle      = this.options.angle;
+	this.attackData = this.options.attackData;
+	this.onFinish   = this.options.onFinish;
 
 	// Settings
 	this.hitBox = new SAT.Polygon(new SAT.Vector(this.attacker.x, this.attacker.y),
@@ -31,6 +31,10 @@ function MeleeAttack (options) {
 		]);
 	this.angleRange   = 1.4;
 	this.duration     = 10;
+	
+	this.interests.push.apply(this.interests, [
+		{name: 'touch', shape: this.hitBox}
+	]);
 
 	// State
 	this.angleCurrent = -this.angle - (this.angleRange / 2);
@@ -49,17 +53,6 @@ MeleeAttack.prototype.update = function () {
 	this.hitBox.pos.x = this.attacker.x;
 	this.hitBox.pos.y = this.attacker.y;
 	this.hitBox.setAngle(this.angleCurrent);
-
-	// Check to see if the weapon hitBox collides with any potential targets.
-	var i, ilen;
-	for(i=0, ilen=this.targets.length; i<ilen; i++) {
-		if(this.targets[i] !== this.attacker) {
-			var col = this.getResponse(this.targets[i]);
-			if(col) {
-				this.targets[i].damage(this.attackData);
-			}
-		}
-	}
 	
 	// Step forward in time.
 	this.angleCurrent += this.angleStep;
@@ -72,7 +65,7 @@ MeleeAttack.prototype.update = function () {
 };
 
 MeleeAttack.prototype.draw = function() {
-	/* DEBUG
+	/* DEBUG */
 	var context = jaws.context,
 		points  = this.hitBox.calcPoints,
 		i, ilen;
@@ -99,19 +92,13 @@ MeleeAttack.prototype.draw = function() {
 	context.stroke();
 
 	context.restore();
-	*/
+	
 };
 
-MeleeAttack.prototype.getResponse = function (target) {
-	var c = new SAT.Circle(
-		new SAT.Vector(target.x, target.y),
-		target.radius
-	);
-
-	if(SAT.testCirclePolygon(c, this.hitBox)) {
-		return true;
-	} else {
-		return false;
+MeleeAttack.prototype.onCollision = function (entity, interest) {
+	if (interest.name === "touch" &&
+		this.attacker.consider(entity) === "hostile") {
+		entity.damage(this.options.attackData);
 	}
 };
 
