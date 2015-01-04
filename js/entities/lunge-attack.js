@@ -1,6 +1,6 @@
 define(
-['jaws', 'DATABASE', 'entities/entity', 'lib/SAT'],
-function (jaws, DATABASE, Entity, SAT) {
+['jaws', 'DATABASE', 'entities/entity', 'lib/SAT', 'entities/effects/knockback', 'entities/effects/invulnerability'],
+function (jaws, DATABASE, Entity, SAT, Knockback, Invulnerability) {
 
 function LungeAttack (options) {
 	// Merge options
@@ -43,8 +43,23 @@ LungeAttack.prototype = Object.create(Entity.prototype);
 
 LungeAttack.prototype.onCollision = function (entity, interest) {
 	if (interest.name === "touch" &&
-		this.attacker.consider(entity) === "hostile") {
+		this.attacker.consider(entity) === "hostile" &&
+		!entity.invulnerable) {
 		entity.damage(this.options.attackData);
+		
+		entity.addEffect(new Knockback({
+			// Target
+			target: entity,
+			// Angle
+			angle: this.angle,
+			// Force
+			force: this.magnitude * 1.5
+		}));
+		
+		entity.addEffect(new Invulnerability({
+			// Target
+			target: entity
+		}));
 	}
 };
 

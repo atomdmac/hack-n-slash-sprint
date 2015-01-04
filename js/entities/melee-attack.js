@@ -1,6 +1,6 @@
 define(
-['jaws', 'DATABASE', 'entities/entity', 'lib/SAT', 'entities/effects/knockback'],
-function (jaws, DATABASE, Entity, SAT, Knockback) {
+['jaws', 'DATABASE', 'entities/entity', 'lib/SAT', 'entities/effects/knockback', 'entities/effects/invulnerability'],
+function (jaws, DATABASE, Entity, SAT, Knockback, Invulnerability) {
 
 function MeleeAttack (options) {
 	// Merge options
@@ -96,22 +96,28 @@ MeleeAttack.prototype.draw = function() {
 
 MeleeAttack.prototype.onCollision = function (entity, interest) {
 	if (interest.name === "touch" &&
-		this.attacker.consider(entity) === "hostile") {
+		this.attacker.consider(entity) === "hostile" &&
+		!entity.invulnerable) {
 		entity.damage(this.options.attackData);
+		console.log(entity.invulnerable);
 		
-		var xDiff = this.x - entity.x;
-        var yDiff = this.y - entity.y;
-		/*var xDiff = entity.x - this.x;
-        var yDiff = entity.y - this.y;*/
-        var angleBetween = Math.atan2(yDiff, xDiff) * (180 / Math.PI);
+		var analog = this.attacker.readMovementInput();
+		var angle = (analog.x === 0 && analog.y === 0)
+					? this.attacker.radianMap8D[this.attacker.bearing]
+					: this.attacker.getAngleOfAnalogs(analog);
 		
 		entity.addEffect(new Knockback({
 			// Target
 			target: entity,
-			// Target
-			angle: angleBetween,
-			// Target
+			// Angle
+			angle: angle,
+			// Force
 			force: 3
+		}));
+		
+		entity.addEffect(new Invulnerability({
+			// Target
+			target: entity
 		}));
 	}
 };
