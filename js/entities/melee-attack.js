@@ -16,7 +16,6 @@ function MeleeAttack (options) {
 	
 	Entity.call(this, this.options);
 	
-	this.targets    = this.options.targets;
 	this.angle      = this.options.angle;
 	this.attackData = this.options.attackData;
 	this.onFinish   = this.options.onFinish;
@@ -29,17 +28,17 @@ function MeleeAttack (options) {
 		new SAT.Vector(10, 50),
 		new SAT.Vector(0, 50)
 		]);
-	this.angleRange   = 1.4;
-	this.duration     = 10;
 	
 	this.interests.push.apply(this.interests, [
 		{name: 'touch', shape: this.hitBox}
 	]);
 
 	// State
+	this.duration     = 15;
+	this.currentTime  = 0;
+	this.angleRange   = 3.5;
 	this.angleCurrent = -this.angle - (this.angleRange / 2);
 	this.angleStep    = (this.angleRange / this.duration);
-	this.currentTime  = 0;
 	
 	// Apply initial position/angle to hitBox.
 	this.hitBox.translate(-5, 0);

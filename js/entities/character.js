@@ -56,17 +56,7 @@ function Character(options) {
 Character.prototype = Object.create(Entity.prototype);
 
 Character.prototype.update = function () {
-	if (this.actionsQueued["useActiveItem"]) {
-		// this.actionsQueued["useActiveItem"].update();
-	}
-	if (this.actionsQueued.attack) {
-		// Clean up after previous attack
-		if (this.animation.subsets["attack_S"].atLastFrame()) {
-			// Destroy queued attack action and alert listeners.
-			this.actionsQueued.attack.signals.destroyed.dispatch(this.actionsQueued.attack);
-			delete this.actionsQueued.attack;
-		}
-	}
+	
 };
 
 Character.prototype.draw = function () {
@@ -327,27 +317,19 @@ Character.prototype.attack = function (attackObj) {
 			case "melee":
 				// Used to scope inner functions.
 				var self = this;
-				
-				// Prepare eligible spell targets.
-				var eligibleTargets = [];
-				for (var lcv = 0; lcv < this._gameData.entities.length; lcv++) {
-					// Include all Characters who are not the caster.
-					if (this.consider(this._gameData.entities[lcv]) === "hostile") {
-						eligibleTargets.push(this._gameData.entities[lcv]);
-					}
-				}
-				
 				this.actionsQueued.attack = new MeleeAttack({
 					// Attacker
 					attacker: this,
-					// Potential targets.
-					targets: eligibleTargets,
 					// Attack angle
 					angle: attackObj.angle,
 					// Attack Data
 					attackData: attackObj,
 					// Callback
-					onFinish: function() { }
+					onFinish: function() {
+						// Destroy queued attack action and alert listeners.
+						self.actionsQueued.attack.signals.destroyed.dispatch(self.actionsQueued.attack);
+						delete self.actionsQueued.attack;
+					}
 				});
 				
 				// Reset animation manually so attack always starts at frame 0.

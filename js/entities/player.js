@@ -219,6 +219,7 @@ Player.prototype.lungeAttack = function () {
 					? this.radianMap8D[this.bearing]
 					: this.getAngleOfAnalogs(analog);
 		
+		var self = this;
 		this.actionsQueued.attack = new LungeAttack({
 			// Attacker
 			attacker: this,
@@ -227,9 +228,15 @@ Player.prototype.lungeAttack = function () {
 			// Attack angle
 			angle: angle,
 			// Magnitude of lunge movement
-			magnitude: 2,
+			magnitude: this.getMaxSpeed(),
 			// Attack Data
-			attackData: attackObj
+			attackData: attackObj,
+			// Callback
+			onFinish: function() {
+				// Destroy queued attack action and alert listeners.
+				self.actionsQueued.attack.signals.destroyed.dispatch(self.actionsQueued.attack);
+				delete self.actionsQueued.attack;
+			}
 		});
 		
 		// Reset animation manually so attack always starts at frame 0.

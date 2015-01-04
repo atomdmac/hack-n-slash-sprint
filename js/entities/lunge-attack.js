@@ -11,11 +11,13 @@ function LungeAttack (options) {
 						anchor: [0.5, 0.5],
 						radius: 1,
 						x: options.attacker.x,
-						y: options.attacker.y },
-					options);
+						y: options.attacker.y
+					}, options);
 
 	// Call super-class.
 	Entity.call(this, this.options);
+	
+	this.onFinish   = this.options.onFinish;
 	
 	this.hitBox = new SAT.Circle(new SAT.Vector(this.x, this.y), this.options.radius);
 	
@@ -23,8 +25,9 @@ function LungeAttack (options) {
 		{name: 'touch', shape: this.hitBox}
 	]);
 	
-	// Reference to game world data.
-	this._gameData = this.options.gameData;
+	// State
+	this.duration     = 20;
+	this.currentTime  = 0;
 	
 	// These options will not be able to be set if this constructor is being
 	// called as a means to extend it.
@@ -49,6 +52,14 @@ LungeAttack.prototype.update = function () {
 	this.attacker.move(this.angle, this.magnitude);
 	this.x = this.attacker.x;
 	this.y = this.attacker.y;
+	
+	// Step forward in time.
+	this.currentTime += 1;
+
+	// Check to see if the attack has finished yet or not.
+	if(this.currentTime >= this.duration) {
+		this.onFinish();
+	}
 };
 
 LungeAttack.prototype.draw = function () {
