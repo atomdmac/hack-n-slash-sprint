@@ -1,6 +1,6 @@
 define(
-['jaws', 'DATABASE', 'entities/entity', 'lib/SAT'],
-function (jaws, DATABASE, Entity, SAT) {
+['jaws', 'DATABASE', 'entities/entity', 'lib/SAT', 'entities/effects/knockback'],
+function (jaws, DATABASE, Entity, SAT, Knockback) {
 
 function MeleeAttack (options) {
 	// Merge options
@@ -98,6 +98,21 @@ MeleeAttack.prototype.onCollision = function (entity, interest) {
 	if (interest.name === "touch" &&
 		this.attacker.consider(entity) === "hostile") {
 		entity.damage(this.options.attackData);
+		
+		var xDiff = this.x - entity.x;
+        var yDiff = this.y - entity.y;
+		/*var xDiff = entity.x - this.x;
+        var yDiff = entity.y - this.y;*/
+        var angleBetween = Math.atan2(yDiff, xDiff) * (180 / Math.PI);
+		
+		entity.addEffect(new Knockback({
+			// Target
+			target: entity,
+			// Target
+			angle: angleBetween,
+			// Target
+			force: 3
+		}));
 	}
 };
 

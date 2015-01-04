@@ -33,6 +33,9 @@ function Entity(options) {
 	// Things other's might be interested in knowing about this Entity.
 	this.presences = options.presences || [];
 
+	// Keep track of effects applied to this Entity.
+	this.effects = options.effects || {};
+	
 	// These options will not be able to be set if this constructor is being
 	// called as a means to extend it.
 	if(this.options){
@@ -59,6 +62,20 @@ Entity.prototype.destroy = function () {
 
 Entity.prototype.damage = function (damageObj) {
 	// TODO: Implement entity damage?
+};
+
+Entity.prototype.addEffect = function(effect) {
+	var self = this;
+	effect.onFinish = function () {
+		self.removeEffect(effect);
+	};
+	this.effects[effect.id] = effect;
+	this.signals.gave.dispatch(effect);
+};
+
+Entity.prototype.removeEffect = function(effect) {
+	effect.signals.destroyed.dispatch(effect);
+	delete this.effects[effect.id];
 };
 
 return Entity;
