@@ -99,7 +99,6 @@ MeleeAttack.prototype.onCollision = function (entity, interest) {
 		this.attacker.consider(entity) === "hostile" &&
 		!entity.invulnerable) {
 		entity.damage(this.options.attackData);
-		console.log(entity.invulnerable);
 		
 		var analog = this.attacker.readMovementInput();
 		var angle = (analog.x === 0 && analog.y === 0)
