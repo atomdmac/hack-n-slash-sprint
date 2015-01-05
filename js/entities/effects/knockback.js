@@ -20,7 +20,6 @@ function Knockback (options) {
 	this.onFinish   = this.options.onFinish;
 	
 	// State
-	this.duration     = 20;
 	this.currentTime  = 0;
 	
 	// These options will not be able to be set if this constructor is being
@@ -29,6 +28,7 @@ function Knockback (options) {
 		this.target = this.options.target;
 		this.angle = this.options.angle;
 		this.force = this.options.force;
+		this.duration = this.options.duration ? this.options.duration : 20;
 	}
 }
 

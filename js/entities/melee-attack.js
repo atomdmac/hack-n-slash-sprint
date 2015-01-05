@@ -111,7 +111,9 @@ MeleeAttack.prototype.onCollision = function (entity, interest) {
 			// Angle
 			angle: angle,
 			// Force
-			force: 3
+			force: 3,
+			// Duration
+			duration: 20
 		}));
 		
 		entity.addEffect(new Invulnerability({

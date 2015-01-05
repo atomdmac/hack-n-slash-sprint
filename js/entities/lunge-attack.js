@@ -53,12 +53,24 @@ LungeAttack.prototype.onCollision = function (entity, interest) {
 			// Angle
 			angle: this.angle,
 			// Force
-			force: this.magnitude * 1.5
+			force: this.magnitude * 1
 		}));
 		
 		entity.addEffect(new Invulnerability({
 			// Target
 			target: entity
+		}));
+		
+		this.currentTime = this.duration;
+		this.attacker.addEffect(new Knockback({
+			// Target
+			target: this.attacker,
+			// Angle
+			angle: this.angle + Math.PI,
+			// Force
+			force: this.magnitude * 0.5,
+			// Duration
+			duration: 10
 		}));
 	}
 };
