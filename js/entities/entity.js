@@ -55,6 +55,14 @@ Entity.prototype.update = function (entity, interest) {
 	
 };
 
+Entity.prototype.draw = function (entity, interest) {
+	for (var effect in  this.effects) {
+		this.effects[effect].applyFilter();
+	}
+	// Call original Entity.draw() function.
+	jaws.Sprite.prototype.draw.call(this);
+};
+	
 Entity.prototype.destroy = function () {
 	// TODO: Do any clean-up necessary when an entity needs to be completely removed from the game.
 	this.signals.destroyed.dispatch(this);

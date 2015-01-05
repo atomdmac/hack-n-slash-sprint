@@ -52,6 +52,10 @@ Knockback.prototype.update = function () {
 	}
 };
 
+Knockback.prototype.applyFilter = function () {
+	
+};
+
 return Knockback;
 
 });
