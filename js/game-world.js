@@ -175,6 +175,26 @@ GameWorld.prototype.generateMapObjects = function (map) {
 				mapObjects.push(new Edge(objectConfig));
 				
 				break;
+			case "Item":
+				if (DATABASE.items[currentObject.name]) {
+					objectConfig = $.extend(true, 
+						{},
+						DATABASE.items["base"],
+						DATABASE.items[currentObject.name],
+						currentObject.properties,
+						{
+							x: currentObject.x,
+							y: currentObject.y
+						}
+					);
+					
+					// Attach game data *after* cloning so it is passed by reference.
+					objectConfig.gameData = this._gameData;
+					
+					mapObjects.push(new Item(objectConfig));
+					
+				}
+				break;
 			default:
 				break;
 		}
