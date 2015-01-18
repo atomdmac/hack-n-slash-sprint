@@ -1,6 +1,6 @@
 define(
-['jaws', '$', 'DATABASE', 'entities/entity', 'lib/SAT', 'entities/spells/shock-nova', 'entities/melee-attack'],
-function (jaws, $, DATABASE, Entity, SAT, ShockNova, MeleeAttack) {
+['jaws', '$', 'DATABASE', 'entities/entity', 'lib/SAT', 'entities/spells/shock-nova', 'entities/melee-attack', 'entities/effects/knockback'],
+function (jaws, $, DATABASE, Entity, SAT, ShockNova, MeleeAttack, Knockback) {
 
 function Character(options) {
 	
@@ -51,12 +51,18 @@ function Character(options) {
 	this.equipment = $.extend(true, {}, this.options.equipment);
 	this.stats = $.extend(true, {}, this.options.stats);
 	this.resources = $.extend(true, {}, this.options.resources);
+	
+	this.interactTarget = null;
+	this.carrying = null;
 }
 
 Character.prototype = Object.create(Entity.prototype);
 
 Character.prototype.update = function () {
-	
+	if (this.carrying) {
+		this.carrying.x = this.x;
+		this.carrying.y = this.y - 30;
+	}
 };
 
 Character.prototype.draw = function () {
@@ -410,6 +416,23 @@ Character.prototype.useActiveItem = function () {
 		// Let listeners know that we're attacking.
 		this.signals.gave.dispatch(this.actionsQueued["useActiveItem"]);
 	}
+};
+
+Character.prototype.liftEntity = function(entity) {
+	this.carrying = entity;
+};
+
+Character.prototype.throwEntity = function(entity) {
+	entity.addEffect(new Knockback({
+		// Target
+		target: entity,
+		// Angle
+		angle: this.radianMap8D[this.bearing],
+		// Force
+		force: 8,
+		// Duration
+		duration: 20
+	}));
 };
 
 return Character;

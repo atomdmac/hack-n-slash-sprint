@@ -30,6 +30,7 @@ function () {
 			frame_size: [12, 16]
 		},
 		"Clay Pot": {
+			interaction: "lift",
 			label: "Clay Pot",
 			sprite_sheet: "assets/png/items/ClayPot.png",
 			width: 20,

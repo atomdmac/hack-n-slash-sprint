@@ -62,7 +62,8 @@ Player.prototype.update = function () {
 		
 		this.gamepadButtons = {
 			"attack": this.gamepad.buttons[this.input.gamepad["attack"]],
-			"useActiveItem": this.gamepad.buttons[this.input.gamepad["useActiveItem"]]
+			"useActiveItem": this.gamepad.buttons[this.input.gamepad["useActiveItem"]],
+			"interact": this.gamepad.buttons[this.input.gamepad["interact"]]
 		};
 	}
 	
@@ -70,6 +71,7 @@ Player.prototype.update = function () {
 	this.applyMovementInput();
 	this.applyAttackInput();
 	this.applyUseActiveItemInput();
+	this.applyInteractInput();
 	
 };
 
@@ -148,6 +150,30 @@ Player.prototype.applyUseActiveItemInput = function() {
 			// Use active item.
 			this.useActiveItem();
 		}
+	}
+};
+
+Player.prototype.applyInteractInput = function() {
+	// Interact input is pressed.
+	if ((this.gamepad !== null &&
+		jaws.gamepadButtonPressed(this.gamepadButtons["interact"])) ||
+		jaws.pressed(this.input.keyboard["interact"])) {
+		
+		// Only interact if we're not attacking nor holding an attack.
+		if (!this.actionsQueued["holdAttack"] && !this.actionsQueued["attack"]) {
+			// If we have a target that we can interact with, interact!
+			if (this.interactTarget && this.interactTarget.interaction && !this.carrying) {
+				if (this.interactTarget.interaction === "lift") {
+					this.liftEntity(this.interactTarget);
+				}
+			}
+		}
+	}
+	// TODO: Throw carried item only after interaction input is released and resent.
+	// Throw entity if hands are full on release!
+	else if (this.carrying) {
+		this.throwEntity(this.carrying);
+		this.carrying = this.interactTarget = null;
 	}
 };
 
@@ -269,12 +295,18 @@ Player.prototype.lungeAttack = function () {
 };
 
 Player.prototype.onCollision = function (entity, interest) {
-	// Consume resource items.
-	if (interest.name === "touch" &&
-		entity.type === "resource") {
-		console.log("Consuming item " + entity.label + " (" + entity.id + ")");
-		this.consumeResourceItem(entity);
-		this.hud.update("resources");
+	// On touch:
+	if (interest.name === "touch") {
+		// Consume resource items.
+		if (entity.type === "resource") {
+			console.log("Consuming item " + entity.label + " (" + entity.id + ")");
+			this.consumeResourceItem(entity);
+			this.hud.update("resources");
+		}
+		// Allow interaction with liftable items.
+		if (entity.interaction) {
+			this.interactTarget = entity;
+		}
 	}
 };
 
