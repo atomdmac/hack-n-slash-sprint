@@ -29,7 +29,6 @@ function Item(options) {
 		
 		this.owner = null;
 		this.type = this.options.type;
-		this.interaction = this.options.interaction;
 		this.sprite_sheet = this.options.sprite_sheet;
 		this.equipSlot = this.options.equipSlot;
 		this.attack = this.options.attack;

@@ -42,6 +42,7 @@ function Entity(options) {
 		this.id = jaws.generateUUID();
 		this.label = this.options.label || "no label";
 		this.radius = this.options.radius;
+		this.interaction = this.options.interaction;
 	}
 }
 
