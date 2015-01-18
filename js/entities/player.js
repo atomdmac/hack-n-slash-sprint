@@ -173,8 +173,12 @@ Player.prototype.applyInteractInput = function() {
 	// Throw entity if hands are full on release!
 	else if (this.carrying) {
 		this.throwEntity(this.carrying);
-		this.carrying = this.interactTarget = null;
+		this.carrying = null;
 	}
+	
+	// TODO: This is probably better handled at the Character or Entity level?
+	// Clear interactTarget, wait for collision handling to reset it next tick.
+	this.interactTarget = null;
 };
 
 Player.prototype.readMovementInput = function() {
