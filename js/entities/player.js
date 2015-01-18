@@ -268,17 +268,6 @@ Player.prototype.lungeAttack = function () {
 	}
 };
 
-Player.prototype.radianMap8D = {
-	"E":  90  * Math.PI / 180,
-	"NE": 135 * Math.PI / 180,
-	"N":  180 * Math.PI / 180,
-	"NW": 225 * Math.PI / 180,
-	"W":  270 * Math.PI / 180,
-	"SW": 315 * Math.PI / 180,
-	"S":  0   * Math.PI / 180,
-	"SE": 45  * Math.PI / 180
-};
-
 Player.prototype.onCollision = function (entity, interest) {
 	// Consume resource items.
 	if (interest.name === "touch" &&

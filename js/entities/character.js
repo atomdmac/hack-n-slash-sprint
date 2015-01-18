@@ -93,6 +93,17 @@ Character.prototype.draw = function () {
 	this.actionsQueued["damage"] = false;
 };
 
+Character.prototype.radianMap8D = {
+	"E":  90  * Math.PI / 180,
+	"NE": 135 * Math.PI / 180,
+	"N":  180 * Math.PI / 180,
+	"NW": 225 * Math.PI / 180,
+	"W":  270 * Math.PI / 180,
+	"SW": 315 * Math.PI / 180,
+	"S":  0   * Math.PI / 180,
+	"SE": 45  * Math.PI / 180
+};
+
 // Extremely basic implementation. Assume Characters hate anything different.
 Character.prototype.consider = function(targetEntity) {
 	if (targetEntity.race === this.race && targetEntity.alignment === this.alignment) {
