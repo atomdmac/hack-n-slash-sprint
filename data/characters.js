@@ -93,6 +93,7 @@ return {
 		sprite_sheet: "assets/png/entities/FF4_Edge.png"
 	},
 	"Tellah": {
+		interaction: "lift",
 		label: "Tellah",
 		sprite_sheet: "assets/png/entities/FF4_Tellah.png"
 	}
