@@ -74,7 +74,7 @@ function (jaws, $, DATABASE, LoadState) {
 	// Define game data structure.
 	var gameData = {
 		// Load the map from this path.
-		url: 'assets/tmx/gumbelshire-south.tmx',
+		url: 'assets/tmx/hookshot-demo-map-1.tmx',
 		// Once loaded, a reference to the map will go here.
 		map: null,
 		// A jaws.Viewport instance for rendering the game world.
