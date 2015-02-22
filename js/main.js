@@ -17,8 +17,8 @@ requirejs.config({
 });
 
 require(
-['jaws', '$', 'DATABASE', 'states/load-state'],
-function (jaws, $, DATABASE, LoadState) {
+['jaws', '$', 'DATABASE', 'states/load-state', 'states/title-screen-state', 'states/death-screen-state', 'states/win-screen-state'],
+function (jaws, $, DATABASE, LoadState, TitleScreenState, DeathScreenState, WinScreenState) {
 
 	// Configure JawsJS
 	jaws.init({
@@ -89,13 +89,16 @@ function (jaws, $, DATABASE, LoadState) {
 		items: null,
 		// Reusable state instances.
 		states: {
-			load: new LoadState()
+			load:  new LoadState(),
+			title: new TitleScreenState(),
+			death: new DeathScreenState(),
+			win:   new WinScreenState()
 		}
 	};
 	
 	// Start main Game Loop.
 	jaws.start(
-		gameData.states.load,
+		gameData.states.title,
 		// Start-up Options
 		{
 			fps: 60
