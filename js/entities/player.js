@@ -1,6 +1,6 @@
 define(
-['jaws', 'DATABASE', 'lib/SAT', 'entities/character', 'ui/hud', 'entities/item', 'entities/lunge-attack'],
-function (jaws, DATABASE, SAT, Character, HUD, Item, LungeAttack) {
+['jaws', 'DATABASE', 'lib/SAT', 'entities/character', 'ui/hud', 'entities/item', 'entities/lunge-attack', 'entities/hookshot'],
+function (jaws, DATABASE, SAT, Character, HUD, Item, LungeAttack, Hookshot) {
 
 function Player (options) {           
 	var self = this;
@@ -148,7 +148,10 @@ Player.prototype.applyUseActiveItemInput = function() {
 		// Only use item if we're not attacking nor holding an attack.
 		if (!this.actionsQueued["holdAttack"] && !this.actionsQueued["attack"]) {
 			// Use active item.
-			this.useActiveItem();
+			//this.useActiveItem();
+			
+			// Debug: Use Hookshot from here, at least until we have a better place to queue the Hookshot from...
+			this.useHookshot();
 		}
 	}
 };
@@ -294,6 +297,53 @@ Player.prototype.lungeAttack = function () {
 		this.actionsQueued.attack.update();
 		// Let listeners know that we're attacking.
 		this.signals.gave.dispatch(this.actionsQueued.attack);
+		
+	}
+};
+
+Player.prototype.useHookshot = function () {
+	if(!this.actionsQueued["hooking"]) {
+		var angle = this.radianMap8D[this.bearing];
+		
+		var self = this;
+		this.actionsQueued["hooking"] = new Hookshot({
+			// Attacker
+			attacker: this,
+			// Attack angle
+			angle: angle,
+			// Callback
+			onFinish: function() {
+				// Destroy queued attack action and alert listeners.
+				self.actionsQueued["hooking"].signals.destroyed.dispatch(self.actionsQueued["hooking"]);
+				delete self.actionsQueued["hooking"];
+			}
+		});
+		
+		// Reset animation manually so attack always starts at frame 0.
+		this.animation.subsets["attack_S"].index = -1;
+		this.animation.subsets["attack_S"].current_tick = (new Date()).getTime();
+		this.animation.subsets["attack_S"].last_tick = (new Date()).getTime();
+		this.animation.subsets["attack_S"].sum_tick = 0;
+		
+		this.animation.subsets["attack_N"].index = -1;
+		this.animation.subsets["attack_N"].current_tick = (new Date()).getTime();
+		this.animation.subsets["attack_N"].last_tick = (new Date()).getTime();
+		this.animation.subsets["attack_N"].sum_tick = 0;
+		
+		this.animation.subsets["attack_W"].index = -1;
+		this.animation.subsets["attack_W"].current_tick = (new Date()).getTime();
+		this.animation.subsets["attack_W"].last_tick = (new Date()).getTime();
+		this.animation.subsets["attack_W"].sum_tick = 0;
+		
+		this.animation.subsets["attack_E"].index = -1;
+		this.animation.subsets["attack_E"].current_tick = (new Date()).getTime();
+		this.animation.subsets["attack_E"].last_tick = (new Date()).getTime();
+		this.animation.subsets["attack_E"].sum_tick = 0;
+		
+		// Update the attack right away, so it can start doing damage this turn.
+		this.actionsQueued["hooking"].update();
+		// Let listeners know that we're attacking.
+		this.signals.gave.dispatch(this.actionsQueued["hooking"]);
 		
 	}
 };
