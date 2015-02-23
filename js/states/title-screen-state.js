@@ -11,7 +11,7 @@ var TitleScreenState = function () {
 	};
 
 	this.update = function () {
-		if(this.checkGamepadInput()) this.checkKeyboardInput();
+		if(!this.checkGamepadInput()) this.checkKeyboardInput();
 	};
 
 	this.checkKeyboardInput = function () {
@@ -19,6 +19,7 @@ var TitleScreenState = function () {
 			jaws.switchGameState(gameData.states.load, {}, gameData);
 			return true;
 		}
+		return false;
 	};
 
 	this.checkGamepadInput = function () {
