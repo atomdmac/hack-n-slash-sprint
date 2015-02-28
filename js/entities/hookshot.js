@@ -30,6 +30,7 @@ function Hookshot (options) {
 	this.speed        = 12;
 	this.currentTime  = 0;
 	this.anchorEntity = null;
+	this.retracting   = false;
 	
 	// These options will not be able to be set if this constructor is being
 	// called as a means to extend it.
@@ -66,6 +67,7 @@ Hookshot.prototype.onCollision = function (entity, interest) {
 		if (!this.anchorEntity) {
 			this.anchorEntity = entity;
 			this.duration = this.currentTime * 2;
+			this.retracting = true;
 		}
 	}
 };
@@ -113,6 +115,10 @@ Hookshot.prototype.update = function () {
 		
 		this.attacker.moveTo(newAttackerCoords.x, newAttackerCoords.y);
 	}
+	else if (this.retracting) {
+		this.angle = Math.atan2(this.attacker.x - this.x, this.attacker.y - this.y);
+		this.move(this.angle, this.magnitude);	
+	}
 	else {
 		this.move(this.angle, this.magnitude);	
 	}
@@ -121,8 +127,16 @@ Hookshot.prototype.update = function () {
 	this.currentTime += 1;
 
 	// Check to see if the attack has finished yet or not.
-	if(this.currentTime >= this.duration) {
-		this.onFinish();
+	if (this.currentTime >= this.duration) {
+		if (!this.retracting) {
+			// The hookshot has fully extended without becoming anchored, so prepare to retract.
+			this.retracting = true;
+			this.duration = this.currentTime * 2;
+		}
+		else {
+			// The hookshot has fully retracted, so finish.
+			this.onFinish();
+		}
 	}
 };
 
