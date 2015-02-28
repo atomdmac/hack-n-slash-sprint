@@ -29,7 +29,7 @@ function Hookshot (options) {
 	this.duration     = 30;
 	this.speed        = 12;
 	this.currentTime  = 0;
-	this.hooked       = false;
+	this.anchorEntity = null;
 	
 	// These options will not be able to be set if this constructor is being
 	// called as a means to extend it.
@@ -63,15 +63,18 @@ Hookshot.prototype.onCollision = function (entity, interest) {
 		}));
 		*/
 		
-		if (!this.hooked) {
-			this.hooked = true;
+		if (!this.anchorEntity) {
+			this.anchorEntity = entity;
 			this.duration = this.currentTime * 2;
 		}
 	}
 };
 
 Hookshot.prototype.update = function () {
-	if (this.hooked) {
+	if (this.anchorEntity) {
+		
+		this.x = this.anchorEntity.x;
+		this.y = this.anchorEntity.y;
 		
 		var distancePoints = function ( xA, yA, xB, yB ){
 			var xDistance = Math.abs( xA - xB );
