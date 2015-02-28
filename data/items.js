@@ -39,6 +39,16 @@ function () {
 			anchor: [0.5, 0.5],
 			frame_size: [20, 20]
 		},
+		"Target": {
+			interaction: "lift",
+			label: "Target",
+			sprite_sheet: "assets/png/items/Target.png",
+			width: 28,
+			height: 28,
+			scale: 1,
+			anchor: [0.5, 0.5],
+			frame_size: [28, 28]
+		},
 		"Sword": {
 			label: "Sword",
 			sprite_sheet: "assets/png/items/Sword.png",

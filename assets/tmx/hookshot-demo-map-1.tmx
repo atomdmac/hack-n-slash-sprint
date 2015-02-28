@@ -22,9 +22,12 @@
    <image width="32" height="32" source="../png/entities/TiledEntities/Characters/Edge.png"/>
   </tile>
  </tileset>
- <tileset firstgid="261" name="Items" tilewidth="20" tileheight="20">
+ <tileset firstgid="261" name="Items" tilewidth="28" tileheight="28">
   <tile id="0">
    <image width="20" height="20" source="../png/items/ClayPot.png"/>
+  </tile>
+  <tile id="1">
+   <image width="28" height="28" source="../png/items/target.png"/>
   </tile>
  </tileset>
  <layer name="background" width="25" height="20">
@@ -46,11 +49,13 @@
     <property name="url" value="assets/tmx/hookshot-demo-map-2.tmx"/>
    </properties>
   </object>
-  <object type="Tellah" gid="259" x="353" y="286">
+  <object type="Tellah" gid="259" x="307" y="268">
    <properties>
     <property name="state" value="idle"/>
    </properties>
   </object>
+  <object name="Target" type="Item" gid="262" x="309" y="396"/>
+  <object name="Target" type="Item" gid="262" x="476" y="266"/>
  </objectgroup>
  <layer name="canopy" width="25" height="20">
   <data encoding="base64">
