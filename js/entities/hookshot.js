@@ -47,23 +47,9 @@ Hookshot.prototype = Object.create(Entity.prototype);
 Hookshot.prototype.onCollision = function (entity, interest) {
 	if (interest.name === "touch" &&
 		entity.hookable) {
-		/*
-		entity.addEffect(new Knockback({
-			// Target
-			target: entity,
-			// Angle
-			angle: this.angle,
-			// Force
-			force: this.magnitude * 1
-		}));
 		
-		entity.addEffect(new Invulnerability({
-			// Target
-			target: entity
-		}));
-		*/
-		
-		if (!this.anchorEntity) {
+		if (!this.anchorEntity &&
+			!this.retracting) {
 			this.anchorEntity = entity;
 			this.duration = this.currentTime * 2;
 			this.retracting = true;
