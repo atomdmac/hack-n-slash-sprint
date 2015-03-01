@@ -51,13 +51,21 @@ var TitleScreenState = function () {
 		ctx.textAlign = 'center';
 		ctx.textBaseline = 'top';
 
-		ctx.fillStyle = 'rgba(255, 255, 255, 0.25';
+		ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
 		ctx.font = '86px Arial';
 		ctx.fillText('Hello!', jaws.width / 2, jaws.height / 2 - 86);
 		
 		ctx.fillStyle = '#FFF';
 		ctx.font = '24px Arial';
 		ctx.fillText('Press ' + (gamepad ? 'Start' : 'Space') + ' to Begin', jaws.width / 2, jaws.height / 2);
+
+		ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
+		if (gamepad) {
+			ctx.fillText('Left stick to move    A to sword things    B to hook things', jaws.width / 2, jaws.height / 2 + 86);
+		}
+		else {
+			ctx.fillText('WASD to move    , to sword things    . to hook things', jaws.width / 2, jaws.height / 2 + 86);
+		}
 
 		ctx.restore();
 	};
