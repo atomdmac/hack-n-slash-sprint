@@ -27,7 +27,7 @@
    <image width="20" height="20" source="../png/items/ClayPot.png"/>
   </tile>
   <tile id="1">
-   <image width="28" height="28" source="../png/items/target.png"/>
+   <image width="28" height="28" source="../png/items/Target.png"/>
   </tile>
   <tile id="2">
    <image width="12" height="16" source="../png/items/HealthPotion.png"/>
