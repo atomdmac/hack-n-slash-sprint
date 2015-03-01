@@ -14,7 +14,8 @@ function () {
 				unequipped: [0,1]
 			},
 			radius: 8,
-			equipSlot: null
+			equipSlot: null,
+			mass: 0
 		},
 		"Health Potion": {
 			type: "resource",
@@ -27,7 +28,8 @@ function () {
 			height: 16,
 			scale: 1,
 			anchor: [0.5, 0.5],
-			frame_size: [12, 16]
+			frame_size: [12, 16],
+			hookable: true
 		},
 		"Clay Pot": {
 			interaction: "lift",
@@ -40,14 +42,15 @@ function () {
 			frame_size: [20, 20]
 		},
 		"Target": {
-			hookable: true,
 			label: "Target",
 			sprite_sheet: "assets/png/items/Target.png",
 			width: 28,
 			height: 28,
 			scale: 1,
 			anchor: [0.5, 0.5],
-			frame_size: [28, 28]
+			frame_size: [28, 28],
+			hookable: true,
+			mass: 300
 		},
 		"Sword": {
 			label: "Sword",

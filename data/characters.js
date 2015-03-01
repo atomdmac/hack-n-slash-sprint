@@ -82,7 +82,8 @@ return {
 			head: null,
 			ring: null,
 			amulet: null
-		}
+		},
+		mass: 1
 	},
 	"Chuck": {
 		label: "Chuck",
@@ -93,6 +94,7 @@ return {
 		sprite_sheet: "assets/png/entities/FF4_Edge.png"
 	},
 	"Tellah": {
+		hookable: true,
 		interaction: "lift",
 		label: "Tellah",
 		sprite_sheet: "assets/png/entities/FF4_Tellah.png"

@@ -44,6 +44,7 @@ function Entity(options) {
 		this.radius = this.options.radius;
 		this.interaction = this.options.interaction;
 		this.hookable = this.options.hookable;
+		this.mass = this.options.mass;
 	}
 }
 

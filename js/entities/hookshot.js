@@ -58,10 +58,8 @@ Hookshot.prototype.onCollision = function (entity, interest) {
 };
 
 Hookshot.prototype.update = function () {
-	if (this.anchorEntity) {
-		
-		this.x = this.anchorEntity.x;
-		this.y = this.anchorEntity.y;
+	if (this.anchorEntity &&
+		this.anchorEntity.mass > this.attacker.mass) {
 		
 		var distancePoints = function ( xA, yA, xB, yB ){
 			var xDistance = Math.abs( xA - xB );
@@ -82,6 +80,9 @@ Hookshot.prototype.update = function () {
 			return { x: xC, y: yC };
 		};
 		
+		this.x = this.anchorEntity.x;
+		this.y = this.anchorEntity.y;
+	
 		var distanceBetween = distancePoints(
 			this.attacker.x,
 			this.attacker.y,
@@ -89,7 +90,6 @@ Hookshot.prototype.update = function () {
 			this.y
 		);
 		var attackerDelta = distanceBetween / (this.duration - this.currentTime);
-		
 		var newAttackerCoords = coordinatesMediumPoint(
 			this.attacker.x,
 			this.attacker.y,
@@ -99,10 +99,18 @@ Hookshot.prototype.update = function () {
 		);
 		
 		this.attacker.moveTo(newAttackerCoords.x, newAttackerCoords.y);
+		
 	}
 	else if (this.retracting) {
 		this.angle = Math.atan2(this.attacker.x - this.x, this.attacker.y - this.y);
-		this.move(this.angle, this.magnitude);	
+		this.move(this.angle, this.magnitude);
+		
+		// Pull lightweight anchor toward the attacker.
+		if (this.anchorEntity &&
+			this.anchorEntity.mass <= this.attacker.mass) {
+			this.anchorEntity.x = this.x;
+			this.anchorEntity.y = this.y;
+		}
 	}
 	else {
 		this.move(this.angle, this.magnitude);	
