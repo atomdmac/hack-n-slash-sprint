@@ -31,6 +31,19 @@ function () {
 			frame_size: [12, 16],
 			hookable: true
 		},
+		"Cash Money": {
+			type: "resource",
+			label: "Cash Money",
+			sprite_sheet: "assets/png/items/CashMoney.png",
+			resources: {
+				currency: 10
+			},
+			width: 16,
+			height: 20,
+			scale: 1,
+			anchor: [0.5, 0.5],
+			frame_size: [16, 20]
+		},
 		"Clay Pot": {
 			interaction: "lift",
 			label: "Clay Pot",

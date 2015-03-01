@@ -32,6 +32,9 @@
   <tile id="2">
    <image width="12" height="16" source="../png/items/HealthPotion.png"/>
   </tile>
+  <tile id="3">
+   <image width="16" height="20" source="../png/items/CashMoney.png"/>
+  </tile>
  </tileset>
  <layer name="background" width="25" height="20">
   <data encoding="base64">
@@ -61,6 +64,7 @@
   <object name="Target" type="Item" gid="262" x="476" y="266"/>
   <object name="Health Potion" type="Item" gid="263" x="433" y="276"/>
   <object name="Clay Pot" type="Item" gid="261" x="313" y="127"/>
+  <object name="Cash Money" type="Item" gid="264" x="446" y="374"/>
  </objectgroup>
  <layer name="canopy" width="25" height="20">
   <data encoding="base64">

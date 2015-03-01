@@ -50,7 +50,8 @@ return {
 		resources: {
 			health: 100,
 			mana: 100,
-			stamina: 100
+			stamina: 100,
+			currency: 0
 		},
 		// TODO: Implement max regen, damage reduction, and penetration rates.
 		stats: {
