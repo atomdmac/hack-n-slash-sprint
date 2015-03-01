@@ -40,7 +40,7 @@ function () {
 			frame_size: [20, 20]
 		},
 		"Target": {
-			interaction: "lift",
+			hookable: true,
 			label: "Target",
 			sprite_sheet: "assets/png/items/Target.png",
 			width: 28,

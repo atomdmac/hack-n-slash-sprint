@@ -46,8 +46,7 @@ Hookshot.prototype = Object.create(Entity.prototype);
 
 Hookshot.prototype.onCollision = function (entity, interest) {
 	if (interest.name === "touch" &&
-		this.attacker.consider(entity) === "hostile" &&
-		!entity.invulnerable) {
+		entity.hookable) {
 		/*
 		entity.addEffect(new Knockback({
 			// Target
