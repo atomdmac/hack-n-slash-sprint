@@ -1,6 +1,6 @@
 define(
-['jaws', 'DATABASE', 'lib/SAT', 'entities/character', 'ui/hud', 'entities/item', 'entities/lunge-attack', 'entities/hookshot'],
-function (jaws, DATABASE, SAT, Character, HUD, Item, LungeAttack, Hookshot) {
+['jaws', 'DATABASE', 'lib/SAT', 'entities/character', 'ui/hud', 'entities/item', 'entities/lunge-attack', 'entities/hookshot', 'entities/aimer'],
+function (jaws, DATABASE, SAT, Character, HUD, Item, LungeAttack, Hookshot, Aimer) {
 
 function Player (options) {           
 	var self = this;
@@ -79,8 +79,14 @@ Player.prototype.applyMovementInput = function() {
 	if (!this.actionsQueued["attack"]) {
 		var analog = this.readMovementInput();
 		
-		this.move(this.getAngleOfAnalogs(analog),
-				  this.getMagnitudeOfAnalogs(analog));
+		if (this.actionsQueued["aim"]) {
+			this.actionsQueued["aim"].move(this.getAngleOfAnalogs(analog),
+										   this.getMagnitudeOfAnalogs(analog));
+		}
+		else {
+			this.move(this.getAngleOfAnalogs(analog),
+					  this.getMagnitudeOfAnalogs(analog));
+		}
 	}
 };
 
@@ -150,8 +156,31 @@ Player.prototype.applyUseActiveItemInput = function() {
 			// Use active item.
 			//this.useActiveItem();
 			
+			if (!this.actionsQueued["aim"]) {
+				// Create Aimer object, since we aren't already aiming.
+				this.actionsQueued["aim"] = new Aimer({
+					// Attacker
+					attacker: this
+				});
+				
+				// Update the aim right away.
+				this.actionsQueued["aim"].update();
+				// Let listeners know that we're aiming.
+				this.signals.gave.dispatch(this.actionsQueued["aim"]);
+			}
+		}
+	}
+	// Input is released
+	else {
+		// Trigger aimed items.
+		if (this.actionsQueued["aim"]) {
 			// Debug: Use Hookshot from here, at least until we have a better place to queue the Hookshot from...
 			this.useHookshot();
+			
+			// Destroy queued aim action and alert listeners.
+			this.actionsQueued["aim"].signals.destroyed.dispatch(this.actionsQueued["aim"]);
+			// Destroy aim object
+			delete this.actionsQueued["aim"];
 		}
 	}
 };
@@ -302,8 +331,9 @@ Player.prototype.lungeAttack = function () {
 };
 
 Player.prototype.useHookshot = function () {
-	if(!this.actionsQueued["hooking"]) {
-		var angle = this.radianMap8D[this.bearing];
+	if(this.actionsQueued["aim"] &&
+	   !this.actionsQueued["hooking"]) {
+		var angle = this.actionsQueued["aim"].angleTo();
 		
 		var self = this;
 		this.actionsQueued["hooking"] = new Hookshot({
@@ -318,27 +348,6 @@ Player.prototype.useHookshot = function () {
 				delete self.actionsQueued["hooking"];
 			}
 		});
-		
-		// Reset animation manually so attack always starts at frame 0.
-		this.animation.subsets["attack_S"].index = -1;
-		this.animation.subsets["attack_S"].current_tick = (new Date()).getTime();
-		this.animation.subsets["attack_S"].last_tick = (new Date()).getTime();
-		this.animation.subsets["attack_S"].sum_tick = 0;
-		
-		this.animation.subsets["attack_N"].index = -1;
-		this.animation.subsets["attack_N"].current_tick = (new Date()).getTime();
-		this.animation.subsets["attack_N"].last_tick = (new Date()).getTime();
-		this.animation.subsets["attack_N"].sum_tick = 0;
-		
-		this.animation.subsets["attack_W"].index = -1;
-		this.animation.subsets["attack_W"].current_tick = (new Date()).getTime();
-		this.animation.subsets["attack_W"].last_tick = (new Date()).getTime();
-		this.animation.subsets["attack_W"].sum_tick = 0;
-		
-		this.animation.subsets["attack_E"].index = -1;
-		this.animation.subsets["attack_E"].current_tick = (new Date()).getTime();
-		this.animation.subsets["attack_E"].last_tick = (new Date()).getTime();
-		this.animation.subsets["attack_E"].sum_tick = 0;
 		
 		// Update the attack right away, so it can start doing damage this turn.
 		this.actionsQueued["hooking"].update();
