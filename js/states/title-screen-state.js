@@ -61,10 +61,10 @@ var TitleScreenState = function () {
 
 		ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
 		if (gamepad) {
-			ctx.fillText('Left stick to move    A to sword things    B to hook things', jaws.width / 2, jaws.height / 2 + 86);
+			ctx.fillText('Left stick to move    A to sword things    B to hook things    X to lift things', jaws.width / 2, jaws.height / 2 + 86);
 		}
 		else {
-			ctx.fillText('WASD to move    , to sword things    . to hook things', jaws.width / 2, jaws.height / 2 + 86);
+			ctx.fillText('WASD to move    , to sword things    . to hook things    e to lift things', jaws.width / 2, jaws.height / 2 + 86);
 		}
 
 		ctx.restore();
