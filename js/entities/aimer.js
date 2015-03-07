@@ -163,32 +163,35 @@ Aimer.prototype.move = function (angle, magnitude) {
 
 Aimer.prototype.draw = function () {
 	/* DEBUG */
-	var context = jaws.context;
-
-	context.save();
+	// Only draw if coordinates are different from the attacker's.
+	if (this.x !== this.attacker.x &&
+		this.y !== this.attacker.y) {
+		var context = jaws.context;
 	
-	context.strokeStyle = 'rgba(0, 0, 0, 0.5)';
-	context.fillStyle = 'rgba(255, 255, 255, 0.2)';
-	context.lineWidth = 3;
-
-	context.beginPath();
-	context.arc(this.attacker.x, this.attacker.y, this.maxRange+this.radius, 0, 2 * Math.PI, false);
-	context.fill();
-	context.stroke();
+		context.save();
+		
+		context.strokeStyle = 'rgba(0, 0, 0, 0.5)';
+		context.fillStyle = 'rgba(255, 255, 255, 0.2)';
+		context.lineWidth = 3;
 	
-	context.beginPath();
-	context.moveTo(this.attacker.x, this.attacker.y);
-	context.lineTo(this.x, this.y);
-	context.stroke();
-	context.closePath();
+		context.beginPath();
+		context.arc(this.attacker.x, this.attacker.y, this.maxRange+this.radius, 0, 2 * Math.PI, false);
+		context.fill();
+		context.stroke();
+		
+		context.beginPath();
+		context.moveTo(this.attacker.x, this.attacker.y);
+		context.lineTo(this.x, this.y);
+		context.stroke();
+		context.closePath();
+		
+		context.beginPath();
+		context.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false);
+		context.fill();
+		context.stroke();
 	
-	context.beginPath();
-	context.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false);
-	context.fill();
-	context.stroke();
-
-	context.restore();
-	
+		context.restore();
+	}
 };
 
 return Aimer;
