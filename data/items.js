@@ -60,6 +60,7 @@ function () {
 			width: 28,
 			height: 28,
 			scale: 1,
+			radius: 14,
 			anchor: [0.5, 0.5],
 			frame_size: [28, 28],
 			hookable: true,
