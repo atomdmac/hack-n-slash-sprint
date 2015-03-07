@@ -33,6 +33,7 @@ function Aimer (options) {
 	this.timeLocked        = 0;
 	this.timeToUnlock      = 10;
 	this.magnitudeToUnlock = 0.8;
+	this.lockMagnitude     = 0.5;
 	
 	this.lastLocked        = null;
 	this.timeSinceLocked   = 0;
@@ -75,12 +76,12 @@ Aimer.prototype.update = function () {
 			}
 			// We are timelocked.
 			else {
-				// Decrement timelock, since magnitude was strong enough to break the lock.
+				// Increment timelock, since magnitude was strong enough to break the lock.
 				this.timeLocked++;
 				
-				// Reset position to locked target.
-				this.x = this.target.x;
-				this.y = this.target.y;
+				// Ease position to locked target.
+				var angleToTarget = Math.atan2(this.target.x - this.x, this.target.y - this.y);
+				this.move(angleToTarget, this.lockMagnitude);
 			
 				// Reset timeSinceLocked
 				this.timeSinceLocked = 0;
@@ -122,15 +123,13 @@ Aimer.prototype.move = function (angle, magnitude) {
 	var x = Math.sin(angle) * this.speed * magnitude;
 	var y = Math.cos(angle) * this.speed * magnitude;
 	
+	// Update magnitude for book keeping.
 	this.magnitude = magnitude;
 	
 	if (x !== 0 || y !== 0) {
-		// We aren't locked.
-		if (!this.target) {
-			// Apply movement.
-			this.x += x;
-			this.y += y;
-		}
+		// Apply movement.
+		this.x += x;
+		this.y += y;
 	}
 };
 
