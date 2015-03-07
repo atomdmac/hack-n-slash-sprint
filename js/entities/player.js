@@ -162,6 +162,7 @@ Player.prototype.applyUseActiveItemInput = function() {
 					// Attacker
 					attacker: this
 				});
+				this.actionsQueued["aim"].move(this.radianMap8D[this.bearing], 1);
 				
 				// Update the aim right away.
 				this.actionsQueued["aim"].update();
