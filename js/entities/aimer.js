@@ -39,6 +39,11 @@ function Aimer (options) {
 	this.timeSinceLocked   = 0;
 	this.timeBeforeRelock  = 15;
 	
+	// DEBUG
+	this.hookshotDuration     = 30;
+	this.hookshotSpeed        = 12;
+	this.maxRange     = this.hookshotDuration * this.hookshotSpeed;
+	
 	// These options will not be able to be set if this constructor is being
 	// called as a means to extend it.
 	if(this.options){
@@ -130,6 +135,29 @@ Aimer.prototype.move = function (angle, magnitude) {
 		// Apply movement.
 		this.x += x;
 		this.y += y;
+		
+		
+		
+		// DEBUG: Hacked this in to make Aimer react to hardcoded max range.
+		// TODO: Standardize the way aimable objects expose their max range and other properties to Aimer.
+		var distancePoints = function ( xA, yA, xB, yB ){
+			var xDistance = Math.abs( xA - xB );
+			var yDistance = Math.abs( yA - yB );
+		   
+			return Math.sqrt( Math.pow( xDistance, 2 ) + Math.pow( yDistance, 2 ) );
+		};
+		var distanceBetween = distancePoints(
+			this.attacker.x,
+			this.attacker.y,
+			this.x,
+			this.y
+		);
+		
+		// Undo movement if we've overextended our reach.
+		if (distanceBetween > this.maxRange) {
+			var newAngleToAttacker = Math.atan2(this.attacker.x - this.x, this.attacker.y - this.y);
+			this.move(newAngleToAttacker, 1);
+		}
 	}
 };
 
@@ -138,16 +166,25 @@ Aimer.prototype.draw = function () {
 	var context = jaws.context;
 
 	context.save();
-	context.strokeStyle = "gray";
+	
+	context.strokeStyle = 'rgba(0, 0, 0, 0.5)';
+	context.fillStyle = 'rgba(255, 255, 255, 0.2)';
 	context.lineWidth = 3;
 
 	context.beginPath();
+	context.arc(this.attacker.x, this.attacker.y, this.maxRange+this.radius, 0, 2 * Math.PI, false);
+	context.fill();
+	context.stroke();
 	
+	context.beginPath();
 	context.moveTo(this.attacker.x, this.attacker.y);
 	context.lineTo(this.x, this.y);
+	context.stroke();
+	context.closePath();
 	
+	context.beginPath();
 	context.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false);
-
+	context.fill();
 	context.stroke();
 
 	context.restore();
