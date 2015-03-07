@@ -153,16 +153,16 @@ Hookshot.prototype.draw = function () {
 	context.lineWidth = 3;
 
 	context.beginPath();
-	
 	context.moveTo(this.attacker.x, this.attacker.y);
 	context.lineTo(this.x, this.y);
+	context.stroke();
+	context.closePath();
 	
+	context.beginPath();
 	context.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false);
-
 	context.stroke();
 
 	context.restore();
-	
 };
 
 return Hookshot;
