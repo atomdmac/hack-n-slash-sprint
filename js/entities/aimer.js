@@ -164,7 +164,7 @@ Aimer.prototype.move = function (angle, magnitude) {
 Aimer.prototype.draw = function () {
 	/* DEBUG */
 	// Only draw if coordinates are different from the attacker's.
-	if (this.x !== this.attacker.x &&
+	if (this.x !== this.attacker.x ||
 		this.y !== this.attacker.y) {
 		var context = jaws.context;
 	
