@@ -94,7 +94,10 @@ MeleeAttack.prototype.draw = function() {
 	
 };
 
-MeleeAttack.prototype.onCollision = function (entity, interest) {
+MeleeAttack.prototype.onCollision = function (collision) {
+	var entity = collision.target,
+		interest = collision.interest;
+		
 	if (interest.name === "touch" &&
 		this.attacker.consider(entity) === "hostile" &&
 		!entity.invulnerable) {

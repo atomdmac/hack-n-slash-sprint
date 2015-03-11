@@ -358,7 +358,13 @@ Player.prototype.useHookshot = function () {
 	}
 };
 
-Player.prototype.onCollision = function (entity, interest) {
+Player.prototype.onCollision = function (collision) {
+	// TODO: Clean up these ad-hoc variables.
+	var entity = collision.target,
+		interest = collision.interest;
+
+		Character.prototype.onCollision.call(this, collision);
+
 	// On touch:
 	if (interest.name === "touch") {
 		// Consume resource items.

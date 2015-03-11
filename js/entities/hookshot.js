@@ -44,7 +44,10 @@ function Hookshot (options) {
 
 Hookshot.prototype = Object.create(Entity.prototype);
 
-Hookshot.prototype.onCollision = function (entity, interest) {
+Hookshot.prototype.onCollision = function (collision) {
+	// TODO: Clean-up these ad-hoc variables.
+	var entity   = collision.target,
+		interest = collision.interest;
 	if (interest.name === "touch" &&
 		entity.hookable) {
 		
