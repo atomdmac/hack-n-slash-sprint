@@ -22,8 +22,11 @@ Collider.prototype.update = function () {
 
 				var collisions = this._collideWithTerrain(this._terrainLayer, subscriber);
 				collisions.forEach(function (collision) {
-					subscriber.x -= collision.overlapX;
+					/*subscriber.x -= collision.overlapX;
 					subscriber.y -= collision.overlapY;
+					*/
+					collision.interest = interest;
+					subscriber.onCollision(collision);
 				});
 				return true;
 			}
@@ -35,7 +38,7 @@ Collider.prototype.update = function () {
 				var isCollision = false,
 				    a = interest.shape,
 					b = presence.presence.shape,
-					response = interest.response;
+					response = new SAT.Response(); // interest.response;
 				
 				a.pos.x = subscriber.x;
 				a.pos.y = subscriber.y;
@@ -62,7 +65,12 @@ Collider.prototype.update = function () {
 				// If the subscriber's interest collides with an entity's
 				// presence, notify the subscriber.
 				if(isCollision) {
-					subscriber.onCollision(presence.entity, interest);
+					subscriber.onCollision({
+						target  : presence.entity,
+						interest: interest,
+						overlapX: response.overlapX,
+						overlapY: response.overlaypY
+					});
 				}
 			}, this);
 		}, this);
@@ -211,7 +219,7 @@ Collider.prototype._collideWithTerrain = function (layer, obj) {
 			var col = __getResponse( tiles[i], obj );
 			if (col) {
 				cols.push({
-					tile: tiles[i],
+					target  : tiles[i],
 					overlapX: col.overlapV.x,
 					overlapY: col.overlapV.y
 				});

@@ -50,8 +50,16 @@ function Entity(options) {
 
 Entity.prototype = Object.create(jaws.Sprite.prototype);
 
-Entity.prototype.onCollision = function (entity, interest) {
-	// console.log(this.name, ' collides with ', entity.name, ' because of ', interest.name);
+Entity.prototype.onCollision = function (collision) {
+	switch(collision.interest.name) {
+		case 'terrain':
+			console.log('terrain collision');
+			this.x -= collision.overlapX;
+			this.y -= collision.overlapY;
+			break;
+		default:
+			// console.log('I am ' + this + ' and I seem to have run into a ', collision.interest);
+	}
 };
 
 Entity.prototype.update = function (entity, interest) {

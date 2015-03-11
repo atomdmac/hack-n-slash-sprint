@@ -36,7 +36,15 @@ NPC.prototype.update = function () {
 	this.decideNextAction();
 };
 
-NPC.prototype.onCollision = function (entity, interest) {
+NPC.prototype.onCollision = function (collision) {
+
+	// Call super.
+	Character.prototype.onCollision.call(this, collision);
+
+	// Temp variables while we transition to single 'collision' input object.
+	var entity   = collision.target,
+		interest = collision.interest;
+
 	//console.log(this.name, ' collides with ', entity.name, ' because of ', interest.name);
 	if (interest.name === this.currentPatrol && entity.patrolIndex === this.currentPatrolPointIndex) {
 		this.incrementPatrolPoint();

@@ -32,8 +32,8 @@ function Aimer (options) {
 	this.target            = null;
 	this.timeLocked        = 0;
 	this.timeToUnlock      = 10;
-	this.magnitudeToUnlock = 0.8;
-	this.lockMagnitude     = 0.5;
+	this.magnitudeToUnlock = 0.9;
+	this.lockMagnitude     = 0.2;
 	
 	this.lastLocked        = null;
 	this.timeSinceLocked   = 0;
@@ -53,7 +53,10 @@ function Aimer (options) {
 
 Aimer.prototype = Object.create(Entity.prototype);
 
-Aimer.prototype.onCollision = function (entity, interest) {
+Aimer.prototype.onCollision = function (collision) {
+	// TODO: Clean-up these ad-hoc variables.
+	var entity   = collision.target,
+		interest = collision.interest;
 	// TODO: React to different properties based on this.attacker's interests
 	// Debug: hardcoded use of entity.hookable for Hookshot aiming.
 	if (interest.name === "touch") {

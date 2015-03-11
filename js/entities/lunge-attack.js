@@ -41,7 +41,10 @@ function LungeAttack (options) {
 
 LungeAttack.prototype = Object.create(Entity.prototype);
 
-LungeAttack.prototype.onCollision = function (entity, interest) {
+LungeAttack.prototype.onCollision = function (collision) {
+	var entity   = collision.entity,
+		interest = collision.interest;
+
 	if (interest.name === "touch" &&
 		this.attacker.consider(entity) === "hostile" &&
 		!entity.invulnerable) {

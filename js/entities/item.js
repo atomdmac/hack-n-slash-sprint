@@ -12,6 +12,10 @@ function Item(options) {
 	this.presences.push.apply(this.presences, [
 		{name: 'touch', shape: new SAT.Circle(new SAT.Vector(this.x, this.y), this.options.radius)}
 	]);
+
+	this.interests.push.apply(this.interests, [
+		{name: 'terrain', shape: new SAT.Circle(new SAT.Vector(this.x, this.y), this.options.radius)}
+	]);
 	
 	// Reference to game world data.
 	this._gameData = this.options.gameData;
