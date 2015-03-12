@@ -22,7 +22,8 @@ function Hookshot (options) {
 	this.hitBox = new SAT.Circle(new SAT.Vector(this.x, this.y), this.options.radius);
 	
 	this.interests.push.apply(this.interests, [
-		{name: 'touch', shape: this.hitBox}
+		{name: 'touch', shape: this.hitBox},
+		{name: 'terrain', shape: this.hitBox}
 	]);
 	
 	// State
@@ -48,15 +49,27 @@ Hookshot.prototype.onCollision = function (collision) {
 	// TODO: Clean-up these ad-hoc variables.
 	var entity   = collision.target,
 		interest = collision.interest;
-	if (interest.name === "touch" &&
-		entity.hookable) {
-		
-		if (!this.anchorEntity &&
-			!this.retracting) {
-			this.anchorEntity = entity;
-			this.duration = this.currentTime * 2;
-			this.retracting = true;
-		}
+	
+	switch(interest.name) {
+		case 'touch':
+			// Anchor into entity and begin retracting.
+			if (entity.hookable &&
+				!this.anchorEntity &&
+				!this.retracting) {
+				this.anchorEntity = entity;
+				this.duration = this.currentTime * 2;
+				this.retracting = true;
+			}
+			break;
+		case 'terrain':
+			// Begin retracting.
+			if (!this.retracting) {
+				this.duration = this.currentTime * 2;
+				this.retracting = true;
+			}
+			break;
+		default:
+			// Do nothing.
 	}
 };
 
