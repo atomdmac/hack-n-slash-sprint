@@ -39,9 +39,9 @@ function ZoneSwitcher(options) {
 
 ZoneSwitcher.prototype = Object.create(Entity.prototype);
 
-ZoneSwitcher.prototype.onCollision = function (entity, interest) {
+ZoneSwitcher.prototype.onCollision = function (collision) {
 	// console.log(this.name, ' collides with ', entity.name, ' because of ', interest.name);
-	if (entity === this._gameData.player) this.signals.activated.dispatch(this);
+	if (collision.target === this._gameData.player) this.signals.activated.dispatch(this);
 };
 
 return ZoneSwitcher;
