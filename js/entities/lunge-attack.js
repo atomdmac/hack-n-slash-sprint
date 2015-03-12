@@ -42,7 +42,7 @@ function LungeAttack (options) {
 LungeAttack.prototype = Object.create(Entity.prototype);
 
 LungeAttack.prototype.onCollision = function (collision) {
-	var entity   = collision.entity,
+	var entity   = collision.target,
 		interest = collision.interest;
 
 	if (interest.name === "touch" &&
