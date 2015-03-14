@@ -1,6 +1,6 @@
 define(
-['jaws', '$', 'ui/paperdoll', 'ui/resources-hud', 'ui/stats-hud'],
-function (jaws, $, Paperdoll, ResourcesHUD, StatsHUD) {
+['jaws', '$', 'ui/paperdoll', 'ui/resources-hud', 'ui/stats-hud', 'ui/debug-hud'],
+function (jaws, $, Paperdoll, ResourcesHUD, StatsHUD, DebugHUD) {
 
 function HUD(options) {
 	
@@ -32,6 +32,10 @@ function HUD(options) {
 	this.stats = new StatsHUD(this.options);
 	this.$stats = $("<div class='hud-tile stats-tile'></div>")
 	.appendTo(this.$hudColumn1);
+	
+	this.debug = new DebugHUD(this.options);
+	this.$debug = $("<div class='hud-tile debug-tile'></div>")
+	.appendTo(this.$hudColumn1);
 }
 
 HUD.prototype = {};
@@ -59,6 +63,10 @@ HUD.prototype.draw = function () {
 					this.drawResources();
 					break;
 				
+				case "debug":
+					this.drawDebug();
+					break;
+				
 				default:
 					break;
 			}
@@ -79,6 +87,10 @@ HUD.prototype.drawResources = function () {
 
 HUD.prototype.drawStats = function () {
 	this.$stats.html(this.stats.getUI());
+};
+
+HUD.prototype.drawDebug = function () {
+	this.$debug.html(this.debug.getUI());
 };
 
 return HUD;

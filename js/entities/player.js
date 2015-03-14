@@ -40,6 +40,7 @@ function Player (options) {
 	this.hud = new HUD({
 		character: this
 	});
+	this.hud.debug._gameData = this._gameData;
 }
 
 Player.prototype = Object.create(Character.prototype);
@@ -73,6 +74,9 @@ Player.prototype.update = function () {
 	this.applyUseActiveItemInput();
 	this.applyInteractInput();
 	
+	
+	// Debug
+	this.hud.update("debug");
 };
 
 Player.prototype.applyMovementInput = function() {

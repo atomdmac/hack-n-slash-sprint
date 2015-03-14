@@ -1,7 +1,7 @@
 #hud {
     display: inline-block;
     position: absolute;
-    height: 600px;
+    height: 640px;
     background: #cccccc;
 }
 
@@ -33,6 +33,15 @@
     width: 256px;
 }
 .stats-hud ul {
+    list-style: none;
+    margin: 5px 0 0 0;
+    padding: 0;
+}
+
+.debug-tile {
+    width: 256px;
+}
+.debug-hud ul {
     list-style: none;
     margin: 5px 0 0 0;
     padding: 0;
