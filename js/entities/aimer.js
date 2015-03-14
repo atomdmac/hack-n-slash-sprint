@@ -49,6 +49,7 @@ function Aimer (options) {
 	// called as a means to extend it.
 	if(this.options){
 		this.attacker = this.options.attacker;
+		this.angle    = this.options.angle;
 	}
 }
 
@@ -76,40 +77,42 @@ Aimer.prototype.onCollision = function (collision) {
 };
 
 Aimer.prototype.update = function () {
-	this.angle = Math.atan2(this.attacker.x - this.x, this.attacker.y - this.y)+Math.PI;
-	
-	if (this.target) {
-		// We're locked, but we're pushing hard enough to get unlocked.
-		if (this.magnitude > this.magnitudeToUnlock) {
-			// We aren't timelocked.
-			if (this.timeLocked > this.timeToUnlock) {
-				this.unlock();
-			}
-			// We are timelocked.
-			else {
-				// Increment timelock, since magnitude was strong enough to break the lock.
-				this.timeLocked++;
+	if (this.activated) {
+		this.angle = Math.atan2(this.attacker.x - this.x, this.attacker.y - this.y)+Math.PI;
+		
+		if (this.target) {
+			// We're locked, but we're pushing hard enough to get unlocked.
+			if (this.magnitude > this.magnitudeToUnlock) {
+				// We aren't timelocked.
+				if (this.timeLocked > this.timeToUnlock) {
+					this.unlock();
+				}
+				// We are timelocked.
+				else {
+					// Increment timelock, since magnitude was strong enough to break the lock.
+					this.timeLocked++;
+					
+					// Ease position to locked target.
+					var angleToTarget = Math.atan2(this.target.x - this.x, this.target.y - this.y);
+					this.move(angleToTarget, this.lockMagnitude);
 				
-				// Ease position to locked target.
-				var angleToTarget = Math.atan2(this.target.x - this.x, this.target.y - this.y);
-				this.move(angleToTarget, this.lockMagnitude);
-			
+					// Reset timeSinceLocked
+					this.timeSinceLocked = 0;
+				}
+			}
+			else {
+				// Reset position to locked target.
+				this.x = this.target.x;
+				this.y = this.target.y;
+				
 				// Reset timeSinceLocked
 				this.timeSinceLocked = 0;
 			}
 		}
-		else {
-			// Reset position to locked target.
-			this.x = this.target.x;
-			this.y = this.target.y;
-			
-			// Reset timeSinceLocked
-			this.timeSinceLocked = 0;
+		
+		if (this.timeSinceLocked < this.timeBeforeRelock || this.magnitude < this.magnitudeToUnlock) {
+			this.timeSinceLocked++;
 		}
-	}
-	
-	if (this.timeSinceLocked < this.timeBeforeRelock || this.magnitude < this.magnitudeToUnlock) {
-		this.timeSinceLocked++;
 	}
 };
 

@@ -166,7 +166,7 @@ Player.prototype.applyUseActiveItemInput = function() {
 					// Attacker
 					attacker: this,
 					// Bearing
-					angle: this.bearing
+					angle: this.radianMap8D[this.bearing]
 				});
 				
 				// Update the aim right away.
