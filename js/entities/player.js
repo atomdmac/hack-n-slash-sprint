@@ -160,9 +160,10 @@ Player.prototype.applyUseActiveItemInput = function() {
 				// Create Aimer object, since we aren't already aiming.
 				this.actionsQueued["aim"] = new Aimer({
 					// Attacker
-					attacker: this
+					attacker: this,
+					// Bearing
+					angle: this.bearing
 				});
-				this.actionsQueued["aim"].move(this.radianMap8D[this.bearing], 1);
 				
 				// Update the aim right away.
 				this.actionsQueued["aim"].update();

@@ -28,6 +28,7 @@ function Aimer (options) {
 	// State
 	this.speed             = 5;
 	this.magnitude         = 0;
+	this.activated         = false;
 	
 	this.target            = null;
 	this.timeLocked        = 0;
@@ -60,7 +61,9 @@ Aimer.prototype.onCollision = function (collision) {
 	// TODO: React to different properties based on this.attacker's interests
 	// Debug: hardcoded use of entity.hookable for Hookshot aiming.
 	if (interest.name === "touch") {
-		if (entity.hookable && !this.target ) {
+		if (entity.hookable &&
+			entity != this.attacker &&
+			!this.target ) {
 			if (entity != this.lastLocked || this.timeSinceLocked >= this.timeBeforeRelock || this.magnitude === 0) {
 				// Lock on!
 				this.lockOnTo(entity);
@@ -135,11 +138,10 @@ Aimer.prototype.move = function (angle, magnitude) {
 	this.magnitude = magnitude;
 	
 	if (x !== 0 || y !== 0) {
+		this.activated = true;
 		// Apply movement.
 		this.x += x;
 		this.y += y;
-		
-		
 		
 		// DEBUG: Hacked this in to make Aimer react to hardcoded max range.
 		// TODO: Standardize the way aimable objects expose their max range and other properties to Aimer.
@@ -167,8 +169,7 @@ Aimer.prototype.move = function (angle, magnitude) {
 Aimer.prototype.draw = function () {
 	/* DEBUG */
 	// Only draw if coordinates are different from the attacker's.
-	if (this.x !== this.attacker.x ||
-		this.y !== this.attacker.y) {
+	if (this.activated) {
 		var context = jaws.context;
 	
 		context.save();
@@ -176,18 +177,23 @@ Aimer.prototype.draw = function () {
 		context.strokeStyle = 'rgba(0, 0, 0, 0.5)';
 		context.fillStyle = 'rgba(255, 255, 255, 0.2)';
 		context.lineWidth = 3;
-	
+		
+		// Draw outer max range circle.
 		context.beginPath();
 		context.arc(this.attacker.x, this.attacker.y, this.maxRange+this.radius, 0, 2 * Math.PI, false);
 		context.fill();
 		context.stroke();
 		
+		// Draw line from attacker, through this Aimer instance, to the max range.
+		var maxX = this.attacker.x + (Math.sin(this.angle) * (this.maxRange + this.radius));
+		var maxY = this.attacker.y + (Math.cos(this.angle) * (this.maxRange + this.radius));
 		context.beginPath();
 		context.moveTo(this.attacker.x, this.attacker.y);
-		context.lineTo(this.x, this.y);
+		context.lineTo(maxX, maxY);
 		context.stroke();
 		context.closePath();
 		
+		// Draw inner collision circle.
 		context.beginPath();
 		context.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false);
 		context.fill();
