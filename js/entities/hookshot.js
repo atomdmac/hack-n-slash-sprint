@@ -64,8 +64,11 @@ Hookshot.prototype.onCollision = function (collision) {
 		case 'terrain':
 			// Begin retracting.
 			if (!this.retracting) {
-				this.duration = this.currentTime * 2;
-				this.retracting = true;
+				if (collision.overlapX >= this.radius/2 ||
+					collision.overlapY >= this.radius/2) {
+					this.duration = this.currentTime * 2;
+					this.retracting = true;
+				}
 			}
 			break;
 		default:
