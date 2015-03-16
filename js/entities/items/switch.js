@@ -43,9 +43,20 @@ function Switch(options) {
 Switch.prototype = Object.create(Entity.prototype);
 
 Switch.prototype.onCollision = function (collision) {
-	if (collision.target.attacker &&
-		collision.target.attacker == this._gameData.player) {
-		this.toggleState();
+	switch(collision.interest.name) {
+		case 'terrain':
+			console.log('terrain collision');
+			this.x -= collision.overlapX;
+			this.y -= collision.overlapY;
+			break;
+		case 'touch':
+			if (collision.target.attacker &&
+				collision.target.attacker == this._gameData.player) {
+				this.toggleState();
+			}
+			break;
+		default:
+			// console.log('I am ' + this + ' and I seem to have run into a ', collision.interest);
 	}
 };
 
