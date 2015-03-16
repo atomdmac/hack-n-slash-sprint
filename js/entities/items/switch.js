@@ -43,7 +43,6 @@ function Switch(options) {
 Switch.prototype = Object.create(Entity.prototype);
 
 Switch.prototype.onCollision = function (collision) {
-	console.log(collision.target);
 	if (collision.target.attacker &&
 		collision.target.attacker == this._gameData.player) {
 		this.toggleState();
