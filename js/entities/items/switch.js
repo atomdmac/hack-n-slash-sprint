@@ -2,19 +2,22 @@ define(
 ['jaws', '$', 'DATABASE', 'entities/entity', 'lib/SAT'],
 function (jaws, $, DATABASE, Entity, SAT) {
 
-function Item(options) {
+function Switch(options) {
 	
 	this.options = $.extend({}, options);
 
 	// Call super-class.
 	Entity.call(this, this.options);
 	
+	this.hitBox = new SAT.Circle(new SAT.Vector(this.x, this.y), this.options.radius);
+	
 	this.presences.push.apply(this.presences, [
-		{name: 'touch', shape: new SAT.Circle(new SAT.Vector(this.x, this.y), this.options.radius)}
+		{name: 'touch', shape: this.hitBox}
 	]);
 
 	this.interests.push.apply(this.interests, [
-		{name: 'terrain', shape: new SAT.Circle(new SAT.Vector(this.x, this.y), this.options.radius)}
+		{name: 'terrain', shape: this.hitBox},
+		{name: 'touch', shape: this.hitBox}
 	]);
 	
 	// Reference to game world data.
@@ -31,49 +34,41 @@ function Item(options) {
 			subsets       : this.options.animationSubsets
 		});
 		
-		this.owner = null;
-		this.type = this.options.type;
 		this.sprite_sheet = this.options.sprite_sheet;
-		this.equipSlot = this.options.equipSlot;
-		this.attack = this.options.attack;
-		this.bonuses = this.options.bonuses;
-		this.resources = this.options.resources;
+		this.state = this.options.state ? this.options.state : "off";
 		this.passable = this.options.passable;
-		this.state = "unequipped";
 	}
 }
 
-Item.prototype = Object.create(Entity.prototype);
+Switch.prototype = Object.create(Entity.prototype);
 
-Item.prototype.update = function () {
+Switch.prototype.onCollision = function (collision) {
+	console.log(collision.target);
+	if (collision.target.attacker &&
+		collision.target.attacker == this._gameData.player) {
+		this.toggleState();
+	}
+};
+
+Switch.prototype.update = function () {
 	
 };
 
-Item.prototype.draw = function () {
+Switch.prototype.draw = function () {
 	this.setImage(this.animation.subsets[this.state].next());
 	// Call original Entity.draw() function.
 	Entity.prototype.draw.call(this);
 };
 
-Item.prototype.put = function () {
-	// TODO: Add a way to put items places, like in a container or tilemap?
-};
-
-Item.prototype.drop = function (x, y) {
-	this.move(x, y);
-};
-
-Item.prototype.take = function (newOwner) {
-	if (newOwner) {
-		this.owner = newOwner;
+Switch.prototype.toggleState = function () {
+	if (this.state === "off") {
+		this.state = "on";
+	}
+	else {
+		this.state = "off";
 	}
 };
 
-Item.prototype.move = function (x, y) {
-	this.x = x;
-	this.y = y;
-};
-
-return Item;
+return Switch;
 
 });

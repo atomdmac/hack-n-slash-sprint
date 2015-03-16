@@ -15,7 +15,8 @@ function () {
 			},
 			radius: 8,
 			equipSlot: null,
-			mass: 0
+			mass: 0,
+			passable: true
 		},
 		"Health Potion": {
 			type: "resource",
@@ -65,6 +66,22 @@ function () {
 			frame_size: [28, 28],
 			hookable: true,
 			mass: 300
+		},
+		"Switch": {
+			label: "Switch",
+			sprite_sheet: "assets/png/items/Switch.png",
+			width: 28,
+			height: 28,
+			scale: 1,
+			radius: 14,
+			anchor: [0.5, 0.5],
+			frame_size: [28, 28],
+			frame_duration: 100,
+			animationSubsets: {
+				off: [0,1],
+				on: [1,2]
+			},
+			passable: false
 		},
 		"Sword": {
 			label: "Sword",
