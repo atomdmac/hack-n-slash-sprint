@@ -29,6 +29,10 @@ function MeleeAttack (options) {
 		new SAT.Vector(0, 50)
 		]);
 	
+	this.presences.push.apply(this.presences, [
+		{name: 'touch', shape: this.hitBox}
+	]);
+	
 	this.interests.push.apply(this.interests, [
 		{name: 'touch', shape: this.hitBox}
 	]);
