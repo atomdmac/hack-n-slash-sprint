@@ -57,17 +57,16 @@ Hookshot.prototype.onCollision = function (collision) {
 	switch(interest.name) {
 		case 'touch':
 			// Anchor into entity and begin retracting.
-			if (entity.hookable &&
-				!this.anchorEntity &&
+			if (!this.anchorEntity &&
 				!this.retracting) {
-				
-				this.anchorTo(entity);
-				this.retract();
-				
-			}
-			else if (!entity.passable &&
-					 entity != this.attacker) {
-				this.retract();
+				if (entity.hookable) {
+					this.anchorTo(entity);
+					this.retract();
+				}
+				else if (!entity.passable &&
+						 entity != this.attacker) {
+					this.retract();
+				}
 			}
 			break;
 		case 'terrain':
