@@ -21,6 +21,10 @@ function Hookshot (options) {
 	
 	this.hitBox = new SAT.Circle(new SAT.Vector(this.x, this.y), this.options.radius);
 	
+	this.presences.push.apply(this.presences, [
+		{name: 'touch', shape: this.hitBox}
+	]);
+	
 	this.interests.push.apply(this.interests, [
 		{name: 'touch', shape: this.hitBox},
 		{name: 'terrain', shape: this.hitBox}
@@ -53,12 +57,16 @@ Hookshot.prototype.onCollision = function (collision) {
 	switch(interest.name) {
 		case 'touch':
 			// Anchor into entity and begin retracting.
-			if (entity.hookable &&
-				!this.anchorEntity &&
+			if (!this.anchorEntity &&
 				!this.retracting) {
-				this.anchorEntity = entity;
-				this.duration = this.currentTime * 2;
-				this.retracting = true;
+				if (entity.hookable) {
+					this.anchorTo(entity);
+					this.retract();
+				}
+				else if (!entity.passable &&
+						 entity != this.attacker) {
+					this.retract();
+				}
 			}
 			break;
 		case 'terrain':
@@ -66,8 +74,9 @@ Hookshot.prototype.onCollision = function (collision) {
 			if (!this.retracting) {
 				if (collision.overlapX >= this.radius/2 ||
 					collision.overlapY >= this.radius/2) {
-					this.duration = this.currentTime * 2;
-					this.retracting = true;
+					
+					this.retract();
+					
 				}
 			}
 			break;
@@ -161,6 +170,15 @@ Hookshot.prototype.move = function (angle, magnitude) {
 		this.x += x;
 		this.y += y;
 	}
+};
+
+Hookshot.prototype.anchorTo = function (target) {
+	this.anchorEntity = target;
+};
+
+Hookshot.prototype.retract = function () {
+	this.duration = this.currentTime * 2;
+	this.retracting = true;
 };
 
 Hookshot.prototype.draw = function () {

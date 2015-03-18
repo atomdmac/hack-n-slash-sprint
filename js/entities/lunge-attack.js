@@ -21,6 +21,10 @@ function LungeAttack (options) {
 	
 	this.hitBox = new SAT.Circle(new SAT.Vector(this.x, this.y), this.options.radius);
 	
+	this.presences.push.apply(this.presences, [
+		{name: 'touch', shape: this.hitBox}
+	]);
+	
 	this.interests.push.apply(this.interests, [
 		{name: 'touch', shape: this.hitBox}
 	]);

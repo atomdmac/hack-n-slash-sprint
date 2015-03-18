@@ -43,7 +43,8 @@ return {
 			
 			// Misc.
 			damage:       [28,29],
-			dead:         [29,30]
+			dead:         [29,30],
+			fall:         [30,36]
 		},
 		radius: 8,
 		bearing: "S",

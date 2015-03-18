@@ -38,6 +38,9 @@
   <tile id="3">
    <image width="16" height="20" source="../png/items/CashMoney.png"/>
   </tile>
+  <tile id="4">
+   <image width="28" height="27" source="../png/items/TiledPNGs/Switch.png"/>
+  </tile>
  </tileset>
  <layer name="background" width="24" height="20">
   <data encoding="base64">
@@ -68,6 +71,7 @@
   <object name="Health Potion" type="Item" gid="519" x="416" y="184"/>
   <object name="Clay Pot" type="Item" gid="517" x="360" y="400"/>
   <object name="Cash Money" type="Item" gid="520" x="376" y="144"/>
+  <object name="Switch" type="Switch" gid="521" x="280" y="520"/>
  </objectgroup>
  <layer name="canopy" width="24" height="20">
   <data encoding="base64">

@@ -1,6 +1,7 @@
 define(
-['jaws', '$', 'lib/signals', 'DATABASE', 'lib/SAT', 'collider', 'entities/entity', 'entities/player', 'entities/npc', 'entities/characters/tellah', 'entities/characters/edge', 'entities/item', 'entities/zone-switcher', 'entities/patrol-point'],
-function (jaws, $, signals, DATABASE, SAT, Collider, Entity, Player, NPC, Tellah, Edge, Item, ZoneSwitcher, PatrolPoint) {
+['jaws', '$', 'lib/signals', 'DATABASE', 'lib/SAT', 'collider', 'entities/entity', 'entities/player', 'entities/npc', 'entities/characters/tellah', 'entities/characters/edge', 'entities/item', 'entities/zone-switcher', 'entities/patrol-point', 'entities/items/switch'],
+function (jaws, $, signals, DATABASE, SAT, Collider, Entity, Player, NPC, Tellah, Edge, Item, ZoneSwitcher, PatrolPoint, Switch) {
+
 
 function GameWorld(gameData, readyCallback) {
 
@@ -174,6 +175,26 @@ GameWorld.prototype.generateMapObjects = function (map) {
 				// Instantiate new NPC.
 				mapObjects.push(new Edge(objectConfig));
 				
+				break;
+			case "Switch":
+				if (DATABASE.items[currentObject.name]) {
+					objectConfig = $.extend(true, 
+						{},
+						DATABASE.items["base"],
+						DATABASE.items[currentObject.name],
+						currentObject.properties,
+						{
+							x: currentObject.x,
+							y: currentObject.y
+						}
+					);
+					
+					// Attach game data *after* cloning so it is passed by reference.
+					objectConfig.gameData = this._gameData;
+					
+					mapObjects.push(new Switch(objectConfig));
+					
+				}
 				break;
 			case "Item":
 				if (DATABASE.items[currentObject.name]) {

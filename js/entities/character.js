@@ -115,7 +115,10 @@ Character.prototype.consider = function(targetEntity) {
 	if (targetEntity.race === this.race && targetEntity.alignment === this.alignment) {
 		return "friendly";
 	}
-	return "hostile";
+	else {
+		return "hostile";
+	}
+	return "neutral";
 };
 
 Character.prototype.applyStatChange = function (targetStat, modification) {

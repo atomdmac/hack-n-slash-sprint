@@ -38,6 +38,7 @@ function Item(options) {
 		this.attack = this.options.attack;
 		this.bonuses = this.options.bonuses;
 		this.resources = this.options.resources;
+		this.passable = this.options.passable;
 		this.state = "unequipped";
 	}
 }
