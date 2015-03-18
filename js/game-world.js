@@ -1,6 +1,6 @@
 define(
-['jaws', '$', 'lib/signals', 'DATABASE', 'lib/SAT', 'collider', 'entities/player', 'entities/npc', 'entities/characters/tellah', 'entities/characters/edge', 'entities/item', 'entities/zone-switcher', 'entities/patrol-point'],
-function (jaws, $, signals, DATABASE, SAT, Collider, Player, NPC, Tellah, Edge, Item, ZoneSwitcher, PatrolPoint) {
+['jaws', '$', 'lib/signals', 'DATABASE', 'lib/SAT', 'collider', 'entities/entity', 'entities/player', 'entities/npc', 'entities/characters/tellah', 'entities/characters/edge', 'entities/item', 'entities/zone-switcher', 'entities/patrol-point'],
+function (jaws, $, signals, DATABASE, SAT, Collider, Entity, Player, NPC, Tellah, Edge, Item, ZoneSwitcher, PatrolPoint) {
 
 function GameWorld(gameData, readyCallback) {
 
@@ -26,7 +26,7 @@ GameWorld.prototype.onMapParsed = function (map) {
 	console.log(map);
 	this._gameData.map = map;
 	this._gameData.layers = {
-		collision : map.layerAsTileMap('collision'),
+		collision : map.layerAsTileMap('collision', Entity),
 		canopy    : map.layerAsTileMap('canopy'),
 		terrain   : map.layerAsTileMap('terrain'),
 		background: map.layerAsTileMap('background')
