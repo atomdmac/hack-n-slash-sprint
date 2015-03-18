@@ -11,6 +11,8 @@ Collider.prototype.update = function () {
 	// For each subscriber that we're keeping track of...
 	this._subscribers.forEach( function (subscriber) {
 
+		var collisions = [];
+		
 		// For each subscribers' interest.
 		subscriber.interests.forEach( function (interest) {
 
@@ -20,15 +22,8 @@ Collider.prototype.update = function () {
 				// this interest.
 				if(!this._terrainLayer) return true;
 
-				var collisions = this._collideWithTerrain(this._terrainLayer, subscriber);
-				collisions.forEach(function (collision) {
-					/*subscriber.x -= collision.overlapX;
-					subscriber.y -= collision.overlapY;
-					*/
-					collision.interest = interest;
-					subscriber.onCollision(collision);
-				});
-				return true;
+				// Add collisions onto the 'collisions' array directly.
+				this._collideWithTerrain(this._terrainLayer, subscriber, interest, collisions);
 			}
 
 			// For each presence partaining to the subscriber's interest...
@@ -65,15 +60,19 @@ Collider.prototype.update = function () {
 				// If the subscriber's interest collides with an entity's
 				// presence, notify the subscriber.
 				if(isCollision) {
-					subscriber.onCollision({
+					collisions.push({
 						target  : presence.entity,
 						interest: interest,
 						overlapX: response.overlapX,
-						overlapY: response.overlaypY
+						overlapY: response.overlapY
 					});
 				}
 			}, this);
 		}, this);
+
+		// If any collisions occured, alert the subscribing entity.
+		if(collisions.length) subscriber.handleCollisions(collisions);
+
 	}, this);
 };
 
@@ -178,8 +177,13 @@ Collider.prototype._removeEntityPresence = function (entity, presence) {
 /*
  * Check for collisions between the given Object and any objects in the
  * given TileMap.
+ * @param layer - The layer to check for collisions on.
+ * @param obj   - The object to check for collisions against the layer with.
+ * @param interest - The interest associated with this type of collision.
+ * @param [collisionList] An optional array to concatonate collisions results on to.
  */
-Collider.prototype._collideWithTerrain = function (layer, obj) {
+ // TODO: How much sense does it really make to include interest and collisionList params here?
+Collider.prototype._collideWithTerrain = function (layer, obj, interest, collisionList) {
 	function __getResponse (tile, obj) {
 		// NOTE: Requires SAT.js.
 		var polygon = new SAT.Polygon(
@@ -212,7 +216,7 @@ Collider.prototype._collideWithTerrain = function (layer, obj) {
 	}
 
 	var tiles = layer.atRect(obj.rect()),
-		cols  = [];
+		cols  = collisionList || [];
 
 	for(var i=0, len=tiles.length; i<len; i++) {
 		if (!tiles[i].passable && tiles[i] !== obj) {
@@ -220,6 +224,7 @@ Collider.prototype._collideWithTerrain = function (layer, obj) {
 			if (col) {
 				cols.push({
 					target  : tiles[i],
+					interest: interest,
 					overlapX: col.overlapV.x,
 					overlapY: col.overlapV.y
 				});
