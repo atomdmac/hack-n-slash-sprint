@@ -1,12 +1,12 @@
 define(
-['jaws', 'DATABASE', 'lib/SAT', 'entities/item', 'entities/zone-switcher',
+['jaws', 'DATABASE', 'lib/tamepad', 'lib/SAT', 'entities/item', 'entities/zone-switcher',
  'states/play-menu-state'],
-function (jaws, DATABASE, SAT, Item, ZoneSwitcher, PlayMenuState) {
+function (jaws, DATABASE, Tamepad, SAT, Item, ZoneSwitcher, PlayMenuState) {
 
 function PlayState () {
 	// The current map.
 	// TODO: Clean up PlayState internal variable assignments.
-	var _gameData, map, player, viewport, gamepad, menu,
+	var _gameData, map, player, viewport, input, tamepad, menu,
 		entities=[], collidableEntities=[], layers={};
 
 	function onEntityGave (entity) {
@@ -71,6 +71,27 @@ function PlayState () {
 		});
 		
         jaws.preventDefaultKeys(["up", "down", "left", "right", "space", "esc"]);
+		
+		input = {
+			keyboard: {
+				"moveUp"   : "w",
+				"moveDown" : "s",
+				"moveLeft" : "a",
+				"moveRight": "d",
+				"attack": ",",
+				"useActiveItem": ".",
+				"interact": "e",
+				"pause": "esc"
+			},
+			gamepad: {
+				"move": "left",			// Assumes joystick
+				"attack": 0,			// A
+				"useActiveItem": 1,		// B
+				"interact": 2,			// X
+				"pause": 9				// Start
+			}
+		};
+		tamepad = new Tamepad();
 	};
 
 	this.update = function () {
@@ -105,20 +126,18 @@ function PlayState () {
 	};
 
 	this.checkKeyboardInput = function () {
-		if(jaws.pressed('esc')) {
+		if(jaws.pressed(input.keyboard["pause"])) {
 			jaws.switchGameState(menu, {}, _gameData);
 			return true;
 		}
 	};
 
 	this.checkGamepadInput = function () {
-		// Setup gamepad if not already done.
-		if (!gamepad && jaws.gamepads[0]) {
-			gamepad = jaws.gamepads[0]; // Only use first gamepad for now...
-		}
-		if(!gamepad) return false;
+		// Update tamepad.
+		// TODO: Don't require manual update to facilitate tamepad.pressedWithoutRepeat().
+		tamepad.update();
 		
-		if(gamepad.buttons[9].pressed) {
+		if(tamepad.pressedWithoutRepeat(input.gamepad["pause"])) {
 			jaws.switchGameState(menu, {}, _gameData);
 		}
 	};
