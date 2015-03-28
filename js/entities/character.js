@@ -1,6 +1,6 @@
 define(
-['jaws', '$', 'DATABASE', 'entities/entity', 'lib/SAT', 'entities/spells/shock-nova', 'entities/melee-attack', 'entities/effects/knockback'],
-function (jaws, $, DATABASE, Entity, SAT, ShockNova, MeleeAttack, Knockback) {
+['jaws', '$', 'lib/machina', 'DATABASE', 'entities/entity', 'lib/SAT', 'entities/spells/shock-nova', 'entities/melee-attack', 'entities/effects/knockback'],
+function (jaws, $, machina, DATABASE, Entity, SAT, ShockNova, MeleeAttack, Knockback) {
 
 function Character(options) {
 	
@@ -45,6 +45,43 @@ function Character(options) {
 	// Actions queued for this game simulation iteration.
 	this.actionsQueued = {};
 
+	// FSM
+	var self = this;
+	this.movementFsm = new machina.Fsm({
+		initialState: 'grounded',
+		states: {
+			'grounded': {
+				'collide': function (collisions) {
+					if(self.getChasmOverlap(collisions)) {
+						this.transition('falling');
+					}
+					// collisions.forEach(self.onCollision, self);
+				}
+			},
+			'falling': {
+				'spawn': function () {
+					this.transition(this.initialState);
+				},
+				'float': function () {
+					this.transition('floating');
+				},
+				'collide': function (collisions) {
+					var spr = self.animation.subsets['fall'].next();
+					self.setImage(spr);
+					if(!self.getChasmOverlap(collisions)) this.transition('grounded');
+				}
+			},
+			'floating': {
+				'spawn': function () {
+					this.transition(this.initialState);
+				},
+				'fall': function () {
+					this.transition('falling');
+				}
+			}
+		}
+	});
+
 	/*
 	 * Equipment, Stats, and Resourcing
 	 */
@@ -66,9 +103,12 @@ Character.prototype.update = function () {
 };
 
 Character.prototype.draw = function () {
-	
+
 	// Draw next animation frame (preferred order is top first).
-	if (this.actionsQueued.attack) {
+	if(this.movementFsm.state === 'falling') {
+
+	} 
+	else if (this.actionsQueued.attack) {
 		// Keep all attack animation frames in sync with each other. This is
 		// important for timing attacks when the Character's bearing changes.
 		this.animation.subsets["attack_S"].update();
@@ -97,6 +137,26 @@ Character.prototype.draw = function () {
 	// Clear dumb flags after drawing.
 	this.actionsQueued["move"] = false;
 	this.actionsQueued["damage"] = false;
+};
+
+Character.prototype.handleCollisions = function (collisions) {
+	this.movementFsm.handle('collide', collisions);
+};
+
+Character.prototype.getChasmOverlap = function (collisions) {
+	var overlap = {x:0, y: 0};
+
+	collisions.forEach(function (collision) {
+		if(collision.interest.name === 'terrain'){
+			if(collision.target.properties.chasm) {
+				overlap.x += Math.abs(collision.overlapX);
+				overlap.y += Math.abs(collision.overlapY);
+			}
+		}
+	});
+	if(overlap.x > 14 || overlap.y > 14) return true;
+	return false;
+
 };
 
 Character.prototype.radianMap8D = {

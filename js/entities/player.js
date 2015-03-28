@@ -1,6 +1,6 @@
 define(
-['jaws', 'DATABASE', 'lib/SAT', 'entities/character', 'ui/hud', 'entities/item', 'entities/lunge-attack', 'entities/hookshot', 'entities/aimer'],
-function (jaws, DATABASE, SAT, Character, HUD, Item, LungeAttack, Hookshot, Aimer) {
+['jaws', 'DATABASE', 'lib/SAT', 'lib/machina', 'entities/character', 'ui/hud', 'entities/item', 'entities/lunge-attack', 'entities/hookshot', 'entities/aimer'],
+function (jaws, DATABASE, SAT, machina, Character, HUD, Item, LungeAttack, Hookshot, Aimer) {
 
 function Player (options) {           
 	var self = this;

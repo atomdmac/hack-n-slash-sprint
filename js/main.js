@@ -3,8 +3,10 @@ requirejs.config({
 	paths: {
 		'$'       : 'lib/jquery',
 		'_'       : 'lib/lodash',
+		'lodash'  : 'lib/lodash',
 		'jaws'    : 'lib/jawsjs/jaws',
-		'DATABASE': '../data/database'
+		'DATABASE': '../data/database',
+		'machina': 'lib/machina'
 	},
 	shim: {
 		'jaws': {
