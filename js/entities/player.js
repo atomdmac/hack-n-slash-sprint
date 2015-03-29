@@ -21,11 +21,46 @@ function Player (options) {
 								 DATABASE.items[equipmentKey]));
 		item._gameData = this._gameData;
 		
-		// Put the loot in the game world
-		self.signals.gave.dispatch(item);
-		
 		// Equip item.
 		Character.prototype.equip.call(self, item.equipSlot, item);
+	});
+	
+	// Create hookshot and start listening for state transitions.
+	this.hookshot = new Hookshot({attacker: this});
+	this.hookshot.fsm.on('transition', function( data ) {
+		switch(data.fromState) {
+			case 'aiming':
+				self.bearingLocked = false;
+				self.setMaxSpeed(self.stats.runSpeed);
+				break;
+			case 'extending':
+			case 'retracting':
+				self.bearingLocked = false;
+				self.setMaxSpeed(self.stats.runSpeed);
+				break;
+			default:
+				// Do nothing.
+		}
+		
+		switch(data.toState) {
+			case 'idle':
+				// TODO: Find a better place trigger took.dispatch.
+				self.signals.took.dispatch(self.hookshot);
+				break;
+			case 'aiming':
+				// TODO: Find a better place trigger gave.dispatch.
+				self.signals.gave.dispatch(self.hookshot);
+				self.bearingLocked = true;
+				self.setMaxSpeed(self.stats.walkSpeed);
+				break;
+			case 'extending':
+			case 'retracting':
+				self.bearingLocked = true;
+				self.setMaxSpeed(0);
+				break;
+			default:
+				// Do nothing.
+		}
 	});
 	
 	// Controls
@@ -73,7 +108,6 @@ Player.prototype.update = function () {
 	this.applyAttackInput();
 	this.applyUseActiveItemInput();
 	this.applyInteractInput();
-	
 	
 	// Debug
 	this.hud.update("debug");
@@ -155,39 +189,15 @@ Player.prototype.applyUseActiveItemInput = function() {
 		jaws.gamepadButtonPressed(this.gamepadButtons["useActiveItem"])) ||
 		jaws.pressed(this.input.keyboard["useActiveItem"])) {
 		
-		// Only use item if we're not attacking nor holding an attack.
-		if (!this.actionsQueued["holdAttack"] && !this.actionsQueued["attack"]) {
-			// Use active item.
-			//this.useActiveItem();
-			
-			if (!this.actionsQueued["aim"]) {
-				// Create Aimer object, since we aren't already aiming.
-				this.actionsQueued["aim"] = new Aimer({
-					// Attacker
-					attacker: this,
-					// Bearing
-					angle: this.radianMap8D[this.bearing]
-				});
-				
-				// Update the aim right away.
-				this.actionsQueued["aim"].update();
-				// Let listeners know that we're aiming.
-				this.signals.gave.dispatch(this.actionsQueued["aim"]);
-			}
+		if(!this.occupied) {
+			var angle = this.radianMap8D[this.bearing];
+			this.hookshot.wield(angle);
 		}
 	}
 	// Input is released
 	else {
-		// Trigger aimed items.
-		if (this.actionsQueued["aim"]) {
-			// Debug: Use Hookshot from here, at least until we have a better place to queue the Hookshot from...
-			this.useHookshot();
-			
-			// Destroy queued aim action and alert listeners.
-			this.actionsQueued["aim"].signals.destroyed.dispatch(this.actionsQueued["aim"]);
-			// Destroy aim object
-			delete this.actionsQueued["aim"];
-		}
+		// Debug: Use Hookshot from here, at least until we have a better place to queue the Hookshot from...
+		this.hookshot.launch();
 	}
 };
 
@@ -332,33 +342,6 @@ Player.prototype.lungeAttack = function () {
 		this.actionsQueued.attack.update();
 		// Let listeners know that we're attacking.
 		this.signals.gave.dispatch(this.actionsQueued.attack);
-		
-	}
-};
-
-Player.prototype.useHookshot = function () {
-	if(this.actionsQueued["aim"] &&
-	   !this.actionsQueued["hooking"]) {
-		var angle = this.actionsQueued["aim"].angleTo();
-		
-		var self = this;
-		this.actionsQueued["hooking"] = new Hookshot({
-			// Attacker
-			attacker: this,
-			// Attack angle
-			angle: angle,
-			// Callback
-			onFinish: function() {
-				// Destroy queued attack action and alert listeners.
-				self.actionsQueued["hooking"].signals.destroyed.dispatch(self.actionsQueued["hooking"]);
-				delete self.actionsQueued["hooking"];
-			}
-		});
-		
-		// Update the attack right away, so it can start doing damage this turn.
-		this.actionsQueued["hooking"].update();
-		// Let listeners know that we're attacking.
-		this.signals.gave.dispatch(this.actionsQueued["hooking"]);
 		
 	}
 };

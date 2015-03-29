@@ -69,7 +69,9 @@ return {
 			penetrationMagic: 0,
 			movementSpeed: 1,
 			movementSpeedIncrease: 0,
-			maxMovementSpeed: 5
+			maxMovementSpeed: 5,
+			walkSpeed: 1,
+			runSpeed: 2.5
 		},
 		equipment: {
 			attack: null,

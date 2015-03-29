@@ -44,7 +44,7 @@ function Character(options) {
 	
 	// Actions queued for this game simulation iteration.
 	this.actionsQueued = {};
-
+	
 	// FSM
 	var self = this;
 	this.movementFsm = new machina.Fsm({
@@ -55,7 +55,9 @@ function Character(options) {
 					if(self.getChasmOverlap(collisions)) {
 						this.transition('falling');
 					}
-					// collisions.forEach(self.onCollision, self);
+					else {
+						collisions.forEach(self.onCollision, self);
+					}
 				}
 			},
 			'falling': {
@@ -91,6 +93,13 @@ function Character(options) {
 	
 	this.interactTarget = null;
 	this.carrying = null;
+	
+	
+	// Flags
+	this.bearingLocked = false;
+	this.occupied = false;
+	this.setMaxSpeed(this.stats.runSpeed);
+	
 }
 
 Character.prototype = Object.create(Entity.prototype);
@@ -253,41 +262,47 @@ Character.prototype.getSpeed = function (magnitude) {
 	var speed = this.stats.movementSpeed * (1 + this.stats.movementSpeedIncrease);
 	speed = magnitude ? speed * magnitude : 0;
 	
-	return speed < this.stats.maxMovementSpeed ? speed : this.stats.maxMovementSpeed;
+	return speed < this.getMaxSpeed() ? speed : this.getMaxSpeed();
 };
 
 Character.prototype.getMaxSpeed = function () {
 	return this.stats.maxMovementSpeed;
 };
 
+Character.prototype.setMaxSpeed = function (speed) {
+	this.stats.maxMovementSpeed = speed;
+};
+
 // Sets the character's bearing.
 // Direction can be a string ("E", "N", etc), or an angle in radians
 // TODO: Implement directions "SE", "NE", "NW", and "SW"
 Character.prototype.setBearing = function (direction) {
-	// Apply direction as string.
-	if (direction === "N" ||
-		direction === "E" ||
-		direction === "S" ||
-		direction === "W") {
-		this.bearing = direction;
-	}
-	// If direction isn't a string, just assume it's a radian.
-	else {
-		// TODO: Implement gamepad "wedges" to better detect bearing
-		var x = Math.sin(direction);
-		var y = Math.cos(direction);
-		
-		if (x < 0) {
-			this.bearing = "W";
+	if (!this.bearingLocked) {
+		// Apply direction as string.
+		if (direction === "N" ||
+			direction === "E" ||
+			direction === "S" ||
+			direction === "W") {
+			this.bearing = direction;
 		}
-		else if (x > 0) {
-			this.bearing = "E";
-		}
-		if (y < 0 && y < x) {
-			this.bearing = "N";
-		}
-		else if (y > 0 && y > x) {
-			this.bearing = "S";
+		// If direction isn't a string, just assume it's a radian.
+		else {
+			// TODO: Implement gamepad "wedges" to better detect bearing
+			var x = Math.sin(direction);
+			var y = Math.cos(direction);
+			
+			if (x < 0) {
+				this.bearing = "W";
+			}
+			else if (x > 0) {
+				this.bearing = "E";
+			}
+			if (y < 0 && y < x) {
+				this.bearing = "N";
+			}
+			else if (y > 0 && y > x) {
+				this.bearing = "S";
+			}
 		}
 	}
 };
