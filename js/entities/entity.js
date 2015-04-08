@@ -65,8 +65,7 @@ Entity.prototype.handleCollisions = function (collisions) {
 Entity.prototype.onCollision = function (collision) {
 	switch(collision.interest.name) {
 		case 'terrain':
-			// TODO: Allow passage over other passable, non-chasm terrain types.
-			if (!collision.target.properties.chasm) {
+			if(collision.target.properties.type === 'wall') {
 				this.x -= collision.overlapX;
 				this.y -= collision.overlapY;
 			}

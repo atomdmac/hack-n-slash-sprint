@@ -45,9 +45,10 @@ Switch.prototype = Object.create(Entity.prototype);
 Switch.prototype.onCollision = function (collision) {
 	switch(collision.interest.name) {
 		case 'terrain':
-			console.log('terrain collision');
-			this.x -= collision.overlapX;
-			this.y -= collision.overlapY;
+			if(collision.target.type === 'wall') {
+				this.x -= collision.overlapX;
+				this.y -= collision.overlapY;
+			}
 			break;
 		case 'touch':
 			if (collision.target.attacker &&

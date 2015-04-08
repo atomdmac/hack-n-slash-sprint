@@ -54,7 +54,7 @@ GameWorld.prototype.onMapParsed = function (map) {
 		this.collider.addEntity(entity);
 	}, this);
 	
-	this.collider.addTerrainLayer(this._gameData.layers.collision);
+	this.collider.addTerrainLayer(this._gameData.layers.background);
 	
 	this.readyCallback();
 };
