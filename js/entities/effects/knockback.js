@@ -5,6 +5,7 @@ function (jaws, DATABASE, Entity, SAT) {
 function Knockback (options) {
 	// Merge options
 	this.options = $.extend({
+						alpha: 0,
 						width: 1,
 						height: 1,
 						scale: 1,
