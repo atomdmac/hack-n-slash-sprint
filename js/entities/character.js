@@ -52,11 +52,9 @@ function Character(options) {
 		states: {
 			'grounded': {
 				'collide': function (collisions) {
-					if(self.getChasmOverlap(collisions)) {
+					collisions.forEach(self.onCollision, self);
+					if(self.shouldFall(collisions)) {
 						this.transition('falling');
-					}
-					else {
-						collisions.forEach(self.onCollision, self);
 					}
 				}
 			},
@@ -68,9 +66,12 @@ function Character(options) {
 					this.transition('floating');
 				},
 				'collide': function (collisions) {
+					collisions.forEach(self.onCollision, self);
+
 					var spr = self.animation.subsets['fall'].next();
 					self.setImage(spr);
-					if(!self.getChasmOverlap(collisions)) this.transition('grounded');
+					
+					if(!self.shouldFall(collisions)) this.transition('grounded');
 				}
 			},
 			'floating': {
@@ -152,20 +153,15 @@ Character.prototype.handleCollisions = function (collisions) {
 	this.movementFsm.handle('collide', collisions);
 };
 
-Character.prototype.getChasmOverlap = function (collisions) {
-	var overlap = {x:0, y: 0};
-
-	collisions.forEach(function (collision) {
-		if(collision.interest.name === 'terrain'){
-			if(collision.target.properties.chasm) {
-				overlap.x += Math.abs(collision.overlapX);
-				overlap.y += Math.abs(collision.overlapY);
-			}
+Character.prototype.shouldFall = function (collisions) {
+	var doFall = true;
+	collisions.forEach(function (col) {
+		if(col.interest.name === 'terrain' && col.target.properties.type === 'floor') {
+			doFall = false;
+			return false;
 		}
 	});
-	if(overlap.x > 14 || overlap.y > 14) return true;
-	return false;
-
+	return doFall;
 };
 
 Character.prototype.radianMap8D = {

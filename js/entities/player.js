@@ -76,46 +76,6 @@ function Player (options) {
 		character: this
 	});
 	this.hud.debug._gameData = this._gameData;
-
-	// FSM
-	var self = this;
-	this.movementFsm = new machina.Fsm({
-		initialState: 'grounded',
-		states: {
-			'grounded': {
-				'collide': function (collisions) {
-					collisions.forEach(self.onCollision, self);
-					if(self.shouldFall(collisions)) {
-						this.transition('falling');
-					}
-				}
-			},
-			'falling': {
-				'spawn': function () {
-					this.transition(this.initialState);
-				},
-				'float': function () {
-					this.transition('floating');
-				},
-				'collide': function (collisions) {
-					collisions.forEach(self.onCollision, self);
-
-					var spr = self.animation.subsets['fall'].next();
-					self.setImage(spr);
-					
-					if(!self.shouldFall(collisions)) this.transition('grounded');
-				}
-			},
-			'floating': {
-				'spawn': function () {
-					this.transition(this.initialState);
-				},
-				'fall': function () {
-					this.transition('falling');
-				}
-			}
-		}
-	});
 }
 
 Player.prototype = Object.create(Character.prototype);
@@ -384,21 +344,6 @@ Player.prototype.lungeAttack = function () {
 		this.signals.gave.dispatch(this.actionsQueued.attack);
 		
 	}
-};
-
-Player.prototype.shouldFall = function (collisions) {
-	var doFall = true;
-	collisions.forEach(function (col) {
-		if(col.interest.name === 'terrain' && col.target.properties.type === 'floor') {
-			doFall = false;
-			return false;
-		}
-	});
-	return doFall;
-};
-
-Player.prototype.handleCollisions = function (collisions) {
-	this.movementFsm.handle('collide', collisions);
 };
 
 Player.prototype.onCollision = function (collision) {
