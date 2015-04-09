@@ -45,7 +45,7 @@ Switch.prototype = Object.create(Entity.prototype);
 Switch.prototype.onCollision = function (collision) {
 	switch(collision.interest.name) {
 		case 'terrain':
-			if(collision.target.type === 'wall') {
+			if(collision.target.properties.type === 'wall') {
 				this.x -= collision.overlapX;
 				this.y -= collision.overlapY;
 			}
