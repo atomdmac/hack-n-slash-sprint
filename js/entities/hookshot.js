@@ -118,7 +118,7 @@ function Hookshot (options) {
 							break;
 						case 'terrain':
 							// TODO: Allow passage over other passable, non-chasm terrain types.
-							if (collision.target.properties.type === 'wall') {
+							if (collision.target.type === 'wall') {
 								// Begin retracting.
 								if (collision.overlapX >= self.radius/2 ||
 									collision.overlapY >= self.radius/2) {

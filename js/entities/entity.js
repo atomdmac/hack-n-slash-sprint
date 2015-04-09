@@ -65,7 +65,7 @@ Entity.prototype.handleCollisions = function (collisions) {
 Entity.prototype.onCollision = function (collision) {
 	switch(collision.interest.name) {
 		case 'terrain':
-			if(collision.target.properties.type === 'wall') {
+			if(collision.target.type === 'wall') {
 				this.x -= collision.overlapX;
 				this.y -= collision.overlapY;
 			}
