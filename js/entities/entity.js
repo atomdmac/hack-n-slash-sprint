@@ -14,6 +14,7 @@ function Entity(options) {
 	// Create Signals.
 	this.signals = {
 		collided      : new signals.Signal(),
+		fell          : new signals.Signal(),
 		gave          : new signals.Signal(),
 		took          : new signals.Signal(),
 		activated     : new signals.Signal(),
@@ -89,6 +90,7 @@ Entity.prototype.draw = function (entity, interest) {
 	
 Entity.prototype.destroy = function () {
 	// TODO: Do any clean-up necessary when an entity needs to be completely removed from the game.
+	this.alpha = 0;
 	this.signals.destroyed.dispatch(this);
 };
 

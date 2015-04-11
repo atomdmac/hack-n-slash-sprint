@@ -9,6 +9,10 @@ function PlayState () {
 	var _gameData, map, player, viewport, gamepad, menu,
 		entities=[], collidableEntities=[], layers={};
 
+	function onPlayerFell(player) {
+		jaws.switchGameState(_gameData.states.death);
+	}
+
 	function onEntityGave (entity) {
 		entity.signals.gave.add(onEntityGave);
 		entity.signals.took.add(onEntityTook);
@@ -63,12 +67,16 @@ function PlayState () {
 		// Create menu.
 		menu = new PlayMenuState({gameData:_gameData});
 
+		// Listen for entity events.
 		entities.forEach(function(entity) {
 			entity.signals.gave.add(onEntityGave);
 			entity.signals.took.add(onEntityTook);
 			entity.signals.activated.add(onEntityActivated);
 			entity.signals.destroyed.add(onEntityDestroyed);
 		});
+
+		// Listen for events from player.
+		player.signals.fell.add(onPlayerFell);
 		
         jaws.preventDefaultKeys(["up", "down", "left", "right", "space", "esc"]);
 	};

@@ -46,6 +46,8 @@ function Player (options) {
 			case 'idle':
 				// TODO: Find a better place trigger took.dispatch.
 				self.signals.took.dispatch(self.hookshot);
+				self.movementFsm.transition('grounded');
+
 				break;
 			case 'aiming':
 				// TODO: Find a better place trigger gave.dispatch.
@@ -57,6 +59,9 @@ function Player (options) {
 			case 'retracting':
 				self.bearingLocked = true;
 				self.setMaxSpeed(0);
+				if(self.hookshot.anchorEntity) {
+					self.movementFsm.transition('floating');
+				}
 				break;
 			default:
 				// Do nothing.

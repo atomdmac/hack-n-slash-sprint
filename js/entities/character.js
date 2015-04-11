@@ -68,8 +68,34 @@ function Character(options) {
 				'collide': function (collisions) {
 					collisions.forEach(self.onCollision, self);
 
-					var spr = self.animation.subsets['fall'].next();
-					self.setImage(spr);
+					if(self.animation.subsets['fall'].atLastFrame()) {
+
+						// Continue setting the image so we can display the last
+						// frame for it's full duration.  When we loop, we'll
+						// know that the animation has played all the way thru.
+						self.setImage(
+							self.animation.subsets['fall'].next()
+						);
+
+						// We've looped.  Time to die!
+						if(self.animation.subsets['fall'].atFirstFrame()) {
+							self.destroy();
+
+							// Wait a second before telling listeners that we've
+							// died.  They're going to be really sad... break it
+							// to them gently.
+							setTimeout(function() {
+								self.signals.fell.dispatch(self);
+							}, 1000);
+						}
+
+					} 
+
+					else {
+						self.setImage(
+							self.animation.subsets['fall'].next()
+						);
+					}
 					
 					if(!self.shouldFall(collisions)) this.transition('grounded');
 				}
