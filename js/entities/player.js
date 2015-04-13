@@ -37,6 +37,9 @@ function Player (options) {
 			case 'retracting':
 				self.bearingLocked = false;
 				self.setMaxSpeed(self.stats.runSpeed);
+				if(self.hookshot.anchorEntity && self.hookshot.anchorEntity.movementFsm) {
+					self.hookshot.anchorEntity.movementFsm.transition('grounded');
+				}
 				break;
 			default:
 				// Do nothing.
@@ -61,6 +64,9 @@ function Player (options) {
 				self.setMaxSpeed(0);
 				if(self.hookshot.anchorEntity) {
 					self.movementFsm.transition('floating');
+				}
+				if(self.hookshot.anchorEntity && self.hookshot.anchorEntity.movementFsm) {
+					self.hookshot.anchorEntity.movementFsm.transition('floating');
 				}
 				break;
 			default:

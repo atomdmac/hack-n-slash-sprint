@@ -56,6 +56,9 @@ function Character(options) {
 					if(self.shouldFall(collisions)) {
 						this.transition('falling');
 					}
+				},
+				'move': function (options) {
+					self.steer(options.angle, options.magnitude);
 				}
 			},
 			'falling': {
@@ -106,6 +109,9 @@ function Character(options) {
 				},
 				'fall': function () {
 					this.transition('falling');
+				},
+				'move': function (options) {
+					self.steer(options.angle, options.magnitude);
 				}
 			}
 		}
@@ -330,6 +336,10 @@ Character.prototype.setBearing = function (direction) {
 };
 
 Character.prototype.move = function (angle, magnitude) {
+	this.movementFsm.handle('move', {angle: angle, magnitude: magnitude});
+};
+
+Character.prototype.steer = function (angle, magnitude) {
 	var speed = this.getSpeed(magnitude);
 	var x = Math.sin(angle) * speed;
 	var y = Math.cos(angle) * speed;

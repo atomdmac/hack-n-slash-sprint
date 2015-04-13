@@ -45,6 +45,9 @@ function Hookshot (options) {
 		initialState: 'idle',
 		states: {
 			'idle': {
+				_onEnter: function () {
+					self.anchorEntity = null;
+				},
 				'wield': function (angle) {
 					self.angle = angle;
 					this.transition('aiming');
@@ -222,7 +225,6 @@ function Hookshot (options) {
 					
 					// Check to see if the attack has finished yet or not.
 					if (self.currentTime >= self.duration) {
-						self.anchorEntity = null;
 						this.transition('idle');
 					}
 				},
