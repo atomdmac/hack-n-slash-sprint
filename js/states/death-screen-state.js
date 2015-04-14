@@ -6,7 +6,10 @@ var DeathScreenState = function () {
 
 	var gameData, gamepad;
 
+	this.alpha = 0;
+
 	this.setup = function (_gameData) {
+		this.alpha = 0;
 		gameData = _gameData;
 	};
 
@@ -39,9 +42,16 @@ var DeathScreenState = function () {
 	};
 
 	this.draw = function () {
+
+		if(this.alpha<1) {
+			this.alpha += 0.01;
+			jaws.previous_game_state.draw();
+		}
+
 		var ctx = jaws.context;
 		ctx.save();
 
+		ctx.globalAlpha = this.alpha;
 		ctx.fillStyle = '#000';
 		ctx.beginPath();
 		ctx.rect(0, 0, jaws.width, jaws.height);
