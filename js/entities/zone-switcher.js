@@ -1,6 +1,6 @@
 define(
-['jaws', '$', 'DATABASE', 'lib/SAT', 'entities/entity', 'states/load-state'],
-function (jaws, $, DATABASE, SAT, Entity, LoadState) {
+['jaws', '$', 'DATABASE', 'lib/SAT', 'entities/entity'],
+function (jaws, $, DATABASE, SAT, Entity) {
 
 function ZoneSwitcher(options) {
 
