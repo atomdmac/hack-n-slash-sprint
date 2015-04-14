@@ -11,7 +11,7 @@ var DeathScreenState = function () {
 	};
 
 	this.update = function () {
-		if(this.checkGamepadInput()) this.checkKeyboardInput();
+		if(!this.checkGamepadInput()) this.checkKeyboardInput();
 	};
 
 	this.checkKeyboardInput = function () {
