@@ -19,7 +19,7 @@ function LoadState () {
 	 */
 	function _onGameWorldReady (map) {
 		// Switch to PlayState 
-		jaws.switchGameState(PlayState, {}, _gameData);
+		jaws.switchGameState(_gameData.states.play, {}, _gameData);
 	}
 
 	/**
