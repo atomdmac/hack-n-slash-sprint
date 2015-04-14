@@ -129,6 +129,16 @@ GameWorld.prototype.generateMapObjects = function (map) {
 					// Don't push the Player onto mapObjects here. We handle
 					// the Player elsewhere.
 					this._gameData.player = new Player(objectConfig);
+				} 
+
+				// Player already exists from previous map load.  Just reposition
+				// it based on the map's spawn point.  If a spawn position is
+				// defined in gameData, use it.
+				else {
+					this._gameData.player.spawn({
+						x: this._gameData.spawnX || currentObject.x + 13,
+						y: this._gameData.spawnY || currentObject.y - 8
+					});
 				}
 				
 				break;

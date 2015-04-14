@@ -10,7 +10,7 @@ function PlayState () {
 		entities=[], collidableEntities=[], layers={};
 
 	function onPlayerFell(player) {
-		jaws.switchGameState(_gameData.states.death);
+		jaws.switchGameState(_gameData.states.death, {}, _gameData);
 	}
 
 	function onEntityGave (entity) {
@@ -31,9 +31,13 @@ function PlayState () {
 
 	function onEntityActivated (entity) {
 		if(entity instanceof ZoneSwitcher) {
-			_gameData.player.x = entity.targetX || _gameData.player.x;
-			_gameData.player.y = entity.targetY || _gameData.player.y;
 			_gameData.url = entity.url;
+			
+			// If a new spawn position is given by the ZoneSwitcher, move the
+			// player to that position before changing maps.
+			_gameData.spawnX = entity.targetX || _gameData.player.x;
+			_gameData.spawnY = entity.targetY || _gameData.player.y;
+
 			jaws.switchGameState(_gameData.states.load , {}, _gameData);
 		}
 	}
