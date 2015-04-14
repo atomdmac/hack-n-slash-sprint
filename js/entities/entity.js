@@ -87,6 +87,12 @@ Entity.prototype.draw = function (entity, interest) {
 	// Call original Entity.draw() function.
 	jaws.Sprite.prototype.draw.call(this);
 };
+
+Entity.prototype.spawn = function (options) {
+	this.alpha = 1;
+	this.x = options.x || 0;
+	this.y = options.y || 0;
+};
 	
 Entity.prototype.destroy = function () {
 	// TODO: Do any clean-up necessary when an entity needs to be completely removed from the game.

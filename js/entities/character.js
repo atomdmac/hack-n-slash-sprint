@@ -181,6 +181,11 @@ Character.prototype.draw = function () {
 	this.actionsQueued["damage"] = false;
 };
 
+Character.prototype.spawn = function (options) {
+	this.movementFsm.handle('spawn');
+	Entity.prototype.spawn.call(this, options);
+};
+
 Character.prototype.handleCollisions = function (collisions) {
 	this.movementFsm.handle('collide', collisions);
 };
