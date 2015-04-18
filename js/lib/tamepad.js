@@ -103,11 +103,22 @@ var Tamepad = function () {
 	
 	// TODO: Register gamepad index with this Tamepad instance.
 	this.gamepad = gamepads[0]; // Debug: hardocded to first gamepad.
+	this.buttonsPressedWithoutRepeat = {};
+
+	if(!this.isConnected()) return;
 	
 	// select inputMap
 	this.inputMap = inputMap[this.gamepad.type];
 	
-	this.buttonsPressedWithoutRepeat = {};
+};
+
+Tamepad.prototype.isConnected = function () {
+	// Browser support for determinine if a gamepad is actually connected isn't
+	// great currently so we'll just check to make sure we have a Gamepad 
+	// object to work with.  
+	// TODO: Add better support for checking gamepad connection.
+	return typeof this.gamepad === 'undefined';
+
 };
 
 Tamepad.prototype.update = function() {
