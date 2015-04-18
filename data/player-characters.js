@@ -11,13 +11,15 @@ function () {
 					"moveRight": "d",
 					"attack": ",",
 					"useActiveItem": ".",
-					"interact": "e"
+					"interact": "e",
+					"pause": "esc"
 				},
 				gamepad: {
 					"move": "left",			// Assumes joystick
 					"attack": 0,			// A
 					"useActiveItem": 1,		// B
-					"interact": 2			// X
+					"interact": 2,			// X
+					"pause": 9				// Start
 				}
 			}
 		}
