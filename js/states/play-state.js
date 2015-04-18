@@ -81,6 +81,7 @@ function PlayState () {
 
 		// Listen for events from player.
 		player.signals.fell.add(onPlayerFell);
+		player.spawn({x:player.x,y:player.y});
 		
         jaws.preventDefaultKeys(["up", "down", "left", "right", "space", "esc"]);
 	};
