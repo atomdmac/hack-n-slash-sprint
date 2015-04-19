@@ -35,6 +35,7 @@ function Player (options) {
 			case 'swinging':
 			case 'charging':
 			case 'charged':
+			case 'lunging':
 				self.bearingLocked = false;
 				self.setMaxSpeed(self.stats.runSpeed);
 				break;
@@ -50,13 +51,11 @@ function Player (options) {
 				
 				break;
 			case 'swinging':
-				self.bearingLocked = true;
-				self.setMaxSpeed(0);
-				break;
 			case 'charging':
 			case 'charged':
+			case 'lunging':
 				self.bearingLocked = true;
-				self.setMaxSpeed(self.stats.walkSpeed);
+				self.setMaxSpeed(0);
 				break;
 			default:
 				// Do nothing.

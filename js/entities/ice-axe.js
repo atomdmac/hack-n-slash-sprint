@@ -42,14 +42,23 @@ function IceAxe (options) {
 	this.interests.push.apply(this.interests, [
 		{name: 'touch', shape: this.hitBox}
 	]);
-
+	
+	
+	this.jumpTarget = new SAT.Circle(new SAT.Vector(this.attacker.x, this.attacker.y), this.attacker.radius);
+	
+	
 	// State
 	this.duration      = 15;
-	this.angleRange    = 3.5;
+	this.angleRange    = 5;
 	this.angleStep     = (this.angleRange / this.duration);
 	this.isCharging    = false;
-	this.timeToCharged = 45;
+	this.timeToCharged = 30;
 	this.debugColor    = "green";
+	this.jumpDistance  = {x: 0, y: 0};
+	this.jumpCoords    = {x: this.x, y: this.y};
+	this.jumpPreviousMediumCoords = {x: -100, y: -100};
+	this.jumpDistancePerTick = 3;
+	this.maxJumpDistance = 150;
 	
 	// FSM
 	var self = this;
@@ -140,7 +149,7 @@ function IceAxe (options) {
 			},
 			'charging': {
 				'_onEnter': function() {
-					self.hitBox.setAngle(-self.angle);
+					
 				},
 				'update': function() {
 					self.x = self.hitBox.pos.x = self.attacker.x;
@@ -245,14 +254,27 @@ function IceAxe (options) {
 			'charged': {
 				'_onEnter': function() {
 					self.debugColor = "red";
+					self.jumpDistance = {x: 0, y: 0};
+					self.jumpCoords = {x: self.attacker.x, y: self.attacker.y};
 				},
 				'update': function() {
 					self.x = self.hitBox.pos.x = self.attacker.x;
 					self.y = self.hitBox.pos.y = self.attacker.y;
+					
+					console.log(self.angle);
+					console.log(self.jumpTarget.pos.x);
+					console.log(self.jumpTarget.pos.y);
+					
+					
+					if (self.jumpDistance.x*self.jumpDistance.x + self.jumpDistance.y*self.jumpDistance.y < self.maxJumpDistance*self.maxJumpDistance) {
+						self.jumpDistance.x += self.jumpDistancePerTick * Math.sin(self.angle);
+						self.jumpDistance.y += self.jumpDistancePerTick * Math.cos(self.angle);
+					}
+					
 				},
 				'release': function () {
 					self.isCharging = false;
-					this.transition('idle');
+					this.transition('lunging');
 				},
 				'collide': function (collision) {
 					self._handleCollision(collision);
@@ -285,22 +307,91 @@ function IceAxe (options) {
 					context.stroke();
 					context.fillStyle = self.debugColor;
 					context.fill();
+					context.closePath();
+					
+					context.beginPath();
+					context.strokeStyle = "gray";
+					context.fillStyle = "gray";
+					context.arc(self.attacker.x+self.jumpDistance.x, self.attacker.y+self.jumpDistance.y, self.attacker.radius, 0, 2 * Math.PI, false);
+					context.stroke();
+					context.fill();
 					
 					context.restore();
 				}
 			},
 			'lunging': {
 				'_onEnter': function() {
-					
-				},
-				'finishRetracting': function () {
-					
+					self.hitBox.setAngle(-self.angle);
+					self.jumpCoords = {x: self.attacker.x + self.jumpDistance.x, y: self.attacker.y + self.jumpDistance.y};
+					self.jumpPreviousMediumCoords = {x: -100, y: -100};
 				},
 				'update': function() {
+					self.x = self.hitBox.pos.x = self.attacker.x;
+					self.y = self.hitBox.pos.y = self.attacker.y;
 					
+					var coordinatesMediumPoint = function( xA, yA, xB, yB, distanceAC ){
+						var angleAB     = Math.atan2( ( yB - yA ), ( xB - xA ) );
+						var deltaXAC    = distanceAC * Math.cos( angleAB );
+						var deltaYAC    = distanceAC * Math.sin( angleAB );
+						
+						var xC          = xA + deltaXAC;
+						var yC          = yA + deltaYAC;
+					   
+						return { x: xC, y: yC };
+					};
+					
+					var newAttackerCoords = coordinatesMediumPoint(
+						self.attacker.x,
+						self.attacker.y,
+						self.jumpCoords.x,
+						self.jumpCoords.y,
+						self.jumpDistancePerTick*2
+					);
+					if (// We aren't so close that moving again would move us beyond the jumpCoords.
+						(Math.abs(self.attacker.x - self.jumpCoords.x) >= self.jumpDistancePerTick*2 ||
+						Math.abs(self.attacker.y - self.jumpCoords.y) >= self.jumpDistancePerTick*2)
+						// And we were able to execute the previous attempt to move without getting stuck on a wall or something.
+						// TODO: Find a cleaner way to make this check? Maybe the jump target should be an entity, so you can't even try jumping through walls?
+						&&
+						!(Math.abs(self.jumpPreviousMediumCoords.x - newAttackerCoords.x) < self.jumpDistancePerTick*2 &&
+						Math.abs(self.jumpPreviousMediumCoords.y - newAttackerCoords.y) < self.jumpDistancePerTick*2)
+						) {
+						
+						self.jumpPreviousMediumCoords = newAttackerCoords;
+						self.attacker.moveTo(newAttackerCoords.x, newAttackerCoords.y);
+					}
+					else {
+						this.transition('idle');
+					}
 				},
 				'draw': function() {
-					
+					/* DEBUG */
+					var context = jaws.context,
+						points  = self.hitBox.calcPoints,
+						i, ilen;
+				
+					context.save();
+					context.strokeStyle = self.debugColor;
+					context.lineWidth = 3;
+				
+					context.beginPath();
+					context.moveTo(
+						self.hitBox.pos.x + points[0].x, 
+						self.hitBox.pos.y + points[0].y
+					);
+					for(i=0, ilen=points.length; i<ilen; i++) {
+						context.lineTo(
+							self.hitBox.pos.x + points[i].x, 
+							self.hitBox.pos.y + points[i].y
+						);
+					}
+					context.lineTo(
+						self.hitBox.pos.x + points[0].x,
+						self.hitBox.pos.y + points[0].y
+					);
+					context.stroke();
+				
+					context.restore();
 				}
 			}
 		}
