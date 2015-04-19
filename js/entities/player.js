@@ -104,6 +104,7 @@ Player.prototype.update = function () {
 	/***********************************************************************
 	 * GAMEPAD INPUT
 	 **********************************************************************/ 
+	/*
 	if (!this.gamepad && jaws.gamepads[0]) {
 		this.gamepad = jaws.gamepads[0]; // Only use first gamepad for now...
 		
@@ -119,6 +120,7 @@ Player.prototype.update = function () {
 	this.applyAttackInput();
 	this.applyUseActiveItemInput();
 	this.applyInteractInput();
+	*/
 	
 	// Debug
 	this.hud.update("debug");

@@ -142,6 +142,15 @@ function PlayState () {
 			jaws.switchGameState(menu, {}, _gameData);
 			return true;
 		}
+
+		// Apply player movement.
+		var movementBearing = {x: 0, y:0};
+		if(jaws.pressed(input.keyboard['moveUp'])   ) movementBearing.y -= 1;
+		if(jaws.pressed(input.keyboard['moveDown']) ) movementBearing.y += 1;
+		if(jaws.pressed(input.keyboard['moveLeft']) ) movementBearing.x -= 1;
+		if(jaws.pressed(input.keyboard['moveRight'])) movementBearing.x += 1;
+		player.move(movementBearing);
+
 	};
 
 	this.checkGamepadInput = function () {
@@ -152,6 +161,12 @@ function PlayState () {
 		if(tamepad.pressedWithoutRepeat(input.gamepad["pause"])) {
 			jaws.switchGameState(menu, {}, _gameData);
 		}
+
+		// TODO: Move deadzone calculation out of PlayState.
+		var movementBearing = tamepad.readJoystickAngleMagnitude('left');
+
+		// Apply player movement input.
+		player.move(movementBearing);
 	};
 
 	this.draw = function () {
