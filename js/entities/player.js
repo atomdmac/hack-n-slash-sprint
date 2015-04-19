@@ -141,11 +141,9 @@ Player.prototype.applyMovementInput = function() {
 	}
 };
 
-Player.prototype.applyAttackInput = function() {
+Player.prototype.applyAttackInput = function(isAttacking) {
 	// Attack input is pressed
-	if ((this.gamepad !== null &&
-		jaws.gamepadButtonPressed(this.gamepadButtons["attack"])) ||
-		jaws.pressed(this.input.keyboard["attack"])) {
+	if (isAttacking) {
 		
 		// Charge count is 0.
 		if (this.chargeAttackCounter === 0) {
@@ -196,11 +194,9 @@ Player.prototype.applyAttackInput = function() {
 	}
 };
 
-Player.prototype.applyUseActiveItemInput = function() {
+Player.prototype.applyUseActiveItemInput = function(isUsing) {
 	// Use Active Item input is pressed.
-	if ((this.gamepad !== null &&
-		jaws.gamepadButtonPressed(this.gamepadButtons["useActiveItem"])) ||
-		jaws.pressed(this.input.keyboard["useActiveItem"])) {
+	if (isUsing) {
 		
 		if(!this.occupied) {
 			var angle = this.radianMap8D[this.bearing];
@@ -214,11 +210,9 @@ Player.prototype.applyUseActiveItemInput = function() {
 	}
 };
 
-Player.prototype.applyInteractInput = function() {
+Player.prototype.applyInteractInput = function(isInteracting) {
 	// Interact input is pressed.
-	if ((this.gamepad !== null &&
-		jaws.gamepadButtonPressed(this.gamepadButtons["interact"])) ||
-		jaws.pressed(this.input.keyboard["interact"])) {
+	if (isInteracting) {
 		
 		// Only interact if we're not attacking nor holding an attack.
 		if (!this.actionsQueued["holdAttack"] && !this.actionsQueued["attack"]) {

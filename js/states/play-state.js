@@ -151,6 +151,27 @@ function PlayState () {
 		if(jaws.pressed(input.keyboard['moveRight'])) movementBearing.x += 1;
 		player.move(movementBearing);
 
+		// Apply attack input.
+		if(jaws.pressed(input.keyboard['attack'])) {
+			player.applyAttackInput(true);
+		} else {
+			player.applyAttackInput(false);
+		}
+
+		// Apply item input.
+		if(jaws.pressed(input.keyboard['useActiveItem'])) {
+			player.applyUseActiveItemInput(true);
+		} else {
+			player.applyUseActiveItemInput(false);
+		}
+
+		// Apply interaction input.
+		if(jaws.pressedWithoutRepeat(input.keyboard['interact'])) {
+			player.applyInteractInput(true);
+		} else {
+			player.applyInteractInput(false);
+		}
+
 	};
 
 	this.checkGamepadInput = function () {
@@ -162,11 +183,31 @@ function PlayState () {
 			jaws.switchGameState(menu, {}, _gameData);
 		}
 
-		// TODO: Move deadzone calculation out of PlayState.
-		var movementBearing = tamepad.readJoystickAngleMagnitude('left');
-
 		// Apply player movement input.
+		var movementBearing = tamepad.readJoystickAngleMagnitude('left');
 		player.move(movementBearing);
+
+		// Apply attack input.
+		if(tamepad.pressed(input.gamepad['attack'])) {
+			player.applyAttackInput(true);
+		} else {
+			player.applyAttackInput(false);
+		}
+
+		// Apply item input.
+		if(tamepad.pressed(input.gamepad['useActiveItem'])) {
+			player.applyUseActiveItemInput(true);
+		} else {
+			player.applyUseActiveItemInput(false);
+		}
+
+		// Apply interaction input.
+		if(tamepad.pressedWithoutRepeat(input.gamepad['interact'])) {
+			player.applyInteractInput(true);
+		} else {
+			player.applyInteractInput(false);
+		}
+
 	};
 
 	this.draw = function () {
