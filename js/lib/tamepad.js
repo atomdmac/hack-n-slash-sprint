@@ -89,6 +89,12 @@ function updateGamepads() {
 	}
 }
 
+function applyDeadZones(gamepad, values) {
+	if(values.x > -gamepad.deadZoneX && values.x < gamepad.deadZoneX) values.x = 0;
+	if(values.y > -gamepad.deadZoneY && values.y < gamepad.deadZoneY) values.y = 0;
+	return values;
+}
+
 	
 /** @private
  * Start listening for gamepads.
@@ -104,6 +110,9 @@ var Tamepad = function () {
 	// TODO: Register gamepad index with this Tamepad instance.
 	this.gamepad = gamepads[0]; // Debug: hardocded to first gamepad.
 	this.buttonsPressedWithoutRepeat = {};
+
+	this.deadZoneX = 0.2;
+	this.deadZoneY = 0.2;
 
 	if(!this.isConnected()) return;
 	
@@ -152,27 +161,27 @@ Tamepad.prototype.pressedWithoutRepeat = function(button) {
 };
 
 Tamepad.prototype.readLeftJoystick = function () {
-	return {
+	return applyDeadZones(this, {
 		x: this.gamepad.axes[0],
 		y: this.gamepad.axes[1]
-	};
+	});
 };
 
 Tamepad.prototype.readRightJoystick = function () {
-	return {
+	return applyDeadZones(this, {
 		x: this.gamepad.axes[3],
 		y: this.gamepad.axes[4]
-	};
+	});
 };
 
 Tamepad.prototype.readJoystick = function(joystick) {
 	updateGamepads();
 	var mappings = this.inputMap.joysticks[joystick];
 	
-	return {
+	return applyDeadZones(this, {
 		x: this.gamepad.axes[mappings.x],
 		y: this.gamepad.axes[mappings.y]
-	};
+	});
 };
 
 Tamepad.prototype.readJoystickAngleMagnitude = function(joystick) {
