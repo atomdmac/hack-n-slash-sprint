@@ -117,7 +117,7 @@ Tamepad.prototype.isConnected = function () {
 	// great currently so we'll just check to make sure we have a Gamepad 
 	// object to work with.  
 	// TODO: Add better support for checking gamepad connection.
-	return typeof this.gamepad === 'undefined';
+	return typeof this.gamepad !== 'undefined';
 
 };
 
