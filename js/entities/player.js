@@ -1,6 +1,6 @@
 define(
-['jaws', 'DATABASE', 'lib/SAT', 'lib/machina', 'entities/character', 'ui/hud', 'entities/item', 'entities/lunge-attack', 'entities/hookshot', 'entities/aimer'],
-function (jaws, DATABASE, SAT, machina, Character, HUD, Item, LungeAttack, Hookshot, Aimer) {
+['jaws', 'DATABASE', 'lib/SAT', 'lib/machina', 'entities/character', 'ui/hud', 'entities/item', 'entities/lunge-attack', 'entities/hookshot', 'entities/ice-axe'],
+function (jaws, DATABASE, SAT, machina, Character, HUD, Item, LungeAttack, Hookshot, IceAxe) {
 
 function Player (options) {           
 	var self = this;
@@ -25,6 +25,43 @@ function Player (options) {
 		Character.prototype.equip.call(self, item.equipSlot, item);
 	});
 	
+	// Create ice axe and start listening for state transitions.
+	this.iceAxe = new IceAxe({attacker: this});
+	this.iceAxe.fsm.on('transition', function( data ) {
+		switch(data.fromState) {
+			case 'initializing':
+				
+				break;
+			case 'swinging':
+			case 'charging':
+			case 'charged':
+			case 'lunging':
+				self.bearingLocked = false;
+				self.setMaxSpeed(self.stats.runSpeed);
+				break;
+			default:
+				// Do nothing.
+		}
+		
+		switch(data.toState) {
+			case 'idle':
+				
+				break;
+			case 'initializing':
+				
+				break;
+			case 'swinging':
+			case 'charging':
+			case 'charged':
+			case 'lunging':
+				self.bearingLocked = true;
+				self.setMaxSpeed(0);
+				break;
+			default:
+				// Do nothing.
+		}
+	});
+	
 	// Create hookshot and start listening for state transitions.
 	this.hookshot = new Hookshot({attacker: this});
 	this.hookshot.fsm.on('transition', function( data ) {
@@ -47,14 +84,10 @@ function Player (options) {
 		
 		switch(data.toState) {
 			case 'idle':
-				// TODO: Find a better place trigger took.dispatch.
-				self.signals.took.dispatch(self.hookshot);
 				self.movementFsm.transition('grounded');
 
 				break;
 			case 'aiming':
-				// TODO: Find a better place trigger gave.dispatch.
-				self.signals.gave.dispatch(self.hookshot);
 				self.bearingLocked = true;
 				self.setMaxSpeed(self.stats.walkSpeed);
 				break;
@@ -93,6 +126,7 @@ Player.prototype = Object.create(Character.prototype);
 
 Player.prototype.draw = function () {
 	Character.prototype.draw.call(this);
+	
 	// Draw HUD
 	// this.hud.draw();
 };
@@ -126,6 +160,13 @@ Player.prototype.update = function () {
 	this.hud.update("debug");
 };
 
+Player.prototype.spawn = function (options) {
+	this.signals.gave.dispatch(this.hookshot);
+	this.signals.gave.dispatch(this.iceAxe);
+	
+	Character.prototype.spawn.call(this, options);
+};
+
 Player.prototype.applyMovementInput = function() {
 	if (!this.actionsQueued["attack"]) {
 		var analog = this.readMovementInput();
@@ -141,56 +182,19 @@ Player.prototype.applyMovementInput = function() {
 	}
 };
 
+
 Player.prototype.applyAttackInput = function(isAttacking) {
 	// Attack input is pressed
 	if (isAttacking) {
 		
-		// Charge count is 0.
-		if (this.chargeAttackCounter === 0) {
-			// Prepare attack data.
-			reach = 100;
-			startX = this.x;
-			startY = this.y;
-			endX = startX + reach * Math.sin(this.radianMap8D[this.bearing]);
-			endY = startY + reach * Math.cos(this.radianMap8D[this.bearing]);
-			
-			// Apply attack.
-			this.attack({
-				reach : reach,
-				startX: startX,
-				startY: startY,
-				endX  : endX,
-				endY  : endY,
-				angle : this.radianMap8D[this.bearing]
-			});
-			
-			// Increment charge counter.
-			this.chargeAttackCounter++;
-		}
-		else {
-			// Increment charge counter.
-			this.chargeAttackCounter++;
-			
-			// Show visual for holding the attack.
-			this.holdAttack();
-			
-			// Attack is finished charging and ready to release on next update.
-			if (this.chargeAttackCounter >= this.chargeAttackLimit) {
-				// TODO: Implement visual effect to show the attack is charged.
-			}
+		if(!this.occupied) {
+			var angle = this.radianMap8D[this.bearing];
+			this.iceAxe.initialize(angle);
 		}
 	}
+	// Input is released
 	else {
-		// We aren't holding the attack anymore.
-		this.releaseAttack();
-		
-		// Execute attack if charged.
-		if (this.chargeAttackCounter >= this.chargeAttackLimit) {
-			this.lungeAttack();
-		}
-		
-		// Reset charge count.
-		this.chargeAttackCounter = 0;
+		this.iceAxe.release();
 	}
 };
 
@@ -205,7 +209,6 @@ Player.prototype.applyUseActiveItemInput = function(isUsing) {
 	}
 	// Input is released
 	else {
-		// Debug: Use Hookshot from here, at least until we have a better place to queue the Hookshot from...
 		this.hookshot.launch();
 	}
 };

@@ -176,6 +176,8 @@ Tamepad.prototype.readRightJoystick = function () {
 
 Tamepad.prototype.readJoystick = function(joystick) {
 	updateGamepads();
+	if(!this.isConnected()) return {x: 0, y: 0};
+	
 	var mappings = this.inputMap.joysticks[joystick];
 	
 	return applyDeadZones(this, {
