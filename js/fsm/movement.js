@@ -7,9 +7,9 @@ var Movement = function (host) {
 host.movementFsm = new machina.Fsm({
 
 	// "Constants"
-	MAX_ACCEL: 1,
-	MAX_VEL: 10,
-	FRICTION: 0.5,
+	MAX_ACCEL: 2,
+	MAX_VEL: 2.5,
+	FRICTION: 0.8,
 
 	// Velocity
 	vx: 0,
@@ -76,7 +76,8 @@ host.movementFsm = new machina.Fsm({
 				if(!host.shouldFall(collisions)) this.transition('grounded');
 			},
 			'update': function () {
-				this.applyFriction();
+				this.applyFrictionX();
+				this.applyFrictionY();
 				this.update();
 			}
 		},
@@ -92,13 +93,14 @@ host.movementFsm = new machina.Fsm({
 			},
 			'update': function () {
 				// TODO: Should we *always* apply friction? or just when there's no movement input?
-				this.applyFriction();
+				this.applyFrictionX();
+				this.applyFrictionY();
 				this.update();
 			}
 		}
 	},
 
-	applyFriction: function () {
+	applyFrictionX: function () {
 		// X axis friction.
 		if (this.vx > 0) {
 			this.vx -= this.FRICTION;
@@ -108,10 +110,12 @@ host.movementFsm = new machina.Fsm({
 			this.vx += this.FRICTION;
 		}
 
-		if(Math.abs(this.vx - this.FRICTION) < this.FRICTION) {
+		if(Math.abs(this.vx) < this.FRICTION) {
 			this.vx = 0;
 		}
+	},
 
+	applyFrictionY: function () {
 		// Y axis this.friction.
 		if (this.vy > 0) {
 			this.vy -= this.FRICTION;
@@ -121,7 +125,7 @@ host.movementFsm = new machina.Fsm({
 			this.vy += this.FRICTION;
 		}
 
-		if(Math.abs(this.vy - this.FRICTION) < this.FRICTION) {
+		if(Math.abs(this.vy) < this.FRICTION) {
 			this.vy = 0;
 		}
 	},

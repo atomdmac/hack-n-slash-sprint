@@ -1,6 +1,6 @@
 define(
-['jaws', '$', 'lib/machina', 'DATABASE', 'entities/entity', 'lib/SAT', 'entities/spells/shock-nova', 'entities/melee-attack', 'entities/effects/knockback'],
-function (jaws, $, machina, DATABASE, Entity, SAT, ShockNova, MeleeAttack, Knockback) {
+['jaws', '$', 'lib/machina', 'DATABASE', 'entities/entity', 'lib/SAT', 'entities/spells/shock-nova', 'entities/melee-attack', 'entities/effects/knockback', 'fsm/movement'],
+function (jaws, $, machina, DATABASE, Entity, SAT, ShockNova, MeleeAttack, Knockback, MovementFsm) {
 
 function Character(options) {
 	
@@ -44,78 +44,9 @@ function Character(options) {
 	
 	// Actions queued for this game simulation iteration.
 	this.actionsQueued = {};
-	
-	// FSM
-	var self = this;
-	this.movementFsm = new machina.Fsm({
-		initialState: 'grounded',
-		states: {
-			'grounded': {
-				'collide': function (collisions) {
-					collisions.forEach(self.onCollision, self);
-					if(self.shouldFall(collisions)) {
-						this.transition('falling');
-					}
-				},
-				'move': function (options) {
-					self.steer(options.angle, options.magnitude);
-				}
-			},
-			'falling': {
-				'spawn': function () {
-					this.transition(this.initialState);
-				},
-				'float': function () {
-					this.transition('floating');
-				},
-				'collide': function (collisions) {
-					collisions.forEach(self.onCollision, self);
 
-					if(self.animation.subsets['fall'].atLastFrame()) {
-
-						// Continue setting the image so we can display the last
-						// frame for it's full duration.  When we loop, we'll
-						// know that the animation has played all the way thru.
-						self.setImage(
-							self.animation.subsets['fall'].next()
-						);
-
-						// We've looped.  Time to die!
-						if(self.animation.subsets['fall'].atFirstFrame()) {
-							self.destroy();
-
-							// Wait a second before telling listeners that we've
-							// died.  They're going to be really sad... break it
-							// to them gently.
-							setTimeout(function() {
-								self.signals.fell.dispatch(self);
-							}, 1000);
-						}
-
-					} 
-
-					else {
-						self.setImage(
-							self.animation.subsets['fall'].next()
-						);
-					}
-					
-					if(!self.shouldFall(collisions)) this.transition('grounded');
-				}
-			},
-			'floating': {
-				'spawn': function () {
-					this.transition(this.initialState);
-				},
-				'fall': function () {
-					this.transition('falling');
-				},
-				'move': function (options) {
-					self.steer(options.angle, options.magnitude);
-				}
-			}
-		}
-	});
+	// Apply movement FSM module.
+	MovementFsm(this);
 
 	/*
 	 * Equipment, Stats, and Resourcing
@@ -142,43 +73,27 @@ Character.prototype.update = function () {
 		this.carrying.x = this.x;
 		this.carrying.y = this.y - 30;
 	}
+	this.movementFsm.handle('update');
 };
 
 Character.prototype.draw = function () {
 
-	// Draw next animation frame (preferred order is top first).
-	if(this.movementFsm.state === 'falling') {
+	// If falling...
+	// TODO: Movement FSM handles setImage in these cases.  Yes, it's gross.  Fix it, please.
+	if(this.movementFsm.state === 'falling') {}
 
-	} 
-	else if (this.actionsQueued.attack) {
-		// Keep all attack animation frames in sync with each other. This is
-		// important for timing attacks when the Character's bearing changes.
-		this.animation.subsets["attack_S"].update();
-		this.animation.subsets["attack_N"].update();
-		this.animation.subsets["attack_W"].update();
-		this.animation.subsets["attack_E"].update();
-		// Draw current frame for current bearing.
-		this.setImage(this.animation.subsets["attack_" + this.bearing].currentFrame());
-	}
-	else if (this.actionsQueued["holdAttack"]) {
-		this.setImage(this.animation.subsets["attackHold_" + this.bearing].currentFrame());
-	}
-	else if (this.actionsQueued["damage"]) {
-		this.setImage(this.animation.subsets["damage"].next());
-	}
-	else if (this.actionsQueued["move"]) {
+	// If moving...
+	else if(this.movementFsm.vx !== 0 || this.movementFsm.vy !== 0) {
 		this.setImage(this.animation.subsets["walk_" + this.bearing].next());
-	}
+	} 
+
+	// If idle...
 	else {
 		this.setImage(this.animation.subsets["idle_" + this.bearing].next());
 	}
 	
 	// Call original Entity.draw() function.
 	Entity.prototype.draw.call(this);
-	
-	// Clear dumb flags after drawing.
-	this.actionsQueued["move"] = false;
-	this.actionsQueued["damage"] = false;
 };
 
 Character.prototype.spawn = function (options) {
@@ -340,8 +255,32 @@ Character.prototype.setBearing = function (direction) {
 	}
 };
 
-Character.prototype.move = function (angle, magnitude) {
-	this.movementFsm.handle('move', {angle: angle, magnitude: magnitude});
+/*Character.prototype.move = function (angle, magnitude) {
+	// var speed = this.getSpeed(magnitude);
+	var x = Math.sin(angle) * magnitude; // * speed;
+	var y = Math.cos(angle) * magnitude; // * speed;
+
+	this.movementFsm.handle('move', {
+		x: x,
+		y: y
+	});
+};*/
+Character.prototype.move = function (bearing) {
+	this.movementFsm.handle('move', bearing);
+
+	var x = bearing.x, y = bearing.y;
+	if (x < 0 && Math.abs(x) > Math.abs(y)) {
+		this.setBearing("W");
+	}
+	else if (x > 0 && Math.abs(x) > Math.abs(y)) {
+		this.setBearing("E");
+	}
+	if (y < 0 && Math.abs(x) <= Math.abs(y)) {
+		this.setBearing("N");
+	}
+	else if (y > 0 && Math.abs(x) <= Math.abs(y)) {
+		this.setBearing("S");
+	}
 };
 
 Character.prototype.steer = function (angle, magnitude) {
@@ -350,7 +289,7 @@ Character.prototype.steer = function (angle, magnitude) {
 	var y = Math.cos(angle) * speed;
 	
 	if (x !== 0 || y !== 0) {
-		this.actionsQueued["move"] = true;    
+		this.actionsQueued["move"] = true;
 		
 		this.x += x;
 		this.y += y;
