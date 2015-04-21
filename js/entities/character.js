@@ -13,7 +13,6 @@ function Character(options) {
 	this.alignment = null;
 	
 	this.interests.push.apply(this.interests, [
-		{name: 'sight', shape: new SAT.Circle(new SAT.Vector(this.x, this.y), 500)},
 		{name: 'terrain', shape: new SAT.Circle(new SAT.Vector(this.x, this.y), this.options.radius)},
 		{name: 'touch', shape: new SAT.Circle(new SAT.Vector(this.x, this.y), this.options.radius)}
 	]);

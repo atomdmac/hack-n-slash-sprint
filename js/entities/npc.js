@@ -14,6 +14,35 @@ function NPC (options) {
 		},
 		options
 	);
+	
+	
+		// Field of Vision funsies
+	this.fov = new SAT.Polygon(new SAT.Vector(this.x, this.y),
+		[
+		new SAT.Vector(16, 0),
+		new SAT.Vector(32, 16),
+		new SAT.Vector(64, 64),
+		new SAT.Vector(64, 96),
+		new SAT.Vector(48, 112),
+		new SAT.Vector(16, 128),
+		
+		new SAT.Vector(-16, 128),
+		new SAT.Vector(-48, 112),
+		new SAT.Vector(-64, 96),
+		new SAT.Vector(-64, 64),
+		new SAT.Vector(-32, 16),
+		new SAT.Vector(-16, 0)
+		]);
+	this.fov.translate(0, -8); // offset from the character a touch
+	
+	
+	
+	this.interests.push.apply(this.interests, [
+		{name: 'sight', shape: this.fov}
+	]);
+	
+	
+	
 	this.state = this.options.state;
 	this.isDistracted = false;
 	this.distractionRate = options.distractionRate;
@@ -34,6 +63,43 @@ NPC.prototype = Object.create(Character.prototype);
 NPC.prototype.update = function () {
 	Character.prototype.update.call(this);
 	this.decideNextAction();
+	this.seekTarget = null; // Forget seekTarget until next collision.
+	
+	// Update FOV angle to match bearing.
+	this.fov.setAngle(-this.radianMap8D[this.bearing]);
+};
+
+NPC.prototype.draw = function () {
+	// Call super.
+	Character.prototype.draw.call(this);
+	
+	/* DEBUG: Draw FoV */
+	var context = jaws.context,
+		points  = this.fov.calcPoints,
+		i, ilen;
+
+	context.save();
+	context.strokeStyle = "black";
+	context.lineWidth = 3;
+
+	context.beginPath();
+	context.moveTo(
+		this.fov.pos.x + points[0].x, 
+		this.fov.pos.y + points[0].y
+	);
+	for(i=0, ilen=points.length; i<ilen; i++) {
+		context.lineTo(
+			this.fov.pos.x + points[i].x, 
+			this.fov.pos.y + points[i].y
+		);
+	}
+	context.lineTo(
+		this.fov.pos.x + points[0].x,
+		this.fov.pos.y + points[0].y
+	);
+	context.stroke();
+
+	context.restore();
 };
 
 NPC.prototype.onCollision = function (collision) {
@@ -51,7 +117,6 @@ NPC.prototype.onCollision = function (collision) {
 	}
 	
 	if (interest.name === "sight" &&
-		this.state === "patrol" &&
 		this.consider(entity) === "hostile" &&
 		!this.seekTarget) {
 		
@@ -60,16 +125,9 @@ NPC.prototype.onCollision = function (collision) {
 			this.state = "patrol";
 		}
 		else {
-			// Round position values to prevent lineOfSight from breaking.
-			var startPos = [Math.round(this.x)  , Math.round(this.y)],
-				endPos   = [Math.round(entity.x), Math.round(entity.y)],
-				collisionLayer = this._gameData.layers.collision;
-	
-			// If we can see the entity, update our seek target.
-			if(collisionLayer.lineOfSight(startPos, endPos)) {
-				this.state = "seek";
-				this.seekTarget = entity;
-			}
+			// Seek target
+			this.state = "seek";
+			this.seekTarget = entity;
 		}
 	}
 	
@@ -105,13 +163,6 @@ NPC.prototype.rollForDistraction = function(distractionRateMultiplier) {
 		this.isDistracted = false;
 	}
 };
-
-// TODO: Move getDistance to someplace that makes sense.
-function getDistance (pt1, pt2) {
-	var dx = pt1[0] - pt2[0],
-		dy = pt1[1] - pt2[1];
-	return Math.sqrt((dx * dx) + (dy * dy));
-}
 
 NPC.prototype.decideNextAction = function() {
 	// Do nothing if dead.
@@ -193,7 +244,7 @@ NPC.prototype.seek = function (destination) {
 		angle : angleToTarget
 	};
 
-	this.move(this.courseOfAction.move.angle,
+	this.steer(this.courseOfAction.move.angle,
 					  this.courseOfAction.move.magnitude);
 };
 
