@@ -183,7 +183,7 @@ Player.prototype.applyMovementInput = function() {
 };
 
 
-Player.prototype.applyAttackInput = function(isAttacking) {
+Player.prototype.applyAttackInput = function(isAttacking, withoutRepeat) {
 	// Attack input is pressed
 	if (isAttacking) {
 		
@@ -193,12 +193,12 @@ Player.prototype.applyAttackInput = function(isAttacking) {
 		}
 	}
 	// Input is released
-	else {
+	else if (withoutRepeat){
 		this.iceAxe.release();
 	}
 };
 
-Player.prototype.applyUseActiveItemInput = function(isUsing) {
+Player.prototype.applyUseActiveItemInput = function(isUsing, withoutRepeat) {
 	// Use Active Item input is pressed.
 	if (isUsing) {
 		
@@ -208,12 +208,12 @@ Player.prototype.applyUseActiveItemInput = function(isUsing) {
 		}
 	}
 	// Input is released
-	else {
+	else if (withoutRepeat){
 		this.hookshot.launch();
 	}
 };
 
-Player.prototype.applyInteractInput = function(isInteracting) {
+Player.prototype.applyInteractInput = function(isInteracting, withoutRepeat) {
 	// Interact input is pressed.
 	if (isInteracting) {
 		

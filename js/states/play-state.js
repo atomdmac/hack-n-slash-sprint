@@ -153,24 +153,30 @@ function PlayState () {
 		player.move(movementBearing);
 
 		// Apply attack input.
-		if(jaws.pressed(input.keyboard['attack'])) {
+		if(jaws.pressedWithoutRepeat(input.keyboard['attack'])) {
+			player.applyAttackInput(true, true);
+		} else if(jaws.pressed(input.keyboard['attack'])) {
 			player.applyAttackInput(true);
 		} else {
-			player.applyAttackInput(false);
+			player.applyAttackInput(false, true);
 		}
 
 		// Apply item input.
-		if(jaws.pressed(input.keyboard['useActiveItem'])) {
+		if(jaws.pressedWithoutRepeat(input.keyboard['useActiveItem'])) {
+			player.applyUseActiveItemInput(true, true);
+		} else if(jaws.pressed(input.keyboard['useActiveItem'])) {
 			player.applyUseActiveItemInput(true);
 		} else {
-			player.applyUseActiveItemInput(false);
+			player.applyUseActiveItemInput(false, true);
 		}
 
 		// Apply interaction input.
 		if(jaws.pressedWithoutRepeat(input.keyboard['interact'])) {
+			player.applyInteractInput(true, true);
+		} else if(jaws.pressed(input.keyboard['interact'])) {
 			player.applyInteractInput(true);
 		} else {
-			player.applyInteractInput(false);
+			player.applyInteractInput(false, true);
 		}
 
 	};
