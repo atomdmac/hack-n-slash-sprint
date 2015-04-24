@@ -261,11 +261,6 @@ function IceAxe (options) {
 					self.x = self.hitBox.pos.x = self.attacker.x;
 					self.y = self.hitBox.pos.y = self.attacker.y;
 					
-					console.log(self.angle);
-					console.log(self.jumpTarget.pos.x);
-					console.log(self.jumpTarget.pos.y);
-					
-					
 					if (self.jumpDistance.x*self.jumpDistance.x + self.jumpDistance.y*self.jumpDistance.y < self.maxJumpDistance*self.maxJumpDistance) {
 						self.jumpDistance.x += self.jumpDistancePerTick * Math.sin(self.angle);
 						self.jumpDistance.y += self.jumpDistancePerTick * Math.cos(self.angle);
