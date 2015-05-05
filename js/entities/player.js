@@ -29,7 +29,7 @@ function Player (options) {
 	this.iceAxe = new IceAxe({attacker: this});
 	this.iceAxe.fsm.on('transition', function( data ) {
 		switch(data.fromState) {
-			case 'initializing':
+			case 'swinging-again':
 				
 				break;
 			case 'swinging':
@@ -47,7 +47,7 @@ function Player (options) {
 			case 'idle':
 				
 				break;
-			case 'initializing':
+			case 'swinging-again':
 				
 				break;
 			case 'swinging':
@@ -183,40 +183,39 @@ Player.prototype.applyMovementInput = function() {
 };
 
 
-Player.prototype.applyAttackInput = function(isAttacking, withoutRepeat) {
+Player.prototype.applyAttackInput = function(isAttacking) {
 	// Attack input is pressed
 	if (isAttacking) {
-		
+		// Player is NOT occupied
 		if(!this.occupied) {
 			var angle = this.radianMap8D[this.bearing];
-			this.iceAxe.initialize(angle);
+			this.iceAxe.swing(angle);
 		}
 	}
 	// Input is released
-	else if (withoutRepeat){
+	else {
 		this.iceAxe.release();
 	}
 };
 
-Player.prototype.applyUseActiveItemInput = function(isUsing, withoutRepeat) {
+Player.prototype.applyUseActiveItemInput = function(isUsing) {
 	// Use Active Item input is pressed.
 	if (isUsing) {
-		
+		// Player is NOT occupied.
 		if(!this.occupied) {
 			var angle = this.radianMap8D[this.bearing];
 			this.hookshot.wield(angle);
 		}
 	}
 	// Input is released
-	else if (withoutRepeat){
+	else {
 		this.hookshot.launch();
 	}
 };
 
-Player.prototype.applyInteractInput = function(isInteracting, withoutRepeat) {
+Player.prototype.applyInteractInput = function(isInteracting) {
 	// Interact input is pressed.
 	if (isInteracting) {
-		
 		// Only interact if we're not attacking nor holding an attack.
 		if (!this.actionsQueued["holdAttack"] && !this.actionsQueued["attack"]) {
 			// If we have a target that we can interact with, interact!

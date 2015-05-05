@@ -109,8 +109,7 @@ function PlayState () {
 
 	this.update = function () {
 
-		this.checkKeyboardInput();
-		this.checkGamepadInput();
+		this.checkUserInput();
 		
 		// Set up loop variables.
 		var collidableEntities = entities.slice();
@@ -138,50 +137,8 @@ function PlayState () {
 		});
 	};
 
-	this.checkKeyboardInput = function () {
-		if(jaws.pressed(input.keyboard["pause"])) {
-			jaws.switchGameState(menu, {}, _gameData);
-			return true;
-		}
+	this.checkUserInput = function () {
 
-		// Apply player movement.
-		var movementBearing = {x: 0, y:0};
-		if(jaws.pressed(input.keyboard['moveUp'])   ) movementBearing.y -= 1;
-		if(jaws.pressed(input.keyboard['moveDown']) ) movementBearing.y += 1;
-		if(jaws.pressed(input.keyboard['moveLeft']) ) movementBearing.x -= 1;
-		if(jaws.pressed(input.keyboard['moveRight'])) movementBearing.x += 1;
-		player.move(movementBearing);
-
-		// Apply attack input.
-		if(jaws.pressedWithoutRepeat(input.keyboard['attack'])) {
-			player.applyAttackInput(true, true);
-		} else if(jaws.pressed(input.keyboard['attack'])) {
-			player.applyAttackInput(true);
-		} else {
-			player.applyAttackInput(false, true);
-		}
-
-		// Apply item input.
-		if(jaws.pressedWithoutRepeat(input.keyboard['useActiveItem'])) {
-			player.applyUseActiveItemInput(true, true);
-		} else if(jaws.pressed(input.keyboard['useActiveItem'])) {
-			player.applyUseActiveItemInput(true);
-		} else {
-			player.applyUseActiveItemInput(false, true);
-		}
-
-		// Apply interaction input.
-		if(jaws.pressedWithoutRepeat(input.keyboard['interact'])) {
-			player.applyInteractInput(true, true);
-		} else if(jaws.pressed(input.keyboard['interact'])) {
-			player.applyInteractInput(true);
-		} else {
-			player.applyInteractInput(false, true);
-		}
-
-	};
-
-	this.checkGamepadInput = function () {
 		// Update tamepad.
 		// TODO: Don't require manual update to facilitate tamepad.pressedWithoutRepeat().
 		tamepad.update();
@@ -189,20 +146,50 @@ function PlayState () {
 		if(tamepad.pressedWithoutRepeat(input.gamepad["pause"])) {
 			jaws.switchGameState(menu, {}, _gameData);
 		}
+		else if(jaws.pressed(input.keyboard["pause"])) {
+			jaws.switchGameState(menu, {}, _gameData);
+			return true;
+		}
 
 		// Apply player movement input.
 		var movementBearing = tamepad.readJoystickAngleMagnitude('left');
-		player.move(movementBearing);
+		if(movementBearing.x || movementBearing.y) {
+			player.move(movementBearing);
+		}
 
+		else {
+			movementBearing = {x: 0, y:0};
+			if(jaws.pressed(input.keyboard['moveUp'])   ) {
+				movementBearing.y -= 1;
+			}
+			if(jaws.pressed(input.keyboard['moveDown'])) {
+				movementBearing.y += 1;
+			}
+			if(jaws.pressed(input.keyboard['moveLeft'])) {
+				movementBearing.x -= 1;
+			}
+			if(jaws.pressed(input.keyboard['moveRight'])) {
+				movementBearing.x += 1;
+			}
+			player.move(movementBearing);
+		}
+		
 		// Apply attack input.
 		if(tamepad.pressed(input.gamepad['attack'])) {
 			player.applyAttackInput(true);
-		} else {
+		} 
+		else if(jaws.pressed(input.keyboard['attack'])) {
+			player.applyAttackInput(true);
+		}
+		else {
 			player.applyAttackInput(false);
 		}
 
 		// Apply item input.
 		if(tamepad.pressed(input.gamepad['useActiveItem'])) {
+			player.applyUseActiveItemInput(true);
+		}
+		else if(jaws.pressed(input.keyboard['useActiveItem'])) {
 			player.applyUseActiveItemInput(true);
 		} else {
 			player.applyUseActiveItemInput(false);
@@ -210,6 +197,9 @@ function PlayState () {
 
 		// Apply interaction input.
 		if(tamepad.pressedWithoutRepeat(input.gamepad['interact'])) {
+			player.applyInteractInput(true);
+		}
+		else if(jaws.pressed(input.keyboard['interact'])) {
 			player.applyInteractInput(true);
 		} else {
 			player.applyInteractInput(false);

@@ -62,16 +62,17 @@ function IceAxe (options) {
 	
 	// FSM
 	var self = this;
+
 	this.fsm = new machina.Fsm({
 		initialState: 'idle',
 		states: {
 			'idle': {
-				'initialize': function (angle) {
+				'swing': function (angle) {
 					self.angle = angle;
-					this.transition('initializing');
+					this.transition('swinging');
 				}
 			},
-			'initializing': {
+			'swinging-again': {
 				'_onEnter': function () {
 					self.debugColor = "green";
 					this.transition('swinging');
@@ -86,9 +87,9 @@ function IceAxe (options) {
 					self.x = self.hitBox.pos.x = self.attacker.x;
 					self.y = self.hitBox.pos.y = self.attacker.y;
 				},
-				'initialize': function (angle) {
+				'swing': function (angle) {
 					if (self.isCharging === false) {
-						this.transition('initializing');
+						this.transition('swinging-again');
 					}
 				},
 				'release': function () {
@@ -445,8 +446,8 @@ IceAxe.prototype.release = function (collision) {
 	this.fsm.handle('release');
 };
 
-IceAxe.prototype.initialize = function (angle) {
-	this.fsm.handle('initialize', angle);
+IceAxe.prototype.swing = function (angle) {
+	this.fsm.handle('swing', angle);
 };
 
 return IceAxe;
