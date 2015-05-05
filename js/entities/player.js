@@ -35,9 +35,13 @@ function Player (options) {
 			case 'swinging':
 			case 'charging':
 			case 'charged':
+				self.bearingLocked = false;
+				self.setMaxSpeed(self.stats.runSpeed);
+				break;
 			case 'lunging':
 				self.bearingLocked = false;
 				self.setMaxSpeed(self.stats.runSpeed);
+				self.movementFsm.transition('grounded');
 				break;
 			default:
 				// Do nothing.
@@ -53,9 +57,13 @@ function Player (options) {
 			case 'swinging':
 			case 'charging':
 			case 'charged':
+				self.setMaxSpeed(0);
+				self.bearingLocked = true;
+				break;
 			case 'lunging':
 				self.bearingLocked = true;
 				self.setMaxSpeed(0);
+				self.movementFsm.transition('floating');
 				break;
 			default:
 				// Do nothing.

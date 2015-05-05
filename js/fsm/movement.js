@@ -32,6 +32,9 @@ host.movementFsm = new machina.Fsm({
 			},
 			'move': function (bearing) {
 				this.accelerate(bearing);
+			},
+			'collide': function (collisions) {
+				collisions.forEach(host.onCollision, host);
 			}
 		},
 		'falling': {
