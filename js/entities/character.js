@@ -107,7 +107,7 @@ Character.prototype.handleCollisions = function (collisions) {
 Character.prototype.shouldFall = function (collisions) {
 	var doFall = true;
 	collisions.forEach(function (col) {
-		if(col.interest.name === 'terrain' && col.target.type === 'floor') {
+		if(col.interest.name === 'terrain' && col.target.type === 'floor' || col.target.type === 'platform') {
 			doFall = false;
 			return false;
 		}

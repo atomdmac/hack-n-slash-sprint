@@ -83,6 +83,18 @@ function () {
 			},
 			passable: false
 		},
+		"Platform": {
+			label: "Platform",
+			type: "platform",
+			sprite_sheet: "assets/png/items/Platform.png",
+			width: 32,
+			height: 32,
+			scale: 1,
+			radius: 16,
+			anchor: [0, 0],
+			frame_size: [32, 32],
+			passable: true
+		},
 		"Sword": {
 			label: "Sword",
 			sprite_sheet: "assets/png/items/Sword.png",
