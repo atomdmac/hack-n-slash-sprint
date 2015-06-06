@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="24" height="30" tilewidth="32" tileheight="32" nextobjectid="8">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="24" height="30" tilewidth="32" tileheight="32">
  <tileset firstgid="1" name="terrain-32x32" tilewidth="32" tileheight="32">
   <image source="../png/terrain/terrain-32x32.png" width="512" height="512"/>
  </tileset>
@@ -313,6 +313,18 @@
   <tile id="3">
    <image width="16" height="20" source="../png/items/CashMoney.png"/>
   </tile>
+  <tile id="4">
+   <image width="20" height="20" source="../png/items/MoonPendantBlue.png"/>
+  </tile>
+  <tile id="5">
+   <image width="20" height="20" source="../png/items/MoonPendantGreen.png"/>
+  </tile>
+  <tile id="6">
+   <image width="20" height="20" source="../png/items/MoonPendantOrange.png"/>
+  </tile>
+  <tile id="7">
+   <image width="20" height="20" source="../png/items/MoonPendantRed.png"/>
+  </tile>
  </tileset>
  <layer name="background" width="24" height="30">
   <data encoding="base64">
@@ -325,8 +337,8 @@
   </data>
  </layer>
  <objectgroup name="entities">
-  <object id="1" type="Player" gid="515" x="384" y="856"/>
-  <object id="2" name="To Hookshot Demo Map 3" type="ZoneSwitcher" x="352" y="-16" width="146" height="29">
+  <object type="Player" gid="515" x="384" y="856"/>
+  <object name="To Hookshot Demo Map 3" type="ZoneSwitcher" x="352" y="-16" width="146" height="29">
    <properties>
     <property name="targetX" value="500"/>
     <property name="targetY" value="600"/>
@@ -334,21 +346,25 @@
     <property name="url" value="assets/tmx/hookshot-demo-map-3.tmx"/>
    </properties>
   </object>
-  <object id="3" name="To Hookshot Demo Map 1" type="ZoneSwitcher" x="295.5" y="948.5" width="229" height="31">
+  <object name="To Hookshot Demo Map 1" type="ZoneSwitcher" x="295.5" y="948.5" width="229" height="31">
    <properties>
     <property name="targetY" value="30"/>
     <property name="type" value="ZoneSwitcher"/>
     <property name="url" value="assets/tmx/hookshot-demo-map-1.tmx"/>
    </properties>
   </object>
-  <object id="4" type="Tellah" gid="516" x="327" y="477">
+  <object type="Tellah" gid="516" x="327" y="477">
    <properties>
     <property name="state" value="idle"/>
    </properties>
   </object>
-  <object id="5" name="Target" type="Item" gid="519" x="454" y="431"/>
-  <object id="6" name="Target" type="Item" gid="519" x="311" y="158"/>
-  <object id="7" name="Cash Money" type="Item" gid="521" x="365" y="323"/>
+  <object name="Target" type="Item" gid="519" x="454" y="431"/>
+  <object name="Target" type="Item" gid="519" x="311" y="158"/>
+  <object name="Cash Money" type="Item" gid="521" x="365" y="323"/>
+  <object name="Moon Pendant Blue" type="Item" gid="522" x="496" y="752"/>
+  <object name="Moon Pendant Green" type="Item" gid="523" x="304" y="752"/>
+  <object name="Moon Pendant Orange" type="Item" gid="524" x="368" y="752"/>
+  <object name="Moon Pendant Red" type="Item" gid="525" x="432" y="752"/>
  </objectgroup>
  <layer name="canopy" width="24" height="30" visible="0">
   <data encoding="base64">

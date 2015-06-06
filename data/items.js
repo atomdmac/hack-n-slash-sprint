@@ -45,6 +45,58 @@ function () {
 			anchor: [0.5, 0.5],
 			frame_size: [16, 20]
 		},
+		"Moon Pendant Green": {
+			type: "resource",
+			label: "Moon Pendant Green",
+			sprite_sheet: "assets/png/items/MoonPendantGreen.png",
+			resources: {
+				moonPendantGreen: 1
+			},
+			width: 20,
+			height: 20,
+			scale: 1,
+			anchor: [0.5, 0.5],
+			frame_size: [20, 20]
+		},
+		"Moon Pendant Orange": {
+			type: "resource",
+			label: "Moon Pendant Orange",
+			sprite_sheet: "assets/png/items/MoonPendantOrange.png",
+			resources: {
+				moonPendantOrange: 1
+			},
+			width: 20,
+			height: 20,
+			scale: 1,
+			anchor: [0.5, 0.5],
+			frame_size: [20, 20]
+		},
+		"Moon Pendant Red": {
+			type: "resource",
+			label: "Moon Pendant Red",
+			sprite_sheet: "assets/png/items/MoonPendantRed.png",
+			resources: {
+				moonPendantRed: 1
+			},
+			width: 20,
+			height: 20,
+			scale: 1,
+			anchor: [0.5, 0.5],
+			frame_size: [20, 20]
+		},
+		"Moon Pendant Blue": {
+			type: "resource",
+			label: "Moon Pendant Blue",
+			sprite_sheet: "assets/png/items/MoonPendantBlue.png",
+			resources: {
+				moonPendantBlue: 1
+			},
+			width: 20,
+			height: 20,
+			scale: 1,
+			anchor: [0.5, 0.5],
+			frame_size: [20, 20]
+		},
 		"Clay Pot": {
 			interaction: "lift",
 			label: "Clay Pot",
