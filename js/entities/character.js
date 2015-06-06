@@ -142,6 +142,9 @@ Character.prototype.applyStatChange = function (targetStat, modification) {
 };
 
 Character.prototype.applyResourceChange = function (targetResource, modification) {
+	if (!this.resources[targetResource]) {
+		this.resources[targetResource] = 0;
+	}
 	this.resources[targetResource] += modification;
 };
 
