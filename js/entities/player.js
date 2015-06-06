@@ -136,7 +136,7 @@ Player.prototype.draw = function () {
 	Character.prototype.draw.call(this);
 	
 	// Draw HUD
-	// this.hud.draw();
+	this.hud.draw();
 };
 
 Player.prototype.update = function () {

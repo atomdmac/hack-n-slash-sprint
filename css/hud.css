@@ -55,6 +55,36 @@
     margin: 5px 0 0 0;
     padding: 0;
 }
+.resources-hud .moon-pendant-hud {
+    position: relative;
+    width: 110px;
+    height: 30px;
+    padding: 10px 0 0 10px;
+    background-image: url(../assets/png/hud/MoonPendantHUD.png);
+}
+.resources-hud .moon-pendant-hud-item {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    margin: 0 7px 0 0;
+    display: inline-block;
+    visibility: hidden;
+}
+.resources-hud .moon-pendant-hud-item.resource-acquired {
+    visibility: visible;
+}
+.resources-hud .moon-pendant-hud-item.moonPendantGreen {
+    background-image: url(../assets/png/items/MoonPendantGreen.png);
+}
+.resources-hud .moon-pendant-hud-item.moonPendantOrange {
+    background-image: url(../assets/png/items/MoonPendantOrange.png);
+}
+.resources-hud .moon-pendant-hud-item.moonPendantRed {
+    background-image: url(../assets/png/items/MoonPendantRed.png);
+}
+.resources-hud .moon-pendant-hud-item.moonPendantBlue {
+    background-image: url(../assets/png/items/MoonPendantBlue.png);
+}
 
 .item-inspector-tile {
     width: 256px;
