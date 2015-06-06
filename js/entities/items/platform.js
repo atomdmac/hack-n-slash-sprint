@@ -40,6 +40,7 @@ function Platform(options) {
 		this.sprite_sheet = this.options.sprite_sheet;
 		this.state = this.options.state ? this.options.state : "off";
 		this.passable = this.options.passable;
+		this.patrol = this.options.patrol;
 
 		this.setImage(this.animation.subsets["unequipped"].next());
 	}
@@ -54,15 +55,16 @@ function Platform(options) {
 		// Current velocity.
 		vel: new SAT.Vector(0, 0),
 
-		patrolPoints: [
+		patrolPoints: null,
+		/*[
 			{x: 512, y: 384},
 			{x: 576, y: 384},
 			{x: 576, y: 448}, 
-			{x: 512, y: 448}], 
+			{x: 512, y: 448}],*/ 
 		currentPatrolIndex: null,
 		destination: null,
 
-		initialState: 'on',
+		initialState: 'off',
 
 		hasArrived: function () {
 			if(Math.abs(this.destination.x - host.x) < this.MAX_VEL) {
@@ -103,6 +105,18 @@ function Platform(options) {
 			host.y += this.vel.y;
 		},
 
+		turnOn: function (patrol) {
+			if(patrol.length) {
+				console.log('patrol points = ', patrol);
+				this.patrolPoints = patrol;
+				this.transition('on');
+			}
+		},
+
+		turnOff: function () {
+			this.transition('off');
+		},
+
 		// States
 		states: {
 			'on': {
@@ -110,6 +124,7 @@ function Platform(options) {
 					if(!this.destination) this.updateDestination();
 				},
 				'update': function () {
+
 					// If we've reached our destination, let's reset our goal.
 					if(this.hasArrived()) this.updateDestination();
 					
@@ -128,13 +143,13 @@ function Platform(options) {
 					this.updateHost();
 				},
 				'toggle': function () {
-					this.transition('off');
+					this.turnOff();
 				}
 			},
 
 			'off': {
 				'toggle': function () {
-					this.transition('on');
+					this.turnOn();
 				}
 			}
 		}
@@ -145,6 +160,14 @@ function Platform(options) {
 Platform.prototype = Object.create(Entity.prototype);
 
 Platform.prototype.update = function() {
+	// Turn on platform movement if patrol points are assigned and become available.
+	if(this.movementFsm.state === 'off') {
+		if(this.patrol && this._gameData.patrols[this.patrol]) {
+			this.movementFsm.turnOn(this._gameData.patrols[this.patrol]);
+		}
+	}
+
+	// Update platform.
 	this.movementFsm.handle('update');
 };
 
