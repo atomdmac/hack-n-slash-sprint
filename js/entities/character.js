@@ -104,6 +104,18 @@ Character.prototype.handleCollisions = function (collisions) {
 	this.movementFsm.handle('collide', collisions);
 };
 
+Character.prototype.onCollision = function (collision) {
+	var entity = collision.target;
+
+	Entity.prototype.onCollision.call(this, collision);
+
+	// Follow platforms.
+	if(entity.type === 'platform') {
+		this.x += entity.movementFsm.vel.x;
+		this.y += entity.movementFsm.vel.y;
+	}
+};
+
 Character.prototype.shouldFall = function (collisions) {
 	var doFall = true;
 	collisions.forEach(function (col) {
