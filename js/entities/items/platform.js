@@ -41,6 +41,7 @@ function Platform(options) {
 		this.state = this.options.state ? this.options.state : "off";
 		this.passable = this.options.passable;
 		this.patrol = this.options.patrol;
+		this.switchName = this.options.switchName;
 
 		this.setImage(this.animation.subsets["unequipped"].next());
 	}
@@ -106,15 +107,14 @@ function Platform(options) {
 		},
 
 		turnOn: function (patrol) {
-			if(patrol.length) {
-				console.log('patrol points = ', patrol);
+			if(this.state === 'off' && patrol.length) {
 				this.patrolPoints = patrol;
 				this.transition('on');
 			}
 		},
 
 		turnOff: function () {
-			this.transition('off');
+			if(this.state === 'on') this.transition('off');
 		},
 
 		// States
@@ -160,10 +160,25 @@ function Platform(options) {
 Platform.prototype = Object.create(Entity.prototype);
 
 Platform.prototype.update = function() {
-	// Turn on platform movement if patrol points are assigned and become available.
-	if(this.movementFsm.state === 'off') {
-		if(this.patrol && this._gameData.patrols[this.patrol]) {
-			this.movementFsm.turnOn(this._gameData.patrols[this.patrol]);
+	// // Turn on platform movement if patrol points are assigned and become available.
+	// if(this.movementFsm.state === 'off') {
+	// 	if(this.patrol && this._gameData.patrols[this.patrol]) {
+	// 		this.movementFsm.turnOn(this._gameData.patrols[this.patrol]);
+	// 	}
+	// }
+
+	// Has a switch associated with it?
+	if(this.switchName && this._gameData.switches[this.switchName]) {
+		// Switch is on?
+		if(this._gameData.switches[this.switchName].state === 'on') {
+			// Turn on platform movement if patrol points are assigned
+			if(this.movementFsm.state === 'off') {
+				if(this.patrol && this._gameData.patrols[this.patrol]) {
+					this.movementFsm.turnOn(this._gameData.patrols[this.patrol]);
+				}
+			}
+		} else {
+			this.movementFsm.turnOff();
 		}
 	}
 

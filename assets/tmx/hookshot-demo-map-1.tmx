@@ -346,10 +346,15 @@
   <object id="6" name="Health Potion" type="Item" gid="520" x="416" y="184"/>
   <object id="7" name="Clay Pot" type="Item" gid="518" x="360" y="400"/>
   <object id="8" name="Cash Money" type="Item" gid="521" x="376" y="144"/>
-  <object id="9" name="Switch" type="Switch" gid="522" x="280" y="520"/>
+  <object id="9" name="Switch" type="Switch" gid="522" x="367" y="449">
+   <properties>
+    <property name="switchName" value="platform-switch-1"/>
+   </properties>
+  </object>
   <object id="15" name="platform-1" type="Platform" gid="46" x="512" y="416" width="32" height="32">
    <properties>
     <property name="patrol" value="platform-patrol-1"/>
+    <property name="switchName" value="platform-switch-1"/>
    </properties>
   </object>
   <object id="18" name="platform-patrol-1-0" type="PatrolPoint" x="512" y="384" width="32" height="32">

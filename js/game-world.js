@@ -34,6 +34,7 @@ GameWorld.prototype.onMapParsed = function (map) {
 	};
 	this._gameData.entities = [];
 	this._gameData.patrols = {};
+	this._gameData.switches = {};
 	
 	// Create viewport.
 	this._gameData.viewport = new jaws.Viewport({
