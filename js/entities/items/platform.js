@@ -40,7 +40,7 @@ function Platform(options) {
 		this.sprite_sheet = this.options.sprite_sheet;
 		this.state = this.options.state ? this.options.state : "off";
 		this.passable = this.options.passable;
-		this.patrol = this.options.patrol;
+		this.patrolName = this.options.patrolName;
 		this.switchName = this.options.switchName;
 
 		this.setImage(this.animation.subsets["unequipped"].next());
@@ -173,8 +173,8 @@ Platform.prototype.update = function() {
 		if(this._gameData.switches[this.switchName].state === 'on') {
 			// Turn on platform movement if patrol points are assigned
 			if(this.movementFsm.state === 'off') {
-				if(this.patrol && this._gameData.patrols[this.patrol]) {
-					this.movementFsm.turnOn(this._gameData.patrols[this.patrol]);
+				if(this.patrolName && this._gameData.patrols[this.patrolName]) {
+					this.movementFsm.turnOn(this._gameData.patrols[this.patrolName]);
 				}
 			}
 		} else {
