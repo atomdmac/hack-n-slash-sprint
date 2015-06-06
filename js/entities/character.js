@@ -128,7 +128,10 @@ Character.prototype.radianMap8D = {
 
 // Extremely basic implementation. Assume Characters hate anything different.
 Character.prototype.consider = function(targetEntity) {
-	if (targetEntity.race === this.race && targetEntity.alignment === this.alignment) {
+	if (!targetEntity.race && !targetEntity.alignment) {
+		return 'neutral';
+	}
+	else if (targetEntity.race === this.race && targetEntity.alignment === this.alignment) {
 		return "friendly";
 	}
 	else {
