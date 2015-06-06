@@ -111,8 +111,10 @@ Character.prototype.onCollision = function (collision) {
 
 	// Follow platforms.
 	if(entity.type === 'platform') {
-		this.x += entity.movementFsm.vel.x;
-		this.y += entity.movementFsm.vel.y;
+		if(this.movementFsm.state !== 'floating') {
+			this.x += entity.movementFsm.vel.x;
+			this.y += entity.movementFsm.vel.y;
+		}
 	}
 };
 
