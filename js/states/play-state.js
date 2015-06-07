@@ -174,7 +174,9 @@ function PlayState () {
 			if(jaws.pressed(input.keyboard['moveRight'])) {
 				movementBearing.x += 1;
 			}
-			player.move(movementBearing);
+			if(movementBearing.x || movementBearing.y) {
+				player.move(movementBearing);
+			}
 		}
 		
 		// Apply attack input.
