@@ -19,8 +19,10 @@ function Hookshot (options) {
 	
 	this.hitBox = new SAT.Circle(new SAT.Vector(this.x, this.y), this.options.radius);
 	
+	// Store a reference to our touch presence so we can enable/disable it.
+	this.touchPresence = {name: 'touch', shape: this.hitBox};
 	this.presences.push.apply(this.presences, [
-		{name: 'touch', shape: this.hitBox}
+		this.touchPresence
 	]);
 	
 	this.interests.push.apply(this.interests, [
@@ -38,7 +40,6 @@ function Hookshot (options) {
 		this.attacker = this.options.attacker;
 	}
 	
-	
 	// FSM
 	var self = this;
 	this.fsm = new machina.Fsm({
@@ -47,6 +48,12 @@ function Hookshot (options) {
 			'idle': {
 				_onEnter: function () {
 					self.anchorEntity = null;
+					// Disable collision while idle.
+					self.touchPresence.disabled = true;
+				},
+				_onExit: function () {
+					// Enable collision while Hookshot is in use.
+					self.touchPresence.disabled = false;
 				},
 				'wield': function (angle) {
 					self.angle = angle;

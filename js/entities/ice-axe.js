@@ -34,9 +34,11 @@ function IceAxe (options) {
 		new SAT.Vector(0, 50)
 		]);
 	this.hitBox.translate(-5, 0);
-	
+
+	// Store a reference to our touch reference so we can enable/disable it later.
+	this.touchPresence = {name: 'touch', shape: this.hitBox};
 	this.presences.push.apply(this.presences, [
-		{name: 'touch', shape: this.hitBox}
+		this.touchPresence
 	]);
 	
 	this.interests.push.apply(this.interests, [
@@ -45,7 +47,6 @@ function IceAxe (options) {
 	
 	
 	this.jumpTarget = new SAT.Circle(new SAT.Vector(this.attacker.x, this.attacker.y), this.attacker.radius);
-	
 	
 	// State
 	this.duration      = 15;
@@ -67,9 +68,17 @@ function IceAxe (options) {
 		initialState: 'idle',
 		states: {
 			'idle': {
+				_onEnter: function () {
+					// Disable collision while idle.
+					self.touchPresence.disabled = true;
+				},
 				'swing': function (angle) {
 					self.angle = angle;
 					this.transition('swinging');
+				},
+				_onExit: function () {
+					// Enable collision while Ice Axe is in use.
+					self.touchPresence.disabled = false;
 				}
 			},
 			'swinging-again': {
