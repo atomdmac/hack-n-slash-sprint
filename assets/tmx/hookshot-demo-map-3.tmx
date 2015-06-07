@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="24" height="20" tilewidth="32" tileheight="32" nextobjectid="7">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="24" height="20" tilewidth="32" tileheight="32" nextobjectid="16">
  <tileset firstgid="1" name="terrain-32x32" tilewidth="32" tileheight="32">
   <image source="../png/terrain/terrain-32x32.png" width="512" height="512"/>
  </tileset>
@@ -300,7 +300,7 @@
    <image width="32" height="32" source="../png/entities/TiledEntities/Characters/Edge.png"/>
   </tile>
  </tileset>
- <tileset firstgid="518" name="Items" tilewidth="28" tileheight="28">
+ <tileset firstgid="518" name="Items" tilewidth="32" tileheight="32">
   <tile id="0">
    <image width="20" height="20" source="../png/items/ClayPot.png"/>
   </tile>
@@ -309,6 +309,12 @@
   </tile>
   <tile id="2">
    <image width="12" height="16" source="../png/items/HealthPotion.png"/>
+  </tile>
+  <tile id="3">
+   <image width="32" height="32" source="../png/items/Platform.png"/>
+  </tile>
+  <tile id="4">
+   <image width="28" height="27" source="../png/items/TiledPNGs/Switch.png"/>
   </tile>
  </tileset>
  <layer name="background" width="24" height="20">
@@ -332,9 +338,50 @@
   </object>
   <object id="2" type="Player" gid="515" x="496" y="608"/>
   <object id="3" name="Target" type="Item" gid="519" x="400" y="80"/>
-  <object id="4" name="Health Potion" type="Item" gid="520" x="448" y="368"/>
-  <object id="5" name="Target" type="Item" gid="519" x="96" y="134"/>
+  <object id="4" name="Health Potion" type="Item" gid="520" x="448" y="352"/>
+  <object id="5" name="Target" type="Item" gid="519" x="96" y="134" width="32" height="32"/>
   <object id="6" name="Target" type="Item" gid="519" x="688" y="80"/>
+  <object id="7" name="platform-0" type="Platform" gid="521" x="96" y="96" width="32" height="32">
+   <properties>
+    <property name="patrolName" value="platform-patrol-0"/>
+    <property name="switchName" value="platform-switch"/>
+   </properties>
+  </object>
+  <object id="10" name="platform-patrol-0-0" type="PatrolPoint" x="96" y="64" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="0"/>
+    <property name="patrolName" value="platform-patrol-0"/>
+   </properties>
+  </object>
+  <object id="11" name="platform-patrol-0-1" type="PatrolPoint" x="96" y="224" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="1"/>
+    <property name="patrolName" value="platform-patrol-0"/>
+   </properties>
+  </object>
+  <object id="12" name="platform-1" type="Platform" gid="521" x="224" y="192" width="32" height="32">
+   <properties>
+    <property name="patrolName" value="platform-patrol-1"/>
+    <property name="switchName" value="platform-switch"/>
+   </properties>
+  </object>
+  <object id="13" name="platform-patrol-1-0" type="PatrolPoint" x="224" y="160" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="0"/>
+    <property name="patrolName" value="platform-patrol-1"/>
+   </properties>
+  </object>
+  <object id="14" name="platform-patrol-1-1" type="PatrolPoint" x="224" y="416" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="1"/>
+    <property name="patrolName" value="platform-patrol-1"/>
+   </properties>
+  </object>
+  <object id="15" name="Switch" type="Switch" gid="522" x="416" y="384">
+   <properties>
+    <property name="switchName" value="platform-switch"/>
+   </properties>
+  </object>
  </objectgroup>
  <layer name="canopy" width="24" height="20" visible="0">
   <data encoding="base64">

@@ -37,7 +37,11 @@ function Switch(options) {
 		this.sprite_sheet = this.options.sprite_sheet;
 		this.state = this.options.state ? this.options.state : "off";
 		this.passable = this.options.passable;
+		this.switchName = this.options.switchName;
 	}
+
+	// Make myself available for things to react to my state.
+	this._gameData.switches[this.switchName] = this;
 }
 
 Switch.prototype = Object.create(Entity.prototype);

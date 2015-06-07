@@ -41,6 +41,7 @@ function Entity(options) {
 	// called as a means to extend it.
 	if(this.options){
 		this.id = jaws.generateUUID();
+		this.type = this.options.type || 'NO_TYPE';
 		this.label = this.options.label || "no label";
 		this.radius = this.options.radius;
 		this.interaction = this.options.interaction;
