@@ -51,7 +51,7 @@ function Platform(options) {
 	host.movementFsm = new machina.Fsm({
 
 		// Constants
-		MAX_VEL: 0.5,	
+		MAX_VEL: 1,	
 
 		// Current velocity.
 		vel: new SAT.Vector(0, 0),
