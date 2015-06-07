@@ -94,7 +94,7 @@ GameWorld.prototype.generateMapObjects = function (map) {
 					currentObject.properties,
 					{
 						x: currentObject.x,
-						y: currentObject.y
+						y: currentObject.y - 32
 					}
 				);
 				
@@ -251,7 +251,7 @@ GameWorld.prototype.generateMapObjects = function (map) {
 				break;
 		}
 	}
-	
+
 	return mapObjects;
 };
 
