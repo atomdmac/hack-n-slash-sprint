@@ -246,6 +246,14 @@ Player.prototype.applyInteractInput = function(isInteracting) {
 	this.interactTarget = null;
 };
 
+Player.prototype.move = function(bearing) {
+	if(this.iceAxe.fsm.state === 'charging' || 
+		this.iceAxe.fsm.state === 'charged') {
+		this.iceAxe.fsm.transition('idle');
+	}
+	Character.prototype.move.call(this, bearing);
+};
+
 Player.prototype.readMovementInput = function() {
 	var analog = {x: 0, y: 0},
 		joystickThreshold = 0.25;
