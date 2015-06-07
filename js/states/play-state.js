@@ -150,10 +150,10 @@ function PlayState () {
 		tamepad.update();
 		
 		if(tamepad.pressedWithoutRepeat(input.gamepad["pause"])) {
-			jaws.switchGameState(menu, {}, _gameData);
+			jaws.switchGameState(_gameData.states.pause, {}, _gameData);
 		}
 		else if(jaws.pressed(input.keyboard["pause"])) {
-			jaws.switchGameState(menu, {}, _gameData);
+			jaws.switchGameState(_gameData.states.pause, {}, _gameData);
 			return true;
 		}
 

@@ -6,7 +6,9 @@ requirejs.config({
 		'lodash'  : 'lib/lodash',
 		'jaws'    : 'lib/jawsjs/jaws',
 		'DATABASE': '../data/database',
-		'machina': 'lib/machina'
+		'machina': 'lib/machina',
+		'TimelineLite': 'lib/greensock/TimelineLite',
+		'TweenLite'   : 'lib/greensock/TweenLite'
 	},
 	shim: {
 		'jaws': {
@@ -19,8 +21,8 @@ requirejs.config({
 });
 
 require(
-['jaws', '$', 'DATABASE', 'states/play-state', 'states/load-state', 'states/title-screen-state', 'states/death-screen-state', 'states/win-screen-state'],
-function (jaws, $, DATABASE, PlayState, LoadState, TitleScreenState, DeathScreenState, WinScreenState) {
+['jaws', '$', 'DATABASE', 'states/play-state', 'states/load-state', 'states/title-screen-state', 'states/pause-screen-state', 'states/death-screen-state', 'states/win-screen-state'],
+function (jaws, $, DATABASE, PlayState, LoadState, TitleScreenState, PauseScreenState, DeathScreenState, WinScreenState) {
 
 	// Configure JawsJS
 	jaws.init({
@@ -94,6 +96,7 @@ function (jaws, $, DATABASE, PlayState, LoadState, TitleScreenState, DeathScreen
 			play:  new PlayState(),
 			load:  new LoadState(),
 			title: new TitleScreenState(),
+			pause: new PauseScreenState(),
 			death: new DeathScreenState(),
 			win:   new WinScreenState()
 		}
