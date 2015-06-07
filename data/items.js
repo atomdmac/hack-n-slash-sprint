@@ -45,6 +45,21 @@ function () {
 			anchor: [0.5, 0.5],
 			frame_size: [16, 20]
 		},
+		"Moon Console": {
+			label: "Moon Console",
+			sprite_sheet: "assets/png/items/MoonConsole.png",
+			width: 192,
+			height: 512,
+			scale: 1,
+			anchor: [0, 0],
+			frame_size: [192, 512],
+			frame_duration: 100,
+			animationSubsets: {
+				off: [0,1],
+				activating: [0,24],
+				activated: [24,25]
+			}
+		},
 		"Moon Pendant Green": {
 			type: "resource",
 			label: "Moon Pendant Green",

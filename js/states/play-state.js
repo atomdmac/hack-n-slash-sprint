@@ -1,7 +1,7 @@
 define(
 ['jaws', 'DATABASE', 'lib/tamepad', 'lib/SAT', 'entities/item', 'entities/zone-switcher',
- 'states/play-menu-state'],
-function (jaws, DATABASE, Tamepad, SAT, Item, ZoneSwitcher, PlayMenuState) {
+ 'entities/moon-console', 'states/play-menu-state'],
+function (jaws, DATABASE, Tamepad, SAT, Item, ZoneSwitcher, MoonConsole, PlayMenuState) {
 
 function PlayState () {
 	// The current map.
@@ -39,6 +39,9 @@ function PlayState () {
 			_gameData.spawnY = entity.targetY || _gameData.player.y;
 
 			jaws.switchGameState(_gameData.states.load , {}, _gameData);
+		}
+		else if(entity instanceof MoonConsole) {
+			jaws.switchGameState(_gameData.states.win, {}, _gameData);
 		}
 	}
 

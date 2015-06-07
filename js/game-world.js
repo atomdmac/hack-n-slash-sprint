@@ -1,6 +1,6 @@
 define(
-['jaws', '$', 'lib/signals', 'DATABASE', 'lib/SAT', 'collider', 'entities/entity', 'entities/player', 'entities/npc', 'entities/characters/tellah', 'entities/characters/edge', 'entities/item', 'entities/zone-switcher', 'entities/patrol-point', 'entities/items/switch'],
-function (jaws, $, signals, DATABASE, SAT, Collider, Entity, Player, NPC, Tellah, Edge, Item, ZoneSwitcher, PatrolPoint, Switch) {
+['jaws', '$', 'lib/signals', 'DATABASE', 'lib/SAT', 'collider', 'entities/entity', 'entities/player', 'entities/npc', 'entities/characters/tellah', 'entities/characters/edge', 'entities/item', 'entities/zone-switcher', 'entities/patrol-point', 'entities/items/switch', 'entities/moon-console'],
+function (jaws, $, signals, DATABASE, SAT, Collider, Entity, Player, NPC, Tellah, Edge, Item, ZoneSwitcher, PatrolPoint, Switch, MoonConsole) {
 
 
 function GameWorld(gameData, readyCallback) {
@@ -203,6 +203,26 @@ GameWorld.prototype.generateMapObjects = function (map) {
 					objectConfig.gameData = this._gameData;
 					
 					mapObjects.push(new Switch(objectConfig));
+					
+				}
+				break;
+			case "MoonConsole":
+				if (DATABASE.items[currentObject.name]) {
+					objectConfig = $.extend(true, 
+						{},
+						DATABASE.items["base"],
+						DATABASE.items[currentObject.name],
+						currentObject.properties,
+						{
+							x: currentObject.x,
+							y: currentObject.y - currentObject.height
+						}
+					);
+					
+					// Attach game data *after* cloning so it is passed by reference.
+					objectConfig.gameData = this._gameData;
+					
+					mapObjects.push(new MoonConsole(objectConfig));
 					
 				}
 				break;
