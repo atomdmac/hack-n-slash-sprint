@@ -354,7 +354,6 @@
   <object name="Moon Pendant Blue" type="Item" gid="522" x="416" y="400"/>
   <object name="Moon Pendant Red" type="Item" gid="525" x="352" y="400"/>
   <object name="Moon Pendant Green" type="Item" gid="523" x="224" y="400"/>
-  <object name="Moon Pendant Orange" type="Item" gid="524" x="288" y="400"/>
  </objectgroup>
  <layer name="canopy" width="24" height="20" visible="0">
   <data encoding="base64">
