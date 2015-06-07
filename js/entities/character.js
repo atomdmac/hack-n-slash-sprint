@@ -286,6 +286,9 @@ Character.prototype.setBearing = function (direction) {
 	});
 };*/
 Character.prototype.move = function (bearing) {
+	
+	if(!this.getMaxSpeed()) return;
+
 	this.movementFsm.handle('move', bearing);
 
 	var x = bearing.x, y = bearing.y;

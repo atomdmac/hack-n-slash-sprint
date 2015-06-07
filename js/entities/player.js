@@ -55,6 +55,8 @@ function Player (options) {
 				
 				break;
 			case 'swinging':
+				self.bearingLocked = true;
+				break;
 			case 'charging':
 			case 'charged':
 				self.setMaxSpeed(0);
