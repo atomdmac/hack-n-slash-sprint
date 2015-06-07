@@ -160,13 +160,6 @@ function Platform(options) {
 Platform.prototype = Object.create(Entity.prototype);
 
 Platform.prototype.update = function() {
-	// // Turn on platform movement if patrol points are assigned and become available.
-	// if(this.movementFsm.state === 'off') {
-	// 	if(this.patrol && this._gameData.patrols[this.patrol]) {
-	// 		this.movementFsm.turnOn(this._gameData.patrols[this.patrol]);
-	// 	}
-	// }
-
 	// Has a switch associated with it?
 	if(this.switchName && this._gameData.switches[this.switchName]) {
 		// Switch is on?
