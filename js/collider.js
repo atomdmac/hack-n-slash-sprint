@@ -28,6 +28,7 @@ Collider.prototype.update = function () {
 
 			// For each presence partaining to the subscriber's interest...
 			self.getPresencesLike(interest).forEach( function (presence) {
+				if(presence.presence.disabled) return true;
 				if(subscriber === presence.entity) return true;
 				
 				var isCollision = false,

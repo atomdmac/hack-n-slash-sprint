@@ -1,6 +1,6 @@
 define(
-['jaws', '$', 'lib/signals', 'DATABASE', 'lib/SAT', 'collider', 'entities/entity', 'entities/player', 'entities/npc', 'entities/characters/tellah', 'entities/characters/edge', 'entities/item', 'entities/zone-switcher', 'entities/patrol-point', 'entities/items/switch', 'entities/moon-console'],
-function (jaws, $, signals, DATABASE, SAT, Collider, Entity, Player, NPC, Tellah, Edge, Item, ZoneSwitcher, PatrolPoint, Switch, MoonConsole) {
+['jaws', '$', 'lib/signals', 'DATABASE', 'lib/SAT', 'collider', 'entities/entity', 'entities/player', 'entities/npc', 'entities/characters/tellah', 'entities/characters/edge', 'entities/item', 'entities/zone-switcher', 'entities/patrol-point', 'entities/items/switch', 'entities/items/platform', 'entities/moon-console'],
+function (jaws, $, signals, DATABASE, SAT, Collider, Entity, Player, NPC, Tellah, Edge, Item, ZoneSwitcher, PatrolPoint, Switch, Platform, MoonConsole) {
 
 
 function GameWorld(gameData, readyCallback) {
@@ -34,6 +34,7 @@ GameWorld.prototype.onMapParsed = function (map) {
 	};
 	this._gameData.entities = [];
 	this._gameData.patrols = {};
+	this._gameData.switches = {};
 	
 	// Create viewport.
 	this._gameData.viewport = new jaws.Viewport({
@@ -84,6 +85,26 @@ GameWorld.prototype.generateMapObjects = function (map) {
 				mapObjects.push(new ZoneSwitcher(objectConfig));
 				
 				break;
+
+			case "Platform":
+				objectConfig = $.extend(true, 
+					{},
+					DATABASE.items["base"],
+					DATABASE.items[currentObject.type],
+					currentObject.properties,
+					{
+						x: currentObject.x,
+						y: currentObject.y - 32
+					}
+				);
+				
+				// Attach game data *after* cloning so it is passed by reference.
+				objectConfig.gameData = this._gameData;
+
+				mapObjects.push(new Platform(objectConfig));
+
+				break;
+
 			case "PatrolPoint":
 				objectConfig = $.extend(true, 
 					{},
@@ -250,7 +271,7 @@ GameWorld.prototype.generateMapObjects = function (map) {
 				break;
 		}
 	}
-	
+
 	return mapObjects;
 };
 

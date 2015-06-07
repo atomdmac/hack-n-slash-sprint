@@ -1,7 +1,7 @@
 define(
 ['jaws', 'DATABASE', 'lib/tamepad', 'lib/SAT', 'entities/item', 'entities/zone-switcher',
- 'entities/moon-console', 'states/play-menu-state'],
-function (jaws, DATABASE, Tamepad, SAT, Item, ZoneSwitcher, MoonConsole, PlayMenuState) {
+ 'entities/items/platform', 'entities/moon-console', 'states/play-menu-state'],
+function (jaws, DATABASE, Tamepad, SAT, Item, ZoneSwitcher, Platform, MoonConsole, PlayMenuState) {
 
 function PlayState () {
 	// The current map.
@@ -129,6 +129,9 @@ function PlayState () {
 		// Sort the list of entities by Y coordinate so they'll be drawn with
 		// the "closest" one in the foreground.
 		entities.sort(function (a, b) {
+			// Always sort platforms to the bottom
+			if(a instanceof Platform) return -1;
+			if(b instanceof Platform) return 1;
 			if(b instanceof ZoneSwitcher) return  1;
 			if(a instanceof ZoneSwitcher) return -1;
 			if(a instanceof Item && b instanceof Item) return 0;
@@ -174,7 +177,9 @@ function PlayState () {
 			if(jaws.pressed(input.keyboard['moveRight'])) {
 				movementBearing.x += 1;
 			}
-			player.move(movementBearing);
+			if(movementBearing.x || movementBearing.y) {
+				player.move(movementBearing);
+			}
 		}
 		
 		// Apply attack input.

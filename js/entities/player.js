@@ -55,6 +55,8 @@ function Player (options) {
 				
 				break;
 			case 'swinging':
+				self.bearingLocked = true;
+				break;
 			case 'charging':
 			case 'charged':
 				self.setMaxSpeed(0);
@@ -244,6 +246,14 @@ Player.prototype.applyInteractInput = function(isInteracting) {
 	// TODO: This is probably better handled at the Character or Entity level?
 	// Clear interactTarget, wait for collision handling to reset it next tick.
 	this.interactTarget = null;
+};
+
+Player.prototype.move = function(bearing) {
+	if(this.iceAxe.fsm.state === 'charging' || 
+		this.iceAxe.fsm.state === 'charged') {
+		this.iceAxe.fsm.transition('idle');
+	}
+	Character.prototype.move.call(this, bearing);
 };
 
 Player.prototype.readMovementInput = function() {

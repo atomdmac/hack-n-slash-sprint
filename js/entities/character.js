@@ -104,10 +104,25 @@ Character.prototype.handleCollisions = function (collisions) {
 	this.movementFsm.handle('collide', collisions);
 };
 
+Character.prototype.onCollision = function (collision) {
+	var entity = collision.target;
+
+	Entity.prototype.onCollision.call(this, collision);
+
+	// Follow platforms.
+	if(entity.type === 'platform') {
+		if(this.movementFsm.state !== 'floating' &&
+		   entity.movementFsm.state !== 'off') {
+			this.x += entity.movementFsm.vel.x;
+			this.y += entity.movementFsm.vel.y;
+		}
+	}
+};
+
 Character.prototype.shouldFall = function (collisions) {
 	var doFall = true;
 	collisions.forEach(function (col) {
-		if(col.interest.name === 'terrain' && col.target.type === 'floor') {
+		if(col.interest.name === 'terrain' && col.target.type === 'floor' || col.target.type === 'platform') {
 			doFall = false;
 			return false;
 		}
@@ -128,7 +143,10 @@ Character.prototype.radianMap8D = {
 
 // Extremely basic implementation. Assume Characters hate anything different.
 Character.prototype.consider = function(targetEntity) {
-	if (targetEntity.race === this.race && targetEntity.alignment === this.alignment) {
+	if (!targetEntity.race && !targetEntity.alignment) {
+		return 'neutral';
+	}
+	else if (targetEntity.race === this.race && targetEntity.alignment === this.alignment) {
 		return "friendly";
 	}
 	else {
@@ -268,6 +286,9 @@ Character.prototype.setBearing = function (direction) {
 	});
 };*/
 Character.prototype.move = function (bearing) {
+	
+	if(!this.getMaxSpeed()) return;
+
 	this.movementFsm.handle('move', bearing);
 
 	var x = bearing.x, y = bearing.y;
