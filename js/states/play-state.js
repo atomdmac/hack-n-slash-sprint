@@ -53,6 +53,21 @@ function PlayState () {
 		entities.splice(entities.indexOf(entity), 1);
 	}
 
+	// Sort entity depth.
+	function sortEntities (a, b) {
+			// Always sort platforms to the bottom
+			if(a instanceof Platform) return -1;
+			if(b instanceof Platform) return 1;
+			if(b instanceof ZoneSwitcher) return  1;
+			if(a instanceof ZoneSwitcher) return -1;
+			if(a instanceof Item && b instanceof Item) return 0;
+			if(b instanceof Item) return  1;
+			if(a instanceof Item) return -1;
+			if(a.y > b.y) return  1;
+			if(a.y < b.y) return -1;
+			return 0; 
+		}
+
 	this.setup = function (options) {
 		if(!options.map) {
 			throw new Error("PlayState needs a map.");
@@ -128,19 +143,7 @@ function PlayState () {
 		
 		// Sort the list of entities by Y coordinate so they'll be drawn with
 		// the "closest" one in the foreground.
-		entities.sort(function (a, b) {
-			// Always sort platforms to the bottom
-			if(a instanceof Platform) return -1;
-			if(b instanceof Platform) return 1;
-			if(b instanceof ZoneSwitcher) return  1;
-			if(a instanceof ZoneSwitcher) return -1;
-			if(a instanceof Item && b instanceof Item) return 0;
-			if(b instanceof Item) return  1;
-			if(a instanceof Item) return -1;
-			if(a.y > b.y) return  1;
-			if(a.y < b.y) return -1;
-			return 0; 
-		});
+		entities.sort(sortEntities);
 	};
 
 	this.checkUserInput = function () {
