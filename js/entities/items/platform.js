@@ -71,17 +71,18 @@ function Platform(options) {
 		initialState: host.defaultState,
 
 		hasArrived: function () {
-			if(Math.abs(this.destination.x - host.x) < this.MAX_VEL) {
-				host.x = this.destination.x;
+			if (this.destination) {
+				if(Math.abs(this.destination.x - host.x) < this.MAX_VEL) {
+					host.x = this.destination.x;
+				}
+				if(Math.abs(this.destination.y - host.y) < this.MAX_VEL) {
+					host.y = this.destination.y;
+				}
+				if(host.x === this.destination.x && host.y === this.destination.y) {
+					return true;
+				}
 			}
-			if(Math.abs(this.destination.y - host.y) < this.MAX_VEL) {
-				host.y = this.destination.y;
-			}
-			if(host.x === this.destination.x && host.y === this.destination.y) {
-				return true;
-			} else {
-				return false;
-			}
+			return false;
 		},
 
 		updateDestination: function () {
