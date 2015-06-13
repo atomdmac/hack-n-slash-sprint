@@ -1,0 +1,680 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="36" height="40" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="terrain-32x32" tilewidth="32" tileheight="32">
+  <image source="../png/terrain/terrain-32x32.png" width="512" height="512"/>
+ </tileset>
+ <tileset firstgid="257" name="dungeon1-32x32" tilewidth="32" tileheight="32">
+  <image source="../png/terrain/dungeon1-32x32.png" width="512" height="512"/>
+  <tile id="0">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="16">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="17">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="18">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="19">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="20">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="21">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="22">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="23">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="32">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="33">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="34">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="35">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="36">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="37">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="38">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="39">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="48">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="49">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="50">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="51">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="52">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="53">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="54">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="55">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="64">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="65">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="66">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="67">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="68">
+   <properties>
+    <property name="type" value="floor"/>
+   </properties>
+  </tile>
+  <tile id="80">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="81">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="82">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="83">
+   <properties>
+    <property name="type" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="84">
+   <properties>
+    <property name="type" value="floor"/>
+   </properties>
+  </tile>
+  <tile id="96">
+   <properties>
+    <property name="type" value="pit"/>
+   </properties>
+  </tile>
+  <tile id="97">
+   <properties>
+    <property name="type" value="pit"/>
+   </properties>
+  </tile>
+  <tile id="98">
+   <properties>
+    <property name="type" value="pit"/>
+   </properties>
+  </tile>
+  <tile id="99">
+   <properties>
+    <property name="type" value="pit"/>
+   </properties>
+  </tile>
+  <tile id="100">
+   <properties>
+    <property name="type" value="pit"/>
+   </properties>
+  </tile>
+  <tile id="112">
+   <properties>
+    <property name="type" value="pit"/>
+   </properties>
+  </tile>
+  <tile id="113">
+   <properties>
+    <property name="type" value="pit"/>
+   </properties>
+  </tile>
+  <tile id="114">
+   <properties>
+    <property name="type" value="pit"/>
+   </properties>
+  </tile>
+  <tile id="115">
+   <properties>
+    <property name="type" value="pit"/>
+   </properties>
+  </tile>
+  <tile id="116">
+   <properties>
+    <property name="type" value="pit"/>
+   </properties>
+  </tile>
+  <tile id="128">
+   <properties>
+    <property name="type" value="pit"/>
+   </properties>
+  </tile>
+  <tile id="129">
+   <properties>
+    <property name="type" value="pit"/>
+   </properties>
+  </tile>
+  <tile id="130">
+   <properties>
+    <property name="type" value="pit"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="513" name="collision-32x32" tilewidth="32" tileheight="32">
+  <image source="../png/placeholders/collision-32x32.png" width="64" height="32"/>
+  <tile id="0">
+   <properties>
+    <property name="passable" value="false"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="515" name="Characters" tilewidth="32" tileheight="32">
+  <tile id="0">
+   <image width="24" height="32" source="../png/entities/TiledEntities/Characters/Chuck.png"/>
+  </tile>
+  <tile id="1">
+   <image width="32" height="32" source="../png/entities/TiledEntities/Characters/Tellah.png"/>
+  </tile>
+  <tile id="2">
+   <image width="32" height="32" source="../png/entities/TiledEntities/Characters/Edge.png"/>
+  </tile>
+ </tileset>
+ <tileset firstgid="518" name="Items" tilewidth="32" tileheight="32">
+  <tile id="0">
+   <image width="20" height="20" source="../png/items/ClayPot.png"/>
+  </tile>
+  <tile id="1">
+   <image width="28" height="28" source="../png/items/Target.png"/>
+  </tile>
+  <tile id="2">
+   <image width="12" height="16" source="../png/items/HealthPotion.png"/>
+  </tile>
+  <tile id="3">
+   <image width="32" height="32" source="../png/items/Platform.png"/>
+  </tile>
+  <tile id="4">
+   <image width="28" height="27" source="../png/items/TiledPNGs/Switch.png"/>
+  </tile>
+  <tile id="5">
+   <image width="20" height="20" source="../png/items/MoonPendantOrange.png"/>
+  </tile>
+  <tile id="6">
+   <image width="16" height="20" source="../png/items/CashMoney.png"/>
+  </tile>
+ </tileset>
+ <layer name="background" width="36" height="40">
+  <data encoding="base64">
+   VQEAAAUBAAAGAQAAQgEAAEIBAABCAQAAQgEAAEIBAABCAQAAQgEAAEIBAABCAQAAQgEAAEIBAABCAQAAQgEAAEIBAABCAQAAQgEAAEIBAABCAQAAQgEAAEIBAABCAQAAQgEAAEIBAABCAQAAQgEAAEIBAABCAQAAQgEAAEIBAABCAQAABwEAAAgBAABVAQAAVQEAABUBAAAWAQAAUgEAAFIBAABSAQAAUgEAAFIBAABSAQAAUgEAAFIBAABSAQAAUgEAAFIBAABSAQAAUgEAAFIBAABSAQAAUgEAAFIBAABSAQAAUgEAAFIBAABSAQAAUgEAAFIBAABSAQAAUgEAAFIBAABSAQAAUgEAAFIBAABSAQAAFwEAABgBAABVAQAAVQEAAEMBAABEAQAARQEAAEUBAABiAQAAYgEAAGIBAABiAQAAYgEAAGIBAABiAQAAYgEAAGIBAABFAQAARQEAAEUBAABiAQAAYgEAAGIBAABiAQAAYgEAAGIBAABiAQAAYgEAAGIBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAAUwEAABgBAABVAQAAVQEAAEMBAABEAQAARQEAAEUBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAABFAQAARQEAAEUBAAByAQAAcgEAAHIBAAByAQAAZAEAAIIBAACCAQAAgwEAAAEBAAACAQAAQQEAAEEBAABBAQAABAEAAGIBAABjAQAAUwEAAFQBAABVAQAAVQEAAEMBAABEAQAAcQEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcwEAAAEBAAACAQAAQQEAACcBAAASAQAAUQEAAFEBAAATAQAAFAEAAHIBAABzAQAAUwEAAFQBAABVAQAAVQEAAEMBAABEAQAAcQEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcwEAABEBAAASAQAAUQEAADcBAAA4AQAAVQEAAAUBAAAjAQAAJAEAAHIBAABzAQAAUwEAAFQBAABVAQAAVQEAAEMBAABEAQAAcQEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcwEAAFMBAABUAQAAVQEAAFUBAABVAQAAVQEAABUBAAAWAQAANAEAAHIBAABzAQAAUwEAAFQBAABVAQAAVQEAAEMBAABEAQAAcQEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcwEAAFMBAABUAQAAVQEAAFUBAABVAQAABQEAACMBAAAkAQAAcgEAAHIBAABzAQAAUwEAAFQBAABVAQAAVQEAAEMBAABEAQAAcQEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcwEAAFMBAABUAQAAVQEAAFUBAABVAQAAFQEAABYBAAA0AQAAcgEAAHIBAABzAQAAUwEAAFQBAABVAQAAVQEAAEMBAABEAQAARQEAAEUBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcwEAAFMBAABUAQAABQEAAAYBAABCAQAAIwEAACQBAAByAQAAcgEAAHIBAABzAQAAUwEAAFQBAABVAQAAVQEAAEMBAABEAQAARQEAAEUBAACCAQAAggEAAIIBAACCAQAAggEAAIIBAACCAQAAggEAAIIBAABFAQAARQEAAEUBAACCAQAAggEAAIIBAACCAQAAgwEAAFMBAABUAQAAFQEAABYBAABSAQAAMwEAADQBAAByAQAAcgEAAHIBAABzAQAAUwEAAFQBAABVAQAAVQEAACUBAAAmAQAAQQEAAEEBAABBAQAAQQEAAEEBAABBAQAAQQEAAEEBAABBAQAAAwEAAAQBAABFAQAARQEAAEUBAAABAQAAAgEAAEEBAABBAQAAQQEAACcBAAAoAQAAQwEAAEQBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAABzAQAAUwEAAFQBAABVAQAAVQEAADUBAAA2AQAAUQEAAFEBAABRAQAAUQEAAFEBAABRAQAAUQEAAFEBAABRAQAAEwEAABQBAABFAQAARQEAAEUBAAARAQAAEgEAAFEBAABRAQAAUQEAADcBAAA4AQAAQwEAAEQBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAABzAQAAUwEAAFQBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAAUBAAAGAQAAQgEAAEIBAABCAQAAIwEAACQBAABFAQAARQEAAEUBAAAhAQAAIgEAAEIBAABCAQAAQgEAAAcBAAAIAQAAQwEAAEQBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAABzAQAAUwEAAFQBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAABUBAAAWAQAAUgEAAFIBAABSAQAAMwEAADQBAABFAQAARQEAAEUBAAAxAQAAMgEAAFIBAABSAQAAUgEAABcBAAAYAQAAQwEAAEQBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAABzAQAAUwEAAFQBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAEMBAABEAQAAcgEAAHIBAAByAQAAcgEAAHIBAABFAQAARQEAAEUBAAByAQAAcgEAAHIBAAByAQAAcgEAAFMBAABUAQAAQwEAAEQBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAABzAQAAUwEAAFQBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAEMBAABEAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAFMBAABUAQAAQwEAAEQBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAABzAQAAUwEAAFQBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAEMBAABEAQAAcgEAAHIBAAByAQAAcgEAAHIBAABFAQAARQEAAEUBAAByAQAAcgEAAHIBAAByAQAAcgEAAFMBAABUAQAAQwEAAEQBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAABzAQAAUwEAAFQBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAEMBAABEAQAAcgEAAHIBAAByAQAAcgEAAAEBAAACAQAAQQEAAEEBAAADAQAABAEAAHEBAAByAQAAcgEAAFMBAABUAQAAQwEAAEQBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAABzAQAAUwEAACIBAAAIAQAAVQEAAFUBAABVAQAAVQEAAFUBAAAFAQAABgEAACMBAAAkAQAAcgEAAHIBAAByAQAAcgEAABEBAAASAQAAUQEAAFEBAAATAQAAFAEAAHEBAAByAQAAcgEAAFMBAABUAQAAQwEAAEQBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAABzAQAAMQEAABcBAAAYAQAAVQEAAFUBAABVAQAAVQEAAFUBAAAVAQAAFgEAADMBAAA0AQAAcgEAAHIBAAByAQAAcgEAACEBAAAiAQAABwEAAAgBAABDAQAARAEAAHEBAAByAQAAcgEAAFMBAABUAQAAQwEAAEQBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAABzAQAARQEAAFMBAABUAQAAQgEAAEIBAABCAQAAQgEAAEIBAAAjAQAAJAEAAHEBAAByAQAAcgEAAHIBAAByAQAAcgEAADEBAAAyAQAAFwEAABgBAABDAQAARAEAAHEBAAByAQAAcgEAAFMBAABUAQAAQwEAAEQBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAABzAQAAAQEAACcBAAAoAQAAUgEAAFIBAABSAQAAUgEAAFIBAAAzAQAANAEAAHEBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAABzAQAAUwEAAFQBAABDAQAARAEAAHEBAAByAQAAcgEAAFMBAABUAQAAQwEAAEQBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAABzAQAAEQEAABIBAAA4AQAAYgEAAGIBAABiAQAAYgEAAGIBAABiAQAAYgEAAHUBAABFAQAARQEAAHIBAAByAQAAcgEAAHIBAABzAQAAUwEAAFQBAABDAQAARAEAAHEBAABCAQAAcgEAAFMBAABUAQAAQwEAAEQBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAABzAQAAUwEAAFQBAABVAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAAcgEAAHIBAABzAQAAUwEAAFQBAABDAQAARAEAAHEBAABRAQAAcgEAAFMBAABUAQAAQwEAAEQBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAABzAQAAUwEAAFQBAABVAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAAcgEAAHIBAABzAQAAUwEAAFQBAABDAQAARAEAAHEBAAByAQAAcgEAACEBAAAiAQAAIwEAACQBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAABzAQAAUwEAAFQBAABVAQAAggEAAIIBAACCAQAAggEAAIIBAACCAQAAggEAAGUBAABFAQAARQEAAHIBAAByAQAAcgEAAHIBAABzAQAAUwEAAFQBAABDAQAARAEAAHEBAAByAQAAcgEAADEBAAAyAQAAMwEAADQBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAABzAQAAUwEAAFQBAABVAQAAQQEAAEEBAABBAQAAQQEAAEEBAAADAQAABAEAAHEBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAABzAQAAUwEAAFQBAABDAQAARAEAAHEBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAABzAQAAUwEAAFQBAABVAQAAUQEAAFEBAABRAQAAUQEAAFEBAAATAQAAFAEAAIEBAACCAQAAZQEAAHIBAAByAQAAcgEAAAEBAAACAQAAJwEAACgBAABDAQAARAEAAHEBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAABzAQAAUwEAAFQBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAAAlAQAAJgEAAAMBAAAEAQAAcQEAAHIBAAByAQAAcgEAABEBAAASAQAANwEAADgBAABDAQAARAEAAHEBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAABzAQAAUwEAAFQBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAAA1AQAANgEAABMBAAAUAQAAcQEAAHIBAAByAQAAcgEAAFMBAABUAQAAVQEAAFUBAAAlAQAAJgEAAEEBAABBAQAAAwEAAAQBAAByAQAAcgEAAHIBAAByAQAARQEAAHIBAABFAQAARQEAAHIBAABFAQAAUwEAAFQBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAEMBAABEAQAAcQEAAHIBAAByAQAAcgEAAFMBAABUAQAAVQEAAFUBAAA1AQAANgEAAFEBAABRAQAAEwEAABQBAAByAQAAcgEAAHIBAAByAQAARQEAAEUBAABFAQAARQEAAHIBAABFAQAAUwEAAFQBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAEMBAABEAQAAcQEAAHIBAAByAQAAcgEAACEBAAAiAQAAQgEAAEIBAABCAQAAQgEAAEIBAABCAQAAIwEAACQBAAByAQAAcgEAAHIBAAByAQAARQEAAHIBAABFAQAARQEAAHIBAABFAQAAUwEAAFQBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAEMBAABEAQAAcQEAAHIBAAByAQAAcgEAADEBAAAyAQAAUgEAAFIBAABSAQAAUgEAAFIBAABSAQAAMwEAADQBAAByAQAAcwEAAAEBAAACAQAAAwEAAAQBAABxAQAAcgEAAHIBAABzAQAAUwEAAFQBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAEMBAABEAQAAcQEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcwEAABEBAAASAQAAEwEAABQBAABxAQAAcgEAAHIBAABzAQAAUwEAAFQBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAEMBAABEAQAAcQEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcwEAAFMBAABUAQAAQwEAAEQBAABxAQAAcgEAAHIBAABzAQAAUwEAAFQBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAEMBAABEAQAAgQEAAIIBAACCAQAAggEAAIIBAACCAQAAggEAAIIBAACCAQAAggEAAIIBAACCAQAAggEAAIIBAACCAQAAgwEAAFMBAABUAQAAQwEAAEQBAACBAQAARQEAAEUBAACDAQAAUwEAAFQBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAACUBAAAmAQAAQQEAAEEBAABBAQAAQQEAAEEBAABBAQAAQQEAAEEBAABBAQAAQQEAAEEBAABBAQAAQQEAAEEBAABBAQAAQQEAACcBAAAoAQAAJQEAACYBAABBAQAAQQEAAEEBAABBAQAAJwEAACgBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAADUBAAA2AQAAUQEAAFEBAABRAQAAUQEAAFEBAABRAQAAUQEAAFEBAABRAQAAUQEAAFEBAABRAQAAUQEAAFEBAABRAQAAUQEAADcBAAA4AQAANQEAADYBAABRAQAAUQEAAFEBAABRAQAANwEAADgBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAA
+  </data>
+ </layer>
+ <layer name="terrain" width="36" height="40" visible="0">
+  <data encoding="base64">
+   AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+  </data>
+ </layer>
+ <objectgroup name="entities">
+  <object type="Player" gid="515" x="208" y="800"/>
+  <object name="Target" type="Item" gid="519" x="496" y="80"/>
+  <object name="Health Potion" type="Item" gid="520" x="480" y="416"/>
+  <object name="Target" type="Item" gid="519" x="112" y="80" width="32" height="32"/>
+  <object name="platform-patrol-0-0" type="PatrolPoint" x="320" y="832" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="0"/>
+    <property name="patrolName" value="platform-patrol-0"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-0-1" type="PatrolPoint" x="320" y="1120" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="1"/>
+    <property name="patrolName" value="platform-patrol-0"/>
+   </properties>
+  </object>
+  <object name="platform-2" type="Platform" gid="521" x="832" y="544" width="32" height="32">
+   <properties>
+    <property name="patrolName" value="platform-patrol-2"/>
+    <property name="switchName" value="platform-switch-1"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-1-0" type="PatrolPoint" x="992" y="704" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="1"/>
+    <property name="patrolName" value="platform-patrol-1"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-1-1" type="PatrolPoint" x="992" y="1120" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="0"/>
+    <property name="patrolName" value="platform-patrol-1"/>
+   </properties>
+  </object>
+  <object name="Switch" type="Switch" gid="522" x="288" y="840">
+   <properties>
+    <property name="switchName" value="platform-switch-0"/>
+   </properties>
+  </object>
+  <object name="To Hookshot Demo Map 2" type="ZoneSwitcher" x="0" y="768" width="16" height="64">
+   <properties>
+    <property name="targetX" value="730"/>
+    <property name="targetY" value="480"/>
+    <property name="type" value="ZoneSwitcher"/>
+    <property name="url" value="assets/tmx/hookshot-demo-map-2.tmx"/>
+   </properties>
+  </object>
+  <object name="platform-0" type="Platform" gid="521" x="320" y="864">
+   <properties>
+    <property name="patrolName" value="platform-patrol-0"/>
+    <property name="switchName" value="platform-switch-0"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-0-1" type="PatrolPoint" x="768" y="1120" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="2"/>
+    <property name="patrolName" value="platform-patrol-0"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-0-1" type="PatrolPoint" x="768" y="896" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="3"/>
+    <property name="patrolName" value="platform-patrol-0"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-0-1" type="PatrolPoint" x="640" y="896" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="4"/>
+    <property name="patrolName" value="platform-patrol-0"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-0-1" type="PatrolPoint" x="640" y="512" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="5"/>
+    <property name="patrolName" value="platform-patrol-0"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-0-1" type="PatrolPoint" x="320" y="512" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="6"/>
+    <property name="patrolName" value="platform-patrol-0"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-0-1" type="PatrolPoint" x="320" y="736" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="7"/>
+    <property name="patrolName" value="platform-patrol-0"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-0-1" type="PatrolPoint" x="384" y="736" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="8"/>
+    <property name="patrolName" value="platform-patrol-0"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-0-1" type="PatrolPoint" x="384" y="832" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="9"/>
+    <property name="patrolName" value="platform-patrol-0"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-1-0" type="PatrolPoint" x="832" y="800" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="1"/>
+    <property name="patrolName" value="platform-patrol-2"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-1-1" type="PatrolPoint" x="832" y="384" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="0"/>
+    <property name="patrolName" value="platform-patrol-2"/>
+   </properties>
+  </object>
+  <object name="platform-1" type="Platform" gid="521" x="992" y="1024">
+   <properties>
+    <property name="patrolName" value="platform-patrol-1"/>
+    <property name="switchName" value="platform-switch-1"/>
+   </properties>
+  </object>
+  <object name="Switch" type="Switch" gid="522" x="1040" y="1000">
+   <properties>
+    <property name="switchName" value="platform-switch-1"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-1-1" type="PatrolPoint" x="864" y="416" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="1"/>
+    <property name="patrolName" value="platform-patrol-3"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-1-1" type="PatrolPoint" x="864" y="512" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="0"/>
+    <property name="patrolName" value="platform-patrol-3"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-1-1" type="PatrolPoint" x="896" y="448" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="1"/>
+    <property name="patrolName" value="platform-patrol-4"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-1-1" type="PatrolPoint" x="896" y="352" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="0"/>
+    <property name="patrolName" value="platform-patrol-4"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-1-1" type="PatrolPoint" x="928" y="288" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="1"/>
+    <property name="patrolName" value="platform-patrol-5"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-1-1" type="PatrolPoint" x="928" y="384" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="0"/>
+    <property name="patrolName" value="platform-patrol-5"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-1-1" type="PatrolPoint" x="960" y="224" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="0"/>
+    <property name="patrolName" value="platform-patrol-6"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-1-1" type="PatrolPoint" x="960" y="320" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="1"/>
+    <property name="patrolName" value="platform-patrol-6"/>
+   </properties>
+  </object>
+  <object name="platform-2" type="Platform" gid="521" x="864" y="480" width="32" height="32">
+   <properties>
+    <property name="patrolName" value="platform-patrol-3"/>
+    <property name="switchName" value="platform-switch-1"/>
+   </properties>
+  </object>
+  <object name="platform-2" type="Platform" gid="521" x="896" y="448" width="32" height="32">
+   <properties>
+    <property name="patrolName" value="platform-patrol-4"/>
+    <property name="switchName" value="platform-switch-1"/>
+   </properties>
+  </object>
+  <object name="platform-2" type="Platform" gid="521" x="928" y="352" width="32" height="32">
+   <properties>
+    <property name="patrolName" value="platform-patrol-5"/>
+    <property name="switchName" value="platform-switch-1"/>
+   </properties>
+  </object>
+  <object name="platform-2" type="Platform" gid="521" x="960" y="320" width="32" height="32">
+   <properties>
+    <property name="patrolName" value="platform-patrol-6"/>
+    <property name="switchName" value="platform-switch-1"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-1-1" type="PatrolPoint" x="992" y="160" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="1"/>
+    <property name="patrolName" value="platform-patrol-7"/>
+   </properties>
+  </object>
+  <object name="platform-2" type="Platform" gid="521" x="992" y="224" width="32" height="32">
+   <properties>
+    <property name="patrolName" value="platform-patrol-7"/>
+    <property name="switchName" value="platform-switch-1"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-1-1" type="PatrolPoint" x="992" y="256" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="0"/>
+    <property name="patrolName" value="platform-patrol-7"/>
+   </properties>
+  </object>
+  <object name="platform-2" type="Platform" gid="521" x="1024" y="192" width="32" height="32">
+   <properties>
+    <property name="patrolName" value="platform-patrol-8"/>
+    <property name="switchName" value="platform-switch-1"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-1-1" type="PatrolPoint" x="1024" y="192" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="1"/>
+    <property name="patrolName" value="platform-patrol-8"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-1-1" type="PatrolPoint" x="1024" y="96" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="0"/>
+    <property name="patrolName" value="platform-patrol-8"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-1-0" type="PatrolPoint" x="960" y="704" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="1"/>
+    <property name="patrolName" value="platform-patrol-9"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-1-0" type="PatrolPoint" x="864" y="704" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="0"/>
+    <property name="patrolName" value="platform-patrol-9"/>
+   </properties>
+  </object>
+  <object name="platform-2" type="Platform" gid="521" x="928" y="736" width="32" height="32">
+   <properties>
+    <property name="patrolName" value="platform-patrol-9"/>
+    <property name="switchName" value="platform-switch-1"/>
+   </properties>
+  </object>
+  <object name="platform-2" type="Platform" gid="521" x="992" y="448" width="32" height="32">
+   <properties>
+    <property name="patrolName" value="platform-patrol-10"/>
+    <property name="switchName" value="platform-switch-1"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-1-0" type="PatrolPoint" x="1024" y="416" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="1"/>
+    <property name="patrolName" value="platform-patrol-10"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-1-0" type="PatrolPoint" x="928" y="416" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="0"/>
+    <property name="patrolName" value="platform-patrol-10"/>
+   </properties>
+  </object>
+  <object name="platform-2" type="Platform" gid="521" x="1024" y="640" width="32" height="32">
+   <properties>
+    <property name="patrolName" value="platform-patrol-11"/>
+    <property name="switchName" value="platform-switch-1"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-1-0" type="PatrolPoint" x="1024" y="640" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="1"/>
+    <property name="patrolName" value="platform-patrol-11"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-1-0" type="PatrolPoint" x="1024" y="448" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="0"/>
+    <property name="patrolName" value="platform-patrol-11"/>
+   </properties>
+  </object>
+  <object name="Moon Pendant Orange" type="Item" gid="523" x="1072" y="656"/>
+  <object name="Target" type="Item" gid="519" x="112" y="336" width="32" height="32"/>
+  <object name="platform-patrol-1-0" type="PatrolPoint" x="256" y="192" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="0"/>
+    <property name="patrolName" value="platform-patrol-12"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-1-0" type="PatrolPoint" x="256" y="320" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="1"/>
+    <property name="patrolName" value="platform-patrol-12"/>
+   </properties>
+  </object>
+  <object name="platform-2" type="Platform" gid="521" x="256" y="320" width="32" height="32">
+   <properties>
+    <property name="patrolName" value="platform-patrol-12"/>
+    <property name="switchName" value="platform-switch-2"/>
+   </properties>
+  </object>
+  <object name="Switch" type="Switch" gid="522" x="496" y="336">
+   <properties>
+    <property name="switchName" value="platform-switch-2"/>
+   </properties>
+  </object>
+  <object name="Target" type="Item" gid="519" x="272" y="336" width="32" height="32"/>
+  <object name="Target" type="Item" gid="519" x="624" y="224" width="32" height="32"/>
+  <object name="platform-patrol-1-0" type="PatrolPoint" x="608" y="320" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="1"/>
+    <property name="patrolName" value="platform-patrol-13"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-1-0" type="PatrolPoint" x="608" y="192" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="0"/>
+    <property name="patrolName" value="platform-patrol-13"/>
+   </properties>
+  </object>
+  <object name="platform-2" type="Platform" gid="521" x="608" y="352" width="32" height="32">
+   <properties>
+    <property name="patrolName" value="platform-patrol-13"/>
+    <property name="switchName" value="platform-switch-2"/>
+   </properties>
+  </object>
+  <object name="Cash Money" type="Item" gid="524" x="1000" y="1168"/>
+ </objectgroup>
+ <layer name="canopy" width="36" height="40" visible="0">
+  <data encoding="base64">
+   AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+  </data>
+ </layer>
+ <layer name="collision" width="36" height="40" visible="0" opacity="0.19">
+  <data encoding="base64">
+   AQIAAAECAAABAgAAAQIAAAECAAABAgAAAQIAAAECAAABAgAAAQIAAAECAAABAgAAAQIAAAECAAABAgAAAQIAAAECAAABAgAAAQIAAAECAAABAgAAAQIAAAECAAABAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQIAAAECAAABAgAAAQIAAAECAAABAgAAAQIAAAECAAABAgAAAQIAAAECAAABAgAAAQIAAAECAAABAgAAAQIAAAECAAABAgAAAQIAAAECAAABAgAAAQIAAAECAAABAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQIAAAECAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAECAAABAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQIAAAECAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAECAAABAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQIAAAECAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAECAAABAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQIAAAECAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAgAAAQIAAAECAAABAgAAAAAAAAAAAAAAAAAAAQIAAAECAAABAgAAAQIAAAAAAAAAAAAAAAAAAAECAAABAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQIAAAECAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAgAAAQIAAAECAAABAgAAAAAAAAAAAAAAAAAAAQIAAAECAAABAgAAAQIAAAAAAAAAAAAAAAAAAAECAAABAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQIAAAECAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAgAAAQIAAAECAAABAgAAAAAAAAAAAAAAAAAAAQIAAAECAAABAgAAAQIAAAAAAAAAAAAAAAAAAAECAAABAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQIAAAECAAABAgAAAQIAAAECAAAAAAAAAAAAAAAAAAABAgAAAQIAAAECAAABAgAAAAAAAAAAAAAAAAAAAQIAAAECAAABAgAAAQIAAAAAAAAAAAAAAAAAAAECAAABAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQIAAAECAAABAgAAAQIAAAECAAAAAAAAAAAAAAAAAAABAgAAAQIAAAECAAABAgAAAAAAAAAAAAAAAAAAAQIAAAECAAABAgAAAQIAAAAAAAAAAAAAAAAAAAECAAABAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQIAAAECAAABAgAAAQIAAAECAAAAAAAAAAAAAAAAAAABAgAAAQIAAAECAAABAgAAAAAAAAAAAAAAAAAAAQIAAAECAAABAgAAAQIAAAAAAAAAAAAAAAAAAAECAAABAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQIAAAECAAABAgAAAQIAAAECAAAAAAAAAAAAAAAAAAABAgAAAQIAAAECAAABAgAAAAAAAAAAAAAAAAAAAQIAAAECAAABAgAAAQIAAAAAAAAAAAAAAAAAAAECAAABAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQIAAAECAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAgAAAQIAAAECAAABAgAAAQIAAAECAAABAgAAAQIAAAECAAABAgAAAQIAAAAAAAAAAAAAAAAAAAECAAABAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQIAAAECAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAgAAAQIAAAECAAABAgAAAQIAAAECAAABAgAAAQIAAAECAAABAgAAAQIAAAAAAAAAAAAAAAAAAAECAAABAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAgAAAQIAAAECAAABAgAAAQIAAAECAAABAgAAAQIAAAECAAABAgAAAQIAAAECAAABAgAAAQIAAAAAAAAAAAAAAAAAAAECAAABAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAgAAAQIAAAECAAABAgAAAQIAAAECAAABAgAAAQIAAAECAAABAgAAAQIAAAECAAABAgAAAQIAAAAAAAAAAAAAAAAAAAECAAABAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQIAAAECAAAAAAAAAAAAAAAAAAABAgAAAQIAAAECAAABAgAAAQIAAAECAAABAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAECAAABAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQIAAAECAAAAAAAAAAAAAAAAAAABAgAAAQIAAAECAAABAgAAAQIAAAECAAABAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAECAAABAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQIAAAECAAABAgAAAQIAAAECAAABAgAAAQIAAAECAAABAgAAAQIAAAECAAABAgAAAQIAAAECAAABAgAAAAAAAAAAAAABAgAAAQIAAAECAAABAgAAAQIAAAECAAABAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQIAAAECAAABAgAAAQIAAAECAAABAgAAAQIAAAECAAABAgAAAQIAAAECAAABAgAAAQIAAAECAAABAgAAAAAAAAAAAAABAgAAAQIAAAECAAABAgAAAQIAAAECAAABAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+  </data>
+ </layer>
+</map>
