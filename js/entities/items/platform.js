@@ -41,6 +41,7 @@ function Platform(options) {
 		this.state = this.options.state ? this.options.state : "off";
 		this.passable = this.options.passable;
 		this.patrolName = this.options.patrolName;
+		this.defaultPatrolIndex = this.options.defaultPatrolIndex;
 		this.switchName = this.options.switchName;
 
 		this.setImage(this.animation.subsets["unequipped"].next());
@@ -84,7 +85,7 @@ function Platform(options) {
 		updateDestination: function () {
 			// Initialize patrol index if it hasn't been already.
 			if(this.currentPatrolIndex === null) {
-				this.currentPatrolIndex = 0;
+				this.currentPatrolIndex = host.defaultPatrolIndex ? host.defaultPatrolIndex : 0;
 			} 
 			// ...else, increment patrol index.
 			else {
