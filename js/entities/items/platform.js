@@ -42,7 +42,9 @@ function Platform(options) {
 		this.passable = this.options.passable;
 		this.patrolName = this.options.patrolName;
 		this.defaultPatrolIndex = this.options.defaultPatrolIndex;
+		this.defaultState = this.options.defaultState ? this.options.defaultState : 'off';
 		this.switchName = this.options.switchName;
+		this.switchBoundTo = null;
 
 		this.setImage(this.animation.subsets["unequipped"].next());
 	}
@@ -66,7 +68,7 @@ function Platform(options) {
 		currentPatrolIndex: null,
 		destination: null,
 
-		initialState: 'off',
+		initialState: host.defaultState,
 
 		hasArrived: function () {
 			if(Math.abs(this.destination.x - host.x) < this.MAX_VEL) {
@@ -106,28 +108,22 @@ function Platform(options) {
 			host.x += this.vel.x;
 			host.y += this.vel.y;
 		},
-
-		turnOn: function (patrol) {
-			if(this.state === 'off' && patrol.length) {
-				this.patrolPoints = patrol;
-				this.transition('on');
+		
+		setPatrol: function (patrol, forceReset) {
+			if(patrol.length) {
+				if (this.patrolPoints === null || forceReset) {
+					this.patrolPoints = patrol;
+				}
 			}
-		},
-
-		turnOff: function () {
-			if(this.state === 'on') this.transition('off');
 		},
 
 		// States
 		states: {
 			'on': {
-				'_onEnter': function () {
-					if(!this.destination) this.updateDestination();
-				},
 				'update': function () {
 
-					// If we've reached our destination, let's reset our goal.
-					if(this.hasArrived()) this.updateDestination();
+					// If we've reached our destination or if we don't have one yet, let's reset our goal.
+					if(this.hasArrived() || !this.destination) this.updateDestination();
 					
 					// Determine the distance between us and our destination.
 					this.vel.x = this.destination.x - host.x;
@@ -144,13 +140,13 @@ function Platform(options) {
 					this.updateHost();
 				},
 				'toggle': function () {
-					this.turnOff();
+					this.transition('off');
 				}
 			},
 
 			'off': {
 				'toggle': function () {
-					this.turnOn();
+					this.transition('on');
 				}
 			}
 		}
@@ -161,19 +157,26 @@ function Platform(options) {
 Platform.prototype = Object.create(Entity.prototype);
 
 Platform.prototype.update = function() {
-	// Has a switch associated with it?
-	if(this.switchName && this._gameData.switches[this.switchName]) {
-		// Switch is on?
-		if(this._gameData.switches[this.switchName].state === 'on') {
-			// Turn on platform movement if patrol points are assigned
-			if(this.movementFsm.state === 'off') {
-				if(this.patrolName && this._gameData.patrols[this.patrolName]) {
-					this.movementFsm.turnOn(this._gameData.patrols[this.patrolName]);
-				}
+	// Make sure we set our patrol if we haven't already.
+	if(this.patrolName && this._gameData.patrols[this.patrolName]) {
+		this.movementFsm.setPatrol(this._gameData.patrols[this.patrolName]);
+	}
+	
+	// Make sure we bind to a switch if we haven't already.
+	if(this.switchName && this._gameData.switches[this.switchName] && this.switchBoundTo === null) {
+		this.switchBoundTo = this._gameData.switches[this.switchName];
+		
+		var host = this;
+		this.switchBoundTo.fsm.on('transition', function( data ) {
+			switch(data.toState) {
+				case 'on':
+				case 'off':
+					host.movementFsm.handle('toggle');
+					break;
+				default:
+					// Do nothing.
 			}
-		} else {
-			this.movementFsm.turnOff();
-		}
+		});
 	}
 
 	// Update platform.

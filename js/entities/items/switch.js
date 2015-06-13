@@ -1,6 +1,6 @@
 define(
-['jaws', '$', 'DATABASE', 'entities/entity', 'lib/SAT'],
-function (jaws, $, DATABASE, Entity, SAT) {
+['jaws', 'lib/machina', '$', 'DATABASE', 'entities/entity', 'lib/SAT'],
+function (jaws, machina, $, DATABASE, Entity, SAT) {
 
 function Switch(options) {
 	
@@ -42,6 +42,34 @@ function Switch(options) {
 
 	// Make myself available for things to react to my state.
 	this._gameData.switches[this.switchName] = this;
+	
+	// FSM
+	var self = this;
+	this.fsm = new machina.Fsm({
+		initialState: self.state,
+		states: {
+			'on': {
+				'toggleState': function () {
+					this.transition('off');
+				},
+				draw: function () {
+					self.setImage(self.animation.subsets['on'].next());
+					// Call original Entity.draw() function.
+					Entity.prototype.draw.call(self);
+				}
+			},
+			'off': {
+				'toggleState': function () {
+					this.transition('on');
+				},
+				draw: function () {
+					self.setImage(self.animation.subsets['off'].next());
+					// Call original Entity.draw() function.
+					Entity.prototype.draw.call(self);
+				}
+			}
+		}
+	});
 }
 
 Switch.prototype = Object.create(Entity.prototype);
@@ -57,7 +85,7 @@ Switch.prototype.onCollision = function (collision) {
 		case 'touch':
 			if (collision.target.attacker &&
 				collision.target.attacker == this._gameData.player) {
-				this.toggleState();
+				this.fsm.handle('toggleState');
 			}
 			break;
 		default:
@@ -70,18 +98,7 @@ Switch.prototype.update = function () {
 };
 
 Switch.prototype.draw = function () {
-	this.setImage(this.animation.subsets[this.state].next());
-	// Call original Entity.draw() function.
-	Entity.prototype.draw.call(this);
-};
-
-Switch.prototype.toggleState = function () {
-	if (this.state === "off") {
-		this.state = "on";
-	}
-	else {
-		this.state = "off";
-	}
+	this.fsm.handle('draw');
 };
 
 return Switch;

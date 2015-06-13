@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="24" height="20" tilewidth="32" tileheight="32" nextobjectid="32">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="24" height="20" tilewidth="32" tileheight="32">
  <tileset firstgid="1" name="terrain-32x32" tilewidth="32" tileheight="32">
   <image source="../png/terrain/terrain-32x32.png" width="512" height="512"/>
  </tileset>
@@ -331,67 +331,107 @@
   </data>
  </layer>
  <objectgroup name="entities">
-  <object id="1" type="Player" gid="515" x="504" y="520"/>
-  <object id="2" name="To Hookshot Demo Map 2" type="ZoneSwitcher" x="352" y="-16" width="108" height="31">
+  <object type="Player" gid="515" x="504" y="520"/>
+  <object name="To Hookshot Demo Map 2" type="ZoneSwitcher" x="352" y="-16" width="108" height="31">
    <properties>
     <property name="targetY" value="920"/>
     <property name="type" value="ZoneSwitcher"/>
     <property name="url" value="assets/tmx/hookshot-demo-map-2.tmx"/>
    </properties>
   </object>
-  <object id="3" type="Tellah" gid="516" x="208" y="288">
+  <object type="Tellah" gid="516" x="208" y="288">
    <properties>
     <property name="state" value="idle"/>
    </properties>
   </object>
-  <object id="4" name="Target" type="Item" gid="519" x="176" y="464"/>
-  <object id="5" name="Target" type="Item" gid="519" x="176" y="176"/>
-  <object id="6" name="Health Potion" type="Item" gid="520" x="416" y="184"/>
-  <object id="7" name="Clay Pot" type="Item" gid="518" x="360" y="400"/>
-  <object id="8" name="Cash Money" type="Item" gid="521" x="376" y="144"/>
-  <object id="9" name="Switch" type="Switch" gid="522" x="386" y="414">
+  <object name="Target" type="Item" gid="519" x="176" y="464"/>
+  <object name="Target" type="Item" gid="519" x="176" y="176"/>
+  <object name="Health Potion" type="Item" gid="520" x="416" y="184"/>
+  <object name="Clay Pot" type="Item" gid="518" x="360" y="400"/>
+  <object name="Cash Money" type="Item" gid="521" x="376" y="144"/>
+  <object name="Switch" type="Switch" gid="522" x="464" y="424">
    <properties>
+    <property name="state" value="on"/>
     <property name="switchName" value="platform-switch-1"/>
    </properties>
   </object>
-  <object id="15" name="platform-1" type="Platform" gid="46" x="512" y="416" width="32" height="32">
+  <object name="platform-1" type="Platform" gid="46" x="512" y="416" width="32" height="32">
    <properties>
+    <property name="defaultState" value="on"/>
     <property name="patrolName" value="platform-patrol-1"/>
     <property name="switchName" value="platform-switch-1"/>
    </properties>
   </object>
-  <object id="18" name="platform-patrol-1-0" type="PatrolPoint" x="512" y="384" width="32" height="32">
+  <object name="platform-patrol-1-0" type="PatrolPoint" x="512" y="384" width="32" height="32">
    <properties>
     <property name="patrolIndex" value="0"/>
     <property name="patrolName" value="platform-patrol-1"/>
    </properties>
   </object>
-  <object id="23" name="platform-patrol-1-1" type="PatrolPoint" x="576" y="384" width="32" height="32">
+  <object name="platform-patrol-1-1" type="PatrolPoint" x="576" y="384" width="32" height="32">
    <properties>
     <property name="patrolIndex" value="1"/>
     <property name="patrolName" value="platform-patrol-1"/>
    </properties>
   </object>
-  <object id="24" name="platform-patrol-1-2" type="PatrolPoint" x="576" y="416" width="32" height="32">
+  <object name="platform-patrol-1-2" type="PatrolPoint" x="576" y="448" width="32" height="32">
    <properties>
     <property name="patrolIndex" value="0"/>
     <property name="patrolName" value="platform-patrol-2"/>
    </properties>
   </object>
-  <object id="25" name="platform-patrol-1-3" type="PatrolPoint" x="512" y="416" width="32" height="32">
+  <object name="platform-patrol-1-3" type="PatrolPoint" x="512" y="448" width="32" height="32">
    <properties>
     <property name="patrolIndex" value="1"/>
     <property name="patrolName" value="platform-patrol-2"/>
    </properties>
   </object>
-  <object id="26" name="platform-2" type="Platform" gid="46" x="512" y="448" width="32" height="32">
+  <object name="platform-2" type="Platform" gid="46" x="512" y="480" width="32" height="32">
    <properties>
     <property name="patrolName" value="platform-patrol-2"/>
+    <property name="switchName" value="platform-switch-1"/>
+   </properties>
+  </object>
+  <object name="Switch" type="Switch" gid="522" x="304" y="520">
+   <properties>
     <property name="switchName" value="platform-switch-2"/>
    </properties>
   </object>
-  <object id="27" name="Switch" type="Switch" gid="522" x="385" y="444">
+  <object name="platform-patrol-1-1" type="PatrolPoint" x="224" y="480" width="32" height="32">
    <properties>
+    <property name="patrolIndex" value="1"/>
+    <property name="patrolName" value="platform-patrol-3"/>
+   </properties>
+  </object>
+  <object name="platform-1" type="Platform" gid="46" x="160" y="512" width="32" height="32">
+   <properties>
+    <property name="defaultState" value="off"/>
+    <property name="patrolName" value="platform-patrol-3"/>
+    <property name="switchName" value="platform-switch-2"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-1-0" type="PatrolPoint" x="160" y="480" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="0"/>
+    <property name="patrolName" value="platform-patrol-3"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-1-0" type="PatrolPoint" x="160" y="544" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="0"/>
+    <property name="patrolName" value="platform-patrol-4"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-1-1" type="PatrolPoint" x="224" y="544" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="1"/>
+    <property name="patrolName" value="platform-patrol-4"/>
+   </properties>
+  </object>
+  <object name="platform-1" type="Platform" gid="46" x="160" y="576" width="32" height="32">
+   <properties>
+    <property name="defaultState" value="on"/>
+    <property name="patrolName" value="platform-patrol-4"/>
     <property name="switchName" value="platform-switch-2"/>
    </properties>
   </object>
