@@ -331,7 +331,7 @@
  </tileset>
  <layer name="background" width="24" height="20">
   <data encoding="base64">
-   BQEAAAYBAABCAQAAQgEAAEIBAABCAQAAQgEAAEIBAABCAQAAQgEAAEIBAABCAQAAQgEAAAcBAAAIAQAABQEAAAYBAABCAQAAQgEAAEIBAABCAQAAQgEAAAcBAAAIAQAAFQEAABYBAABSAQAAUgEAAFIBAABSAQAAUgEAAFIBAABSAQAAUgEAAFIBAABSAQAAUgEAABcBAAAYAQAAFQEAABYBAABSAQAAUgEAAFIBAABSAQAAUgEAABcBAAAiAQAAQwEAAEQBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAARQEAAFMBAABUAQAAQwEAAEQBAABFAQAARQEAAEUBAABFAQAARQEAADEBAAAyAQAAQwEAAEQBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAARQEAAFMBAABUAQAAQwEAAEQBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAAQwEAAEQBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAARQEAAFMBAABUAQAAQwEAAEQBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAAQwEAAEQBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAARQEAAFMBAABUAQAAQwEAAEQBAABFAQAARQEAAEUBAABFAQAARQEAAAEBAAACAQAAQwEAAEQBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAARQEAAFMBAABUAQAAQwEAAEQBAABhAQAAYgEAAGIBAABiAQAAYwEAABEBAAASAQAAQwEAAEQBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAARQEAAFMBAABUAQAAQwEAAEQBAABxAQAAcgEAAHIBAAByAQAAcwEAAFMBAABUAQAAQwEAAEQBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAARQEAAFMBAABUAQAAQwEAAEQBAABxAQAAcgEAAHIBAAByAQAAcwEAAFMBAABUAQAAQwEAAEQBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAARQEAAFMBAABUAQAAQwEAAEQBAABxAQAAcgEAAHIBAAByAQAAcwEAAFMBAABUAQAAQwEAAEQBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAARQEAAFMBAABUAQAAQwEAAEQBAABxAQAAcgEAAHIBAAByAQAAcwEAAFMBAABUAQAAQwEAAEQBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAARQEAAFMBAABUAQAAQwEAAEQBAABxAQAAcgEAAHIBAAByAQAAcwEAAFMBAABUAQAAQwEAAEQBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAARQEAAFMBAABUAQAAQwEAAEQBAABxAQAAcgEAAHIBAAByAQAAcwEAAFMBAABUAQAAQwEAAEQBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAARQEAAFMBAABUAQAAQwEAAEQBAABxAQAAcgEAAHIBAAByAQAAcwEAAFMBAABUAQAAQwEAAEQBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAARQEAAFMBAABUAQAAQwEAAEQBAABxAQAAcgEAAHIBAAByAQAAcwEAAFMBAABUAQAAQwEAAEQBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAARQEAAFMBAABUAQAAQwEAAEQBAACBAQAAggEAAIIBAACCAQAAgwEAAFMBAABUAQAAQwEAAEQBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAARQEAAFMBAABUAQAAQwEAAEQBAABFAQAARQEAAEUBAABFAQAARQEAAFMBAABUAQAAQwEAAEQBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAARQEAAFMBAABUAQAAQwEAAEQBAABFAQAARQEAAEUBAABFAQAARQEAAFMBAABUAQAAJQEAACYBAABBAQAAQQEAAEEBAABBAQAAQQEAAAMBAAAEAQAARQEAAEUBAAABAQAAAgEAACcBAAAoAQAAJQEAACYBAAADAQAABAEAAEUBAABFAQAAAQEAACcBAAAoAQAANQEAADYBAABRAQAAUQEAAFEBAABRAQAAUQEAABMBAAAUAQAARQEAAEUBAAARAQAAEgEAADcBAAA4AQAANQEAADYBAAATAQAAFAEAAEUBAABFAQAAEQEAABIBAAA4AQAA
+   BQEAAAYBAABCAQAAQgEAAEIBAABCAQAABwEAAAgBAABCAQAABQEAAAYBAABCAQAAQgEAAEIBAABCAQAAQgEAAEIBAABCAQAAQgEAAEIBAABCAQAAQgEAAAcBAAAIAQAAIwEAABYBAABSAQAAUgEAAFIBAABSAQAAFwEAABgBAABSAQAAFQEAABYBAABSAQAAUgEAAFIBAABSAQAAUgEAAFIBAABSAQAAUgEAAFIBAABSAQAAUgEAABcBAAAiAQAAMwEAADQBAABFAQAARQEAAGEBAABjAQAAIQEAACIBAABFAQAAIwEAACQBAABhAQAAYgEAAGIBAABiAQAAYgEAAGIBAABiAQAAYgEAAGMBAABFAQAARQEAADEBAAAyAQAARQEAAEUBAABFAQAARQEAAHEBAABzAQAAMQEAADIBAABFAQAAMwEAADQBAABxAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHMBAABFAQAARQEAAEUBAABFAQAARQEAAEUBAABFAQAARQEAAHEBAAB0AQAAYgEAAGIBAABFAQAAYgEAAGIBAAB1AQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHMBAABFAQAARQEAAEUBAABFAQAAAwEAAAQBAABFAQAARQEAAHEBAAByAQAAcgEAAHIBAABFAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHIBAAByAQAAcgEAAHMBAABFAQAARQEAAAEBAAACAQAAEwEAABQBAABFAQAARQEAAIEBAACCAQAAggEAAIIBAABFAQAAggEAAIIBAACCAQAAggEAAIIBAACCAQAAggEAAIIBAACCAQAAggEAAIMBAABFAQAARQEAABEBAAASAQAAJQEAACYBAABBAQAAQQEAAEEBAABBAQAAQQEAAEEBAABBAQAAQQEAAEEBAABBAQAAQQEAAEEBAABBAQAAQQEAAEEBAABBAQAAQQEAAEEBAABBAQAAQQEAACcBAAAoAQAANQEAADYBAABRAQAAUQEAAFEBAABRAQAAUQEAAFEBAABRAQAAUQEAAFEBAABRAQAAUQEAAFEBAABRAQAAUQEAAFEBAABRAQAAUQEAAFEBAABRAQAAUQEAADcBAAA4AQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAAVQEAAFUBAABVAQAA
   </data>
  </layer>
  <layer name="terrain" width="24" height="20" visible="0">
@@ -340,91 +340,56 @@
   </data>
  </layer>
  <objectgroup name="entities">
-  <object type="Player" gid="515" x="624" y="584"/>
-  <object name="To Hookshot Demo Map 3" type="ZoneSwitcher" x="560" y="624" width="152" height="16">
-   <properties>
-    <property name="targetX" value="640"/>
-    <property name="targetY" value="32"/>
-    <property name="type" value="ZoneSwitcher"/>
-    <property name="url" value="assets/tmx/hookshot-demo-map-3.tmx"/>
-   </properties>
-  </object>
-  <object name="Target" type="Item" gid="519" x="232" y="288"/>
-  <object name="Target" type="Item" gid="519" x="136" y="192"/>
-  <object name="To Hookshot Demo Map 3" type="ZoneSwitcher" x="240" y="624" width="152" height="16">
-   <properties>
-    <property name="targetX" value="320"/>
-    <property name="targetY" value="32"/>
-    <property name="type" value="ZoneSwitcher"/>
-    <property name="url" value="assets/tmx/hookshot-demo-map-3.tmx"/>
-   </properties>
-  </object>
-  <object name="platform-patrol-1-2" type="PatrolPoint" x="544" y="480" width="32" height="32">
-   <properties>
-    <property name="patrolIndex" value="0"/>
-    <property name="patrolName" value="platform-patrol-2"/>
-   </properties>
-  </object>
-  <object name="platform-patrol-1-0" type="PatrolPoint" x="672" y="320" width="32" height="32">
-   <properties>
-    <property name="patrolIndex" value="0"/>
-    <property name="patrolName" value="platform-patrol-1"/>
-   </properties>
-  </object>
-  <object name="platform-patrol-1-3" type="PatrolPoint" x="672" y="480" width="32" height="32">
-   <properties>
-    <property name="patrolIndex" value="1"/>
-    <property name="patrolName" value="platform-patrol-2"/>
-   </properties>
-  </object>
-  <object name="platform-patrol-1-1" type="PatrolPoint" x="672" y="192" width="32" height="32">
-   <properties>
-    <property name="patrolIndex" value="1"/>
-    <property name="patrolName" value="platform-patrol-1"/>
-   </properties>
-  </object>
-  <object name="platform-1" type="Platform" gid="526" x="672" y="352">
-   <properties>
-    <property name="defaultState" value="on"/>
-    <property name="patrolName" value="platform-patrol-1"/>
-   </properties>
-  </object>
-  <object name="platform-2" type="Platform" gid="526" x="544" y="384">
-   <properties>
-    <property name="defaultState" value="on"/>
-    <property name="patrolName" value="platform-patrol-2"/>
-   </properties>
-  </object>
-  <object name="platform-patrol-1-1" type="PatrolPoint" x="544" y="192" width="32" height="32">
-   <properties>
-    <property name="patrolIndex" value="2"/>
-    <property name="patrolName" value="platform-patrol-1"/>
-   </properties>
-  </object>
-  <object name="platform-patrol-1-1" type="PatrolPoint" x="544" y="320" width="32" height="32">
-   <properties>
-    <property name="patrolIndex" value="3"/>
-    <property name="patrolName" value="platform-patrol-1"/>
-   </properties>
-  </object>
-  <object name="platform-patrol-1-3" type="PatrolPoint" x="672" y="352" width="32" height="32">
-   <properties>
-    <property name="patrolIndex" value="2"/>
-    <property name="patrolName" value="platform-patrol-2"/>
-   </properties>
-  </object>
-  <object name="platform-patrol-1-3" type="PatrolPoint" x="544" y="352" width="32" height="32">
-   <properties>
-    <property name="patrolIndex" value="3"/>
-    <property name="patrolName" value="platform-patrol-2"/>
-   </properties>
-  </object>
-  <object name="To Hookshot Demo Map 6b" type="ZoneSwitcher" x="752" y="64" width="16" height="120">
+  <object type="Player" gid="515" x="40" y="144"/>
+  <object name="To Hookshot Demo Map 6c" type="ZoneSwitcher" x="752" y="72" width="16" height="120">
    <properties>
     <property name="targetX" value="32"/>
     <property name="targetY" value="120"/>
     <property name="type" value="ZoneSwitcher"/>
-    <property name="url" value="assets/tmx/hookshot-demo-map-6b.tmx"/>
+    <property name="url" value="assets/tmx/hookshot-demo-map-6c.tmx"/>
+   </properties>
+  </object>
+  <object name="To Hookshot Demo Map 6a" type="ZoneSwitcher" x="0" y="64" width="16" height="128">
+   <properties>
+    <property name="targetX" value="736"/>
+    <property name="targetY" value="120"/>
+    <property name="type" value="ZoneSwitcher"/>
+    <property name="url" value="assets/tmx/hookshot-demo-map-6a.tmx"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-1-0" type="PatrolPoint" x="608" y="192" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="2"/>
+    <property name="patrolName" value="platform-patrol-1"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-1-1" type="PatrolPoint" x="608" y="64" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="3"/>
+    <property name="patrolName" value="platform-patrol-1"/>
+   </properties>
+  </object>
+  <object name="platform-1" type="Platform" gid="526" x="608" y="96">
+   <properties>
+    <property name="defaultState" value="on"/>
+    <property name="patrolName" value="platform-patrol-1"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-1-1" type="PatrolPoint" x="416" y="64" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="0"/>
+    <property name="patrolName" value="platform-patrol-1"/>
+   </properties>
+  </object>
+  <object name="platform-patrol-1-1" type="PatrolPoint" x="416" y="192" width="32" height="32">
+   <properties>
+    <property name="patrolIndex" value="1"/>
+    <property name="patrolName" value="platform-patrol-1"/>
+   </properties>
+  </object>
+  <object type="Tellah" gid="516" x="256" y="80">
+   <properties>
+    <property name="state" value="idle"/>
    </properties>
   </object>
  </objectgroup>
