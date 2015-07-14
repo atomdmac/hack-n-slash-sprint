@@ -1,6 +1,6 @@
 define(
-['jaws', 'DATABASE', 'entities/character', 'entities/item', 'lib/SAT'],
-function (jaws, DATABASE, Character, Item, SAT) {
+['jaws', 'DATABASE', 'entities/character', 'entities/item', 'lib/SAT', 'entities/effects/knockback', 'entities/effects/invulnerability'],
+function (jaws, DATABASE, Character, Item, SAT, Knockback, Invulnerability) {
 
 function NPC (options) {
 
@@ -132,9 +132,10 @@ NPC.prototype.onCollision = function (collision) {
 	}
 	
 	if (interest.name === "touch" &&
-		entity === this.seekTarget &&
-		this.resources.health > 0) {
-		
+		this.consider(entity) === "hostile" &&
+		this.resources.health > 0 &&
+		!entity.invulnerable) {
+		console.log("contact");
 		// Debug: damage on contact.
 		entity.damage({
 			resource: "health",
@@ -142,6 +143,36 @@ NPC.prototype.onCollision = function (collision) {
 			value: 1,
 			penetration: 1
 		});
+		
+		// Calculate angle to target entity.
+		var p1 = {
+			x: this.x,
+			y: this.y
+		};
+		var p2 = entity;
+	
+		var analogX = p2.x - p1.x;
+		var analogY = p2.y - p1.y;
+		
+		var angleToTarget = Math.atan2(analogX, analogY);
+		
+		// Apply knockback to target entity.
+		entity.addEffect(new Knockback({
+			// Target
+			target: entity,
+			// Angle
+			angle: angleToTarget,
+			// Force
+			force: 8,
+			// Duration
+			duration: 10
+		}));
+		
+		// Apply invulnerability to target entity.
+		entity.addEffect(new Invulnerability({
+			// Target
+			target: entity
+		}));
 		
 		if (entity.resources.health <= 0) {
 			this.seekTarget = null;
